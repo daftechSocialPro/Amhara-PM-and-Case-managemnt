@@ -1,0 +1,166 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Cases</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                <li class="breadcrumb-item">SMS </li>
+                <li class="breadcrumb-item active">Report</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section profile">
+        <div class="card">
+
+        </div>
+
+        <div class="row">
+          
+            <div class="col-4">
+                <div class="card p-2">
+
+
+                    <form [formGroup]="serachForm" (submit)="Search()">
+                        <div class="d-flex justify-content-center ">
+                            <div class="form-floating me-2">
+                                <input type="text" class="form-control startDate" formControlName="startDate"
+                                    id="startDate" placeholder="startDate">
+                                <label for="startDate">Start Date</label>
+                            </div>
+                            <div class="form-floating me-2">
+                                <input type="text" class="form-control endDate" formControlName="endDate" id="endDate"
+                                    placeholder="endDate">
+                                <label for="endDate">End Date</label>
+                            </div>
+
+
+                            <button pButton type="submit" icon="pi pi-search"
+                                class="p-button-text bg-success text-white"></button>
+
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">SMS Report</h5>
+                <p-table #dt [value]="smsReports" [rows]="5" [paginator]="true"
+                    [globalFilterFields]="['CaseNumber','ApplicantName','LetterNumber','Subject','CaseTypeTitle','PhoneNumber','PhoneNumber2','Message','MessageGroup','IsSMSSent']"
+                    [tableStyle]="{'min-width': '75rem'}" [(selection)]="selectedSmsReport" [rowHover]="true"
+                    dataKey="Id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                    [showCurrentPageReport]="true">
+                    <ng-template pTemplate="caption">
+
+                        <div class="text-end">
+
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                    (input)="dt.filterGlobal( $any($event.target)?.value, 'contains')"
+                                    placeholder="Search..." />
+                            </span>
+                        </div>
+
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+
+
+                            <th pSortableColumn="CaseNumber">Case Number <p-sortIcon field="CaseNumber"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="ApplicantName">Applicant Name<p-sortIcon field="ApplicantName"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="LetterNumber">Letter Number <p-sortIcon field="LetterNumber"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="Subject">Subject<p-sortIcon field="Subject"></p-sortIcon>
+                            </th>
+
+                            <th pSortableColumn="CaseTypeTitle">Case Type Title <p-sortIcon field="CaseTypeTitle"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="PhoneNumber">Phone Number <p-sortIcon field="PhoneNumber"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="PhoneNumber2">Phone Number2 <p-sortIcon field="PhoneNumber2"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="Message">Message <p-sortIcon field="Message"></p-sortIcon>
+                            </th>
+
+                            <th pSortableColumn="MessageGroup">Message Group <p-sortIcon field="MessageGroup"></p-sortIcon>
+                            </th>
+
+                            <th pSortableColumn="IsSMSSent">Is SMS Sent <p-sortIcon field="IsSMSSent"></p-sortIcon>
+                            </th>
+
+
+                        </tr>
+
+
+
+                    </ng-template>
+                    <ng-template pTemplate="body" let-smsrep>
+                        <tr [pSelectableRow]="smsrep">
+                            <td>
+                                <span class="p-column-title">Case Number</span>
+                                {{smsrep.CaseNumber}}
+                            </td>
+                            <td>
+                                <span class="p-column-title">Applicant Name</span>
+                                <span>{{smsrep.ApplicantName}}</span>
+                            </td>
+                            <td>
+                                <span class="p-column-title">Letter Number</span>
+                                <span>{{smsrep.LetterNumber}}</span>
+                            </td>
+                            <td>
+                                <span class="p-column-title">Subject</span>
+                                <span>{{smsrep.Subject}}</span>
+                            </td>
+                            <td>
+                                <span class="p-column-title">Case Type Title</span>
+                                <span>{{smsrep.CaseTypeTitle}}</span>
+                            </td>
+                            <td>
+                                <span class="p-column-title">Phone Number</span>
+                                <span>{{smsrep.PhoneNumber}}</span>
+                            </td>
+                            <td>
+                                <span class="p-column-title">Phone Number 2</span>
+                                <span>{{smsrep.PhoneNumber2}}</span>
+                            </td>
+                            <td>
+                                <span class="p-column-title">Message</span>
+                                <span>{{smsrep.Message}}</span>
+                            </td>
+                            <td>
+                                <span class="p-column-title">Message Group</span>
+                                <span>{{smsrep.MessageGroup}}</span>
+                            </td>
+
+
+                             <td>
+                                <span class="p-column-title">Is SMS Sent</span>
+                                <span [class]="smsrep.IsSMSSent?'badge bg-success':'badge bg-danger'" style="font-size: 20px;">{{smsrep.IsSMSSent?"Sent":"UnSent"}}</span>
+                            </td>
+
+
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="4">No Case Report found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+        </div>
+
+    </section>
+</main>

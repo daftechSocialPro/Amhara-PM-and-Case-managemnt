@@ -1,0 +1,155 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">View Activity Progress</h5>
+        <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Activity Progress for {{activity.Name}}</h5>
+            <hr />
+
+            <table class="table table-bordered ">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Actual Worked</th>
+                        <th scope="col">Used Budget</th>
+                        <th scope="col">Documents </th>
+                        <th scope="col">Finance Doc </th>
+                        <th scope="col">Progress Status </th>
+                        <!-- <th scope="col">Approval reason </th> -->
+                        <th scope="col">Remark</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pro of progress; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{pro.ActalWorked}}</td>
+                        <td>{{pro.UsedBudget}}</td>
+                        <td>
+
+
+                            <ng-container *ngFor="let file of pro.Documents;let i = index;">
+                                <a target="_blank" class="btn btn-sm btn-secondary m-2" href={{getFilePath(file)}}>View
+                                    FIle {{i+1}}</a>
+                            </ng-container>
+
+                        </td>
+                        <td><a target="_blank" class="btn btn-sm btn-secondary"
+                                href={{getFilePath(pro.FinanceDocument!)}}>View File</a></td>
+                        <td>
+
+                            <span>
+                                Director: <span [class]="pro.IsApprovedByDirector==='approved'?'badge bg-success':'badge bg-warning'">{{pro.IsApprovedByDirector}}</span>
+                                {{pro.DirectorApprovalRemark}}
+                            </span><br />
+
+                            <span>
+                                Finance: <span [class]="pro.IsApprovedByFinance==='approved'?'badge bg-success':'badge bg-warning'">{{pro.IsApprovedByFinance}}</span>
+                                {{pro.FinanceApprovalRemark}}
+                            </span> <br />
+
+                            <span>
+                                Pro.Man: <span [class]="pro.IsApprovedByManager==='approved'?'badge bg-success':'badge bg-warning'"   >{{pro.IsApprovedByManager}} ( {{pro.ManagerApprovalRemark}} )</span>
+                               
+                            </span>
+
+
+
+
+                        </td>
+                        <td>{{pro.Remark}}</td>
+                        <td>{{pro.CreatedAt| date:'fullDate'}}</td>
+                        <td>
+
+
+                            <span *ngIf="activity.IsDirector&&pro.IsApprovedByDirector==='pending'">
+                                Director:
+                                <li style="list-style: none; text-align: right;">
+                                    <a class="nav-link nav-profile  pe-0" href="#" data-bs-toggle="dropdown"> <span
+                                            class="d-none d-md-block dropdown-toggle ps-2">Action </span> </a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                                        <li> <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;"
+                                                (click)="ApporveReject(pro.Id,userType[0],actionType[0])"> <i
+                                                    class="bi bi-bookmark-check-fill text-success"></i>
+                                                <span>Approve</span> </a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li> <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;"
+                                                (click)="ApporveReject(pro.Id,userType[0],actionType[1])"> <i
+                                                    class="bi bi-bookmark-x-fill text-danger"></i> <span>Reject</span>
+                                            </a></li>
+                                        <hr class="dropdown-divider">
+
+
+
+
+                                    </ul>
+                                </li>
+                            </span><br />
+
+                            <span *ngIf="activity.IsFinance&& pro.IsApprovedByFinance==='pending'">
+                                Finance:
+                                <li style="list-style: none; text-align: right;">
+                                    <a class="nav-link nav-profile  pe-0" href="#" data-bs-toggle="dropdown"> <span
+                                            class="d-none d-md-block dropdown-toggle ps-2">Action </span> </a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                                        <li> <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;"
+                                                (click)="ApporveReject(pro.Id,userType[2],actionType[0])"> <i
+                                                    class="bi bi-bookmark-check-fill text-success"></i>
+                                                <span>Approve</span> </a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li> <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;"
+                                                (click)="ApporveReject(pro.Id,userType[2],actionType[1])"> <i
+                                                    class="bi bi-bookmark-x-fill text-danger"></i> <span>Reject</span>
+                                            </a></li>
+                                        <hr class="dropdown-divider">
+
+
+
+
+                                    </ul>
+                                </li>
+                            </span> <br />
+
+                            <span *ngIf="activity.IsProjectManager&&pro.IsApprovedByManager==='pending'" >
+                                Pro.Man:
+                                <li style="list-style: none; text-align: right;">
+                                    <a class="nav-link nav-profile  pe-0" href="#" data-bs-toggle="dropdown"> <span
+                                            class="d-none d-md-block dropdown-toggle ps-2">Action </span> </a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                                        <li> <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;"
+                                                (click)="ApporveReject(pro.Id,userType[1],actionType[0])"> <i
+                                                    class="bi bi-bookmark-check-fill text-success"></i>
+                                                <span>Approve</span> </a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li> <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;"
+                                                (click)="ApporveReject(pro.Id,userType[1],actionType[1])"> <i
+                                                    class="bi bi-bookmark-x-fill text-danger"></i> <span>Reject</span>
+                                            </a></li>
+                                        <hr class="dropdown-divider">
+
+
+
+
+                                    </ul>
+                                </li>
+                            </span>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

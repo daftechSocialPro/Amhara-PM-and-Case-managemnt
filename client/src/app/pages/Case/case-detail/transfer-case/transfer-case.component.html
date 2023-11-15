@@ -1,0 +1,110 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Add Projects</h5>
+        <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+
+    <div class="card">
+
+        <div class="card-body">
+            <h5 class="card-title">Project Detail</h5>
+
+            <div class="row">
+                <div class="col-lg-9">
+                    <form class="" [formGroup]="transferForm" (ngSubmit)="submit()">
+                        <div class="modal-body">
+                            <div class="row g-3">
+
+                          
+
+                                    <div class="form-floating mb-3" >
+                                        <select class="form-select" id="branch" #branch (change)="getStructures(branch.value)"
+                                      >
+                                       <option value=""></option>
+                                        <option *ngFor="let branch of Branches" [value]="branch.Id"  > {{branch.Name}}  </option>   
+                                    </select>
+                                        <label for="branch">Brnaches</label>
+                                    </div>
+                                    <div class="form-floating mb-3" >
+                                        <select class="form-select" id="Structure" #structure  (change)="getEmployees(structure.value)"
+                                        formControlName="ToStructureId">
+                                        <option value=""></option>
+                                        <option *ngFor="let structure of Structures" [value]="structure.Id"> {{structure.Name}}</option>   
+                                    </select>
+                                        <label for="Structure">Structure</label>
+                                    </div>
+                                    <div class="form-floating " >
+                                        <select class="form-select" id="ForEmployee" 
+                                        formControlName="ToEmployeeId">
+                                        <option value=""></option>
+                                        <option *ngFor="let employee of Employees" [value]="employee.Id"> {{employee.Name}}</option>   
+                                      </select>
+                                        <label for="ForEmployee">For Employee</label>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <label for="inputNumber" class="col-sm-12 col-form-label">Documents</label>
+                                        <div class="col-sm-12"> <input (change)="onFileSelected($event)"  class="form-control" multiple type="file" id="formFile"></div>
+                                    
+                                        <app-scanner (imagesScannedUpdated)="onImagesScannedUpdate($event)"></app-scanner>
+                                    </div>
+                
+                           
+
+                                <div class="col-12">
+                                    <div class="form-floating"><textarea class="form-control" formControlName="Remark"
+                                            placeholder="Address" id="Remark" style="height: 120px;"></textarea><label
+                                            for="Remark">Remark</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                                (click)="closeModal()">Close</button>
+                            <button type="button" type="submit" [disabled]="!transferForm.valid"
+                                class="btn btn-success">Transfer</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3">
+                    <div class="modal-content ">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title">{{CaseTypeName}}</h5>
+
+                        </div>
+
+                         <div class="modal-body" *ngIf="caseState">
+                             
+                           <div class="card-title text-center">Current State :</div>
+                           <div class="text-center">{{caseState.CurrentState!}}</div> 
+
+                           <div class="card-title text-center">Needed Documents :</div>
+                           <div class="text-center">
+                            
+                            <span *ngFor="let doc of caseState.NeededDocuments">{{doc}}</span>
+
+
+                        
+                        
+                        
+                        </div> 
+
+
+                           <div class="card-title text-center">Next State :</div>
+                           <div class="text-center">{{caseState.NextState!}}</div> 
+                         
+                            
+                          
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

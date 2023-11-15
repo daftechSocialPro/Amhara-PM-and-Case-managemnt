@@ -1,0 +1,51 @@
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Budget List for {{programBudget!.Name}}</h5>
+                <button type="button" class="btn-close" id="ModalClose" (click)="modalClose()"
+                    aria-label="Close"></button>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+
+
+                    <h5 class="card-title"> Budget Year</h5>
+                    <div class="text-end col-lg-12">
+                        <button class="btn btn-primary text-end mb-3" (click)="addBudgetYear()"> Add Budget Year </button>
+                    </div>
+
+                    <table class="table  table-hover">
+                        <thead>
+                            <tr>
+
+                                <th scope="col">#</th>
+                                <th scope="col">Year</th>
+                                <th scope="col">From Date</th>
+                                <th scope="col">To Date</th>
+                                <th scope="col">Remark</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let by of budgetYears ; let i= index">
+
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{by.Year}}</td>
+                                <td>{{by.FromDate}}</td>
+                                <td>{{by.ToDate}}</td>
+                                <td>{{by.Remark}}</td>
+
+
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+            </div>
+        </div>

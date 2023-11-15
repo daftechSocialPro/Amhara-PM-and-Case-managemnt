@@ -1,0 +1,7 @@
+.ng-autocomplete ::ng-deep .autocomplete-container {
+    border: 1px solid #0b3561;
+   
+}
+.ng-autocomplete{
+    width: 100%;
+}

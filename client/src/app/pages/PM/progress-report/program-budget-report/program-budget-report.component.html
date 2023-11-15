@@ -1,0 +1,161 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Program Budget Report</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                <li class="breadcrumb-item active">Program Budget Report</li>
+            </ol>
+        </nav>
+    </div>
+    <section class="section dashboard">
+
+
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card p-2">
+
+
+                    <form [formGroup]="serachForm" (submit)="Search()">
+                        <div class="d-flex justify-content-start ">
+                            <div class="form-floating col-3 me-2">
+                                <input type="number" class="form-control" id="budgetYear" formControlName="BudgetYear"
+                                    placeholder="Budget Year (yyyy)">
+                                <label for="budgetYear">Budget Year (yyyy)</label>
+                            </div>
+                            <div class="form-floating col-3 me-2">
+                                <select class="form-control" formControlName="ReportBy" id="ReportBy"
+                                    placeholder="ReportBy">
+
+                                    <option value="Quarter">Quarterly</option>
+                                    <option value="Monthly">Monthly</option>
+
+                                </select>
+
+                                <label for="ReportBy">View Report By</label>
+                            </div>
+
+
+                            <button pButton type="submit" [disabled]="!serachForm.valid" icon="pi pi-search"
+                                class="p-button-text bg-success text-white"></button>
+
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+
+
+       
+        <button *ngIf="PlanReportByProgramDto?.ProgramViewModels" (click)="exportTableToExcel(tableElement, 'Program Budget Report')"  type="button" class="btn btn-secondary m-2">
+            <i class="bi bi-file-earmark-excel me-1"></i> Export Report to Excel</button> 
+        <div class="card">
+            <table #tableElement class="table table-bordered table-responsive">
+
+                <thead class="thead-light">
+                    <tr>
+                        <th rowspan="2">No</th>
+                        <th rowspan="2">Program Detail</th>
+                        <th colspan="3">BudgetYear Plan</th>
+                        <th [attr.colspan]="cnt">Fiscal Plan</th>
+                        <th [attr.colspan]="cnt">Budet Plan</th>
+                    </tr>
+                    <tr>
+                        <th>Unit Measurment</th>
+                        <th>GB</th>
+                        <th>Total Expence</th>
+
+
+                        <th *ngFor="let items of PlanReportByProgramDto?.MonthCounts">{{items.MonthName}}</th>
+
+
+
+                        <th *ngFor="let items of PlanReportByProgramDto?.MonthCounts">{{items.MonthName}}</th>
+
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let ProgRow of PlanReportByProgramDto?.ProgramViewModels">
+                    <tr class="table-success" >
+                      <td></td>
+                      <td>{{ProgRow.ProgramName}}</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td *ngFor="let month of PlanReportByProgramDto?.MonthCounts"></td>
+                      <td *ngFor="let month of PlanReportByProgramDto?.MonthCounts"></td>
+                    </tr>
+                   
+                        <tr class="table-offo"  *ngFor="let planRow of ProgRow?.ProgramPlanViewModels; let v=index">
+                        
+                      <td class="text-left">{{v+1}}</td>
+                      <td>{{planRow.PlanNAme}}</td>
+                      <td>{{planRow.MeasurementUnit}}</td>
+                      <td>{{planRow.TotalGoal}}</td>
+                      <td>{{planRow.TotalBirr}}</td>
+                      <td *ngFor="let plO of planRow?.FiscalPlanPrograms">{{plO.fisicalValue}}</td>
+                      <td *ngFor="let plO of planRow?.FiscalPlanPrograms">{{plO.fisicalValue}}</td>
+                    </tr>
+                </ng-container>
+                  </tbody>
+                  
+            </table>
+            <!-- <p-table [value]="PlanReportByProgramDto?.ProgramViewModels!" styleClass="p-datatable-gridlines " [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="caption"> Plan Report Detail </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th rowspan="2">No</th>
+                        <th rowspan="2">Program Detail</th>
+                        <th colspan="3">BudgetYear Plan</th>
+                        <th [attr.colspan]="cnt">Fiscal Plan</th>
+                        <th [attr.colspan]="cnt">Budet Plan</th>
+                    </tr>
+                    <tr>
+                        <td>Unit Measurment</td>
+                        <td>GB</td>
+                        <td>Total Expence</td>          
+                        <td *ngFor="let items of PlanReportByProgramDto?.MonthCounts">{{items.MonthName}}</td>       
+            
+            
+                        <td *ngFor="let items of PlanReportByProgramDto?.MonthCounts">{{items.MonthName}}</td>
+            
+            
+            
+            
+                    </tr>
+                  
+                </ng-template>
+                <ng-template pTemplate="body" let-ProgRow>
+                    <tr class="table-success" >
+                        <td></td>
+                        <td>{{ProgRow.ProgramName}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td *ngFor="let month of PlanReportByProgramDto?.MonthCounts"></td>
+                        <td *ngFor="let month of PlanReportByProgramDto?.MonthCounts"></td>
+                      </tr>
+                     
+                          <tr class="table-offo"  *ngFor="let planRow of ProgRow?.ProgramPlanViewModels; let v=index">
+                          
+                        <td class="text-left">{{v+1}}</td>
+                        <td>{{planRow.PlanNAme}}</td>
+                        <td>{{planRow.MeasurementUnit}}</td>
+                        <td>{{planRow.TotalGoal}}</td>
+                        <td>{{planRow.TotalBirr}}</td>
+                        <td *ngFor="let plO of planRow?.FiscalPlanPrograms">{{plO.fisicalValue}}</td>
+                        <td *ngFor="let plO of planRow?.FiscalPlanPrograms">{{plO.fisicalValue}}</td>
+                      </tr> 
+                </ng-template>
+                <ng-template pTemplate="summary"> Plan Report Detail </ng-template>
+            </p-table> -->
+        </div>
+
+    </section>
+</main>

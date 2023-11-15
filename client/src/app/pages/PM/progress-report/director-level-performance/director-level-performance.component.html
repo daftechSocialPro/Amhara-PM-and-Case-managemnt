@@ -1,0 +1,33 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Director Level Performance</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+          <li class="breadcrumb-item">Director Level Performance</li>
+          <li class="breadcrumb-item active">Report</li>
+        </ol>
+      </nav>
+    </div>
+    <section class="section">
+      <div class="row">
+
+        <div class="card flex justify-content-center p-2">
+          <p-organizationChart [value]="data">
+            
+                  <ng-template let-node pTemplate="organization">
+                      <div class="p-2 text-center">
+                          
+                          <div class="font-bold">{{ node.data.name }}</div>
+                          <div>{{node.data.weight}}</div>
+                          <div>{{ node.data.head }}</div>
+                      </div>
+                  </ng-template>   
+        
+            
+          </p-organizationChart>
+        </div>
+      </div>
+    </section>
+  </main>
+  

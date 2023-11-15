@@ -1,0 +1,61 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+       <h1>Program</h1>
+       <nav>
+          <ol class="breadcrumb">
+             <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+             <li class="breadcrumb-item">Programs</li>
+             <li class="breadcrumb-item active">List</li>
+          </ol>
+       </nav>
+    </div>
+    <div class="text-end col-lg-12">
+       <button class="btn btn-primary text-end mb-3" (click)="addProgram()"> Add Programs </button>
+    </div>
+    <section class="section profile">
+       <div class="row">
+
+         <div class="col-lg-6"*ngFor="let program of Programs" style="cursor: pointer;" (click)="getProjects(program.Id)" >
+        
+            <div class="card"  >
+               <div class="card-header">{{program.ProgramName}}</div>
+               <div class="card-body" style="background-color: #f6f9ff !important;">
+                  <h5 class="card-title">
+                     
+                     {{program.ProgramBudgetYear}}
+                  </h5>
+                 
+
+                  <table class="table table-bordered mt-2">
+                     <thead>
+                        <tr>
+                           <th scope="col">#</th>
+                           <th scope="col">Structure Name</th>
+                           <th scope="col">Structure Head</th>
+                           
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr *ngFor="let ps of program.ProgramStructure;let i = index">
+                           <th scope="row">{{i+1}}</th>
+                           <td>{{ps.StructureName}}</td>
+                           <td>{{ps.StructureHead}}</td>
+                        
+                        </tr>
+                  
+                        
+                     </tbody>
+                  </table>
+
+                  <span class="card-title"> Planned Budegt : {{program.ProgramPlannedBudget}} </span> <br/>
+              
+                 {{program.Remark}}
+               </div>
+               <div class="card-footer"> Projects: {{program.NumberOfProjects}}</div>
+            </div>
+       
+         </div>
+ 
+       </div>
+    </section>
+ </main>

@@ -1,0 +1,56 @@
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Add Branch</h5>
+        <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Branch Detail</h5>
+            <form class="" [formGroup]="branchForm" (ngSubmit)="submit()">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <div class="form-floating"> 
+                                <input type="text" class="form-control" id="branchName"
+                                    placeholder="Branch Name" formControlName="Name">
+                                <label for="branchName">Branch Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                 <input type="text" class="form-control" id="PhoneNumber"
+                                    placeholder="Phone Number"  formControlName="PhoneNumber"> <label
+                                    for="PhoneNumber">Phone Number</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating"> <input type="text" class="form-control" id="Address"
+                                    placeholder="Address"  formControlName="Address"> <label
+                                    for="Address">Address</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating"><textarea  class="form-control" formControlName="Remark"
+                                    placeholder="Address" id="Remark" style="height: 100px;"></textarea><label
+                                    for="Remark">Remark</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                        (click)="closeModal()">Close</button> 
+                        <button type="button" type="submit" [disabled]="!branchForm.valid"
+                        class="btn btn-success">Save
+                        changes</button></div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+

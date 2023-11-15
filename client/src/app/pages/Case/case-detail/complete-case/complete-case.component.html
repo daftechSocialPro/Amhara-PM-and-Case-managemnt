@@ -1,0 +1,34 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Complete Case</h5>
+        <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+
+    <div class="card">
+
+        <div class="card-body">
+
+
+            <form class="" [formGroup]="completeForm" (ngSubmit)="submit()">
+
+
+                <div class="col-12 mt-2">
+                    <div class="form-floating"><textarea class="form-control" formControlName="Remark"
+                            placeholder="Address" id="Remark" style="height: 120px;"></textarea><label
+                            for="Remark">Remark</label>
+                    </div>
+                </div>
+
+                <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                        (click)="closeModal()">Close</button>
+                    <button type="button" type="submit" [disabled]="!completeForm.valid"
+                        class="btn btn-success">Complete</button>
+                </div>
+
+
+
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<ng-autocomplete 
+[data]="data"      
+searchKeyword="Name"
+multiple
+
+(selected)='selectEvent($event)'
+(inputChanged)='onChangeSearch($event)'
+(inputFocused)='onFocused($event)'
+[itemTemplate]="itemTemplate"
+[notFoundTemplate]="notFoundTemplate" 
+[placeholder]="placeHolder"
+
+required
+#newItem
+>                                 
+</ng-autocomplete>
+
+<ng-template #itemTemplate let-item>
+<a [innerHTML]="item.Name"></a>
+</ng-template>
+
+<ng-template #notFoundTemplate let-notFound>
+<div [innerHTML]="notFound"></div>
+</ng-template>
+

@@ -1,0 +1,183 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Add Projects</h5>
+        <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+
+    <div class="card">
+
+        <div class="card-body">
+            <h5 class="card-title">Project Detail</h5>
+
+            <div class="row">
+                <div class="col-lg-9">
+                    <form class="" [formGroup]="planForm" (ngSubmit)="submit()">
+                        <div class="modal-body">
+                            <div class="row g-3">
+
+                                <div class="col-md-8">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="PlanName" placeholder="PlanName"
+                                            formControlName="PlanName">
+                                        <label for="PlanName">Plan Name</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" (change)="OnPorgramChange(progra.value)" #progra
+                                            id="ProgramId" formControlName="ProgramId" aria-label="State">
+
+                                            <option></option>
+                                            <option *ngFor="let p of Programs" value={{p.Id}}>{{p.Name}}</option>
+
+
+                                        </select>
+                                        <label for="ProgramId">Programs</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="BudgetYearId"  formControlName="BudgetYearId"
+                                            aria-label="State">
+
+                                            <option></option>
+                                            <option *ngFor="let by of BudgetYears" value={{by.Id}}>{{by.Name}}</option>
+
+
+                                        </select>
+                                        <label for="BudgetYearId">Budget Year</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="branchId" #branch
+                                            (change)="onBranchChange(branch.value)" aria-label="State">
+
+                                            <option></option>
+                                            <option *ngFor="let b of Branchs" value={{b.Id}}>{{b.Name}}</option>
+
+
+                                        </select>
+                                        <label for="branchId">Branchs</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="StructureId" formControlName="StructureId"
+                                            aria-label="State">
+
+                                            <option></option>
+                                            <option *ngFor="let s of Structures" value={{s.Id}}>{{s.Name}}</option>
+
+
+                                        </select>
+                                        <label for="StructureId">Structure Name</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="ProjectType" formControlName="ProjectType"
+                                            aria-label="State">
+
+                                            <option></option>
+                                            <option value="0">Capital</option>
+                                            <option value="1">Regular</option>
+
+                                        </select>
+                                        <label for="ProjectType">Project Type </label>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control" id="PlanWeight" #weight
+                                            placeholder="PlanWeight" (change)="weightChange(weight.value)" formControlName="PlanWeight">
+                                        <label for="PlanWeight">Plan Weight</label>
+                                        <small *ngIf="program" style="color: red;">Remaining Weight : {{program.RemainingWeight}} % </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control" [min]="0"   #budget (change)="budgetChange(budget.value)" id="PlandBudget"
+                                            placeholder="PlannedBudget" formControlName="PlandBudget">
+                                        <label for="PlandBudget">Planned Budget</label>
+
+                                        <small *ngIf="program" style="color: red;">Remaining Budget : {{program.RemainingBudget}} ETB </small>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <app-autocomplete *ngIf="employeeList.length>0" [data]="employeeList"
+                                            placeHolder="Project Manager" (selectedItem)="selectEmployeePM($event)">
+                                        </app-autocomplete>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <app-autocomplete *ngIf="employeeList.length>0" [data]="employeeList"
+                                            placeHolder="Finacne" (selectedItem)="selectEmployeeF($event)">
+                                        </app-autocomplete>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-4">
+                                    <div class="form-check" style="font-size: 30px;"> <input class="form-check-input" formControlName="HasTask"
+                                            type="checkbox" id="gridCheck"> <label class="form-check-label" style="font-size: 28px; font-weight: bold;"
+                                            for="gridCheck">Has Task </label></div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating"><textarea class="form-control" formControlName="Remark"
+                                            placeholder="Address" id="Remark" style="height: 120px;"></textarea><label
+                                            for="Remark">Remark</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                                (click)="closeModal()">Close</button>
+                            <button type="button" type="submit" [disabled]="!planForm.valid"
+                                class="btn btn-success">Create</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3">
+                    <div class="modal-content ">
+                        <div class="modal-header bg-secondary text-white">
+                            <h5 class="modal-title">Tips</h5>
+
+                        </div>
+
+                        <div class="modal-body" style="color:#012970b8" *ngIf="program">
+                             
+                           <div class="card-title text-center">{{program.ProgramName!}}</div>
+                           <div>{{program.ProgramBudgetYear!}}</div> 
+                           <span> Planned Budget : {{program.ProgramPlannedBudget!}} ETB</span> <br/>
+                           <span> Remai.. Budget : {{program.RemainingBudget!}} ETB</span> 
+                           <span> Remaining Weight : {{program.RemainingWeight!}} %</span> 
+                          
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
