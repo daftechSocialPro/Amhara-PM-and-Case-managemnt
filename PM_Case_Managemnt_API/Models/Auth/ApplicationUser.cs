@@ -13,8 +13,9 @@ namespace PM_Case_Managemnt_API.Models.Auth
         [Column(TypeName ="nvarchar(150)")]
         public string FullName { get; set; }
         public Guid EmployeesId { get; set; }
+        public Guid SubsidiaryOrganizationId { get; set; }
 
-        public virtual Employee Employees { get; set; }
+        
 
 
     }

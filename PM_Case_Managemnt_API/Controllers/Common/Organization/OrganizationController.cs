@@ -55,9 +55,9 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
                             PhoneNumber = Request.Form["phoneNumber"],
                             Remark = Request.Form["remark"],
                             CreatedAt = DateTime.Now,
-                            SmsCode = Int32.Parse(Request.Form["SmsCode"]),
-                            UserName = Request.Form["UserName"],
-                            Password = Request.Form["Password"]
+                            //SmsCode = Int32.Parse(Request.Form["SmsCode"]),
+                            //UserName = Request.Form["UserName"],
+                            //Password = Request.Form["Password"]
                         };
 
 
@@ -131,9 +131,9 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
                     PhoneNumber = Request.Form["phoneNumber"],
                     Remark = Request.Form["remark"],
                     CreatedAt = DateTime.Now,
-                    SmsCode = Int32.Parse( Request.Form["SmsCode"]),
-                    UserName = Request.Form["UserName"],
-                    Password = Request.Form["Password"]
+                    //SmsCode = Int32.Parse( Request.Form["SmsCode"]),
+                    //UserName = Request.Form["UserName"],
+                    //Password = Request.Form["Password"]
                 };
 
                 var response = _organizationProfileService.UpdateOrganizationalProfile(organizationalP);

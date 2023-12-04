@@ -45,13 +45,13 @@ export class AssignCaseComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
-    this.getBranches()
     this.user  = this.userService.getCurrentUser()
+    this.getBranches()
+    
 
   }
   getBranches() {
-    this.organizationService.getOrgBranchSelectList().subscribe({
+    this.organizationService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.Branches = res
       }, error: (err) => {

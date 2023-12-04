@@ -2,6 +2,7 @@
 using PM_Case_Managemnt_API.Models.Case;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
+using PM_Case_Managemnt_API.Models.Common.Organization;
 using PM_Case_Managemnt_API.Models.PM;
 using Task = PM_Case_Managemnt_API.Models.PM.Task;
 
@@ -17,9 +18,11 @@ namespace PM_Case_Managemnt_API.Data
         // organization
         public virtual DbSet<OrganizationProfile> OrganizationProfile { get; set; }
 
-        public virtual DbSet<OrganizationBranch> OrganizationBranches { get; set; }
+        //public virtual DbSet<OrganizationBranch> OrganizationBranches { get; set; }
 
         public virtual DbSet<OrganizationalStructure> OrganizationalStructures { get; set; }
+
+        public virtual DbSet<SubsidiaryOrganization> SubsidiaryOrganizations { get; set; }
 
         //
 

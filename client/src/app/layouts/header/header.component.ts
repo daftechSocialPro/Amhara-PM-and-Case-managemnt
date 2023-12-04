@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit {
   this.connection.start()
     .then((res) => {
       console.log("employeeId",this.user.EmployeeId)
-     this.connection.invoke('addDirectorToGroup', this.user.EmployeeId);
+      this.connection.invoke('addDirectorToGroup', this.user.EmployeeId);
       console.log('Connection started.......!');
     })
     .catch((err) => console.log('Error while connecting to the server', err));

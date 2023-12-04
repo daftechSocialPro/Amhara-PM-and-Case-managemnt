@@ -24,6 +24,8 @@ namespace PM_Case_Managemnt_API.DTOS.Common
         public string? OfficeNumber { get; set; }
 
         public int RowStatus { get; set; }
+
+        public Guid SubsidiaryOrganizationId { get; set; }
     }
 
 

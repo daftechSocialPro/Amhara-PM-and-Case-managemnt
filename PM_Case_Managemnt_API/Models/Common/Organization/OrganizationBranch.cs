@@ -1,7 +1,4 @@
-﻿
-
-
-
+﻿using PM_Case_Managemnt_API.Models.Common.Organization;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,9 +21,11 @@ namespace PM_Case_Managemnt_API.Models.Common
 
         [DefaultValue(false)]
         public bool IsHeadOffice { get; set; }
-
-     
         public ICollection<OrganizationalStructure> structures { get; set; }
+
+
+        public Guid SubsidiaryOrganizationId { get; set; }
+        public virtual SubsidiaryOrganization SubsidiaryOrganization { get; set; } = null!;
 
     }
 }

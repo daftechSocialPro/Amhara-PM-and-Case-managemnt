@@ -41,20 +41,17 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
 
         }
 
-        public async Task<List<PlanViewDto>> GetPlans( Guid ? programId)
-        
-        
+        public async Task<List<PlanViewDto>> GetPlans(Guid? programId, Guid SubOrgId) 
         {
 
             var plans =programId!=null? _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(x => x.ProgramId == programId):
-                _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance);
+                _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(z => z.Structure.SubsidiaryOrganizationId == SubOrgId);
 
 
             return await (from p in plans             
                           
                           select new PlanViewDto
                           {
-
                               Id = p.Id,
                               PlanName = p.PlanName,
                               PlanWeight = p.PlanWeight,
@@ -69,17 +66,16 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                               NumberOfActivities = _dBContext.Activities.Include(x=>x.ActivityParent.Task.Plan).Where(x=>x.PlanId==p.Id||x.Task.PlanId==p.Id||x.ActivityParent.Task.PlanId==p.Id).Count(),
                               NumberOfTaskCompleted = _dBContext.Activities.Include(x => x.ActivityParent.Task.Plan).Where(x => x.Status ==Status.Finalized && (x.PlanId == p.Id || x.Task.PlanId == p.Id || x.ActivityParent.Task.PlanId == p.Id)).Count(),
                               HasTask = p.HasTask,
-
-
                           }).ToListAsync();
 
 
 
 
         }
+
+
         public async Task<PlanSingleViewDto> GetSinglePlan(Guid planId)
         {
-
 
             var tasks = (from t in _dBContext.Tasks.Where(x => x.PlanId == planId)
                         select new TaskVIewDto
@@ -119,18 +115,11 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                            RemainingWeight = float.Parse( (100.0 - taskweightSum).ToString()),
                            EndDate = p.PeriodEndAt.ToString(),
                            StartDate = p.PeriodStartAt.ToString(),
-                          
-
                            Tasks = tasks
 
                        }).FirstOrDefaultAsync();
-            
-
-
-
-
-
         }
+
 
         public async Task<List<SelectListDto>> GetPlansSelectList(Guid ProgramId)
         {

@@ -73,27 +73,27 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
         }
 
         [HttpGet]
-        public async Task<List<EmployeeDto>> getEmployess()
+        public async Task<List<EmployeeDto>> getEmployess(Guid subOrgId)
         {
 
 
 
-            return await _employeeService.GetEmployees();
+            return await _employeeService.GetEmployees(subOrgId);
         }
 
         [HttpGet("selectlistNoUser")]
 
-        public async Task<List<SelectListDto>> GetEmployeesNoUserSelectList()
+        public async Task<List<SelectListDto>> GetEmployeesNoUserSelectList(Guid subOrgId)
         {
 
-            return await _employeeService.GetEmployeesNoUserSelectList();
+            return await _employeeService.GetEmployeesNoUserSelectList(subOrgId);
         }
         [HttpGet("selectlist")]
 
-        public async Task<List<SelectListDto>> GetEmployeesSelectList()
+        public async Task<List<SelectListDto>> GetEmployeesSelectList(Guid subOrgId)
         {
 
-            return await _employeeService.GetEmployeesSelectList();
+            return await _employeeService.GetEmployeesSelectList(subOrgId);
         }
 
     

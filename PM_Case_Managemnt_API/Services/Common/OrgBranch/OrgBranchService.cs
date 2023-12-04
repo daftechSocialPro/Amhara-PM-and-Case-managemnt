@@ -38,12 +38,12 @@ namespace PM_Case_Managemnt_API.Services.Common
             return 1;
 
         }
-        public async Task<List<OrgStructureDto>> GetOrganizationBranches()
+        public async Task<List<OrgStructureDto>> GetOrganizationBranches(Guid SubOrgId)
         {
 
 
 
-            var orgStructures = await _dBContext.OrganizationalStructures.Where(x => x.IsBranch).Select(x => new OrgStructureDto
+            var orgStructures = await _dBContext.OrganizationalStructures.Where(x => x.SubsidiaryOrganizationId == SubOrgId && x.IsBranch).Select(x => new OrgStructureDto
             {
                 Id = x.Id,
                 BranchName = x.ParentStructure.IsBranch ? x.ParentStructure.StructureName : "",
@@ -65,10 +65,10 @@ namespace PM_Case_Managemnt_API.Services.Common
             return orgStructures;
         }
 
-        public async Task<List<SelectListDto>> getBranchSelectList()
+        public async Task<List<SelectListDto>> getBranchSelectList(Guid SubOrgId)
         {
 
-            List<SelectListDto> list = await (from x in _dBContext.OrganizationalStructures.Where(x=>x.RowStatus == RowStatus.Active && x.IsBranch)
+            List<SelectListDto> list = await (from x in _dBContext.OrganizationalStructures.Where(x=> x.SubsidiaryOrganizationId == SubOrgId && x.RowStatus == RowStatus.Active && x.IsBranch)
                                               select new SelectListDto
                                               {
                                                   Id = x.Id,
@@ -83,12 +83,12 @@ namespace PM_Case_Managemnt_API.Services.Common
         public async Task<int> UpdateOrganizationBranch(OrgBranchDto organizationBranch)
         {
 
-            var orgBranch = _dBContext.OrganizationBranches.Find(organizationBranch.Id);
+            var orgBranch = _dBContext.OrganizationalStructures.Where(x => x.Id == organizationBranch.Id).FirstOrDefault();
 
-            orgBranch.Name = organizationBranch.Name;
-            orgBranch.Address = organizationBranch.Address;
+            orgBranch.StructureName = organizationBranch.Name;
+            
             orgBranch.Remark = organizationBranch.Remark;
-            orgBranch.PhoneNumber = organizationBranch.PhoneNumber;
+            
             orgBranch.RowStatus = organizationBranch.RowStatus==0?RowStatus.Active:RowStatus.InActive;
 
             _dBContext.Entry(orgBranch).State = EntityState.Modified;

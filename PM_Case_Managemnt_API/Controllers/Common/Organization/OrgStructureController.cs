@@ -40,9 +40,9 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
         }
         [HttpGet]
 
-        public async Task<List<OrgStructureDto>> GetStructures(Guid? BranchId)
+        public async Task<List<OrgStructureDto>> GetStructures(Guid SubOrgId, Guid? BranchId)
         {
-            return await _orgStructureService.GetOrganizationStructures(BranchId);
+            return await _orgStructureService.GetOrganizationStructures(SubOrgId,BranchId);
         }
         [HttpGet("parentStructures")]
 

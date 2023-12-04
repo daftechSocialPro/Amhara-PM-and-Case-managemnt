@@ -254,6 +254,9 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<bool>("SMSStatus")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicantId");
@@ -266,6 +269,8 @@ namespace PMCaseManagemntAPI.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("FolderId");
+
+                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("Cases");
                 });
@@ -742,7 +747,7 @@ namespace PMCaseManagemntAPI.Migrations
                     b.ToTable("Folder");
                 });
 
-            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.OrganizationBranch", b =>
+            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -758,15 +763,20 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsHeadOffice")
-                        .HasColumnType("bit");
+                    b.Property<string>("OrganizationNameEnglish")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("OrganizationNameInLocalLanguage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("OrganizationProfileId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -778,11 +788,21 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
 
+                    b.Property<int>("SmsCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isRegulatoryBody")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizationProfileId");
 
-                    b.ToTable("OrganizationBranches");
+                    b.ToTable("SubsidiaryOrganizations");
                 });
 
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.OrganizationProfile", b =>
@@ -813,10 +833,6 @@ namespace PMCaseManagemntAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -826,13 +842,6 @@ namespace PMCaseManagemntAPI.Migrations
 
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
-
-                    b.Property<int>("SmsCode")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -864,9 +873,6 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<Guid>("OrganizationBranchId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("OrganizationProfileId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("ParentStructureId")
                         .HasColumnType("uniqueidentifier");
 
@@ -880,16 +886,17 @@ namespace PMCaseManagemntAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<float>("Weight")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationBranchId");
-
-                    b.HasIndex("OrganizationProfileId");
-
                     b.HasIndex("ParentStructureId");
+
+                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("OrganizationalStructures");
                 });
@@ -1456,7 +1463,12 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("Commitees");
                 });
@@ -1628,9 +1640,14 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProgramBudgetYearId");
+
+                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("Programs");
                 });
@@ -1992,6 +2009,12 @@ namespace PMCaseManagemntAPI.Migrations
                         .WithMany()
                         .HasForeignKey("FolderId");
 
+                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
+                        .WithMany()
+                        .HasForeignKey("SubsidiaryOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Applicant");
 
                     b.Navigation("CaseType");
@@ -1999,6 +2022,8 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("Folder");
+
+                    b.Navigation("SubsidiaryOrganization");
                 });
 
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.CaseModel.CaseAttachment", b =>
@@ -2159,7 +2184,7 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Navigation("Row");
                 });
 
-            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.OrganizationBranch", b =>
+            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", b =>
                 {
                     b.HasOne("PM_Case_Managemnt_API.Models.Common.OrganizationProfile", "OrganizationProfile")
                         .WithMany()
@@ -2172,25 +2197,19 @@ namespace PMCaseManagemntAPI.Migrations
 
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.OrganizationalStructure", b =>
                 {
-                    b.HasOne("PM_Case_Managemnt_API.Models.Common.OrganizationBranch", null)
-                        .WithMany("structures")
-                        .HasForeignKey("OrganizationBranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PM_Case_Managemnt_API.Models.Common.OrganizationProfile", "OrganizationProfile")
-                        .WithMany()
-                        .HasForeignKey("OrganizationProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PM_Case_Managemnt_API.Models.Common.OrganizationalStructure", "ParentStructure")
                         .WithMany("SubTask")
                         .HasForeignKey("ParentStructureId");
 
-                    b.Navigation("OrganizationProfile");
+                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
+                        .WithMany("structures")
+                        .HasForeignKey("SubsidiaryOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ParentStructure");
+
+                    b.Navigation("SubsidiaryOrganization");
                 });
 
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.Row", b =>
@@ -2338,6 +2357,17 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Navigation("ToEmployee");
                 });
 
+            modelBuilder.Entity("PM_Case_Managemnt_API.Models.PM.Commitees", b =>
+                {
+                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
+                        .WithMany()
+                        .HasForeignKey("SubsidiaryOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubsidiaryOrganization");
+                });
+
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.PM.CommitesEmployees", b =>
                 {
                     b.HasOne("PM_Case_Managemnt_API.Models.PM.Commitees", "Commitee")
@@ -2423,7 +2453,15 @@ namespace PMCaseManagemntAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
+                        .WithMany()
+                        .HasForeignKey("SubsidiaryOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("ProgramBudgetYear");
+
+                    b.Navigation("SubsidiaryOrganization");
                 });
 
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.PM.ProgressAttachment", b =>
@@ -2540,7 +2578,7 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Navigation("Childrens");
                 });
 
-            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.OrganizationBranch", b =>
+            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", b =>
                 {
                     b.Navigation("structures");
                 });

@@ -33,7 +33,7 @@ export class UserService {
   }
 
   login(formData: User) {
-    return this.http.post<Token>(this.BaseURI + '/ApplicationUser/Login', formData);
+    return this.http.post<any>(this.BaseURI + '/ApplicationUser/Login', formData);
   }
 
   getUserProfile() {
@@ -70,6 +70,7 @@ export class UserService {
       FullName: payLoad.FullName,
       role : payLoad.role.split(","),
       EmployeeId:payLoad.EmployeeId,
+      SubOrgId : payLoad.SubsidiaryOrganizationId,
       Photo : payLoad.Photo
     }
     console.log(user)
@@ -81,7 +82,7 @@ export class UserService {
     return this.http.post(this.BaseURI+"/ApplicationUser/Register",body)
   }
 
-  getSystemUsers(){
-    return this.http.get<Employee[]>(this.BaseURI+"/ApplicationUser/users")
+  getSystemUsers(subOrgId : string){
+    return this.http.get<Employee[]>(this.BaseURI+"/ApplicationUser/users?subOrgId=" + subOrgId)
   }
 }

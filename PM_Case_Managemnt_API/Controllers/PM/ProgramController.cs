@@ -35,15 +35,15 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         }
         [HttpGet]
 
-        public async Task<List<ProgramDto>> GetPrograms()
+        public async Task<List<ProgramDto>> GetPrograms(Guid subOrgId)
         {
-            var response = await _programService.GetPrograms();
+            var response = await _programService.GetPrograms(subOrgId);
             return response;
         }
         [HttpGet("selectlist")]
-        public async Task<List<SelectListDto>> GetProgramsSelectList()
+        public async Task<List<SelectListDto>> GetProgramsSelectList(Guid subOrgId)
         {
-            var response = await _programService.GetProgramsSelectList();
+            var response = await _programService.GetProgramsSelectList(subOrgId);
             return response;
         }
 

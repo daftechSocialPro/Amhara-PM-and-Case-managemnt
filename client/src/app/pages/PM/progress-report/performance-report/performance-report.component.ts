@@ -8,6 +8,8 @@ import { FilterationCriteria } from '../progress-report/Iprogress-report';
 import { GetActivityProgressComponent } from './get-activity-progress/get-activity-progress.component';
 declare const $: any
 import * as XLSX from 'xlsx';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 
 @Component({
   selector: 'app-performance-report',
@@ -24,17 +26,19 @@ export class PerformanceReportComponent implements OnInit {
   programs !: SelectList[]
 
   filterBY !:string
+  user!: UserView
 
   constructor(
     private formBuilder: FormBuilder,
     private pmService: PMService,
     private orgService: OrganizationService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private userService: UserService) {
 
   }
 
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser()
     this.serachForm = this.formBuilder.group({
       BudgetYear: ['', Validators.required],
       selectStructureId: ['', Validators.required],
@@ -48,7 +52,7 @@ export class PerformanceReportComponent implements OnInit {
     })
   
 
-    this.orgService.getOrgBranchSelectList().subscribe({
+    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
 
         this.branchs = res

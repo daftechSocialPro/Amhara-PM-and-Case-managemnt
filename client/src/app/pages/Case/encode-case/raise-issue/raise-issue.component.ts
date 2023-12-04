@@ -49,11 +49,10 @@ export class RaiseIssueComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser()
     this.getBranches()
     this.getCaseList()
-    this.user = this.userService.getCurrentUser()
-
+    
   }
 
   getCaseList() {
@@ -69,7 +68,7 @@ export class RaiseIssueComponent implements OnInit {
 
   }
   getBranches() {
-    this.organizationService.getOrgBranchSelectList().subscribe({
+    this.organizationService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.Branches = res
       }, error: (err) => {

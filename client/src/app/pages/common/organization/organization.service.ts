@@ -32,6 +32,15 @@ export class OrganizationService {
     return this.http.get<OrganizationProfile>(this.BaseURI + "/Organization")
   }
 
+  //Subsidiary Organization
+
+  CreateSubOrg(formData :any ){
+    return this.http.post(this.BaseURI + "/SubOrganization" ,formData)
+  }
+  GetSubOrgs(){
+    return this.http.get(this.BaseURI+"/SubOrganization")
+  }
+
   // branch
   OrgBranchCreate(orgBranch: OrganizationBranch) {
     return this.http.post(this.BaseURI + "/OrgBranch", orgBranch)
@@ -40,12 +49,12 @@ export class OrganizationService {
     return this.http.put(this.BaseURI + "/OrgBranch", orgBranch)
   }
 
-  getOrgBranches() {
-    return this.http.get<OrganizationalStructure[]>(this.BaseURI + "/OrgBranch")
+  getOrgBranches(subOrgId: string) {
+    return this.http.get<OrganizationalStructure[]>(this.BaseURI + "/OrgBranch?SubOrgId="+subOrgId)
   }
 
-  getOrgBranchSelectList() {
-    return this.http.get<SelectList[]>(this.BaseURI + "/OrgBranch/branchlist")
+  getOrgBranchSelectList(subOrgId: string) {
+    return this.http.get<SelectList[]>(this.BaseURI + "/OrgBranch/branchlist?SubOrgId="+subOrgId)
   }
 
 
@@ -85,17 +94,17 @@ export class OrganizationService {
 
 
 
-  getEmployees() {
-    return this.http.get<Employee[]>(this.BaseURI + "/Employee");
+  getEmployees(subOrgId: string) {
+    return this.http.get<Employee[]>(this.BaseURI + "/Employee?subOrgId=" + subOrgId);
   }
 
-  getEmployeesSelectList (){
-    return this.http.get<SelectList[]>(this.BaseURI+"/Employee/selectlist")
+  getEmployeesSelectList (subOrgId: string){
+    return this.http.get<SelectList[]>(this.BaseURI+"/Employee/selectlist?subOrgId=" + subOrgId)
   }
 
-  getEmployeeNoUserSelectList (){
+  getEmployeeNoUserSelectList (subOrgId: string){
 
-    return this.http.get<SelectList[]>(this.BaseURI+"/Employee/selectlistNoUser")
+    return this.http.get<SelectList[]>(this.BaseURI+"/Employee/selectlistNoUser?subOrgId=" + subOrgId)
   }
 
   getEmployeesBystructureId (structureId : string ){

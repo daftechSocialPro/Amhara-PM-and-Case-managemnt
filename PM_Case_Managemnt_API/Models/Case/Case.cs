@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Models.Common;
+using PM_Case_Managemnt_API.Models.Common.Organization;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PM_Case_Managemnt_API.Models.CaseModel
@@ -49,6 +50,11 @@ namespace PM_Case_Managemnt_API.Models.CaseModel
 
      
         public virtual ICollection<CaseHistoryAttachment> CaseAttachments { get; set; }
+
+        /////
+        ///
+        public Guid SubsidiaryOrganizationId { get; set; }
+        public virtual SubsidiaryOrganization? SubsidiaryOrganization { get; set; }
     }
 
     public enum AffairStatus

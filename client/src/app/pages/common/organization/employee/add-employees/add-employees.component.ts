@@ -6,6 +6,8 @@ import { IndividualConfig } from 'ngx-toastr';
 import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { SelectList } from '../../../common';
 import { OrganizationService } from '../../organization.service';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 
 
 
@@ -23,9 +25,9 @@ export class AddEmployeesComponent implements OnInit {
 
   EmployeeForm !: FormGroup;
   imageURL: string = "";
+  user!: UserView
 
-
-  constructor(private orgService: OrganizationService, private formBuilder: FormBuilder, private commonService: CommonService, private activeModal: NgbActiveModal) {
+  constructor(private orgService: OrganizationService, private formBuilder: FormBuilder, private commonService: CommonService, private activeModal: NgbActiveModal, private userService: UserService) {
 
     this.EmployeeForm = this.formBuilder.group({
       avatar: [null],
@@ -46,7 +48,9 @@ export class AddEmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.orgService.getOrgBranchSelectList().subscribe(
+    
+    this.user = this.userService.getCurrentUser()
+    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe(
       {
         next: (res) => this.branchList = res,
         error: (err) => console.error(err)

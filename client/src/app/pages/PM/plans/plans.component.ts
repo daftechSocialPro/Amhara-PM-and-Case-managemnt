@@ -6,6 +6,8 @@ import { ProgramService } from '../programs/programs.services';
 import { AddPlansComponent } from './add-plans/add-plans.component';
 import { PlanService } from './plan.service';
 import { PlanView } from './plans';
+import { UserView } from '../../pages-login/user';
+import { UserService } from '../../pages-login/user.service';
 
 @Component({
   selector: 'app-plans',
@@ -13,26 +15,27 @@ import { PlanView } from './plans';
   styleUrls: ['./plans.component.css']
 })
 export class PlansComponent implements OnInit {
-
+  user!: UserView
   programId!: string;
   Plans: PlanView[] = []
   constructor(
     private modalService: NgbModal,
     private planService: PlanService,
     private router: Router,
-    private activeRoute: ActivatedRoute) { }
+    private activeRoute: ActivatedRoute,
+    private userService: UserService) { }
 
 
   ngOnInit(): void {
-
+  
     this.programId = this.activeRoute.snapshot.paramMap.get('programId')!
-
+    this.user = this.userService.getCurrentUser()
     this.listPlans()
   }
 
   listPlans() {
 
-    this.planService.getPlans(this.programId).subscribe({
+    this.planService.getPlans(this.user.SubOrgId, this.programId).subscribe({
       next: (res) => {
         console.log("projects", res)
         this.Plans = res

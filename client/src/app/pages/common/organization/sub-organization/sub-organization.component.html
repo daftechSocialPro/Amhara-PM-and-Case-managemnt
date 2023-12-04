@@ -1,0 +1,46 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Subsidiary Organization</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+          <li class="breadcrumb-item">Organization</li>
+          <li class="breadcrumb-item active">Subsidiary Organization</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="text-end col-lg-12">
+        <button class="btn btn-primary text-end mb-3" (click)="addModal()"> Add
+           Subsidiary Organization</button>
+     </div>
+    <section class="section">
+  
+      <div class="row">    
+            <div class="col-xl-4" *ngFor="let emp of subOrgs; let i = index">
+                <div class="card">
+                   <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                    
+                      <div class="badge-container" *ngIf="emp.isRegulatoryBody" style="position: absolute; top: 10px; right: 10px;">
+                        <span class="badge badge-pill" style="background-color: green; color: white;">Regulatory body</span></div>
+                     
+                      <!-- <img [src]="getPath(emp.Photo)" alt="Profile" class="rounded-circle"> -->
+                      <h2>{{emp.OrganizationNameInLocalLanguage}}</h2>
+                     
+                      <h3>{{emp.OrganizationNameEnglish}}</h3>
+
+                      <h6 class="text-center mt-1">{{emp.Address}}</h6>
+                      
+                      
+                      <h4>{{emp.PhoneNumber}}</h4>
+                      <div class="social-links mt-2">
+                         <a id="updateButton" class="btn btn-warning text-white"><i
+                               class="bi bi-pencil"></i> Update
+                         </a>
+                      </div>
+                      
+                   </div>
+                </div>
+             </div>
+      </div>
+    </section>
+</main>

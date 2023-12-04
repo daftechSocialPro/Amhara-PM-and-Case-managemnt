@@ -8,6 +8,8 @@ import { AddBranchComponent } from './add-branch/add-branch.component';
 import { OrganizationBranch } from './org-branch';
 import { UpdateBranchComponent } from './update-branch/update-branch.component';
 import { OrganizationalStructure } from '../org-structure/org-structure';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 
 @Component({
   selector: 'app-org-branch',
@@ -22,13 +24,15 @@ export class OrgBranchComponent implements OnInit {
   branches: OrganizationalStructure[] = [];
   toast!: toastPayload;
   branch!: OrganizationBranch;
+  user!: UserView
 
   constructor(
     private elementRef: ElementRef,
     private orgService: OrganizationService,
     private commonService: CommonService,
     private modalService: NgbModal,
-    private http : HttpClient
+    private http : HttpClient,
+    private userService: UserService
   ) {
     var s = document.createElement('script');
     s.type = 'text/javascript';
@@ -37,6 +41,7 @@ export class OrgBranchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user = this.userService.getCurrentUser()
     this.branchList();
 
 
@@ -44,7 +49,7 @@ export class OrgBranchComponent implements OnInit {
   }
 
   branchList() {
-    this.orgService.getOrgBranches().subscribe({
+    this.orgService.getOrgBranches(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.branches = res;
       },

@@ -7,6 +7,8 @@ import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { SelectList } from '../../../common';
 import { OrganizationService } from '../../organization.service';
 import { Employee } from '../employee';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 
 @Component({
   selector: 'app-update-employee',
@@ -24,17 +26,19 @@ export class UpdateEmployeeComponent implements OnInit {
 
   EmployeeForm !: FormGroup;
   imageURL: string = "";
+  user!: UserView
 
 
-  constructor(private orgService: OrganizationService, private formBuilder: FormBuilder, private commonService: CommonService, private actvieModal: NgbActiveModal) {
+  constructor(private orgService: OrganizationService, private formBuilder: FormBuilder, private commonService: CommonService, private actvieModal: NgbActiveModal, private userService: UserService) {
 
 
   }
 
   ngOnInit(): void {
+    this.user = this.userService.getCurrentUser()
 
     console.log("employee",this.emp)
-    this.orgService.getOrgBranchSelectList().subscribe(
+    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe(
       {
         next: (res) => {
           this.branchList = res

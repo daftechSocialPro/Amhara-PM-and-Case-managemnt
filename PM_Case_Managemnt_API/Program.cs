@@ -11,6 +11,7 @@ using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Hubs;
 using PM_Case_Managemnt_API.Hubs.EncoderHub;
 using PM_Case_Managemnt_API.Models.Auth;
+using PM_Case_Managemnt_API.Services.Auth;
 using PM_Case_Managemnt_API.Services.CaseMGMT;
 using PM_Case_Managemnt_API.Services.CaseMGMT.Applicants;
 using PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentService;
@@ -28,6 +29,8 @@ using PM_Case_Managemnt_API.Services.Common.Dashoboard;
 using PM_Case_Managemnt_API.Services.Common.FolderService;
 using PM_Case_Managemnt_API.Services.Common.RowService;
 using PM_Case_Managemnt_API.Services.Common.ShelfService;
+using PM_Case_Managemnt_API.Services.Common.SubOrganization;
+using PM_Case_Managemnt_API.Services.Common.SubsidiaryOrganization;
 using PM_Case_Managemnt_API.Services.PM;
 using PM_Case_Managemnt_API.Services.PM.Activity;
 using PM_Case_Managemnt_API.Services.PM.Commite;
@@ -119,6 +122,8 @@ builder.Services.AddScoped<IDashboardService,DashboardService>();
 builder.Services.AddScoped<ICaseIssueService, CaseIssueService>();
 builder.Services.AddScoped<ISMSHelper, SMSHelper>();
 builder.Services.AddScoped<IProgressReportService, ProgressReportService>();
+builder.Services.AddScoped<ISubsidiaryOrganizationService, SubsidiaryOrganizationService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 //Jwt Authentication
 

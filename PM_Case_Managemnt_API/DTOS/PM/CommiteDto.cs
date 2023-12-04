@@ -11,6 +11,8 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public string Name { get; set; } = null!;
         public string Remark { get; set; } = null!;
         public Guid CreatedBy { get; set; }
+
+        public Guid SubsidiaryOrganizationId { get; set; }
     }
 
     public class UpdateCommiteDto: AddCommiteDto

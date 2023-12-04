@@ -1,4 +1,6 @@
-﻿namespace PM_Case_Managemnt_API.Models.Common
+﻿using PM_Case_Managemnt_API.Models.Common.Organization;
+
+namespace PM_Case_Managemnt_API.Models.Common
 {
     public class OrganizationalStructure :CommonModel
     {
@@ -12,12 +14,24 @@
 
 
         public Guid OrganizationBranchId { get; set; }
-       //public virtual OrganizationalStructure OrganizationBranch { get; set; } = null!;
+        //public virtual OrganizationalStructure OrganizationBranch { get; set; } = null!;
 
-      
-        public Guid OrganizationProfileId { get; set; }
 
-        public virtual OrganizationProfile OrganizationProfile { get; set; } = null!;
+        /// <summary>
+        /// 
+        /// </summary>
+
+        //public Guid OrganizationProfileId { get; set; }
+        //public virtual OrganizationProfile OrganizationProfile { get; set; } = null!;
+
+        public Guid SubsidiaryOrganizationId { get; set; }
+        public SubsidiaryOrganization SubsidiaryOrganization { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+
+
 
         public Guid? ParentStructureId { get; set; }
         public virtual OrganizationalStructure ParentStructure { get; set; } = null!;

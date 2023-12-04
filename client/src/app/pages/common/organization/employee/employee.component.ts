@@ -7,6 +7,8 @@ import { OrganizationService } from '../organization.service';
 import { AddEmployeesComponent } from './add-employees/add-employees.component';
 import { Employee } from './employee';
 import { UpdateEmployeeComponent } from './update-employee/update-employee.component';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 
 
 
@@ -18,19 +20,21 @@ import { UpdateEmployeeComponent } from './update-employee/update-employee.compo
 
 export class EmployeeComponent implements OnInit {
 
+  user!: UserView
   employees: Employee[] = []
 
-  constructor(private orgService: OrganizationService, private commonServcie: CommonService, private modalService: NgbModal) { }
+  constructor(private orgService: OrganizationService, private commonServcie: CommonService, private modalService: NgbModal, private userService: UserService) { }
 
   ngOnInit(): void {
 
+    this.user = this.userService.getCurrentUser()
     this.listEmployees()
 
   }
 
   listEmployees() {
     
-    this.orgService.getEmployees().subscribe({
+    this.orgService.getEmployees(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.employees = res
         console.log("employees", this.employees)

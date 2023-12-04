@@ -651,9 +651,9 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                     strucutreId = y.Id.ToString()
                 }).ToList();
             ;
-            var branch = _db.OrganizationBranches.Select(y => new StructureViewModel
+            var branch = _db.OrganizationalStructures.Where(u => u.IsBranch).Select(y => new StructureViewModel
             {
-                structureName = y.Name,
+                structureName = y.StructureName,
                 strucutreId = y.Id.ToString()
             }).ToList();
 

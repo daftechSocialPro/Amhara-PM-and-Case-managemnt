@@ -9,6 +9,7 @@ export interface UserView {
     UserID : string ;
     EmployeeId:string;
     Photo:string;
+    SubOrgId:string;
 }
 
 export interface Token {

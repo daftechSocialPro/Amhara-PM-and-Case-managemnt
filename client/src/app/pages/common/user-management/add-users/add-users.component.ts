@@ -8,6 +8,7 @@ import { SelectList } from '../../common';
 import { Employee } from '../../organization/employee/employee';
 import { OrganizationService } from '../../organization/organization.service';
 import { UserManagment } from '../user-managment';
+import { UserView } from 'src/app/pages/pages-login/user';
 
 @Component({
   selector: 'app-add-users',
@@ -21,7 +22,7 @@ export class AddUsersComponent {
 
   toast !: toastPayload;
   userForm!: FormGroup;
-
+  user!: UserView
   employeeList: SelectList[] = [];
   RoleList: SelectList[] = [];
   employee !: SelectList;
@@ -29,6 +30,7 @@ export class AddUsersComponent {
 
   ngOnInit(): void {
 
+    this.user = this.userService.getCurrentUser()
     this.userForm = this.formBuilder.group({
       UserName: ['', Validators.required],
       Password: ['', Validators.required],
@@ -56,7 +58,7 @@ export class AddUsersComponent {
   }
   getEmployees() {
 
-    this.orgService.getEmployeeNoUserSelectList().subscribe({
+    this.orgService.getEmployeeNoUserSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.employeeList = res
       }

@@ -76,6 +76,7 @@ import { ProgressReportBystructureComponent } from './pages/pm/progress-report/p
 import { PerformanceReportComponent } from './pages/pm/progress-report/performance-report/performance-report.component';
 import { EstimatedCoastComponent } from './pages/pm/progress-report/estimated-coast/estimated-coast.component';
 import { SearchCasesComponent } from './pages/Case/search-cases/search-cases.component';
+import { SubOrganizationComponent } from './pages/common/organization/sub-organization/sub-organization.component';
 
 
 
@@ -85,6 +86,7 @@ const routes: Routes = [
   { path: '', canActivate: [AuthGuard], component: PmDashboardComponent,data:{permittedRoles : ['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']} },
   { path: 'pmdashboard', canActivate: [AuthGuard], component: PmDashboardComponent,data:{permittedRoles :['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery']} },
   { path: 'orgprofile', canActivate: [AuthGuard], component: OrgProfileComponent,data:{permittedRoles : ['Super Admin','Employee Manager']} },
+  { path: 'suborganization', canActivate: [AuthGuard], component: SubOrganizationComponent ,data:{permittedRoles : ['Super Admin','Employee Manager']}  },
   { path: 'orgbranch', canActivate: [AuthGuard], component: OrgBranchComponent,data:{permittedRoles : ['Super Admin','Employee Manager']}  },
   { path: 'orgstructure', canActivate: [AuthGuard], component: OrgStructureComponent ,data:{permittedRoles : ['Super Admin','Employee Manager']}  },
   { path: 'budgetyear', canActivate: [AuthGuard], component: BudgetYearComponent,data:{permittedRoles : ['Super Admin','Case Admin','PM Admin']} },

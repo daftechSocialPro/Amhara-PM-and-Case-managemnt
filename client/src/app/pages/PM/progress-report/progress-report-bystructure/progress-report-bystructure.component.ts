@@ -6,6 +6,8 @@ import { IPlanReportDetailDto } from '../plan-report-today/IplanReportDetai';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 import { IPlannedReport } from '../planned-report/planned-report';
 import * as XLSX from 'xlsx';
+import { UserService } from 'src/app/pages/pages-login/user.service';
+import { UserView } from 'src/app/pages/pages-login/user';
 
 @Component({
   selector: 'app-progress-report-bystructure',
@@ -20,24 +22,25 @@ export class ProgressReportBystructureComponent implements OnInit {
   structures !: SelectList[]
   cnt: number = 0
   programs !: SelectList[]
-
+  user!: UserView
 
   constructor(
     private formBuilder: FormBuilder,
     private pmService: PMService,
-    private orgService: OrganizationService) {
+    private orgService: OrganizationService,
+    private userService: UserService) {
 
   }
 
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser()
     this.serachForm = this.formBuilder.group({
       BudgetYear: ['', Validators.required],
       selectStructureId: ['', Validators.required],
       ReportBy: ['Quarter']
     })
 
-    this.orgService.getOrgBranchSelectList().subscribe({
+    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
 
         this.branchs = res

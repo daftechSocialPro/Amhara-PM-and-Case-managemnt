@@ -20,13 +20,13 @@ export class ProgramService {
         return this.http.post(this.BaseURI, program)
     }
 
-    getPrograms (){
-        return this.http.get<Program[]>(this.BaseURI)
+    getPrograms (subOrgId : string){
+        return this.http.get<Program[]>(this.BaseURI + "?subOrgId=" + subOrgId)
     }
 
-    getProgramsSelectList (){
+    getProgramsSelectList (subOrgId: string){
         
-        return this.http.get<SelectList[]>(this.BaseURI+"/selectlist")
+        return this.http.get<SelectList[]>(this.BaseURI+"/selectlist?subOrgId="+subOrgId)
 
     }
 

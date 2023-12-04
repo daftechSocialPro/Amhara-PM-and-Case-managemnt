@@ -5,6 +5,8 @@ import { IndividualConfig } from 'ngx-toastr';
 import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { SelectList } from '../../../common';
 import { OrganizationService } from '../../organization.service';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 
 @Component({
   selector: 'app-add-structure',
@@ -18,8 +20,9 @@ export class AddStructureComponent implements OnInit {
 
   branchList: SelectList[] = []
   parentStructureList: SelectList[] = []
+  user!: UserView
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal) {
+  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal, private userService: UserService) {
 
     this.structureForm = this.formBuilder.group({
       OrganizationBranchId:['',Validators.required],
@@ -34,7 +37,8 @@ export class AddStructureComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.orgService.getOrgBranchSelectList().subscribe(
+    this.user = this.userService.getCurrentUser()
+    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe(
       {
         next: (res) => this.branchList = res,
         error: (err) => console.error(err)

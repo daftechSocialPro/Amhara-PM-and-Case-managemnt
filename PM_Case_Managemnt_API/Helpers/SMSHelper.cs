@@ -32,7 +32,9 @@ namespace PM_Case_Managemnt_API.Helpers
         {
             // reciver = "0937637310";
             ApplicationUser user = await _authenticationContext.ApplicationUsers.Where(x => x.Id.Equals(UserId)).FirstAsync();
-            Employee employee = _dbContext.Employees.Include(x => x.OrganizationalStructure.OrganizationProfile).FirstOrDefault(x => x.Id == user.EmployeesId);
+            //Employee employee = _dbContext.Employees.Include(x => x.OrganizationalStructure.OrganizationProfile).FirstOrDefault(x => x.Id == user.EmployeesId);
+
+            Employee employee = _dbContext.Employees.Include(x => x.OrganizationalStructure.SubsidiaryOrganization).FirstOrDefault(x => x.Id == user.EmployeesId);
             if (orgId != null)
                 employee = _dbContext.Employees.Include(x => x.OrganizationalStructure).FirstOrDefault(x => x.OrganizationalStructureId == orgId);
 
@@ -43,7 +45,9 @@ namespace PM_Case_Managemnt_API.Helpers
                 string ipAddress = _configuration["ApplicationSettings:SMS_IP"];
                 if (oganizationProfile != null)
                 {
-                    string coder = employee.OrganizationalStructure.OrganizationProfile.SmsCode.ToString();
+                    //string coder = employee.OrganizationalStructure.OrganizationProfile.SmsCode.ToString();
+                    ///////////
+                    string coder = employee.OrganizationalStructure.SubsidiaryOrganization.SmsCode.ToString();
                     coder = _configuration["ApplicationSettings:ORG_CODE"];
                     string uri = $"http://{ipAddress}/api/SmsSender?orgId={coder}&message={message}&recipantNumber={reciver}";
 
@@ -75,7 +79,8 @@ namespace PM_Case_Managemnt_API.Helpers
             {
                 //reciver = "0937637310";
                 ApplicationUser user = await _authenticationContext.ApplicationUsers.Where(x => x.Id.ToLower().Equals(UserId.ToLower())).FirstAsync();
-                Employee employee = _dbContext.Employees.Include(x => x.OrganizationalStructure.OrganizationProfile).FirstOrDefault(x => x.Id == user.EmployeesId);
+                //Employee employee = _dbContext.Employees.Include(x => x.OrganizationalStructure.OrganizationProfile).FirstOrDefault(x => x.Id == user.EmployeesId);
+                Employee employee = _dbContext.Employees.Include(x => x.OrganizationalStructure.SubsidiaryOrganization).FirstOrDefault(x => x.Id == user.EmployeesId);
                 if (orgId != null)
                     employee = _dbContext.Employees.Include(x => x.OrganizationalStructure).FirstOrDefault(x => x.OrganizationalStructureId == orgId);
 
@@ -84,7 +89,9 @@ namespace PM_Case_Managemnt_API.Helpers
                 string ipAddress = _configuration["ApplicationSettings:SMS_IP"];
                 if (oganizationProfile != null)
                 {
-                    string coder = employee.OrganizationalStructure.OrganizationProfile.SmsCode.ToString();
+                    //string coder = employee.OrganizationalStructure.OrganizationProfile.SmsCode.ToString();
+                    /////////////////////SubsidiaryOrganization.SmsCode.
+                    string coder = employee.OrganizationalStructure.SubsidiaryOrganization.SmsCode.ToString();
                     coder = _configuration["ApplicationSettings:ORG_CODE"];
                     string uri = $"http://{ipAddress}/api/SmsSender?orgId={coder}&message={message}&recipantNumber={reciver}";
 

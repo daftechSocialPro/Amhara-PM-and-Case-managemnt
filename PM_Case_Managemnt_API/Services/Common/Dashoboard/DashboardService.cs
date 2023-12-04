@@ -182,7 +182,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
         {
 
             barChartDto barChart = new barChartDto();
-            barChart.labels = new List<string>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "sep", "Oct", "Nov", "Dec" };
+            barChart.labels = new List<string>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
             barChart.datasets = new List<barChartDetailDto>();
 
 

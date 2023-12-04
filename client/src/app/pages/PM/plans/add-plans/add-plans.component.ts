@@ -10,6 +10,8 @@ import { Program } from '../../programs/Program';
 import { ProgramService } from '../../programs/programs.services';
 import { PlanService } from '../plan.service';
 import { Plan } from '../plans';
+import { UserService } from 'src/app/pages/pages-login/user.service';
+import { UserView } from 'src/app/pages/pages-login/user';
 
 @Component({
   selector: 'app-add-plans',
@@ -30,6 +32,7 @@ export class AddPlansComponent implements OnInit {
   program!: Program;
   ProjectManagerId!: String;
   FinanceId!: string;
+  user!: UserView
 
 
   constructor(
@@ -39,10 +42,12 @@ export class AddPlansComponent implements OnInit {
     private programService: ProgramService,
     private planService : PlanService,
     private commonService: CommonService,
-    private orgService: OrganizationService) { }
+    private orgService: OrganizationService,
+    private userService: UserService) { }
 
   ngOnInit(): void {
 
+    this.user = this.userService.getCurrentUser()
     this.listEmployees();
     this.listPorgrams();
     this.listBranchs();
@@ -75,7 +80,7 @@ export class AddPlansComponent implements OnInit {
 
   listBranchs() {
 
-    this.orgService.getOrgBranchSelectList().subscribe({
+    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.Branchs = res
       }, error: (err) => {
@@ -87,7 +92,7 @@ export class AddPlansComponent implements OnInit {
 
   listEmployees() {
 
-    this.orgService.getEmployeesSelectList().subscribe({
+    this.orgService.getEmployeesSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.employeeList = res
       }, error: (err) => {
@@ -98,7 +103,7 @@ export class AddPlansComponent implements OnInit {
 
 
   listPorgrams() {
-    this.programService.getProgramsSelectList().subscribe({
+    this.programService.getProgramsSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.Programs = res
       },

@@ -204,13 +204,18 @@
                               routerLink="/orgprofile"> <i
                                           class="bi bi-circle"></i><span>Profile</span> </a></li>
                         <li *ngIf="roleMatch(['Super Admin','Employee Manager'])"> <a 
+                              [ngClass]="getUrl()=='/suborganization'?'nav-link ':'nav-link collapsed'"
+                              routerLink="/suborganization"> <i
+                              class="bi bi-circle"></i><span>Subsidiary Organizations</span> </a>
+                        </li>
+                        <li *ngIf="roleMatch(['Super Admin','Employee Manager'])"> <a 
                               [ngClass]="getUrl()=='/orgbranch'?'nav-link ':'nav-link collapsed'"
                               routerLink="/orgbranch"> <i
                                           class="bi bi-circle"></i><span>Branches</span> </a></li>
                         <li *ngIf="roleMatch(['Super Admin','Employee Manager'])"> <a 
-                              [ngClass]="getUrl()=='/orgstructure'?'nav-link ':'nav-link collapsed'"
-                              routerLink="/orgstructure"> <i
-                                          class="bi bi-circle"></i><span>Structures</span> </a>
+                        [ngClass]="getUrl()=='/orgstructure'?'nav-link ':'nav-link collapsed'"
+                        routerLink="/orgstructure"> <i
+                        class="bi bi-circle"></i><span>Structures</span> </a>
                         </li>
                         <li *ngIf="roleMatch(['Super Admin','Employee Manager'])"> <a
                               [ngClass]="getUrl()=='/employee'?'nav-link ':'nav-link collapsed'"

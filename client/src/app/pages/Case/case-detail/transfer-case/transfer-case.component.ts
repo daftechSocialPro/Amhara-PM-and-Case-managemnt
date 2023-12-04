@@ -68,7 +68,7 @@ export class TransferCaseComponent implements OnInit {
   }
 
   getBranches() {
-    this.organizationService.getOrgBranchSelectList().subscribe({
+    this.organizationService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.Branches = res
       }, error: (err) => {

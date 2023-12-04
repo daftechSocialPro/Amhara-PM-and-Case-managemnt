@@ -9,8 +9,8 @@ namespace PM_Case_Managemnt_API.Services.Common
         public Task<int> CreateOrganizationalBranch(OrgBranchDto organizationBranch);
 
         public Task<int> UpdateOrganizationBranch(OrgBranchDto organizationBranch);
-        public Task<List<OrgStructureDto>> GetOrganizationBranches();
+        public Task<List<OrgStructureDto>> GetOrganizationBranches(Guid SubOrgId);
 
-        public Task<List<SelectListDto>> getBranchSelectList();
+        public Task<List<SelectListDto>> getBranchSelectList(Guid SubOrgId);
     }
 }

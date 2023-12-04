@@ -13,14 +13,14 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
         public Task<List<CaseEncodeGetDto>> GetAllTransfred(Guid employeeId);
         public Task<List<CaseEncodeGetDto>> MyCaseList(Guid employeeId);
 
-        public Task<List<CaseEncodeGetDto>> CompletedCases();
+        public Task<List<CaseEncodeGetDto>> CompletedCases(Guid subOrgId);
 
-        public Task<List<CaseEncodeGetDto>> GetArchivedCases();
+        public Task<List<CaseEncodeGetDto>> GetArchivedCases(Guid subOrgId);
 
         
 
 
-        public Task<List<CaseEncodeGetDto>> SearchCases(string filter );
+        public Task<List<CaseEncodeGetDto>> SearchCases(string filter);
 
 
     }

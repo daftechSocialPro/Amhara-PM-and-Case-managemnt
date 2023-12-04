@@ -49,9 +49,9 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         }
 
         [HttpGet]
-        public async Task<List<CommiteListDto>> GetCommiteLists()
+        public async Task<List<CommiteListDto>> GetCommiteLists(Guid subOrgId)
         {
-            var response = await _commiteService.GetCommiteLists();
+            var response = await _commiteService.GetCommiteLists(subOrgId);
             return response;
         }
 
@@ -64,10 +64,10 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         }
         [HttpGet("getSelectListCommittee")]
 
-        public async Task<List<SelectListDto>> getCommitteeSelectList()
+        public async Task<List<SelectListDto>> getCommitteeSelectList(Guid subOrgId)
         {
 
-            var response = await _commiteService.GetSelectListCommittee();
+            var response = await _commiteService.GetSelectListCommittee(subOrgId);
             return response;
         }
 

@@ -31,7 +31,10 @@ export class PagesLoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.userService.login(this.loginForm.value).subscribe({
         next: (res) => {
-          sessionStorage.setItem('token', res.token);
+          console.log('res: ', res);
+          //debugger
+
+          sessionStorage.setItem('token', res.Value.token);
           this.user = this.userService.getCurrentUser()
           console.log(this.user)
           this.router.navigateByUrl('/casedashboard');

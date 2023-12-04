@@ -20,12 +20,15 @@ namespace PM_Case_Managemnt_API.Services.Common
         {
 
 
-            var orgainzationProfile = _dBContext.OrganizationProfile.FirstOrDefault();
+            //var orgainzationProfile = _dBContext.OrganizationProfile.FirstOrDefault();
+
+            
             var orgStructure2 = new OrganizationalStructure
             {
                 Id = Guid.NewGuid(),
                 OrganizationBranchId = orgStructure.OrganizationBranchId,
-                OrganizationProfileId  = orgainzationProfile.Id,
+                //OrganizationProfileId = orgainzationProfile.Id,
+                SubsidiaryOrganizationId = orgStructure.SubsidiaryOrganizationId,
                 ParentStructureId = orgStructure.ParentStructureId,
                 StructureName = orgStructure.StructureName,
                 Order = orgStructure.Order,
@@ -34,6 +37,7 @@ namespace PM_Case_Managemnt_API.Services.Common
                 Weight = orgStructure.Weight,
                 Remark = orgStructure.Remark,
                 CreatedAt = DateTime.Now,
+
 
             };
 
@@ -44,19 +48,17 @@ namespace PM_Case_Managemnt_API.Services.Common
             return 1;
 
         }
-        public async Task<List<OrgStructureDto>> GetOrganizationStructures(Guid ? BranchId)
-
-
+        public async Task<List<OrgStructureDto>> GetOrganizationStructures(Guid SubOrgId, Guid ? BranchId)
         {
 
-
-            List<OrgStructureDto> structures = await (from x in _dBContext.OrganizationalStructures.Include(x => x.ParentStructure).Where(x=>x.OrganizationBranchId == BranchId)
+            List<OrgStructureDto> structures = await (from x in _dBContext.OrganizationalStructures.Include(x => x.ParentStructure).Where(x=>x.SubsidiaryOrganizationId == SubOrgId && x.OrganizationBranchId == BranchId)
                                                       
                                                       select new OrgStructureDto
                                                       {
                                                           Id = x.Id,
                                                           BranchName = x.ParentStructure.IsBranch ? x.ParentStructure.StructureName : "",
                                                           OrganizationBranchId = x.ParentStructure.IsBranch? x.ParentStructure.Id:Guid.NewGuid(),
+                                                          SubsidiaryOrganizationId = x.SubsidiaryOrganizationId,
                                                           ParentStructureName = x.ParentStructure.StructureName,
                                                           ParentStructureId = x.ParentStructure.Id,
                                                           StructureName = x.StructureName,
@@ -116,6 +118,7 @@ namespace PM_Case_Managemnt_API.Services.Common
             orgStructure2.OfficeNumber = orgStructure.OfficeNumber;
             orgStructure2.Remark = orgStructure.Remark;
             orgStructure2.RowStatus = orgStructure.RowStatus == 0 ? RowStatus.Active : RowStatus.InActive;
+            orgStructure2.SubsidiaryOrganizationId= orgStructure.SubsidiaryOrganizationId;
 
             _dBContext.Entry(orgStructure2).State = EntityState.Modified;
             await _dBContext.SaveChangesAsync();

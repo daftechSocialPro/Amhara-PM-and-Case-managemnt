@@ -35,23 +35,15 @@ namespace PM_Case_Managemnt_API.Services.Common
                     PhoneNumber = employee.PhoneNumber,
                     Gender = Enum.Parse<Gender>(employee.Gender),
                     Remark = employee.Remark,
-                   OrganizationalStructureId = Guid.Parse(employee.StructureId),
-                   Position = Enum.Parse<Position>(employee.Position),
-                   MobileUsersMacaddress="1234",
-                   UserName = employee.FullName.Split(' ')[0],
-                   Password = "123456"
+                    OrganizationalStructureId = Guid.Parse(employee.StructureId),
+                    Position = Enum.Parse<Position>(employee.Position),
+                    MobileUsersMacaddress="1234",
+                    UserName = employee.FullName.Split(' ')[0],
+                    Password = "123456"
 
                };
 
-
-
-
-
                 await _dBContext.Employees.AddAsync(employee1);
-
-       
-
-
                 await _dBContext.SaveChangesAsync();
                 return 1;
             }
@@ -62,9 +54,9 @@ namespace PM_Case_Managemnt_API.Services.Common
 
         }
 
-        public async Task<List<SelectListDto>> GetEmployeesNoUserSelectList()
+        public async Task<List<SelectListDto>> GetEmployeesNoUserSelectList(Guid subOrgId)
         {
-            var emp = _authentication.ApplicationUsers.Select(x => x.EmployeesId).ToList();
+            var emp = _authentication.ApplicationUsers.Where(j => j.SubsidiaryOrganizationId == subOrgId).Select(x => x.EmployeesId).ToList();
 
             var EmployeeSelectList = await (from e in _dBContext.Employees
                                             where !(emp.Contains(e.Id))
@@ -81,9 +73,9 @@ namespace PM_Case_Managemnt_API.Services.Common
 
 
      
-        public async Task<List<EmployeeDto>> GetEmployees()
+        public async Task<List<EmployeeDto>> GetEmployees(Guid subOrgId)
         {
-           var k=  await (from e in _dBContext.Employees.Include(x=>x.OrganizationalStructure)
+           var k=  await (from e in _dBContext.Employees.Include(x=>x.OrganizationalStructure).Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId)
                           join x in _dBContext.OrganizationalStructures on e.OrganizationalStructure.OrganizationBranchId equals x.Id
                          
                           select new EmployeeDto
@@ -140,9 +132,9 @@ namespace PM_Case_Managemnt_API.Services.Common
             
         }
 
-        public async Task<List<SelectListDto>> GetEmployeesSelectList()
+        public async Task<List<SelectListDto>> GetEmployeesSelectList(Guid subOrgId)
         {
-            var EmployeeSelectList = await (from e in _dBContext.Employees
+            var EmployeeSelectList = await (from e in _dBContext.Employees.Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId)
                                           
                                             select new SelectListDto
                                             {

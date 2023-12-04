@@ -16,6 +16,7 @@ import { ActivityView, AddProgressActivityDto } from '../activityview';
 export class AddProgressComponent implements OnInit {
 
   @Input() activity !: ActivityView ;
+  
   @Input () ProgressStatus! : string;
   progressForm !: FormGroup;
   progress !: AddProgressActivityDto;
@@ -60,6 +61,7 @@ export class AddProgressComponent implements OnInit {
    
 
   ngOnInit():  void {    
+    console.log('activity: ', this.activity);
     this.getLocation()
     this.user = this.userService.getCurrentUser();
   }

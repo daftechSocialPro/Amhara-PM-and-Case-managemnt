@@ -428,12 +428,12 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
         }
 
 
-        public async Task<List<CaseEncodeGetDto>> CompletedCases()
+        public async Task<List<CaseEncodeGetDto>> CompletedCases(Guid subOrgId)
         {
             // Employee user = _dbContext.Employees.Include(x => x.OrganizationalStructure).Where(x => x.Id == employeeId).FirstOrDefault();
 
 
-            List<CaseEncodeGetDto> cases = await _dbContext.Cases.Where(ca => ca.AffairStatus.Equals(AffairStatus.Completed) && !ca.IsArchived).Include(p => p.Employee).Include(p => p.CaseType).Include(p => p.Applicant).Select(st => new CaseEncodeGetDto
+            List<CaseEncodeGetDto> cases = await _dbContext.Cases.Where(ca => ca.SubsidiaryOrganizationId == subOrgId && ca.AffairStatus.Equals(AffairStatus.Completed) && !ca.IsArchived).Include(p => p.Employee).Include(p => p.CaseType).Include(p => p.Applicant).Select(st => new CaseEncodeGetDto
             {
 
                 Id = st.Id,
@@ -455,11 +455,11 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
         }
 
 
-        public async Task<List<CaseEncodeGetDto>> GetArchivedCases()
+        public async Task<List<CaseEncodeGetDto>> GetArchivedCases(Guid subOrgId)
         {
 
 
-            List<CaseEncodeGetDto> cases = await _dbContext.Cases.Where(ca => ca.IsArchived).Include(p => p.Employee).Include(p => p.CaseType).Include(p => p.Applicant).Include(x => x.Folder.Row.Shelf).Select(st => new CaseEncodeGetDto
+            List<CaseEncodeGetDto> cases = await _dbContext.Cases.Where(ca => ca.SubsidiaryOrganizationId == subOrgId && ca.IsArchived).Include(p => p.Employee).Include(p => p.CaseType).Include(p => p.Applicant).Include(x => x.Folder.Row.Shelf).Select(st => new CaseEncodeGetDto
             {
 
                 Id = st.Id,

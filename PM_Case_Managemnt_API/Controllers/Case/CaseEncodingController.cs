@@ -356,11 +356,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
 
         [HttpGet("completedList")]
-        public async Task<IActionResult> CompletedCases()
+        public async Task<IActionResult> CompletedCases(Guid subOrgId)
         {
             try
             {
-                return Ok(await _caseEncodeService.CompletedCases());
+                return Ok(await _caseEncodeService.CompletedCases(subOrgId));
 
             }
             catch (Exception ex)
@@ -371,11 +371,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
         [HttpGet("getArchivedCases")]
 
-        public async Task<IActionResult> GetArchivedCases()
+        public async Task<IActionResult> GetArchivedCases(Guid subOrgId)
         {
             try
             {
-                return Ok(await _caseEncodeService.GetArchivedCases());
+                return Ok(await _caseEncodeService.GetArchivedCases(subOrgId));
 
             }
             catch (Exception ex)

@@ -7,6 +7,8 @@ import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { SelectList } from '../../../common';
 import { OrganizationService } from '../../organization.service';
 import { OrganizationalStructure } from '../org-structure';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 
 @Component({
   selector: 'app-update-structure',
@@ -22,15 +24,17 @@ export class UpdateStructureComponent {
 
   branchList: SelectList[] = []
   parentStructureList: SelectList[] = []
+  user!: UserView
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal) {
+  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal, private userService: UserService) {
 
  
   }
 
   ngOnInit(): void {
+    this.user = this.userService.getCurrentUser()
 
-    this.orgService.getOrgBranchSelectList().subscribe(
+    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe(
       {
         next: (res) => this.branchList = res,
         error: (err) => console.error(err)

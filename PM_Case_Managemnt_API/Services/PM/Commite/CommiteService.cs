@@ -24,16 +24,17 @@ namespace PM_Case_Managemnt_API.Services.PM.Commite
                 CreatedAt = DateTime.Now,
                 CreatedBy = addCommiteDto.CreatedBy,
                 Remark = addCommiteDto.Remark,
-                RowStatus = Models.Common.RowStatus.Active
+                RowStatus = Models.Common.RowStatus.Active,
+                SubsidiaryOrganizationId = addCommiteDto.SubsidiaryOrganizationId
             };
             await _dBContext.AddAsync(Commite);
             await _dBContext.SaveChangesAsync();
             return 1;
         }
 
-        public async Task<List<CommiteListDto>> GetCommiteLists()
+        public async Task<List<CommiteListDto>> GetCommiteLists(Guid subOrgId)
         {
-            return  await (from t in _dBContext.Commitees.Include(x=>x.Employees).AsNoTracking()
+            return  await (from t in _dBContext.Commitees.Include(x=>x.Employees).Where(y => y.SubsidiaryOrganizationId == subOrgId).AsNoTracking()
                          select new CommiteListDto
                          {
                              Id = t.Id,
@@ -122,10 +123,10 @@ namespace PM_Case_Managemnt_API.Services.PM.Commite
 
         }
 
-        public async Task<List<SelectListDto>> GetSelectListCommittee()
+        public async Task<List<SelectListDto>> GetSelectListCommittee(Guid subOrgId)
         {
 
-            return await (from c in _dBContext.Commitees
+            return await (from c in _dBContext.Commitees.Where(v => v.SubsidiaryOrganizationId== subOrgId)
                           select new SelectListDto
                           {
                               Id = c.Id,

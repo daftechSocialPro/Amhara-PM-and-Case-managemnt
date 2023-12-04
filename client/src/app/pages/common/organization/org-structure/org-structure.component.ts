@@ -12,6 +12,8 @@ import * as go from 'gojs';
 import { TreeNode } from 'primeng/api';
 import { SelectList } from '../../common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 declare const jsc: any;
 interface IStructureTree {
   key: string;
@@ -43,6 +45,7 @@ export class OrgStructureComponent implements OnInit {
   data: TreeNode[] = [
    
   ];
+  user!: UserView
 
   constructor(
     private elementRef: ElementRef,
@@ -50,11 +53,13 @@ export class OrgStructureComponent implements OnInit {
     private commonService: CommonService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
+    private userService: UserService
   ) {
    
   }
 
   ngOnInit(): void {
+    this.user = this.userService.getCurrentUser()
     var s = document.createElement('script');
     s.type = 'text/javascript';
     s.src = '../assets/js/main.js';
@@ -67,7 +72,7 @@ export class OrgStructureComponent implements OnInit {
     })
 
 
-    this.orgService.getOrgBranchSelectList().subscribe({
+    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
 
         this.branchs = res

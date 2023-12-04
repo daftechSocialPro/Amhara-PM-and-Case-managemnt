@@ -32,11 +32,11 @@ namespace PM_Case_Managemnt_API.Services.PM.Program
 
         }
 
-        public async Task<List<ProgramDto>> GetPrograms()
+        public async Task<List<ProgramDto>> GetPrograms(Guid subOrgId)
         {
 
 
-            return await (from p in _dBContext.Programs.Include(x => x.ProgramBudgetYear)
+            return await (from p in _dBContext.Programs.Where(x => x.SubsidiaryOrganizationId == subOrgId).Include(x => x.ProgramBudgetYear)
                           select new ProgramDto
                           {
                               Id = p.Id,
@@ -69,11 +69,11 @@ namespace PM_Case_Managemnt_API.Services.PM.Program
           
         }
 
-        public async Task<List<SelectListDto>> GetProgramsSelectList()
+        public async Task<List<SelectListDto>> GetProgramsSelectList(Guid subOrgId)
         {
 
 
-            return await (from p in _dBContext.Programs
+            return await (from p in _dBContext.Programs.Where(n => n.SubsidiaryOrganizationId== subOrgId)
                           select new SelectListDto
                           {
                               Id= p.Id,
