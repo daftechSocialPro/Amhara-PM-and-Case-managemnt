@@ -48,6 +48,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                     PhoneNumber2 = Request.Form["PhoneNumber2"],
                     Representative = Request.Form["Representative"],
                     CreatedBy = Guid.Parse(Request.Form["CreatedBy"]),
+                    SubsidiaryOrganizationId = Guid.Parse(Request.Form["SubsidiaryOrganizationId"]),
                 };
                 string caseId = await _caseEncodeService.Add(caseEncodePostDto);
 
@@ -295,10 +296,10 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
         [HttpGet("getCaseNumber")]
 
-        public async Task<string> GetCaseNumebr()
+        public async Task<string> GetCaseNumebr(Guid subOrgId)
         {
 
-            return await _caseEncodeService.GetCaseNumber();
+            return await _caseEncodeService.GetCaseNumber(subOrgId);
 
 
 
@@ -335,11 +336,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
 
         [HttpGet("searchCases")]
-        public async Task<IActionResult> searchCases(string  searchBY)
+        public async Task<IActionResult> searchCases(string  searchBY, Guid subOrgId )
         {
             try
             {
-                return Ok(await _caseEncodeService.SearchCases(searchBY));
+                return Ok(await _caseEncodeService.SearchCases(searchBY, subOrgId));
 
             }
             catch (Exception ex)

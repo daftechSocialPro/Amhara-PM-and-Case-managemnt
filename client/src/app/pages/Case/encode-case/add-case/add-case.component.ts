@@ -55,7 +55,7 @@ export class AddCaseComponent implements OnInit {
   }
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser();
-    this.getCaseNumber();
+    this.getCaseNumber(this.user.SubOrgId);
     this.getApplicants();
     this.getOutSideCases();
   }
@@ -76,8 +76,8 @@ export class AddCaseComponent implements OnInit {
   }
 
 
-  getCaseNumber() {
-    this.caseService.getCaseNumber().subscribe({
+  getCaseNumber(subOrgId: string) {
+    this.caseService.getCaseNumber(subOrgId).subscribe({
       next: (res) => {
         this.CaseNumber = res;
       },
@@ -88,7 +88,7 @@ export class AddCaseComponent implements OnInit {
   }
 
   getOutSideCases() {
-    this.caseService.getCaseTypeByCaseForm('Outside').subscribe({
+    this.caseService.getCaseTypeByCaseForm('Outside',this.user.SubOrgId).subscribe({
       next: (res) => {
         this.outsideCases = res;
       },
@@ -98,7 +98,7 @@ export class AddCaseComponent implements OnInit {
     });
   }
   getApplicants() {
-    this.caseService.getApplicantSelectList().subscribe({
+    this.caseService.getApplicantSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.applicants = res;
       },
@@ -154,6 +154,7 @@ export class AddCaseComponent implements OnInit {
           formData.set('PhoneNumber2', this.caseForm.value.PhoneNumber2);
           formData.set('Representative', this.caseForm.value.Representative);
           formData.set('CreatedBy', this.user.UserID);
+          formData.set('SubsidiaryOrganizationId', this.user.SubOrgId);
     
           //console.log(formData)
     
@@ -215,6 +216,7 @@ export class AddCaseComponent implements OnInit {
       formData.set('PhoneNumber2', this.caseForm.value.PhoneNumber2);
       formData.set('Representative', this.caseForm.value.Representative);
       formData.set('CreatedBy', this.user.UserID);
+      formData.set('SubsidiaryOrganizationId', this.user.SubOrgId);
 
       //console.log(formData)
 

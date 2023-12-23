@@ -9,7 +9,8 @@ export interface CaseType {
     Remark: string,
     CreatedBy: string,
     OrderNumber?: number,
-    ParentCaseTypeId?: string
+    ParentCaseTypeId?: string,
+    SubsidiaryOrganizationId? : string
 
 }
 

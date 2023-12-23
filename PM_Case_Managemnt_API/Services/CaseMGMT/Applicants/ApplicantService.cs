@@ -5,6 +5,7 @@ using PM_Case_Managemnt_API.DTOS.CaseDto;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
+using PMCaseManagemntAPI.Migrations.Authentication;
 
 namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
 {
@@ -32,7 +33,8 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
                     Email = applicantPost.Email,
                     PhoneNumber = applicantPost.PhoneNumber,
                     Remark = applicantPost.PhoneNumber,
-                    RowStatus = RowStatus.Active
+                    RowStatus = RowStatus.Active,
+                    SubsidiaryOrganizationId = applicantPost.SubsidiaryOrganizationId,
                 };
 
                 await _dbContext.Applicants.AddAsync(applicant);
@@ -44,11 +46,11 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
             }
         }
 
-        public async Task<List<ApplicantGetDto>> GetAll()
+        public async Task<List<ApplicantGetDto>> GetAll(Guid subOrgId)
         {
             try
             {
-                List<Applicant> applicants = await _dbContext.Applicants.ToListAsync();
+                List<Applicant> applicants = await _dbContext.Applicants.Where(x => x.SubsidiaryOrganizationId == subOrgId).ToListAsync();
                 List<ApplicantGetDto> result = new();
 
                 foreach(Applicant applicant in applicants)
@@ -83,11 +85,11 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
 
             return applicant; 
         }
-        public async Task<List<SelectListDto>> GetSelectList()
+        public async Task<List<SelectListDto>> GetSelectList(Guid subOrgId)
         {
             try
             {
-                List<Applicant> applicants = await _dbContext.Applicants.ToListAsync();
+                List<Applicant> applicants = await _dbContext.Applicants.Where(x => x.SubsidiaryOrganizationId == subOrgId).ToListAsync();
                 List<SelectListDto> result = new();
 
                 foreach (Applicant applicant in applicants)

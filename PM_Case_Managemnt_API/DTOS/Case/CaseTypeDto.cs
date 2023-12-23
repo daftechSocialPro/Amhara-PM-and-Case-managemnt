@@ -16,6 +16,7 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
         public Guid CreatedBy { get; set; }
         public int? OrderNumber { get; set; }
         public Guid? ParentCaseTypeId { get; set; }
+        public Guid SubsidiaryOrganizationId { get; set; }
 
     }
 

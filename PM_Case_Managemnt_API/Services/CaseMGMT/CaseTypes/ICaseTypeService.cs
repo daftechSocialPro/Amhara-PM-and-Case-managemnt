@@ -6,9 +6,9 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
     public interface ICaseTypeService
     {
         public Task Add(CaseTypePostDto caseTypeDto);
-        public Task<List<CaseTypeGetDto>> GetAll();
-        public Task<List<SelectListDto>> GetAllByCaseForm(string caseForm);
-        public Task<List<SelectListDto>> GetAllSelectList();
+        public Task<List<CaseTypeGetDto>> GetAll(Guid subOrgId);
+        public Task<List<SelectListDto>> GetAllByCaseForm(string caseForm, Guid subOrgId);
+        public Task<List<SelectListDto>> GetAllSelectList(Guid subOrgId);
 
         public Task<List<SelectListDto>> GetFileSettigs(Guid caseTypeId);
 

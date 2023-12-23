@@ -104,7 +104,7 @@ export class UpdateCaseComponent implements OnInit {
   }
 
   getOutSideCases() {
-    this.caseService.getCaseTypeByCaseForm('Outside').subscribe({
+    this.caseService.getCaseTypeByCaseForm('Outside',this.user.SubOrgId).subscribe({
       next: (res) => {
         this.outsideCases = res;
       },
@@ -114,7 +114,7 @@ export class UpdateCaseComponent implements OnInit {
     });
   }
   getApplicants() {
-    this.caseService.getApplicantSelectList().subscribe({
+    this.caseService.getApplicantSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.applicants = res;
       },

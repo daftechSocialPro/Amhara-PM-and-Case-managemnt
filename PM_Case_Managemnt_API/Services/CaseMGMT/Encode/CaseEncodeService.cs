@@ -11,6 +11,7 @@ using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Services.CaseMGMT.CaseForwardService;
 using PM_Case_Managemnt_API.Services.CaseMGMT.History;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace PM_Case_Managemnt_API.Services.CaseService.Encode
 {
@@ -45,9 +46,10 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                     AffairStatus = AffairStatus.Encoded,
                     PhoneNumber2 = caseEncodePostDto.PhoneNumber2,
                     Representative = caseEncodePostDto.Representative,
+                    SubsidiaryOrganizationId = caseEncodePostDto.SubsidiaryOrganizationId
 
                 };
-                string caseNumber = await GetCaseNumber();
+                string caseNumber = await GetCaseNumber(caseEncodePostDto.SubsidiaryOrganizationId);
                 newCase.CaseNumber = caseNumber;
 
                 await _dbContext.AddAsync(newCase);
@@ -203,11 +205,39 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
             }
 
         }
-        public async Task<string> GetCaseNumber()
+        public async Task<string> GetCaseNumber(Guid subOrgId)
         {
-            string CaseNumber = "DDC2015-";
 
-            var latestNumber = _dbContext.Cases.OrderByDescending(x => x.CreatedAt).Select(c => c.CaseNumber).FirstOrDefault();
+            var subOrgName = _dbContext.Cases.Where(x => x.SubsidiaryOrganizationId == subOrgId).OrderByDescending(x => x.CreatedAt).Select(c => c.SubsidiaryOrganization.OrganizationNameEnglish).FirstOrDefault();
+
+            //////
+            //////
+            //////
+            //////
+            string CaseNumber = "DDC2015-";
+            //CHANGE THE CASENUMBER TO BE AUTO GENERATED
+            //////
+            //////
+
+            string[] words = subOrgName.Split(' ');
+
+            StringBuilder result = new StringBuilder();
+            foreach (string word in words)
+            {
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    char firstLetter = char.ToUpper(word[0]);
+                    result.Append(firstLetter);
+                }
+            }
+
+            string output = result.ToString();
+            Console.WriteLine("OUTPUT121321321", output);
+
+
+
+            var latestNumber = _dbContext.Cases.Where(x => x.SubsidiaryOrganizationId == subOrgId).OrderByDescending(x => x.CreatedAt).Select(c => c.CaseNumber).FirstOrDefault();
+            Console.WriteLine(latestNumber);
 
             if (latestNumber != null)
             {
@@ -258,6 +288,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                      IsConfirmedBySeretery = x.IsConfirmedBySeretery,
                      Position = user.Position.ToString(),
                      AffairHistoryStatus = x.AffairHistoryStatus.ToString(),
+                     
 
 
 
@@ -339,7 +370,6 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                                     ToStructure = x.ToStructure.StructureName,
                                     AffairHistoryStatus = x.AffairHistoryStatus.ToString()
                                 }).ToListAsync();
-                ;
 
 
 
@@ -386,7 +416,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
         }
 
 
-        public async Task<List<CaseEncodeGetDto>> SearchCases(string filter)
+        public async Task<List<CaseEncodeGetDto>> SearchCases(string filter, Guid subOrgId)
         {
 
 
@@ -396,29 +426,29 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                    .Include(x => x.FromEmployee)
                    .Include(x => x.FromStructure)
                    .OrderByDescending(x => x.CreatedAt)
-                   .Where(x => (x.Case.Applicant.ApplicantName.ToLower().Contains(filter.ToLower()) || x.Case.Applicant.PhoneNumber.Contains(filter) || x.Case.CaseNumber.ToLower().Contains(filter.ToLower())) && x.ReciverType == ReciverType.Orginal)
-.Select(x => new CaseEncodeGetDto
-{
-    Id = x.Id,
-    CaseTypeName = x.Case.CaseType.CaseTypeTitle,
-    CaseNumber = x.Case.CaseNumber,
-    CreatedAt = x.Case.CreatedAt.ToString(),
-    ApplicantName = x.Case.Applicant.ApplicantName,
-    ApplicantPhoneNo = x.Case.Applicant.PhoneNumber,
-    EmployeeName = x.Case.Employee.FullName,
-    EmployeePhoneNo = x.Case.Employee.PhoneNumber,
-    LetterNumber = x.Case.LetterNumber,
-    LetterSubject = x.Case.LetterSubject,
-    Position = "",
-    FromStructure = x.FromStructure.StructureName,
-    FromEmployeeId = x.FromEmployee.FullName,
-    ReciverType = x.ReciverType.ToString(),
-    SecreateryNeeded = x.SecreateryNeeded,
-    IsConfirmedBySeretery = x.IsConfirmedBySeretery,
-    ToEmployee = x.ToEmployee.FullName,
-    ToStructure = x.ToStructure.StructureName,
-    AffairHistoryStatus = x.AffairHistoryStatus.ToString()
-}).ToListAsync();
+                   .Where(x => (x.Case.Applicant.ApplicantName.ToLower().Contains(filter.ToLower()) || x.Case.Applicant.PhoneNumber.Contains(filter) || x.Case.CaseNumber.ToLower().Contains(filter.ToLower())) && x.ReciverType == ReciverType.Orginal && x.Case.SubsidiaryOrganizationId == subOrgId)
+                    .Select(x => new CaseEncodeGetDto
+                    {
+                        Id = x.Id,
+                        CaseTypeName = x.Case.CaseType.CaseTypeTitle,
+                        CaseNumber = x.Case.CaseNumber,
+                        CreatedAt = x.Case.CreatedAt.ToString(),
+                        ApplicantName = x.Case.Applicant.ApplicantName,
+                        ApplicantPhoneNo = x.Case.Applicant.PhoneNumber,
+                        EmployeeName = x.Case.Employee.FullName,
+                        EmployeePhoneNo = x.Case.Employee.PhoneNumber,
+                        LetterNumber = x.Case.LetterNumber,
+                        LetterSubject = x.Case.LetterSubject,
+                        Position = "",
+                        FromStructure = x.FromStructure.StructureName,
+                        FromEmployeeId = x.FromEmployee.FullName,
+                        ReciverType = x.ReciverType.ToString(),
+                        SecreateryNeeded = x.SecreateryNeeded,
+                        IsConfirmedBySeretery = x.IsConfirmedBySeretery,
+                        ToEmployee = x.ToEmployee.FullName,
+                        ToStructure = x.ToStructure.StructureName,
+                        AffairHistoryStatus = x.AffairHistoryStatus.ToString()
+                    }).ToListAsync();
 
 
 

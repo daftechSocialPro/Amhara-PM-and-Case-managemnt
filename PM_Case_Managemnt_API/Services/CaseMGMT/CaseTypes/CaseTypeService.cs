@@ -35,7 +35,8 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
                     CaseForm = string.IsNullOrEmpty(caseTypeDto.CaseForm) ? _dbContext.CaseTypes.Find(caseTypeDto.ParentCaseTypeId).CaseForm : Enum.Parse<CaseForm>(caseTypeDto.CaseForm),
                     Remark = caseTypeDto.Remark,
                     OrderNumber = caseTypeDto.OrderNumber,
-                    ParentCaseTypeId = caseTypeDto.ParentCaseTypeId
+                    ParentCaseTypeId = caseTypeDto.ParentCaseTypeId,
+                    SubsidiaryOrganizationId = caseTypeDto.SubsidiaryOrganizationId,
                 };
 
                 if (caseTypeDto.ParentCaseTypeId != null)
@@ -51,11 +52,11 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
             }
         }
 
-        public async Task<List<CaseTypeGetDto>> GetAll()
+        public async Task<List<CaseTypeGetDto>> GetAll(Guid subOrgId)
         {
             try
             {
-                List<CaseType> caseTypes = await _dbContext.CaseTypes.Include(p => p.ParentCaseType).Where(x=>x.ParentCaseTypeId==null).ToListAsync();
+                List<CaseType> caseTypes = await _dbContext.CaseTypes.Include(p => p.ParentCaseType).Where(x=>x.ParentCaseTypeId==null && x.SubsidiaryOrganizationId == subOrgId).ToListAsync();
                 List<CaseTypeGetDto> result = new();
 
                 foreach (CaseType caseType in caseTypes)
@@ -98,11 +99,11 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<List<SelectListDto>> GetAllByCaseForm(string caseForm)
+        public async Task<List<SelectListDto>> GetAllByCaseForm(string caseForm, Guid subOrgId)
         {
             try
             {
-                List<CaseType> caseTypes = await _dbContext.CaseTypes.Include(p => p.ParentCaseType).Where(x => x.CaseForm == Enum.Parse<CaseForm>(caseForm) && x.ParentCaseTypeId==null).ToListAsync();
+                List<CaseType> caseTypes = await _dbContext.CaseTypes.Include(p => p.ParentCaseType).Where(x => x.CaseForm == Enum.Parse<CaseForm>(caseForm) && x.ParentCaseTypeId==null && x.SubsidiaryOrganizationId == subOrgId).ToListAsync();
                 List<SelectListDto> result = new();
 
                 foreach (CaseType caseType in caseTypes)
@@ -125,10 +126,10 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
         }
 
 
-        public async Task<List<SelectListDto>> GetAllSelectList()
+        public async Task<List<SelectListDto>> GetAllSelectList(Guid subOrgId)
         {
 
-            return await (from c in _dbContext.CaseTypes
+            return await (from c in _dbContext.CaseTypes.Where(x => x.SubsidiaryOrganizationId==subOrgId)
                           select new SelectListDto
                           {
                               Id = c.Id,

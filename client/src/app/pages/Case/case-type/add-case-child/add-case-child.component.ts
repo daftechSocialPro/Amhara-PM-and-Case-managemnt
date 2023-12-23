@@ -70,7 +70,8 @@ export class AddCaseChildComponent implements OnInit {
         MeasurementUnit: this.caseForm.value.MeasurementUnit,
        // CaseForm: this.caseForm.value.CaseForm,
         Remark: this.caseForm.value.Remark,
-        CreatedBy: this.user.UserID
+        CreatedBy: this.user.UserID,
+        SubsidiaryOrganizationId: this.user.SubOrgId
 
       }
 

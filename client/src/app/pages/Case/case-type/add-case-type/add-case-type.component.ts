@@ -55,7 +55,8 @@ export class AddCaseTypeComponent {
         MeasurementUnit: this.caseForm.value.MeasurementUnit,
         CaseForm: this.caseForm.value.CaseForm,
         Remark: this.caseForm.value.Remark,
-        CreatedBy: this.user.UserID
+        CreatedBy: this.user.UserID,
+        SubsidiaryOrganizationId: this.user.SubOrgId
       }
 
       this.caseService.createCaseType(caseType).subscribe({

@@ -7,9 +7,9 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
     public interface IApplicantService
     {
         public Task<Guid> Add(ApplicantPostDto applicant);
-        public Task<List<ApplicantGetDto>> GetAll();
+        public Task<List<ApplicantGetDto>> GetAll(Guid subOrgId);
 
-        public Task<List<SelectListDto>> GetSelectList();
+        public Task<List<SelectListDto>> GetSelectList(Guid subOrgId);
 
         public Task<Applicant> GetApplicantById(Guid? applicantId);
     }

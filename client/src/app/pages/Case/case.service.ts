@@ -24,8 +24,8 @@ export class CaseService {
 
         return this.http.post(this.BaseURI + "/type", casetype)
     }
-    getCaseType() {
-        return this.http.get<CaseTypeView[]>(this.BaseURI + "/type")
+    getCaseType(subOrgId: string) {
+        return this.http.get<CaseTypeView[]>(this.BaseURI + "/type?subOrgId=" + subOrgId)
     }
 
     getOrderNumber(caseTypeId: string) {
@@ -33,13 +33,12 @@ export class CaseService {
         return this.http.get<number>(this.BaseURI + "/GetChildOrder?caseTypeId=" + caseTypeId)
     }
 
-    getSelectCasetType() {
-        return this.http.get<SelectList[]>(this.BaseURI + "/typeSelectList")
+    getSelectCasetType(subOrgId: string) {
+        return this.http.get<SelectList[]>(this.BaseURI + "/typeSelectList?subOrgId=" + subOrgId)
     }
 
-    getCaseTypeByCaseForm(caseForm: string) {
-
-        return this.http.get<SelectList[]>(this.BaseURI + "/byCaseForm?caseForm=" + caseForm)
+    getCaseTypeByCaseForm(caseForm: string,subOrgId: string) {
+        return this.http.get<SelectList[]>(this.BaseURI + "/byCaseForm?caseForm=" + caseForm + "&subOrgId=" + subOrgId)
     }
 
     //file setting 
@@ -62,15 +61,13 @@ export class CaseService {
         return this.http.post(this.BaseURI + "/applicant", applicant)
     }
 
-    getApplicantSelectList() {
+    getApplicantSelectList(subOrgId: string) {
 
-        return this.http.get<SelectList[]>(this.BaseURI + "/applicantSelectList")
+        return this.http.get<SelectList[]>(this.BaseURI + "/applicantSelectList?subOrgId=" + subOrgId)
     }
 
     //case
     addCase(caseValue: FormData) {
-
-
         return this.http.post(this.BaseURI + "/encoding", caseValue)
     }
     updateCase(caseValue: FormData) {
@@ -86,8 +83,8 @@ export class CaseService {
         return this.http.get<ICaseView[]>(this.BaseURI + "/mycaseList?employeeId=" + employeeId)
     }
 
-    getSearchCases(filterby: string) {
-        return this.http.get<ICaseView[]>(this.BaseURI + "/searchCases?searchBY=" + filterby)
+    getSearchCases(filterby: string, subOrgId: string) {
+        return this.http.get<ICaseView[]>(this.BaseURI + "/searchCases?searchBY=" + filterby + "&subOrgId=" + subOrgId)
     }
     //notification 
     getCasesNotification(employeeId: string) {
@@ -96,14 +93,14 @@ export class CaseService {
 
 
 
-    getCaseNumber() {
+    getCaseNumber(subOrgId: string) {
         var HTTPOptions = {
             headers: new HttpHeaders({
                 'Accept': 'text'
             }),
             'responseType': 'text' as 'json'
         }
-        return this.http.get<string>(this.BaseURI + "/getCaseNumber", HTTPOptions)
+        return this.http.get<string>(this.BaseURI + "/getCaseNumber?subOrgId=" + subOrgId , HTTPOptions)
     }
 
 
@@ -187,17 +184,17 @@ export class CaseService {
 
     //get completed casses to archive 
 
-    getCompletedCases() {
-        return this.http.get<ICaseView[]>(this.BaseURI + "/completedList")
+    getCompletedCases(subOrgId: string) {
+        return this.http.get<ICaseView[]>(this.BaseURI + "/completedList?subOrgId=" + subOrgId)
     }
 
     archiveCase(archive: any) {
         return this.http.post(this.BaseURI + "/archive", archive)
     }
 
-    getArchiveCases() {
+    getArchiveCases(subOrgId: string) {
 
-        return this.http.get<ICaseView[]>(this.BaseURI + "/getArchivedCases")
+        return this.http.get<ICaseView[]>(this.BaseURI + "/getArchivedCases?subOrgId=" + subOrgId)
     }
 
 

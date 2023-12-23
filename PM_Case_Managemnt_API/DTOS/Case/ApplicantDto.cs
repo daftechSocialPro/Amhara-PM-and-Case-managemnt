@@ -11,6 +11,7 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
         public string CustomerIdentityNumber { get; set; } = null!;
         public string ApplicantType { get; set; }
         public Guid CreatedBy { get; set; }
+        public Guid SubsidiaryOrganizationId { get; set; }
 
     }
 

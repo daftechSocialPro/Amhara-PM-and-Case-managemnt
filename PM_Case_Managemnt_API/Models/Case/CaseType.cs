@@ -1,5 +1,6 @@
 ﻿
 using PM_Case_Managemnt_API.Models.Common;
+using PM_Case_Managemnt_API.Models.Common.Organization;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,8 +28,9 @@ namespace PM_Case_Managemnt_API.Models.CaseModel
         public int? OrderNumber { get; set; }
         public TimeMeasurement MeasurementUnit { get; set; }
         public CaseForm? CaseForm { get; set; }
+        public virtual SubsidiaryOrganization? SubsidiaryOrganization { get; set; }
+        public Guid SubsidiaryOrganizationId { get; set; }
 
-     
         public virtual ICollection<CaseType> Childrens { get; set; }
 
     }

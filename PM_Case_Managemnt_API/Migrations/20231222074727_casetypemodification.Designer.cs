@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PM_Case_Managemnt_API.Data;
 
 #nullable disable
 
-namespace PMCaseManagemntAPI.Migrations
+namespace PMCaseManagemntAPI.Migrations.DB
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20231222074727_casetypemodification")]
+    partial class casetypemodification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,12 +113,7 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("SubsidiaryOrganizationId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("Applicants");
                 });
@@ -1959,17 +1957,6 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Navigation("Case");
 
                     b.Navigation("ForwardedToEmployee");
-                });
-
-            modelBuilder.Entity("PM_Case_Managemnt_API.Models.CaseModel.Applicant", b =>
-                {
-                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
-                        .WithMany()
-                        .HasForeignKey("SubsidiaryOrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubsidiaryOrganization");
                 });
 
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.CaseModel.Appointement", b =>

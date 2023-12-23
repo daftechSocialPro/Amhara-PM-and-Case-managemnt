@@ -63,6 +63,7 @@ export class AddStructureComponent implements OnInit {
   submit() {
 
     if (this.structureForm.valid) {
+      this.structureForm.addControl('SubsidiaryOrganizationId', this.formBuilder.control(this.user.SubOrgId));
       this.orgService.OrgStructureCreate(this.structureForm.value).subscribe({
 
         next: (res) => {

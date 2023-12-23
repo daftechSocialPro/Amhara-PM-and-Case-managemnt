@@ -80,7 +80,7 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
         public async Task<List<Models.Common.Organization.SubsidiaryOrganization>> GetSubsidiaryOrganization()
         {
 
-            return await _dBContext.SubsidiaryOrganizations.ToListAsync();
+            return await _dBContext.SubsidiaryOrganizations.Include(u => u.OrganizationProfile).ToListAsync();
         }
 
         public async Task<int> UpdateSubsidiaryOrganization(Models.Common.Organization.SubsidiaryOrganization subsidiaryOrganization)

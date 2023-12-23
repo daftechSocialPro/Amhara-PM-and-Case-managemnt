@@ -46,7 +46,7 @@ export class AddFileSettingComponent {
   }
   getCaseTypeList() {
 
-    this.caseService.getSelectCasetType().subscribe({
+    this.caseService.getSelectCasetType(this.userView.SubOrgId).subscribe({
       next: (res) => {
         this.caseTypes = res;
         console.log("casetypes", res)

@@ -19,11 +19,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
 
         [HttpGet("applicant")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(Guid subOrgId)
         {
             try
             {
-                return Ok(await _applicantService.GetAll());
+                return Ok(await _applicantService.GetAll(subOrgId));
             }
             catch (Exception ex)
             {
@@ -32,11 +32,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
 
         [HttpGet("applicantSelectList")]
-        public async Task<IActionResult> GetSelectAll()
+        public async Task<IActionResult> GetSelectAll(Guid subOrgId)
         {
             try
             {
-                return Ok(await _applicantService.GetSelectList());
+                return Ok(await _applicantService.GetSelectList(subOrgId));
             }
             catch (Exception ex)
             {

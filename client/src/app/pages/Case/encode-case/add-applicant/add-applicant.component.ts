@@ -50,7 +50,8 @@ export class AddApplicantComponent implements OnInit {
         Email: this.applicantForm.value.Email,
         CustomerIdentityNumber: this.applicantForm.value.CustomerIdentityNumber,
         ApplicantType: this.applicantForm.value.ApplicantType,
-        CreatedBy: this.user.UserID
+        CreatedBy: this.user.UserID,
+        SubsidiaryOrganizationId: this.user.SubOrgId
 
       }).subscribe({
         next: (res) => {

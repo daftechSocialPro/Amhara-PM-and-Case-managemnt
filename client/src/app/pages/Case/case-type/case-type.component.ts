@@ -5,6 +5,8 @@ import { CaseService } from '../case.service';
 import { AddCaseChildComponent } from './add-case-child/add-case-child.component';
 import { AddCaseTypeComponent } from './add-case-type/add-case-type.component';
 import { CaseTypeView } from './casetype';
+import { UserView } from '../../pages-login/user';
+import { UserService } from '../../pages-login/user.service';
 @Component({
   selector: 'app-case-type',
   templateUrl: './case-type.component.html',
@@ -12,15 +14,17 @@ import { CaseTypeView } from './casetype';
 })
 export class CaseTypeComponent implements OnInit {
 
+  user!:UserView
   caseTypes!: CaseTypeView[]
 
-  constructor(private modalService: NgbModal, private caseService: CaseService) { }
+  constructor(private modalService: NgbModal, private caseService: CaseService, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.user = this.userService.getCurrentUser()
     this.getCaseTypes()
   }
   getCaseTypes() {
-    this.caseService.getCaseType().subscribe({
+    this.caseService.getCaseType(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.caseTypes = res
         console.log('res', res)

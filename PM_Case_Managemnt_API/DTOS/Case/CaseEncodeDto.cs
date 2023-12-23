@@ -70,8 +70,9 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
         public string Representative { get; set; }
         public Guid CreatedBy { get; set; }
         public Guid EncoderEmpId { get; set; }
+        public Guid SubsidiaryOrganizationId { get; set; }
 
-        
+
         //public IFormFile[]? CaseAttachemnts { get; set; }
     }
     public class CaseEncodeGetDto

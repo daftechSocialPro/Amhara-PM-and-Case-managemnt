@@ -1,4 +1,5 @@
 ﻿using PM_Case_Managemnt_API.Models.Common;
+using PM_Case_Managemnt_API.Models.Common.Organization;
 
 namespace PM_Case_Managemnt_API.Models.CaseModel
 {
@@ -12,8 +13,10 @@ namespace PM_Case_Managemnt_API.Models.CaseModel
    
         public string Email { get; set; }
 
-        public string CustomerIdentityNumber { get; set; } = null!;   
-      
+        public string CustomerIdentityNumber { get; set; } = null!;
+        public virtual SubsidiaryOrganization? SubsidiaryOrganization { get; set; }
+        public Guid SubsidiaryOrganizationId { get; set; }
+
 
         public ApplicantType ApplicantType { get; set; }
 

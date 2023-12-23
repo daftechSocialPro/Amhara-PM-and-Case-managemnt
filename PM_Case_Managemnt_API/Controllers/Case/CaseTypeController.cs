@@ -19,11 +19,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
 
         [HttpGet("type")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(Guid subOrgId)
         {
             try
             {
-                return Ok(await _caseTypeService.GetAll());
+                return Ok(await _caseTypeService.GetAll(subOrgId));
             } catch(Exception ex)
             {
                 return StatusCode(500, "Internal Server Error");
@@ -43,12 +43,12 @@ namespace PM_Case_Managemnt_API.Controllers.Case
             }
         }
         [HttpGet("typeSelectList")]
-        public async Task<IActionResult> GetSelectList()
+        public async Task<IActionResult> GetSelectList(Guid subOrgId)
         {
             try
             {
                
-                return Ok(await _caseTypeService.GetAllSelectList());
+                return Ok(await _caseTypeService.GetAllSelectList(subOrgId));
             }
             catch (Exception ex)
             {
@@ -57,12 +57,12 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
 
         [HttpGet("byCaseForm")]
-        public async Task<IActionResult> GetALlBYCaseForm(string caseForm)
+        public async Task<IActionResult> GetALlBYCaseForm(string caseForm, Guid subOrgId)
         {
             try
             {
 
-                return Ok(await _caseTypeService.GetAllByCaseForm(caseForm));
+                return Ok(await _caseTypeService.GetAllByCaseForm(caseForm, subOrgId));
             }
             catch (Exception ex)
             {
