@@ -210,30 +210,15 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
 
             var subOrgName = _dbContext.Cases.Where(x => x.SubsidiaryOrganizationId == subOrgId).OrderByDescending(x => x.CreatedAt).Select(c => c.SubsidiaryOrganization.OrganizationNameEnglish).FirstOrDefault();
 
-            //////
-            //////
-            //////
-            //////
-            string CaseNumber = "DDC2015-";
-            //CHANGE THE CASENUMBER TO BE AUTO GENERATED
-            //////
-            //////
+            
 
-            string[] words = subOrgName.Split(' ');
+            string output = string.Concat(subOrgName.Split(' ')
+                                      .Where(w => !string.IsNullOrWhiteSpace(w))
+                                      .Select(w => char.ToUpper(w[0])));
+            
+            var EthYear = XAPI.EthiopicDateTime.GetEthiopicYear(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
 
-            StringBuilder result = new StringBuilder();
-            foreach (string word in words)
-            {
-                if (!string.IsNullOrWhiteSpace(word))
-                {
-                    char firstLetter = char.ToUpper(word[0]);
-                    result.Append(firstLetter);
-                }
-            }
-
-            string output = result.ToString();
-            Console.WriteLine("OUTPUT121321321", output);
-
+            string CaseNumber = $"{output}{EthYear}-";
 
 
             var latestNumber = _dbContext.Cases.Where(x => x.SubsidiaryOrganizationId == subOrgId).OrderByDescending(x => x.CreatedAt).Select(c => c.CaseNumber).FirstOrDefault();

@@ -7,6 +7,8 @@ import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { IFolder, IRow, IShelf } from 'src/app/pages/common/archive-management/Iarchive';
 import { CaseService } from '../../case.service';
 import { ICaseView } from '../../encode-case/Icase';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 
 @Component({
   selector: 'app-archive-case-action',
@@ -17,6 +19,7 @@ export class ArchiveCaseActionComponent implements OnInit {
 
   @Input() case !: ICaseView
 
+  user!: UserView
   shelfs!: IShelf[]
   rows !: IRow[]
   folders!: IFolder[]
@@ -29,20 +32,21 @@ export class ArchiveCaseActionComponent implements OnInit {
     private activeModal: NgbActiveModal, 
     private commonService: CommonService,
     private formBuilder: FormBuilder,
-    private caseService : CaseService) {
+    private caseService : CaseService,
+    private userService: UserService) {
 
     this.archiveForm= this.formBuilder.group({
       FolderId: ['',Validators.required]
     })
    }
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser()
     this.getShelfs()
   }
 
   getShelfs() {
 
-    this.commonService.getShelf().subscribe({
+    this.commonService.getShelf(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.shelfs = res
       }, error: (err) => {

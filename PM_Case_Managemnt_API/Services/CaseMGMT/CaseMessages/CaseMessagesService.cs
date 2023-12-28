@@ -52,12 +52,12 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseMessagesService
             }
         }
 
-        public async Task<List<CaseUnsentMessagesGetDto>> GetMany(bool messageStatus = false)
+        public async Task<List<CaseUnsentMessagesGetDto>> GetMany(Guid subOrgId, bool messageStatus = false)
         {
             try
             {
 
-                return await (from m in _dbContext.CaseMessages.Include(x => x.Case.Applicant).Include(x => x.Case.CaseType).Where(el => el.Messagestatus.Equals(messageStatus))
+                return await (from m in _dbContext.CaseMessages.Include(x => x.Case.Applicant).Include(x => x.Case.CaseType).Where(el => el.Messagestatus.Equals(messageStatus) && el.Case.SubsidiaryOrganizationId == subOrgId)
                               select new CaseUnsentMessagesGetDto
                               {
                                   Id = m.Id,

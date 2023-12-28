@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PMService } from '../../pm.services';
 import { IPlanReportByProgramDto } from './program-budget-report';
 import * as XLSX from 'xlsx';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
+import { SelectList } from 'src/app/pages/common/common';
+import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 
 @Component({
   selector: 'app-program-budget-report',
@@ -11,18 +15,23 @@ import * as XLSX from 'xlsx';
 })
 export class ProgramBudgetReportComponent implements OnInit {
 
+  subOrgId!: string
+  subOrgSelectList: SelectList[] = []
+  user!: UserView
   serachForm!: FormGroup
   PlanReportByProgramDto!:IPlanReportByProgramDto
   cnt:number = 0
-  constructor(private formBuilder : FormBuilder,private pmService: PMService){
+  constructor(private formBuilder : FormBuilder,private pmService: PMService, private userService: UserService, private orgService: OrganizationService){
 
   }
 
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser()
+    this.getSubOrgSelectList()
     this.serachForm = this.formBuilder.group({
       BudgetYear: ['',Validators.required],
-      ReportBy: ['Quarter']
+      ReportBy: ['Quarter'],
+      SubOrg: ['']
     })    
   }
 
@@ -34,8 +43,14 @@ export class ProgramBudgetReportComponent implements OnInit {
   }
   
   Search(){
-
-    this.pmService.getProgramBudegtReport(this.serachForm.value.BudgetYear,this.serachForm.value.ReportBy).subscribe({
+    
+    if(this.serachForm.value.SubOrg === ''){
+      this.subOrgId = this.user.SubOrgId
+    }
+    else{
+      this.subOrgId = this.serachForm.value.SubOrg
+    }
+    this.pmService.getProgramBudegtReport(this.subOrgId, this.serachForm.value.BudgetYear,this.serachForm.value.ReportBy).subscribe({
       next:(res)=>{
         console.log(res)
      
@@ -47,5 +62,11 @@ export class ProgramBudgetReportComponent implements OnInit {
       }
     })
 
+  }
+  getSubOrgSelectList() {
+    this.orgService.getSubOrgSelectList().subscribe({
+      next: (res) => this.subOrgSelectList = res,
+      error: (err) => console.error(err)
+    })
   }
 }

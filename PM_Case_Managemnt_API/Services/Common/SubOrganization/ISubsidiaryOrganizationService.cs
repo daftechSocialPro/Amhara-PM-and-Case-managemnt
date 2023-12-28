@@ -1,4 +1,5 @@
-﻿using PM_Case_Managemnt_API.DTOS.Common.Organization;
+﻿using PM_Case_Managemnt_API.DTOS.Common;
+using PM_Case_Managemnt_API.DTOS.Common.Organization;
 
 namespace PM_Case_Managemnt_API.Services.Common.SubsidiaryOrganization
 {
@@ -8,6 +9,7 @@ namespace PM_Case_Managemnt_API.Services.Common.SubsidiaryOrganization
         Task<int> CreateSubsidiaryOrganization(SubOrgDto subOrg);
         Task<List<Models.Common.Organization.SubsidiaryOrganization>> GetSubsidiaryOrganization();
         Task<int> UpdateSubsidiaryOrganization(Models.Common.Organization.SubsidiaryOrganization subsidiaryOrganization);
+        Task<List<SelectListDto>> GetSubOrgSelectList();
 
     }
 }

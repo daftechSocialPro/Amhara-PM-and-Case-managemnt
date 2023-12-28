@@ -3,6 +3,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CaseService } from '../../case.service';
 import { DetailReportComponent } from './detail-report/detail-report.component';
 import { ICaseDetailReport } from './Icasedetail';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
+import { SelectList } from 'src/app/pages/common/common';
+import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 
 @Component({
   selector: 'app-case-detail-report',
@@ -11,21 +15,25 @@ import { ICaseDetailReport } from './Icasedetail';
 })
 export class CaseDetailReportComponent implements OnInit {
 
+  subOrgSelectList: SelectList[] = []
+  user!: UserView
   exportColumns?: any[];
   cols?: any [];
   detailReports !: ICaseDetailReport[]
-  constructor(private modalService: NgbModal, private caseService: CaseService) {
+  constructor(private modalService: NgbModal, private caseService: CaseService, private userService: UserService, private orgService: OrganizationService) {
 
   }
   ngOnInit(): void {
-    this.getDetailReports()
+    this.user = this.userService.getCurrentUser()
+    this.getSubOrgSelectList()
+    this.getDetailReports(this.user.SubOrgId)
    
   }
 
-  getDetailReports() {
+  getDetailReports(subOrgId: string) {
 
 
-    this.caseService.GetCaseDetailReport().subscribe({
+    this.caseService.GetCaseDetailReport(subOrgId).subscribe({
       next: (res) => {
 
         this.detailReports = res
@@ -85,6 +93,20 @@ export class CaseDetailReportComponent implements OnInit {
     }
   }
 
+  getSubOrgSelectList() {
+    this.orgService.getSubOrgSelectList().subscribe({
+      next: (res) => this.subOrgSelectList = res,
+      error: (err) => console.error(err)
+    })
+  }
+  onSubChange(event: any) {
+    if (event.target.value !== "") {
+      this.getDetailReports(event.target.value)
+    } 
+    else {
+      this.getDetailReports(this.user.SubOrgId)
+    }
+  }
 
 
 

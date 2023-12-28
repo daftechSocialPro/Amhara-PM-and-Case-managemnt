@@ -27,7 +27,7 @@ export class PmDashboardComponent implements OnInit {
 
     this.user = this.userService.getCurrentUser()
 
-    this.orgService.GetPMBarchart(this.user.EmployeeId).subscribe({
+    this.orgService.GetPMBarchart(this.user.EmployeeId, this.user.SubOrgId).subscribe({
       next: (res) => {
         this.basicData = res
       }, error: (err) => {
@@ -72,7 +72,7 @@ export class PmDashboardComponent implements OnInit {
   constructor(private orgService: OrganizationService, private userService: UserService) { }
 
   getPMDashboardDto() {
-    this.orgService.getPmDashboardReport(this.user.EmployeeId).subscribe({
+    this.orgService.getPmDashboardReport(this.user.EmployeeId, this.user.SubOrgId).subscribe({
       next: (res) => {
         this.IPMDashboardDto = res
       }, error: (err) => {

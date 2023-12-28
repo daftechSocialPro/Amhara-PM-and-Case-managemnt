@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OrganizationService } from '../common/organization/organization.service';
 import { IDashboardDto } from './IDashboard';
+import { UserView } from '../pages-login/user';
+import { UserService } from '../pages-login/user.service';
 declare const $: any
 
 @Component({
@@ -12,12 +14,13 @@ declare const $: any
 export class CasedashboardComponent implements OnInit {
   serachForm!: FormGroup
   dashboardDtos! :IDashboardDto
- 
+  user! : UserView
 
   stackedData:any
   stackedOptions:any
 
   ngOnInit(): void {
+    this.user = this.userService.getCurrentUser()
     $('#startDate').calendarsPicker({
       calendar: $.calendars.instance('ethiopian', 'am'),
       onSelect: (date: any) => {
@@ -89,7 +92,7 @@ export class CasedashboardComponent implements OnInit {
 
   }
 
-  constructor(private orgService: OrganizationService, private formBuilder: FormBuilder) {
+  constructor(private orgService: OrganizationService, private formBuilder: FormBuilder, private userService: UserService) {
     this.serachForm = this.formBuilder.group({
       startDate: [''],
       endDate: ['']
@@ -97,7 +100,7 @@ export class CasedashboardComponent implements OnInit {
   }
 
   getDashboardReport (startAt?: string, endAt?: string) {
-    this.orgService.getDashboardReport(startAt, endAt).subscribe({
+    this.orgService.getDashboardReport(this.user.SubOrgId,startAt, endAt).subscribe({
       next: (res) => {
         this.dashboardDtos = res
       }, error: (err) => {
@@ -108,7 +111,7 @@ export class CasedashboardComponent implements OnInit {
   }
 
   getBarChart (){
-    this.orgService.getDashboardLineChart().subscribe({
+    this.orgService.getDashboardLineChart(this.user.SubOrgId).subscribe({
       next:(res)=>{
         this.stackedData = res 
       },error:(err)=>{

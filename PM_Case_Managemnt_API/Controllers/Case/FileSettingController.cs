@@ -16,10 +16,10 @@ namespace PM_Case_Managemnt_API.Controllers.Case
             _fileSettingsService = fileSettingsService;
         }
         [HttpGet("fileSetting")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(Guid subOrgId)
         {
             try { 
-                return Ok(await _fileSettingsService.GetAll());
+                return Ok(await _fileSettingsService.GetAll(subOrgId));
             }
             catch (Exception ex)
             {

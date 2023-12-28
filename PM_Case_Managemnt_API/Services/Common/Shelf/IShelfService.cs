@@ -5,6 +5,6 @@ namespace PM_Case_Managemnt_API.Services.Common.ShelfService
     public interface IShelfService
     {
         public Task Add(ShelfPostDto shelfPostDto);
-        public Task<List<ShelfGetDto>> GetAll();
+        public Task<List<ShelfGetDto>> GetAll(Guid subOrgId);
     }
 }

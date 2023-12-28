@@ -22,11 +22,11 @@ namespace PM_Case_Managemnt_API.Services.PM.ProgressReport
         }
 
 
-        public async Task<List<DiagramDto>> GetDirectorLevelPerformance(Guid? BranchId)
+        public async Task<List<DiagramDto>> GetDirectorLevelPerformance(Guid subOrgId, Guid? BranchId)
         {
 
-            var orgStructures = _dBContext.OrganizationalStructures.Include(x => x.ParentStructure).ToList();
-            var employess = _dBContext.Employees.ToList();
+            var orgStructures = _dBContext.OrganizationalStructures.Where(x => x.SubsidiaryOrganizationId == subOrgId || x.ParentStructureId == null).Include(x => x.ParentStructure).ToList();
+            var employess = _dBContext.Employees.Where(x => x.OrganizationalStructureId == subOrgId).ToList();
             var childs = new List<DiagramDto>();
 
             var parentStructure = orgStructures.FirstOrDefault(x => x.ParentStructureId == null);
@@ -122,7 +122,7 @@ namespace PM_Case_Managemnt_API.Services.PM.ProgressReport
         }
 
 
-        public async Task<PlanReportByProgramDto> PlanReportByProgram(string BudgetYear, string ReportBy)
+        public async Task<PlanReportByProgramDto> PlanReportByProgram(Guid subOrgId, string BudgetYear, string ReportBy)
         {
             PlanReportByProgramDto prbp = new PlanReportByProgramDto();
 
@@ -134,7 +134,7 @@ namespace PM_Case_Managemnt_API.Services.PM.ProgressReport
 
                     int budgetYearPlan = Convert.ToInt32(BudgetYear);
                     var BudgetYearValue = _dBContext.BudgetYears.Single(x => x.Year == budgetYearPlan);
-                    var ProgLists = _dBContext.Programs.Where(x => x.ProgramBudgetYearId == BudgetYearValue.ProgramBudgetYearId).OrderBy(x => x.CreatedAt).ToList();
+                    var ProgLists = _dBContext.Programs.Where(x => x.ProgramBudgetYearId == BudgetYearValue.ProgramBudgetYearId && x.SubsidiaryOrganizationId == subOrgId).OrderBy(x => x.CreatedAt).ToList();
                     string MeasurementName = "";
                     foreach (var items in ProgLists)
                     {

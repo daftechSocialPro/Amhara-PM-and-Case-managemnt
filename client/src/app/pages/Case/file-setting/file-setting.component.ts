@@ -4,6 +4,8 @@ import { FileSettingView } from '../case-type/casetype';
 import { CaseService } from '../case.service';
 
 import { AddFileSettingComponent } from './add-file-setting/add-file-setting.component';
+import { UserView } from '../../pages-login/user';
+import { UserService } from '../../pages-login/user.service';
 
 @Component({
   selector: 'app-file-setting',
@@ -12,17 +14,18 @@ import { AddFileSettingComponent } from './add-file-setting/add-file-setting.com
 })
 export class FileSettingComponent implements OnInit {
 
-
+  user!:UserView
   fileSettings!: FileSettingView[]
 
-  constructor(private modalService: NgbModal, private caseService: CaseService) { }
+  constructor(private modalService: NgbModal, private caseService: CaseService, private userService: UserService) { }
   ngOnInit(): void {
+    this.user = this.userService.getCurrentUser()
    this.getFileSettingList()
   }
 
   getFileSettingList() {
 
-    this.caseService.getFileSetting().subscribe({
+    this.caseService.getFileSetting(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.fileSettings = res
       }, error: (err) => {

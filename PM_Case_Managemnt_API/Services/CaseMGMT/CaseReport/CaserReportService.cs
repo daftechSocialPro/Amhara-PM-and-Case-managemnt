@@ -23,10 +23,10 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         {
             _dbContext = dbContext;
         }
-        public async Task<List<CaseReportDto>> GetCaseReport(string? startAt, string? endAt)
+        public async Task<List<CaseReportDto>> GetCaseReport(Guid subOrgId, string? startAt, string? endAt)
         {
 
-            var allAffairs = _dbContext.Cases.Include(a => a.CaseType)
+            var allAffairs = _dbContext.Cases.Where(x => x.SubsidiaryOrganizationId == subOrgId).Include(a => a.CaseType)
                .Include(a => a.CaseHistories).ToList();
 
             if (!string.IsNullOrEmpty(startAt))
@@ -95,18 +95,13 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
         }
 
-        public async Task<CaseReportChartDto> GetCasePieChart(string? startAt, string? endAt)
+        public async Task<CaseReportChartDto> GetCasePieChart(Guid subOrgId, string? startAt, string? endAt)
         {
-            var report = _dbContext.CaseTypes.ToList();
+            var report = _dbContext.CaseTypes.Where(x => x.SubsidiaryOrganizationId == subOrgId).ToList();           
             var report2 = (from q in report
-                           join
-          b in _dbContext.Cases on q.Id equals b.CaseTypeId
-                           select
-                           new
-                           {
-                               q.CaseTypeTitle
-                           }).Distinct();
-
+                           join b in _dbContext.Cases on q.Id equals b.CaseTypeId
+                           where b.SubsidiaryOrganizationId == subOrgId  // Apply the constraint here
+                           select new { q.CaseTypeTitle }).Distinct();
 
             var Chart = new CaseReportChartDto();
 
@@ -168,11 +163,11 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
             return Chart;
         }
 
-        public async Task<CaseReportChartDto> GetCasePieCharByCaseStatus(string? startAt, string? endAt)
+        public async Task<CaseReportChartDto> GetCasePieCharByCaseStatus(Guid subOrgId, string? startAt, string? endAt)
         {
 
 
-            var allAffairs = _dbContext.Cases.Where(x => x.CaseNumber != null);
+            var allAffairs = _dbContext.Cases.Where(x => x.CaseNumber != null && x.SubsidiaryOrganizationId == subOrgId);
 
 
 
@@ -225,7 +220,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         }
 
 
-        public async Task<List<EmployeePerformance>> GetCaseEmployeePerformace(string key, string OrganizationName)
+        public async Task<List<EmployeePerformance>> GetCaseEmployeePerformace(Guid subOrgId, string key, string OrganizationName)
         {
 
             List<Employee> employees = new List<Employee>();
@@ -233,7 +228,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
             EmployeePerformance eachPerformance = new EmployeePerformance();
             var empPerformance = new List<EmployeePerformance>();
 
-            var employeeList = _dbContext.Employees.Include(x => x.OrganizationalStructure)                
+            var employeeList = _dbContext.Employees.Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId).Include(x => x.OrganizationalStructure)                
                 .ToList();
 
             if (!string.IsNullOrEmpty(OrganizationName))
@@ -318,9 +313,9 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         
 
 
-        public async Task<List<SMSReportDto>> GetSMSReport(string? startAt, string? endAt)
+        public async Task<List<SMSReportDto>> GetSMSReport(Guid subOrgId, string? startAt, string? endAt)
         {
-            var AffairMessages = _dbContext.CaseMessages.Include(x => x.Case.CaseType).Include(x => x.Case.Employee).Include(x => x.Case.Applicant).Select(y => new
+            var AffairMessages = _dbContext.CaseMessages.Where(x => x.Case.SubsidiaryOrganizationId == subOrgId).Include(x => x.Case.CaseType).Include(x => x.Case.Employee).Include(x => x.Case.Applicant).Select(y => new
 
             SMSReportDto
             {
@@ -357,7 +352,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         }
 
 
-        public async Task<List<CaseDetailReportDto>> GetCaseDetail(string key)
+        public async Task<List<CaseDetailReportDto>> GetCaseDetail(Guid subOrgId, string key)
         {
 
             if (string.IsNullOrEmpty(key))
@@ -366,10 +361,10 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
             }
 
             var result = new List<CaseDetailReportDto>();
-            var affairs = _dbContext.Cases.Where(x => x.Applicant.ApplicantName.Contains(key)
+            var affairs = _dbContext.Cases.Where(x => x.SubsidiaryOrganizationId == subOrgId && (x.Applicant.ApplicantName.Contains(key)
                                                  || x.CaseNumber.Contains(key)
                                                  || x.LetterNumber.Contains(key)
-                                                 || x.Applicant.PhoneNumber.Contains(key))
+                                                 || x.Applicant.PhoneNumber.Contains(key)))
                                                  .Include(a => a.Applicant)
                                                  .Include(a => a.Employee)
                                                  .Include(a => a.CaseType)

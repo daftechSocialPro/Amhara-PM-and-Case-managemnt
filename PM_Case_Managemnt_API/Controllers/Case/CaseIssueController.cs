@@ -33,11 +33,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
 
         [HttpGet("getNotCompletedCases")]
-        public async Task<IActionResult> GetNotCompletedCases()
+        public async Task<IActionResult> GetNotCompletedCases(Guid subOrgId)
         {
             try
             {
-             var results =    await _caseIssueService.GetNotCompletedCases();
+             var results =    await _caseIssueService.GetNotCompletedCases(subOrgId);
                 return Ok(results);
             }
             catch (Exception ex)

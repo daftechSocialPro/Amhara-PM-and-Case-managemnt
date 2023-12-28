@@ -73,7 +73,7 @@ export class AddActivitiesComponent implements OnInit {
       }
     })
 
-    this.orgService.getUnitOfMeasurmentSelectList().subscribe({
+    this.orgService.getUnitOfMeasurmentSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.unitMeasurments = res
       }, error: (err) => {

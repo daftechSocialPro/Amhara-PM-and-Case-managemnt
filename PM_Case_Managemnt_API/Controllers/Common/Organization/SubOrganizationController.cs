@@ -39,7 +39,7 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
 
         [HttpGet]
 
-        public async Task<List<SubsidiaryOrganization>> getSubsidiaryorganization()
+        public async Task<List<SubsidiaryOrganization>> getSubsidiaryOrganization()
         {
             return await _subOrganizationService.GetSubsidiaryOrganization();
         }
@@ -108,5 +108,14 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
                 return StatusCode(500, $"Internal Server Error : {ex}");
             }
         }
+
+        [HttpGet("selectlist")]
+
+        public async Task<List<SelectListDto>> GetSubsidiaryOrganizationSelectList()
+        {
+
+            return await _subOrganizationService.GetSubOrgSelectList();
+        }
+
     }
 }

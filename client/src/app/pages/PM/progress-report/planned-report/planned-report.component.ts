@@ -16,6 +16,8 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 })
 export class PlannedReportComponent implements OnInit {
 
+  subOrgId!: string
+  subOrgSelectList: SelectList[] = []
   serachForm!: FormGroup
   plannedreport  !: IPlannedReport
   branchs!: SelectList[]
@@ -35,29 +37,20 @@ export class PlannedReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
+    this.getSubOrgSelectList()
     this.serachForm = this.formBuilder.group({
       BudgetYear: ['', Validators.required],
       selectStructureId: ['', Validators.required],
-      ReportBy: ['Quarter']
+      ReportBy: ['Quarter'],
+      SubOrg:['']
     })
 
-    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
-      next: (res) => {
+    this.GetBranchSelectList(this.user.SubOrgId)
+    this.GetProgramSelectList(this.user.SubOrgId)
 
-        this.branchs = res
-      }, error: (err) => {
-        console.error(err)
-      }
-    })
+    
 
-    this.pmService.getProgramSelectList().subscribe({
-      next: (res) => {
-        this.programs = res
-        console.log(res)
-      }, error: (err) => {
-        console.error(err)
-      }
-    })
+    
 
 
   }
@@ -101,6 +94,47 @@ export class PlannedReportComponent implements OnInit {
     return Array.from({ length }, (_, i) => i);
   }
 
+  getSubOrgSelectList() {
+    this.orgService.getSubOrgSelectList().subscribe({
+      next: (res) => this.subOrgSelectList = res,
+      error: (err) => console.error(err)
+    })
+  }
+  onSubOrgChange(event: any) {
+    if (event.target.value !== "") {
+      
+      this.GetProgramSelectList(event.target.value)
+      this.GetBranchSelectList(event.target.value)
+     
+    } else {
+      this.GetBranchSelectList(this.user.SubOrgId)
+      this.GetProgramSelectList(this.user.SubOrgId)
+    }
+    
+  }
+  GetBranchSelectList(subOrgId:string){
+    this.orgService.getOrgBranchSelectList(subOrgId).subscribe({
+      next: (res) => {
+
+        this.branchs = res
+      }, error: (err) => {
+        console.error(err)
+      }
+    })
+
+  }
+
+  GetProgramSelectList(subOrgId:string){
+    this.pmService.getProgramSelectList(subOrgId).subscribe({
+      next: (res) => {
+        this.programs = res
+        console.log(res)
+      }, error: (err) => {
+        console.error(err)
+      }
+    })
+
+  }
 
 
 }

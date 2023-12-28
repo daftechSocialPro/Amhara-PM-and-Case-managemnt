@@ -9,6 +9,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CommonService } from 'src/app/common/common.service';
 import * as XLSX from 'xlsx';
+import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 
 @Component({
   selector: 'app-progress-report',
@@ -17,6 +18,8 @@ import * as XLSX from 'xlsx';
 })
 export class ProgressReportComponent implements OnInit {
 
+  subOrgId!: string
+  subOrgSelectList: SelectList[] = []
   serachForm!: FormGroup
   progressReport  !: any
   user !: UserView
@@ -26,18 +29,20 @@ export class ProgressReportComponent implements OnInit {
   tasks!: SelectList[]
   activities!: SelectList[]
   actparents!: SelectList[]
-
+  
 
   constructor(
     private formBuilder: FormBuilder,
     private pmService: PMService,
     private commonService: CommonService,
-    private userService : UserService) {
+    private userService : UserService,
+    private orgService: OrganizationService) {
 
   }
 
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser()
+    this.getSubOrgSelectList()
     this.serachForm = this.formBuilder.group({
       BudgetYear: ['', Validators.required],
       programId: ['', Validators.required],
@@ -45,23 +50,11 @@ export class ProgressReportComponent implements OnInit {
       taskId: [''],
       actParentId : [null],
       activityId: [null],
-      ReportBy: ['Quarter']
+      ReportBy: ['Quarter'],
+      SubOrg: ['']
     })
 
-
-
-    this.pmService.getProgramSelectList().subscribe({
-      next: (res) => {
-        this.programs = res
-        console.log(res)
-      }, error: (err) => {
-        console.error(err)
-      }
-    })
-
-    this.user = this.userService.getCurrentUser()
-
-
+    this.GetProgramSelectlist(this.user.SubOrgId)
   }
 
   
@@ -162,6 +155,39 @@ exportTableToExcel(table: HTMLElement, fileName: string): void {
     //let percentage = (completed / act) * 100
     const styles = { 'width': act + "%" };
     return styles;
+  }
+
+
+  getSubOrgSelectList() {
+    this.orgService.getSubOrgSelectList().subscribe({
+      next: (res) => this.subOrgSelectList = res,
+      error: (err) => console.error(err)
+    })
+  }
+  onSubOrgChange(event: any) {
+    if (event.target.value !== "") {
+
+      this.GetProgramSelectlist(event.target.value)
+
+    } 
+    else {
+      this.GetProgramSelectlist(this.user.SubOrgId)
+      
+    }
+    
+  }
+
+  GetProgramSelectlist(subOrgId: string){
+
+    this.pmService.getProgramSelectList(subOrgId).subscribe({
+      next: (res) => {
+        this.programs = res
+        console.log(res)
+      }, error: (err) => {
+        console.error(err)
+      }
+    })
+
   }
 
 

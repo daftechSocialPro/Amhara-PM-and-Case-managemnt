@@ -6,6 +6,8 @@ import { AddRowComponent } from './add-row/add-row.component';
 
 import { AddShelfComponent } from './add-shelf/add-shelf.component';
 import { IFolder, IRow, IShelf } from './Iarchive';
+import { UserView } from '../../pages-login/user';
+import { UserService } from '../../pages-login/user.service';
 
 @Component({
   selector: 'app-archive-management',
@@ -14,17 +16,18 @@ import { IFolder, IRow, IShelf } from './Iarchive';
 })
 export class ArchiveManagementComponent implements OnInit {
 
-
+  user!: UserView
   shelfs !: IShelf[];
   rows !: IRow[];
   folders ! : IFolder[];
   shelf !: IShelf;
   row!: IRow;
 
-  constructor(private modalService: NgbModal, private commonService: CommonService) { }
+  constructor(private modalService: NgbModal, private commonService: CommonService, private userService: UserService) { }
 
 
   ngOnInit(): void {
+    this.user = this.userService.getCurrentUser()
     this.getShelfs();
   }
 
@@ -36,7 +39,7 @@ export class ArchiveManagementComponent implements OnInit {
   }
 
   getShelfs() {
-    this.commonService.getShelf().subscribe(({
+    this.commonService.getShelf(this.user.SubOrgId).subscribe(({
       next: (res) => {
         this.shelfs = res
       }, error: (err) => {

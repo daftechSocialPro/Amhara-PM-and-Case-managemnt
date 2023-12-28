@@ -4,6 +4,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IndividualConfig } from 'ngx-toastr';
 import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { OrganizationService } from '../../organization/organization.service';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 
 @Component({
   selector: 'app-add-measurement',
@@ -15,24 +17,26 @@ export class AddMeasurementComponent {
 
 
   @Output() result = new EventEmitter<boolean>();
-
+  user!: UserView
   toast !: toastPayload;
   measurmentForm!: FormGroup
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal) { }
+  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal, private userService: UserService) { }
 
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser()
     this.measurmentForm = this.formBuilder.group({
       Name: ['', Validators.required],
       LocalName: ['', Validators.required],
       Type: ['', Validators.required],
-      Remark: ['']
+      Remark: [''],
+      SubsidiaryOrganizationId: [this.user.SubOrgId]
     });
   }
 
   submit() {
 
+    
     if (this.measurmentForm.valid) {
       this.orgService.unitOfMeasurmentCreate(this.measurmentForm.value).subscribe({
 

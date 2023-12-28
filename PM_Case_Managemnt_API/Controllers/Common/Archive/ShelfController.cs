@@ -31,11 +31,11 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Archive
         }
 
         [HttpGet("shelf")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(Guid subOrgId)
         {
             try
             {
-                return Ok(await _shelfService.GetAll());
+                return Ok(await _shelfService.GetAll(subOrgId));
             }
             catch (Exception ex)
             {

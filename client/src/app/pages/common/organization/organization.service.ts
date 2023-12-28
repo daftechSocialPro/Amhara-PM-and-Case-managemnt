@@ -11,6 +11,7 @@ import { OrganizationBranch } from './org-branch/org-branch';
 import { OrganizationProfile } from './org-profile/org-profile';
 import { OrganizationalStructure } from './org-structure/org-structure';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -39,6 +40,10 @@ export class OrganizationService {
   }
   GetSubOrgs(){
     return this.http.get(this.BaseURI+"/SubOrganization")
+  }
+
+  getSubOrgSelectList(){
+    return this.http.get<SelectList[]>(this.BaseURI+ "/SubOrganization/selectlist")
   }
 
   // branch
@@ -124,12 +129,12 @@ export class OrganizationService {
 
 
 
-  getUnitOfMeasurment() {
-    return this.http.get<UnitMeasurment[]>(this.BaseURI + "/UnitOfMeasurment")
+  getUnitOfMeasurment(subOrgId: string) {
+    return this.http.get<UnitMeasurment[]>(this.BaseURI + "/UnitOfMeasurment?subOrgId=" + subOrgId)
   }
 
-  getUnitOfMeasurmentSelectList() {
-    return this.http.get<SelectList[]>(this.BaseURI + "/UnitOfMeasurment/unitmeasurmentlist")
+  getUnitOfMeasurmentSelectList(subOrgId: string) {
+    return this.http.get<SelectList[]>(this.BaseURI + "/UnitOfMeasurment/unitmeasurmentlist?subOrgId=" + subOrgId)
   }
 
   GetEmployeesById(employeeId : string){
@@ -137,23 +142,23 @@ export class OrganizationService {
     return this.http.get<Employee>(this.BaseURI+"/Employee/GetEmployeesById?employeeId="+employeeId)
   }
 
-  getDashboardReport (startAt?:string ,endAt?:string){
+  getDashboardReport (subOrgId:string, startAt?:string ,endAt?:string){
 
-    return this.http.get<IDashboardDto>(this.BaseURI+"/Dashboard/GetDashboardCaseReport?startAt="+startAt+"&endAt="+endAt)
+    return this.http.get<IDashboardDto>(this.BaseURI+"/Dashboard/GetDashboardCaseReport?subOrgId=" +subOrgId + "&startAt="+startAt+"&endAt="+endAt)
   }
 
-  getPmDashboardReport (empId:string){
+  getPmDashboardReport (empId:string, subOrgId:string){
 
-    return this.http.get<IPMDashboard>(this.BaseURI+"/Dashboard/GetPMDashboardDto?empId="+empId)
+    return this.http.get<IPMDashboard>(this.BaseURI+"/Dashboard/GetPMDashboardDto?empId=" + empId + "&subOrgId=" + subOrgId)
   }
 
-  GetPMBarchart(empId:string){
-    return this.http.get<any>(this.BaseURI+"/Dashboard/GetPMBarchart?empId="+empId)
+  GetPMBarchart(empId:string, subOrgId: string){
+    return this.http.get<any>(this.BaseURI+"/Dashboard/GetPMBarchart?empId="+empId+ "&subOrgId=" + subOrgId)
   }
 
-  getDashboardLineChart(){
+  getDashboardLineChart(subOrgId:string){
 
-    return this.http.get<barChartDto>(this.BaseURI+"/Dashboard/GetMonthlyReportBarChart")
+    return this.http.get<barChartDto>(this.BaseURI+"/Dashboard/GetMonthlyReportBarChart?subOrgId=" + subOrgId)
   }
   
 

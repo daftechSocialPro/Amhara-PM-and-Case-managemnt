@@ -44,7 +44,8 @@ export class AddShelfComponent implements OnInit {
       this.commonService.postShelf({
         ShelfNumber: this.shelfForm.value.ShelfNumber,
         Remark: this.shelfForm.value.Remark,
-        CreatedBy: this.user.UserID
+        CreatedBy: this.user.UserID,
+        SubsidiaryOrganizationId: this.user.SubOrgId
       }).subscribe({
         next: (res) => {
 

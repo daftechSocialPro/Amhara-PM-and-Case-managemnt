@@ -16,6 +16,8 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 })
 export class EstimatedCoastComponent implements OnInit {
 
+  subOrgId!: string
+  subOrgSelectList: SelectList[] = []
   serachForm!: FormGroup
   estimatedCosts  !: any
   branchs!: SelectList[]
@@ -33,20 +35,16 @@ export class EstimatedCoastComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
+    this.getSubOrgSelectList()
     this.serachForm = this.formBuilder.group({
       BudgetYear: ['', Validators.required],
       selectStructureId: ['', Validators.required],
       ReportBy: ['Quarter']
     })
 
-    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
-      next: (res) => {
+    this.GetBranchSelectList(this.user.SubOrgId)
 
-        this.branchs = res
-      }, error: (err) => {
-        console.error(err)
-      }
-    })
+    
 
    
 
@@ -89,6 +87,37 @@ export class EstimatedCoastComponent implements OnInit {
 
   range(length: number) {
     return Array.from({ length }, (_, i) => i);
+  }
+
+  getSubOrgSelectList() {
+    this.orgService.getSubOrgSelectList().subscribe({
+      next: (res) => this.subOrgSelectList = res,
+      error: (err) => console.error(err)
+    })
+  }
+  onSubOrgChange(event: any) {
+    if (event.target.value !== "") {
+    
+      this.GetBranchSelectList(event.target.value)
+     
+    }
+    else {
+
+      this.GetBranchSelectList(this.user.SubOrgId)
+      
+    }
+    
+  }
+
+  GetBranchSelectList(subOrgId: string){
+    this.orgService.getOrgBranchSelectList(subOrgId).subscribe({
+      next: (res) => {
+
+        this.branchs = res
+      }, error: (err) => {
+        console.error(err)
+      }
+    })
   }
 
 }

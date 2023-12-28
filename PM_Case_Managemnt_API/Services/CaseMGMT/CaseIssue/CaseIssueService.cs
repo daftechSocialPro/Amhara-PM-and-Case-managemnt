@@ -21,11 +21,11 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
             _authenticationContext = authenticationContext;
         }
 
-        public async Task<List<CaseEncodeGetDto>> GetNotCompletedCases()
+        public async Task<List<CaseEncodeGetDto>> GetNotCompletedCases(Guid subOrgId)
         {
             try
             {
-                List<CaseEncodeGetDto> cases = await _dbContext.Cases.Where(ca => ca.AffairStatus != AffairStatus.Completed).Include(p => p.Employee).Include(p => p.CaseType).Include(p => p.Applicant).Select(st => new CaseEncodeGetDto
+                List<CaseEncodeGetDto> cases = await _dbContext.Cases.Where(ca => ca.AffairStatus != AffairStatus.Completed && ca.SubsidiaryOrganizationId == subOrgId).Include(p => p.Employee).Include(p => p.CaseType).Include(p => p.Applicant).Select(st => new CaseEncodeGetDto
                 {
                     Id = st.Id,
                     CaseNumber = st.CaseNumber,

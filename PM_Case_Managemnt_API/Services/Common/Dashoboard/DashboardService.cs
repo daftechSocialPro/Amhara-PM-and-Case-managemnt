@@ -26,7 +26,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
         {
             _dBContext = context;
         }
-        public async Task<DashboardDto> GetPendingCase(string startat, string endat)
+        public async Task<DashboardDto> GetPendingCase(Guid subOrgId, string startat, string endat)
         {
 
             var allAffairps = _dBContext.Cases
@@ -35,7 +35,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
                 .Include(a => a.CaseHistories)
                             .Include(a => a.Employee.OrganizationalStructure)
                 .Where(a =>
-                a.CreatedAt.Month == DateTime.Now.Month);
+                a.CreatedAt.Month == DateTime.Now.Month && a.SubsidiaryOrganizationId == subOrgId);
             allAffairps = allAffairps.Where(x => x.AffairStatus != AffairStatus.Completed);
 
             //if (startAt != null)
@@ -178,7 +178,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
 
 
-        public async Task<barChartDto> GetMonthlyReport()
+        public async Task<barChartDto> GetMonthlyReport(Guid subOrgId)
         {
 
             barChartDto barChart = new barChartDto();
@@ -187,7 +187,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
 
 
-            var allAffairs = _dBContext.Cases.Include(x=>x.CaseType).Where(x => x.CreatedAt.Year == DateTime.Now.Year).ToList();
+            var allAffairs = _dBContext.Cases.Include(x=>x.CaseType).Where(x => x.CreatedAt.Year == DateTime.Now.Year && x.SubsidiaryOrganizationId == subOrgId).ToList();
             var allAffairTypes = _dBContext.CaseTypes.Where(x => x.RowStatus == RowStatus.Active && x.ParentCaseTypeId == null && x.CaseForm == CaseForm.Outside).ToList();
             var monthList = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
             foreach (var affairType in allAffairTypes)
@@ -221,7 +221,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
         }
 
 
-        public async Task<PMDashboardDto> GetPMDashboardDto(Guid empID)
+        public async Task<PMDashboardDto> GetPMDashboardDto(Guid empID, Guid subOrgId)
         {
            
             var Employee =   _dBContext.Employees.Find(empID);
@@ -233,25 +233,25 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
             var thisBudgetYear = _dBContext.BudgetYears.Single(x => x.RowStatus == RowStatus.Active);
             budget = thisBudgetYear;
             
-            var prog = _dBContext.Programs.Where(x => x.RowStatus == RowStatus.Active && x.ProgramBudgetYearId == thisBudgetYear.ProgramBudgetYearId).ToList();
+            var prog = _dBContext.Programs.Where(x => x.RowStatus == RowStatus.Active && x.ProgramBudgetYearId == thisBudgetYear.ProgramBudgetYearId && x.SubsidiaryOrganizationId == subOrgId).ToList();
             var plans = _dBContext.Plans.Include(x=>x.Activities)
                 .Include(x=>x.Tasks).ThenInclude(a => a.Activities)
-                .Include(x => x.Tasks).ThenInclude(a => a.ActivitiesParents).ThenInclude(a => a.Activities).Where(x => x.RowStatus == RowStatus.Active && (x.BudgetYearId == thisBudgetYear.Id || x.Program.ProgramBudgetYearId == thisBudgetYear.ProgramBudgetYearId)).ToList();
+                .Include(x => x.Tasks).ThenInclude(a => a.ActivitiesParents).ThenInclude(a => a.Activities).Where(x => x.RowStatus == RowStatus.Active && (x.BudgetYearId == thisBudgetYear.Id || x.Program.ProgramBudgetYearId == thisBudgetYear.ProgramBudgetYearId) && x.Program.SubsidiaryOrganizationId == subOrgId).ToList();
             if (structureId != Guid.Empty)
             {
                 // prog = prog.Where(x => x.StructureId == structureId).ToList();
                 plans = plans.Where(x => x.StructureId == structureId).ToList();
             }
 
-            ExpiredItems();
-            PlansProgress();
+            ExpiredItems(subOrgId);
+            PlansProgress(subOrgId);
             PMDashboardDto pMDashboard = new PMDashboardDto
             {
                 CountPrograms = prog.Count(),
                 CountBudget = plans.Sum(x => x.PlandBudget),
                 CountUsedBudget = plans.Sum(x => x.Activities.Sum(y => y.ActualBudget)) + plans.Sum(x => x.Tasks.Sum(y => y.Activities.Sum(z => z.ActualBudget))) + plans.Sum(x => x.Tasks.Sum(y => y.ActivitiesParents.Sum(a => a.Activities.Sum(z => z.ActualBudget)))),
                 TotalProjects = plans.Count(),
-                TotalContribution = CommisionerPerformanceThisYear(),
+                TotalContribution = CommisionerPerformanceThisYear(subOrgId),
                 BudgetYear = thisBudgetYear.Year,
                 ProjectLists = ProjectLists,
                 AboutToExpireProjects = aboutToExpireProjects
@@ -262,7 +262,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
 
         }
-        public float CommisionerPerformanceThisYear()
+        public float CommisionerPerformanceThisYear(Guid subOrgId)
         {
             float totalContribution = 0;
             ps = new List<progress_Strucure>();
@@ -285,7 +285,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
                         .Include(x => x.Activities)
                 .Include(x => x.Tasks).ThenInclude(a => a.Activities)
                 .Include(x => x.Tasks).ThenInclude(a => a.ActivitiesParents)
-                .ThenInclude(a => a.Activities).Where(x => x.StructureId == structureRow.Id && (x.BudgetYear.Id == budget.Id || x.Program.ProgramBudgetYearId == budget.ProgramBudgetYearId));
+                .ThenInclude(a => a.Activities).Where(x => x.StructureId == structureRow.Id && (x.BudgetYear.Id == budget.Id || x.Program.ProgramBudgetYearId == budget.ProgramBudgetYearId) && x.Program.SubsidiaryOrganizationId == subOrgId);
                     foreach (var planItems in Plans)
                     {
                         float BeginingPlan = 0;
@@ -383,7 +383,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
                 var Plans = _dBContext.Plans.Include(x=>x.Program)
                     .Include(x => x.Activities)
                 .Include(x => x.Tasks).ThenInclude(a => a.Activities)
-                .Include(x => x.Tasks).ThenInclude(a => a.ActivitiesParents).ThenInclude(a => a.Activities).Where(x => x.StructureId == structu.Id && (x.BudgetYear.Id == budget.Id || x.Program.ProgramBudgetYearId == budget.ProgramBudgetYearId))
+                .Include(x => x.Tasks).ThenInclude(a => a.ActivitiesParents).ThenInclude(a => a.Activities).Where(x => x.StructureId == structu.Id && (x.BudgetYear.Id == budget.Id || x.Program.ProgramBudgetYearId == budget.ProgramBudgetYearId) && x.Program.SubsidiaryOrganizationId == subOrgId)
                 .ToList();
                 foreach (var planItems in Plans)
                 {
@@ -475,7 +475,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
             return totalContribution;
 
         }
-        public void ExpiredItems()
+        public void ExpiredItems(Guid subOrgId)
         {
             var BudgetYear = _dBContext.BudgetYears.Single(x => x.RowStatus == RowStatus.Active);
             int Month = XAPI.EthiopicDateTime.GetEthiopicMonth(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
@@ -504,7 +504,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
                 .Include(x => x.Activity).ThenInclude(a => a.Task).ThenInclude(p => p.Plan).ThenInclude(s => s.Structure)
                 .Include(x => x.Activity).ThenInclude(a => a.ActivityParent)
                 .ThenInclude(a => a.Task).ThenInclude(p => p.Plan).ThenInclude(s => s.Structure)
-                .Where(x => x.Order < i && x.Target != 0).ToList();
+                .Where(x => x.Order < i && x.Target != 0 && x.Activity.Plan.Program.SubsidiaryOrganizationId == subOrgId).ToList();
             if (structureId != Guid.Empty)
             {
                 AboutToExpireList = AboutToExpireList.Where(x => (x.Activity.ActivityParentId != null ? x.Activity.ActivityParent.Task.Plan.StructureId : x.Activity.TaskId != null ? x.Activity.Task.Plan.StructureId : x.Activity.Plan.StructureId) == structureId).ToList();
@@ -554,13 +554,13 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
         }
 
-        public void PlansProgress()
+        public void PlansProgress(Guid subOrgId)
         {
             var Plans = _dBContext.Plans
                 .Include(x=>x.BudgetYear)
                 .Include(x => x.Activities)
                 .Include(x => x.Tasks).ThenInclude(a => a.Activities)
-                .Include(x => x.Tasks).ThenInclude(a => a.ActivitiesParents).ThenInclude(a => a.Activities).Where(x => x.RowStatus == RowStatus.Active && x.BudgetYearId == budget.Id || x.BudgetYear.ProgramBudgetYearId == budget.ProgramBudgetYearId).ToList();
+                .Include(x => x.Tasks).ThenInclude(a => a.ActivitiesParents).ThenInclude(a => a.Activities).Where(x => x.RowStatus == RowStatus.Active && x.BudgetYearId == budget.Id || x.BudgetYear.ProgramBudgetYearId == budget.ProgramBudgetYearId && x.Program.SubsidiaryOrganizationId == subOrgId).ToList();
             if (structureId != Guid.Empty)
             {
                 Plans = Plans.Where(x => x.StructureId == structureId).ToList();
@@ -677,7 +677,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
 
 
-        public async Task<PmDashboardBarchartDto> BudgetYearVsContribution(Guid empID)
+        public async Task<PmDashboardBarchartDto> BudgetYearVsContribution(Guid empID, Guid subOrgId)
         {
 
             var Employee = _dBContext.Employees.Find(empID);
@@ -724,7 +724,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
                     float ActualPlan = 0;
                     float Goal = 0;
                     float Progress = 0;
-                    var Plans = _dBContext.Plans.Include(x=>x.Program).Where(x => x.StructureId == structureRow.Id && (x.Program.ProgramBudgetYearId == BudgetItems.ProgramBudgetYearId || x.BudgetYearId == BudgetItems.Id));
+                    var Plans = _dBContext.Plans.Include(x=>x.Program).Where(x => x.StructureId == structureRow.Id && (x.Program.ProgramBudgetYearId == BudgetItems.ProgramBudgetYearId || x.BudgetYearId == BudgetItems.Id) && x.Program.SubsidiaryOrganizationId == subOrgId);
                     foreach (var planItems in Plans)
                     {
                         float BeginingPercent = 0;

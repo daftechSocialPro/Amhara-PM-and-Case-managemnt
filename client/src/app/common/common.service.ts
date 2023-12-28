@@ -94,9 +94,9 @@ export class CommonService {
     return this.http.post(this.baseUrl + "/archive/shelf", shelf)
   }
 
-  getShelf() {
+  getShelf(subOrgId: string) {
 
-    return this.http.get<IShelf[]>(this.baseUrl + "/archive/shelf")
+    return this.http.get<IShelf[]>(this.baseUrl + "/archive/shelf?subOrgId=" + subOrgId)
   }
 
 

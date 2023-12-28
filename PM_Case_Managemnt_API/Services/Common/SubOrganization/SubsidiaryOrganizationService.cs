@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
+using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.Common.Organization;
 using PM_Case_Managemnt_API.Models.Auth;
 using PM_Case_Managemnt_API.Models.Common;
@@ -91,6 +92,23 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
             _dBContext.Entry(subsidiaryOrganization).State = EntityState.Modified;
             await _dBContext.SaveChangesAsync();
             return 1;
+
+        }
+
+        public async Task<List<SelectListDto>> GetSubOrgSelectList()
+        {
+            var EmployeeSelectList = await (from e in _dBContext.SubsidiaryOrganizations
+
+                                            select new SelectListDto
+                                            {
+                                                Id = e.Id,
+                                                Name = e.OrganizationNameEnglish
+
+                                            }).ToListAsync();
+
+            return EmployeeSelectList;
+
+
 
         }
 

@@ -9,7 +9,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
     public interface ICaseIssueService
     {
 
-        public Task<List<CaseEncodeGetDto>> GetNotCompletedCases();
+        public Task<List<CaseEncodeGetDto>> GetNotCompletedCases(Guid subOrgId);
 
         public Task IssueCase(CaseIssueDto caseAssignDto);
 

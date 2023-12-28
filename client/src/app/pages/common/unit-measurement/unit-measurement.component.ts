@@ -6,6 +6,8 @@ import { OrganizationService } from '../organization/organization.service';
 import { AddMeasurementComponent } from './add-measurement/add-measurement.component';
 import { UnitMeasurment } from './unit-measurment';
 import { UpdateMeasurmentComponent } from './update-measurment/update-measurment.component';
+import { UserView } from '../../pages-login/user';
+import { UserService } from '../../pages-login/user.service';
 
 @Component({
   selector: 'app-unit-measurement',
@@ -14,22 +16,25 @@ import { UpdateMeasurmentComponent } from './update-measurment/update-measurment
 })
 export class UnitMeasurementComponent {
 
+  user!: UserView
   unitOfMeasurments: UnitMeasurment[] = [];
   toast!: toastPayload;
 
 
 
-  constructor(private orgService: OrganizationService, private commonService: CommonService, private modalService: NgbModal) {
+  constructor(private orgService: OrganizationService, private commonService: CommonService, private modalService: NgbModal, private userService: UserService) {
+    this.user = this.userService.getCurrentUser()
     this.unitOfMeasurmentsList();
   }
 
   ngOnInit(): void {
+    
     this.unitOfMeasurmentsList();
   }
 
 
   unitOfMeasurmentsList() {
-    this.orgService.getUnitOfMeasurment().subscribe({
+    this.orgService.getUnitOfMeasurment(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.unitOfMeasurments = res
        

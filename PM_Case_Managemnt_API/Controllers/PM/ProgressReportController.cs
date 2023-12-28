@@ -19,11 +19,11 @@ namespace PM_Case_Managemnt_API.Controllers.PM
 
 
         [HttpGet("DirectorLevelPerformance")]
-        public async Task<IActionResult> GetOrganizationDiaram(Guid? BranchId)
+        public async Task<IActionResult> GetOrganizationDiaram(Guid subOrgId, Guid? BranchId)
         {
             try
             {
-                return Ok(await _progressReportService.GetDirectorLevelPerformance(BranchId));
+                return Ok(await _progressReportService.GetDirectorLevelPerformance(subOrgId, BranchId));
             }
             catch (Exception ex)
             {
@@ -31,11 +31,11 @@ namespace PM_Case_Managemnt_API.Controllers.PM
             }
         }
         [HttpGet("ProgramBudgetReport")]
-        public async Task<IActionResult> ProgramBudgetReport(string BudgetYear, string ReportBy)
+        public async Task<IActionResult> ProgramBudgetReport(Guid subOrgId, string BudgetYear, string ReportBy)
         {
             try
             {
-                return Ok(await _progressReportService.PlanReportByProgram(BudgetYear, ReportBy));
+                return Ok(await _progressReportService.PlanReportByProgram(subOrgId, BudgetYear, ReportBy));
             }
             catch (Exception ex)
             {

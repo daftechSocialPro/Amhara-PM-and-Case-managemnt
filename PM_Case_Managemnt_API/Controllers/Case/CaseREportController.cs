@@ -22,12 +22,12 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
         [HttpGet("GetCaseReport")]
 
-        public async Task<IActionResult> GetCaseReport(string? startAt, string? endAt)
+        public async Task<IActionResult> GetCaseReport(Guid subOrgId, string? startAt, string? endAt)
         {
 
             try
             {
-                return Ok(await _caserReportService.GetCaseReport(startAt, endAt));
+                return Ok(await _caserReportService.GetCaseReport(subOrgId, startAt, endAt));
             }
             catch (Exception ex)
             {
@@ -38,12 +38,12 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
         [HttpGet("GetCasePieChart")]
 
-        public async Task<IActionResult> GetCasePieChart(string? startAt, string? endAt)
+        public async Task<IActionResult> GetCasePieChart(Guid subOrgId, string? startAt, string? endAt)
         {
 
             try
             {
-                return Ok(await _caserReportService.GetCasePieChart(startAt, endAt));
+                return Ok(await _caserReportService.GetCasePieChart(subOrgId, startAt, endAt));
             }
             catch (Exception ex)
             {
@@ -57,11 +57,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
         [HttpGet("GetCasePieChartByStatus")]
 
-        public async Task<IActionResult> GetCasePieCharByCaseStatus(string? startAt, string? endAt)
+        public async Task<IActionResult> GetCasePieCharByCaseStatus(Guid subOrgId, string? startAt, string? endAt)
         {
             try
             {
-                return Ok(await _caserReportService.GetCasePieCharByCaseStatus(startAt, endAt));
+                return Ok(await _caserReportService.GetCasePieCharByCaseStatus(subOrgId, startAt, endAt));
             }
             catch (Exception ex)
             {
@@ -71,11 +71,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
         [HttpGet("GetCaseEmployeePerformace")]
 
-        public async Task<IActionResult> GetCaseEmployeePerformace(string? key, string ? OrganizationName)
+        public async Task<IActionResult> GetCaseEmployeePerformace(Guid subOrgId, string? key, string ? OrganizationName)
      {
             try
             {
-                return Ok(await _caserReportService.GetCaseEmployeePerformace(key, OrganizationName));
+                return Ok(await _caserReportService.GetCaseEmployeePerformace(subOrgId, key, OrganizationName));
             }
             catch (Exception ex)
             {
@@ -85,13 +85,13 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
         [HttpGet("GetSMSReport")]
 
-        public async Task<IActionResult> GetSMSReport(string? startAt, string? endAt)
+        public async Task<IActionResult> GetSMSReport(Guid subOrgId, string? startAt, string? endAt)
         {
 
             try
             {
 
-                return Ok(await _caserReportService.GetSMSReport(startAt, endAt));
+                return Ok(await _caserReportService.GetSMSReport(subOrgId, startAt, endAt));
             }
             catch(Exception ex)
             {
@@ -100,12 +100,12 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
 
         [HttpGet("GetCaseDetail")]
-        public async Task<IActionResult> GetCaseDetail(string? key)
+        public async Task<IActionResult> GetCaseDetail(Guid subOrgId, string? key)
         {
 
             try
             {
-                return Ok(await _caserReportService.GetCaseDetail(key));
+                return Ok(await _caserReportService.GetCaseDetail(subOrgId, key));
             }
             catch (Exception ex)
             {

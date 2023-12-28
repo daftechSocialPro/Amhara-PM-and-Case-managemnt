@@ -56,7 +56,7 @@ export class RaiseIssueComponent implements OnInit {
   }
 
   getCaseList() {
-    this.caseService.GetNotCompletedCases().subscribe({
+    this.caseService.GetNotCompletedCases(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.caseList = res
 

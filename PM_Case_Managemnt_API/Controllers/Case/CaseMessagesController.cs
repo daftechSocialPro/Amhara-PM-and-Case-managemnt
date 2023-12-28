@@ -17,11 +17,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMany(bool messageStatus= false)
+        public async Task<IActionResult> GetMany(Guid subOrgId, bool messageStatus = false)
         {
             try
             {
-                return Ok(await _caseMessagesService.GetMany(messageStatus));
+                return Ok(await _caseMessagesService.GetMany(subOrgId, messageStatus));
             } catch (Exception ex)
             {
                 throw new Exception(ex.Message);

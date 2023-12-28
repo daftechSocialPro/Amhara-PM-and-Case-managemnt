@@ -99,18 +99,18 @@ export class PMService {
     }
 
     //report 
-    getDirectorLevelPerformance(BranchId?: string) {
+    getDirectorLevelPerformance(subOrgId: string, BranchId?: string) {
 
-        return this.http.get<TreeNode[]>(this.BaseURI + "/ProgressReport/DirectorLevelPerformance")
+        return this.http.get<TreeNode[]>(this.BaseURI + "/ProgressReport/DirectorLevelPerformance?subOrgId=" + subOrgId)
     }
-    getProgramBudegtReport(BudgetYear: string, ReportBy: string) {
+    getProgramBudegtReport(subOrgId:string, BudgetYear: string, ReportBy: string) {
 
-        return this.http.get<IPlanReportByProgramDto>(this.BaseURI + "/ProgressReport/ProgramBudgetReport?BudgetYear=" + BudgetYear + "&ReportBy=" + ReportBy)
+        return this.http.get<IPlanReportByProgramDto>(this.BaseURI + "/ProgressReport/ProgramBudgetReport?subOrgId="+ subOrgId +"&BudgetYear=" + BudgetYear + "&ReportBy=" + ReportBy)
     }
 
-    getProgramSelectList() {
+    getProgramSelectList(subOrgId: string) {
 
-        return this.http.get<SelectList[]>(this.BaseURI + "/Program/selectlist")
+        return this.http.get<SelectList[]>(this.BaseURI + "/Program/selectlist?subOrgId=" + subOrgId)
     }
 
     getPlanDetailReport(BudgetYear: string, ReportBy: string, ProgramId: string) {

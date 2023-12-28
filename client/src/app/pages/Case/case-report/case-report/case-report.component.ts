@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { CaseService } from '../../case.service';
 import { ICaseReport, ICaseReportChart } from '../ICaseReport';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
+import { SelectList } from 'src/app/pages/common/common';
+import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 
 
 declare const $: any
@@ -13,23 +17,29 @@ declare const $: any
 })
 export class CaseReportComponent implements OnInit {
 
+  subOrgSelectList: SelectList[] = []
+  user!: UserView
   exportColumns?: any[];
   cols?: any [];
   data!: ICaseReportChart;
   data2 !: ICaseReportChart;
   serachForm!: FormGroup
+  subOrgId!: string;
 
   caseReports!: ICaseReport[]
   selectedCaseReport !: ICaseReport
-  constructor(private caseService: CaseService, private formBuilder: FormBuilder) {
+  constructor(private caseService: CaseService, private formBuilder: FormBuilder, private userService: UserService, private orgService: OrganizationService) {
     this.serachForm = this.formBuilder.group({
       startDate: [''],
-      endDate: ['']
+      endDate: [''],
+      SubOrg: ['']
     })
   }
 
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser()
+    this.subOrgId = this.user.SubOrgId;
+    this.getSubOrgSelectList()
     $('#startDate').calendarsPicker({
       calendar: $.calendars.instance('ethiopian', 'am'),
       onSelect: (date: any) => {
@@ -61,15 +71,9 @@ export class CaseReportComponent implements OnInit {
       },
     })
 
-
-
-
-    this.getCaseReport(this.serachForm.value.startDate, this.serachForm.value.endDate)
-    this.getCaseReportChart(this.serachForm.value.startDate, this.serachForm.value.endDate)
-    this.getCaseReportChartByStatus(this.serachForm.value.startDate, this.serachForm.value.endDate)
-
-
-
+    this.getCaseReport(this.user.SubOrgId, this.serachForm.value.startDate, this.serachForm.value.endDate)
+    this.getCaseReportChart(this.user.SubOrgId, this.serachForm.value.startDate, this.serachForm.value.endDate)
+    this.getCaseReportChartByStatus(this.user.SubOrgId, this.serachForm.value.startDate, this.serachForm.value.endDate)
 
   }
 
@@ -117,8 +121,8 @@ export class CaseReportComponent implements OnInit {
   }
 
 
-  getCaseReport(startAt?: string, endAt?: string) {
-    this.caseService.GetCaseReport(startAt, endAt).subscribe({
+  getCaseReport(subOrgId: string, startAt?: string, endAt?: string) {
+    this.caseService.GetCaseReport(subOrgId, startAt, endAt).subscribe({
       next: (res) => {
         this.caseReports = res
         this.initCols()
@@ -129,9 +133,9 @@ export class CaseReportComponent implements OnInit {
 
   }
 
-  getCaseReportChart(startAt?: string, endAt?: string) {
+  getCaseReportChart(subOrgId: string, startAt?: string, endAt?: string) {
 
-    this.caseService.GetCaseReportChart(startAt, endAt).subscribe({
+    this.caseService.GetCaseReportChart(subOrgId, startAt, endAt).subscribe({
       next: (res) => {
         this.data = res;
       }, error: (err) => {
@@ -141,9 +145,9 @@ export class CaseReportComponent implements OnInit {
 
   }
 
-  getCaseReportChartByStatus(startAt?: string, endAt?: string) {
+  getCaseReportChartByStatus(subOrgId: string, startAt?: string, endAt?: string) {
 
-    this.caseService.GetCaseReportChartByStatus(startAt, endAt).subscribe({
+    this.caseService.GetCaseReportChartByStatus(subOrgId, startAt, endAt).subscribe({
       next: (res) => {
         this.data2 = res
       }, error: (err) => {
@@ -157,14 +161,33 @@ export class CaseReportComponent implements OnInit {
   Search() {
 
     
-    this.getCaseReport(this.serachForm.value.startDate, this.serachForm.value.endDate)
-    this.getCaseReportChart(this.serachForm.value.startDate, this.serachForm.value.endDate)
-    this.getCaseReportChartByStatus(this.serachForm.value.startDate, this.serachForm.value.endDate)
+    this.getCaseReport(this.subOrgId, this.serachForm.value.startDate, this.serachForm.value.endDate)
+    this.getCaseReportChart(this.subOrgId, this.serachForm.value.startDate, this.serachForm.value.endDate)
+    this.getCaseReportChartByStatus(this.subOrgId, this.serachForm.value.startDate, this.serachForm.value.endDate)
 
 
   }
 
-  
+  getSubOrgSelectList() {
+    this.orgService.getSubOrgSelectList().subscribe({
+      next: (res) => this.subOrgSelectList = res,
+      error: (err) => console.error(err)
+    })
+  }
+  onSubChange(event: any) {
+    if (event.target.value !== "") {
+      this.getCaseReport(event.target.value, this.serachForm.value.startDate, this.serachForm.value.endDate)
+      this.getCaseReportChart(event.target.value, this.serachForm.value.startDate, this.serachForm.value.endDate)
+      this.getCaseReportChartByStatus(event.target.value, this.serachForm.value.startDate, this.serachForm.value.endDate)
+      this.subOrgId = event.target.value
+    } 
+    else {
+      this.getCaseReport(this.user.SubOrgId, this.serachForm.value.startDate, this.serachForm.value.endDate)
+      this.getCaseReportChart(this.user.SubOrgId, this.serachForm.value.startDate, this.serachForm.value.endDate)
+      this.getCaseReportChartByStatus(this.user.SubOrgId, this.serachForm.value.startDate, this.serachForm.value.endDate)
+      this.subOrgId = this.user.SubOrgId
+    }
+  }
 
 
 

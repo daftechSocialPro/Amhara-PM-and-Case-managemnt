@@ -37,11 +37,11 @@ namespace PM_Case_Managemnt_API.Services.CaseService.FileSettings
             }
         }
 
-        public async Task<List<FileSettingGetDto>> GetAll()
+        public async Task<List<FileSettingGetDto>> GetAll(Guid subOrgId)
         {
             try
             {
-                List<FileSetting> fileSettings = await _dbContext.FileSettings.Include(x=>x.CaseType).ToListAsync();
+                List<FileSetting> fileSettings = await _dbContext.FileSettings.Where(x => x.CaseType.SubsidiaryOrganizationId == subOrgId).Include(x=>x.CaseType).ToListAsync();
                 List<FileSettingGetDto> result = new();
 
                 foreach (FileSetting fileSetting in fileSettings)

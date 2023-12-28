@@ -11,9 +11,9 @@ namespace PM_Case_Managemnt_API.Services.Common
         public Task<int> UpdateUnitOfMeasurment(UnitOfMeasurmentDto unitOfMeasurment);
 
         //public Task<int> UpdateOrganizationalProfile(OrganizationProfile organizationProfile);
-        public Task<List< PM_Case_Managemnt_API.Models.Common.UnitOfMeasurment >> GetUnitOfMeasurment();
+        public Task<List< PM_Case_Managemnt_API.Models.Common.UnitOfMeasurment >> GetUnitOfMeasurment(Guid subOrgId);
 
-        public Task<List<SelectListDto>> getUnitOfMeasurmentSelectList();
+        public Task<List<SelectListDto>> getUnitOfMeasurmentSelectList(Guid subOrgId);
 
 
 

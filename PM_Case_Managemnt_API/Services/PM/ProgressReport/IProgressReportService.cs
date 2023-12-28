@@ -6,8 +6,8 @@ namespace PM_Case_Managemnt_API.Services.PM.ProgressReport
     public interface IProgressReportService
     {
 
-        public Task<List<DiagramDto>> GetDirectorLevelPerformance(Guid? BranchId);
-        public Task<PlanReportByProgramDto> PlanReportByProgram(string BudgetYear, string ReportBy);
+        public Task<List<DiagramDto>> GetDirectorLevelPerformance(Guid subOrgId, Guid? BranchId);
+        public Task<PlanReportByProgramDto> PlanReportByProgram(Guid subOrgID, string BudgetYear, string ReportBy);
 
         public Task<PlanReportDetailDto> StructureReportByProgram(string BudgetYear, string ProgramId, string ReportBy);
 

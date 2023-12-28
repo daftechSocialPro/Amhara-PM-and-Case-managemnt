@@ -17,11 +17,11 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
 
         [HttpGet("attachments")]
-        public async Task<IActionResult> Get(string CaseId = null)
+        public async Task<IActionResult> Get(Guid subOrgId, string CaseId = null)
         {
             try
             { 
-                return Ok(await _caseAttachementService.GetAll(CaseId));
+                return Ok(await _caseAttachementService.GetAll(subOrgId, CaseId));
             } catch (Exception ex)
             {
                 return StatusCode(500, "Internal Server Error");

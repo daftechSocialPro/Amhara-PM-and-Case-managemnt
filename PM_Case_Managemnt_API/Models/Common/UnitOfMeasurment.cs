@@ -1,5 +1,7 @@
 ﻿
 
+using PM_Case_Managemnt_API.Models.Common.Organization;
+
 namespace PM_Case_Managemnt_API.Models.Common
 {
     public class UnitOfMeasurment : CommonModel
@@ -8,6 +10,8 @@ namespace PM_Case_Managemnt_API.Models.Common
 
         public string LocalName { get; set; } = null!;
         public MeasurmentType Type { get; set; }
+        public Guid SubsidiaryOrganizationId { get; set; }
+        public virtual SubsidiaryOrganization? SubsidiaryOrganization { get; set; }
 
     }
 

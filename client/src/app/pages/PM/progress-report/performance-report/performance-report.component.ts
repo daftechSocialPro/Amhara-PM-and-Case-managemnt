@@ -18,6 +18,8 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 })
 export class PerformanceReportComponent implements OnInit {
 
+  subOrgId!: string
+  subOrgSelectList: SelectList[] = []
   serachForm!: FormGroup
   performanceReport  !: any
   branchs!: SelectList[]
@@ -39,6 +41,7 @@ export class PerformanceReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
+    this.getSubOrgSelectList()
     this.serachForm = this.formBuilder.group({
       BudgetYear: ['', Validators.required],
       selectStructureId: ['', Validators.required],
@@ -48,46 +51,34 @@ export class PerformanceReportComponent implements OnInit {
       Month:[null],
       FromDate:[null],
       ToDate:[null],
-      ReportBy: ['Quarter']
+      ReportBy: ['Quarter'],
+      SubOrg: ['']
     })
   
 
-    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
-      next: (res) => {
-
-        this.branchs = res
-      }, error: (err) => {
-        console.error(err)
-      }
-    })
+    this.GetBranchSelectList(this.user.SubOrgId)
 
     $('#startDate').calendarsPicker({
       calendar: $.calendars.instance('ethiopian', 'am'),
       onSelect: (date: any) => {
         
-
         if (date) {
 
           this.serachForm.controls['FromDate'].setValue(date[0]._month + "/" + date[0]._day + "/" + date[0]._year)
 
-
         }// this.StartDate = date
-
 
       },
     })
     $('#endDate').calendarsPicker({
       calendar: $.calendars.instance('ethiopian', 'am'),
       onSelect: (date: any) => {
-        
-
+      
         if (date) {
 
           this.serachForm.controls['ToDate'].setValue(date[0]._month + "/" + date[0]._day + "/" + date[0]._year)
 
-
         }// this.StartDate = date
-
 
       },
     })
@@ -149,17 +140,42 @@ export class PerformanceReportComponent implements OnInit {
     return Array.from({ length }, (_, i) => i);
   }
 
-
   setFilterBY(value:string){
-
     this.filterBY = value
-    
   }
 
   detail(activityId:string){
 
     let modalRef =this.modalService.open(GetActivityProgressComponent,{size:'lg',backdrop:'static'})
     modalRef.componentInstance.activityId= activityId
+  }
+
+  getSubOrgSelectList() {
+    this.orgService.getSubOrgSelectList().subscribe({
+      next: (res) => this.subOrgSelectList = res,
+      error: (err) => console.error(err)
+    })
+  }
+  onSubOrgChange(event: any) {
+    if (event.target.value !== "") {   
+      this.GetBranchSelectList(event.target.value)
+     
+    } else {
+      this.GetBranchSelectList(this.user.SubOrgId)
+      
+    }
+    
+  }
+
+  GetBranchSelectList(subOrgId: string){
+    this.orgService.getOrgBranchSelectList(subOrgId).subscribe({
+      next: (res) => {
+
+        this.branchs = res
+      }, error: (err) => {
+        console.error(err)
+      }
+    })
   }
 
 

@@ -26,6 +26,7 @@ namespace PM_Case_Managemnt_API.Services.Common.ShelfService
                     Remark = shelfPostDto.Remark,
                     RowStatus = RowStatus.Active,
                     ShelfNumber = shelfPostDto.ShelfNumber,
+                    SubsidiaryOrganizationId = shelfPostDto.SubsidiaryOrganizationId
                 };
 
                 await _dbContext.Shelf.AddAsync(newShelf);
@@ -38,11 +39,11 @@ namespace PM_Case_Managemnt_API.Services.Common.ShelfService
         }
 
 
-        public async Task<List<ShelfGetDto>> GetAll()
+        public async Task<List<ShelfGetDto>> GetAll(Guid subOrgId)
         {
             try
             {
-                return (await _dbContext.Shelf.Select(x => new ShelfGetDto()
+                return (await _dbContext.Shelf.Where(x => x.SubsidiaryOrganizationId == subOrgId).Select(x => new ShelfGetDto()
                 {
                     Id = x.Id, 
                     Remark = x.Remark, 

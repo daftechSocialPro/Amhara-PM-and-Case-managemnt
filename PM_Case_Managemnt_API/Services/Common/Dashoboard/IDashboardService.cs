@@ -6,12 +6,12 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
     public interface IDashboardService
     {
 
-        public  Task<DashboardDto> GetPendingCase(string startat, string endat);
-        public Task<barChartDto> GetMonthlyReport();
+        public  Task<DashboardDto> GetPendingCase(Guid subOrgId, string startat, string endat);
+        public Task<barChartDto> GetMonthlyReport(Guid subOrgId);
 
-        public Task<PMDashboardDto> GetPMDashboardDto(Guid empID);
+        public Task<PMDashboardDto> GetPMDashboardDto(Guid empID, Guid subOrgId);
 
-        public Task<PmDashboardBarchartDto> BudgetYearVsContribution(Guid empID);
+        public Task<PmDashboardBarchartDto> BudgetYearVsContribution(Guid empID, Guid subOrgId);
 
 
     }

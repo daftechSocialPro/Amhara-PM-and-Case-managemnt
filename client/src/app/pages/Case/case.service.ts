@@ -46,8 +46,8 @@ export class CaseService {
     createFileSetting(fileSetting: any) {
         return this.http.post(this.BaseURI + "/fileSetting", fileSetting)
     }
-    getFileSetting() {
-        return this.http.get<FileSettingView[]>(this.BaseURI + "/fileSetting")
+    getFileSetting(subOrgId: string) {
+        return this.http.get<FileSettingView[]>(this.BaseURI + "/fileSetting?subOrgId=" + subOrgId)
     }
 
     getFileSettignsByCaseTypeId(caseTypeId: string) {
@@ -175,8 +175,8 @@ export class CaseService {
         return this.http.get<IAppointmentGet[]>(this.BaseURI + "/appointmetWithCalender?employeeId=" + employeeId)
     }
 
-    getMessages() {
-        return this.http.get<IUnsentMessage[]>(this.BaseURI + "/CaseMessages")
+    getMessages(subOrgId: string) {
+        return this.http.get<IUnsentMessage[]>(this.BaseURI + "/CaseMessages?subOrgId=" + subOrgId)
     }
     sendUnsentMessages(messages: IUnsentMessage[]) {
         return this.http.post(this.BaseURI + "/CaseMessages", messages)
@@ -200,30 +200,30 @@ export class CaseService {
 
     ///report 
 
-    GetCaseReport(startAt?: string, endAt?: string) {
+    GetCaseReport(subOrgId: string, startAt?: string, endAt?: string) {
 
-        return this.http.get<ICaseReport[]>(this.BaseURI + "/CaseREport/GetCaseReport?startAt=" + startAt + "&endAt=" + endAt)
+        return this.http.get<ICaseReport[]>(this.BaseURI + "/CaseREport/GetCaseReport?subOrgId="+ subOrgId +"&startAt=" + startAt + "&endAt=" + endAt)
     }
 
-    GetCaseReportChart(startAt?: string, endAt?: string) {
-        return this.http.get<ICaseReportChart>(this.BaseURI + "/CaseReport/GetCasePieChart?startAt=" + startAt + "&endAt=" + endAt)
+    GetCaseReportChart(subOrgId: string, startAt?: string, endAt?: string) {
+        return this.http.get<ICaseReportChart>(this.BaseURI + "/CaseReport/GetCasePieChart?subOrgId="+ subOrgId +"&startAt=" + startAt + "&endAt=" + endAt)
     }
 
-    GetCaseReportChartByStatus(startAt?: string, endAt?: string) {
+    GetCaseReportChartByStatus(subOrgId: string, startAt?: string, endAt?: string) {
 
-        return this.http.get<ICaseReportChart>(this.BaseURI + "/CaseReport/GetCasePieChartByStatus?startAt=" + startAt + "&endAt=" + endAt)
+        return this.http.get<ICaseReportChart>(this.BaseURI + "/CaseReport/GetCasePieChartByStatus?subOrgId="+ subOrgId +"&startAt=" + startAt + "&endAt=" + endAt)
     }
 
-    GetCaseEmployeePerformace(key: string, OrganizationName : string) {
-        return this.http.get<IEmployeePerformance[]>(this.BaseURI + "/CaseReport/GetCaseEmployeePerformace?key="+key+"&OrganizationName="+OrganizationName)
+    GetCaseEmployeePerformace(subOrgId: string, key: string, OrganizationName : string) {
+        return this.http.get<IEmployeePerformance[]>(this.BaseURI + "/CaseReport/GetCaseEmployeePerformace?subOrgId="+ subOrgId +"&key="+key+"&OrganizationName="+OrganizationName)
     }
 
-    GetSMSReport(startAt?: string, endAt?: string) {
-        return this.http.get<ISMSReport[]>(this.BaseURI + "/CaseReport/GetSMSReport?startAt=" + startAt + "&endAt=" + endAt)
+    GetSMSReport(subOrgId: string, startAt?: string, endAt?: string) {
+        return this.http.get<ISMSReport[]>(this.BaseURI + "/CaseReport/GetSMSReport?subOrgId="+ subOrgId +"&startAt=" + startAt + "&endAt=" + endAt)
     }
 
-    GetCaseDetailReport() {
-        return this.http.get<ICaseDetailReport[]>(this.BaseURI + "/CaseReport/GetCaseDetail")
+    GetCaseDetailReport(subOrgId: string) {
+        return this.http.get<ICaseDetailReport[]>(this.BaseURI + "/CaseReport/GetCaseDetail?subOrgId=" + subOrgId)
     }
 
 
@@ -240,8 +240,8 @@ export class CaseService {
         return this.http.get<boolean>(this.BaseURI + "/Ispermitted?employeeId=" + employeeId + '&caseId=' + caseId)
     }
 
-    GetNotCompletedCases() {
-        return this.http.get<ICaseView[]>(this.BaseURI + "/CaseIssue/getNotCompletedCases")
+    GetNotCompletedCases(subOrgId: string) {
+        return this.http.get<ICaseView[]>(this.BaseURI + "/CaseIssue/getNotCompletedCases?subOrgId=" + subOrgId)
     }
 
     RemoveAttachment(attachmentId:string){

@@ -4,6 +4,9 @@ import { PMService } from '../../pm.services';
 import { SelectList } from 'src/app/pages/common/common';
 import { IPlanReportDetailDto } from './IplanReportDetai';
 import * as XLSX from 'xlsx';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
+import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 
 @Component({
   selector: 'app-plan-report-today',
@@ -11,32 +14,29 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./plan-report-today.component.css']
 })
 export class PlanReportTodayComponent implements OnInit {
-
+  subOrgId!: string
+  subOrgSelectList: SelectList[] = []
+  user!: UserView
   serachForm!: FormGroup
   planReportDetail  !: IPlanReportDetailDto
   cnt: number = 0
   programs !: SelectList[]
-  constructor(private formBuilder: FormBuilder, private pmService: PMService) {
+  constructor(private formBuilder: FormBuilder, private pmService: PMService, private userService: UserService, private orgService: OrganizationService) {
 
   }
 
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser()
+    this.getSubOrgSelectList()
     this.serachForm = this.formBuilder.group({
       BudgetYear: ['',Validators.required],
       ProgramId: ['',Validators.required],
-      ReportBy: ['Quarter']
+      ReportBy: ['Quarter'],
+      SubOrg: ['']
     })
+    this.GetProgramSelectList(this.user.SubOrgId)
 
-    this.pmService.getProgramSelectList().subscribe({
-      next: (res) => {
-        this.programs = res
-        console.log(res)
-      }, error: (err) => {
-        console.error(err)
-      }
-    })
-
+    
 
   }
 
@@ -56,6 +56,33 @@ export class PlanReportTodayComponent implements OnInit {
        this.planReportDetail = res 
        this.cnt= res.MonthCounts.length
 
+      }, error: (err) => {
+        console.error(err)
+      }
+    })
+
+  }
+  getSubOrgSelectList() {
+    this.orgService.getSubOrgSelectList().subscribe({
+      next: (res) => this.subOrgSelectList = res,
+      error: (err) => console.error(err)
+    })
+  }
+  onSubOrgChange(event: any) {
+    if (event.target.value !== "") {
+      
+      this.GetProgramSelectList(event.target.value)
+    } else {
+      this.GetProgramSelectList(this.user.SubOrgId)
+    }
+    
+  }
+
+  GetProgramSelectList(subOrgId: string){
+    this.pmService.getProgramSelectList(subOrgId).subscribe({
+      next: (res) => {
+        this.programs = res
+        console.log(res)
       }, error: (err) => {
         console.error(err)
       }

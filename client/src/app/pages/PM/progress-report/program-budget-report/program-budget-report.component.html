@@ -19,6 +19,14 @@
 
                     <form [formGroup]="serachForm" (submit)="Search()">
                         <div class="d-flex justify-content-start ">
+                                <div class="form-floating col-3 me-2">
+                                  <select class="form-control"  id="ReportBy"
+                                  placeholder="ReportBy" formControlName="SubOrg" >
+                                  <option value="">--Select Subsidiary Organization--</option>
+                                  <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
+                                  </select>
+                                    <label for="ReportBy">Subsidiary Organization</label>
+                                </div>
                             <div class="form-floating col-3 me-2">
                                 <input type="number" class="form-control" id="budgetYear" formControlName="BudgetYear"
                                     placeholder="Budget Year (yyyy)">

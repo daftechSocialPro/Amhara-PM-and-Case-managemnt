@@ -28,6 +28,7 @@ namespace PM_Case_Managemnt_API.Services.Common
                 Type = UnitOfMeasurment.Type == 0 ? MeasurmentType.percent : MeasurmentType.number,
                 CreatedAt = DateTime.Now,
                 Remark= UnitOfMeasurment.Remark,
+                SubsidiaryOrganizationId = UnitOfMeasurment.SubsidiaryOrganizationId
             };
             
 
@@ -37,19 +38,19 @@ namespace PM_Case_Managemnt_API.Services.Common
             return 1;
 
         }
-        public async Task<List<PM_Case_Managemnt_API.Models.Common.UnitOfMeasurment>> GetUnitOfMeasurment()
+        public async Task<List<PM_Case_Managemnt_API.Models.Common.UnitOfMeasurment>> GetUnitOfMeasurment(Guid subOrgId)
         {
 
 
 
-            var k = await _dBContext.UnitOfMeasurment.ToListAsync();
-            return await _dBContext.UnitOfMeasurment.ToListAsync();
+            return await _dBContext.UnitOfMeasurment.Where(x => x.SubsidiaryOrganizationId == subOrgId).ToListAsync();
+            //return k;
         }
 
-        public async Task<List<SelectListDto>> getUnitOfMeasurmentSelectList()
+        public async Task<List<SelectListDto>> getUnitOfMeasurmentSelectList(Guid subOrgId)
         {
 
-            List<SelectListDto> list = await (from x in _dBContext.UnitOfMeasurment
+            List<SelectListDto> list = await (from x in _dBContext.UnitOfMeasurment.Where(x => x.SubsidiaryOrganizationId == subOrgId)
                                               select new SelectListDto
                                               {
                                                   Id = x.Id,

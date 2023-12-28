@@ -45,22 +45,22 @@ namespace PM_Case_Managemnt_API.Controllers.Common
         }
         [HttpGet]
 
-        public async Task<List<UnitOfMeasurment>> GetUnitOfMeasurment()
+        public async Task<List<UnitOfMeasurment>> GetUnitOfMeasurment(Guid subOrgId)
         {
 
 
 
-            return await _unitOfMeasurmentService.GetUnitOfMeasurment();
+            return await _unitOfMeasurmentService.GetUnitOfMeasurment(subOrgId);
         }
 
         [HttpGet("unitmeasurmentlist")]
 
-        public async Task<List<SelectListDto>> getUnitOfMeasurment()
+        public async Task<List<SelectListDto>> getUnitOfMeasurment(Guid subOrgId)
         {
 
 
 
-            return await _unitOfMeasurmentService.getUnitOfMeasurmentSelectList();
+            return await _unitOfMeasurmentService.getUnitOfMeasurmentSelectList(subOrgId);
         }
 
         [HttpPut]

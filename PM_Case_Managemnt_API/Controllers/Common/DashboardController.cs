@@ -23,12 +23,12 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
         [HttpGet("GetDashboardCaseReport")]
 
-        public async Task<IActionResult> GetDashboardCaseReport(string? startAt, string? endAt)
+        public async Task<IActionResult> GetDashboardCaseReport(Guid subOrgId, string? startAt, string? endAt)
         {
 
             try
             {
-                return Ok(await _dashboardService.GetPendingCase(startAt, endAt));
+                return Ok(await _dashboardService.GetPendingCase(subOrgId, startAt, endAt));
             }
             catch (Exception ex)
             {
@@ -39,12 +39,12 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
         [HttpGet("GetMonthlyReportBarChart")]
 
-        public async Task<IActionResult> GetMonthlyReportBarChart()
+        public async Task<IActionResult> GetMonthlyReportBarChart(Guid subOrgId)
         {
 
             try
             {
-                return Ok(await _dashboardService.GetMonthlyReport());
+                return Ok(await _dashboardService.GetMonthlyReport(subOrgId));
             }
             catch (Exception ex)
             {
@@ -54,11 +54,11 @@ namespace PM_Case_Managemnt_API.Controllers.Common
         }
 
         [HttpGet("GetPMDashboardDto")]
-        public async Task<IActionResult> GetPMDashboardDto(Guid empId)
+        public async Task<IActionResult> GetPMDashboardDto(Guid empId, Guid subOrgId)
         {
             try
             {
-                return Ok(await _dashboardService.GetPMDashboardDto(empId));
+                return Ok(await _dashboardService.GetPMDashboardDto(empId, subOrgId));
             }
             catch (Exception ex)
             {
@@ -69,11 +69,11 @@ namespace PM_Case_Managemnt_API.Controllers.Common
         }
 
         [HttpGet("GetPMBarchart")]
-        public async Task<IActionResult> GetPMBarchart(Guid empId)
+        public async Task<IActionResult> GetPMBarchart(Guid empId, Guid subOrgId)
         {
             try
             {
-                return Ok(await _dashboardService.BudgetYearVsContribution(empId));
+                return Ok(await _dashboardService.BudgetYearVsContribution(empId, subOrgId));
             }
             catch (Exception ex)
             {

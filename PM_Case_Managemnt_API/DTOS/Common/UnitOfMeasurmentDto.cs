@@ -9,5 +9,6 @@
         public int Type { get; set; }
         public string? Remark { get; set; }
         public int RowStatus { get; set; }
+        public Guid SubsidiaryOrganizationId { get; set; }
     }
 }

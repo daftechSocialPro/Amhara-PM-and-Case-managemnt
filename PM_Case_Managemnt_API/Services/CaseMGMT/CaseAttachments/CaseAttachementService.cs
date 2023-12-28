@@ -25,14 +25,14 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseAttachments
             }
         }
 
-        public async Task<List<CaseAttachment>> GetAll(string CaseId = null)
+        public async Task<List<CaseAttachment>> GetAll(Guid subOrgId, string CaseId = null)
         {
             try
             {
                 List<CaseAttachment> attachemnts = new List<CaseAttachment>();
 
                 if (CaseId == null)
-                    attachemnts = await _dBContext.CaseAttachments.ToListAsync();
+                    attachemnts = await _dBContext.CaseAttachments.Where(x => x.Case.SubsidiaryOrganizationId == subOrgId).ToListAsync();
                 else
                     attachemnts = await _dBContext.CaseAttachments.Where(el => el.CaseId.Equals(Guid.Parse(CaseId))).ToListAsync();
 
