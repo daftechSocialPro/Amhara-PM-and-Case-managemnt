@@ -8,9 +8,9 @@ namespace PM_Case_Managemnt_API.Services.Common
         //Program Budget Year
         public Task<int> CreateProgramBudgetYear(ProgramBudgetYear programBudgetYear);
 
-        public Task<List<ProgramBudgetYear>> GetProgramBudgetYears();
+        public Task<List<ProgramBudgetYear>> GetProgramBudgetYears(Guid subOrgId);
 
-        public Task<List<SelectListDto>> getProgramBudgetSelectList();
+        public Task<List<SelectListDto>> getProgramBudgetSelectList(Guid subOrgId);
 
 
         // Budget Year

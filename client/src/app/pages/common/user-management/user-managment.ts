@@ -4,6 +4,6 @@ export interface UserManagment {
     UserName : string ;
     Password:string;
     EmployeeId : string ; 
-    //SubsidiaryOrganizationID : string ;
+    SubsidiaryOrganizationId : string ;
     Roles : string []; 
 }

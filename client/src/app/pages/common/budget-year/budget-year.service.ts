@@ -15,12 +15,12 @@ export class BudgetYearService {
     return this.http.post(this.BaseURI, ProgramBudgetYear)
   }
 
-  getProgramBudgetYear() {
-    return this.http.get<ProgramBudgetYear[]>(this.BaseURI)
+  getProgramBudgetYear(subOrgId: string) {
+    return this.http.get<ProgramBudgetYear[]>(this.BaseURI+"?subOrgId=" + subOrgId)
   }
 
-  getProgramBudgetYearSelectList() {
-    return this.http.get<SelectList[]>(this.BaseURI + "/programbylist")
+  getProgramBudgetYearSelectList(subOrgId: string) {
+    return this.http.get<SelectList[]>(this.BaseURI + "/programbylist?subOrgId=" + subOrgId)
   }
 
   CreateBudgetYear(BudgetYear: BudgetYearwithoutId) {
@@ -31,8 +31,8 @@ export class BudgetYearService {
     return this.http.get<BudgetYear[]>(this.BaseURI + "/budgetyear?programBudgetYearId=" + value)
   }
 
-  getBudgetYearSelectList() {
-    return this.http.get<SelectList[]>(this.BaseURI + "/budgetbylist")
+  getBudgetYearSelectList(subOrgId: string) {
+    return this.http.get<SelectList[]>(this.BaseURI + "/budgetbylist?subOrgId=" + subOrgId)
   }
 
   getBudgetYearByProgramId (value:string){

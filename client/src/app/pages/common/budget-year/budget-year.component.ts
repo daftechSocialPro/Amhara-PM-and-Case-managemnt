@@ -5,6 +5,8 @@ import { AddBudgetyearComponent } from './add-budgetyear/add-budgetyear.componen
 import { AddProgrambudgetyearComponent } from './add-programbudgetyear/add-programbudgetyear.component';
 import { BudgetYearService } from './budget-year.service';
 import { ProgramByDetailsComponent } from './program-by-details/program-by-details.component';
+import { UserView } from '../../pages-login/user';
+import { UserService } from '../../pages-login/user.service';
 
 @Component({
   selector: 'app-budget-year',
@@ -13,21 +15,23 @@ import { ProgramByDetailsComponent } from './program-by-details/program-by-detai
 })
 export class BudgetYearComponent implements OnInit {
 
+  user!: UserView
   programBudgetYear: ProgramBudgetYear[] = [];
   programBudget!: ProgramBudgetYear;
 
   budgetYears: BudgetYear[] = [];
 
-  constructor(private budgetYearService: BudgetYearService, private modalService: NgbModal) { }
+  constructor(private budgetYearService: BudgetYearService, private modalService: NgbModal, private userService: UserService) { }
 
 
   ngOnInit(): void {
 
-    this.programBudgetYearList();
+    this.user = this.userService.getCurrentUser()
+    this.programBudgetYearList(this.user.SubOrgId);
   }
 
-  programBudgetYearList() {
-    this.budgetYearService.getProgramBudgetYear().subscribe({
+  programBudgetYearList(subOrgId: string) {
+    this.budgetYearService.getProgramBudgetYear(subOrgId).subscribe({
       next: (res) => {
         this.programBudgetYear = res
 
@@ -45,12 +49,7 @@ export class BudgetYearComponent implements OnInit {
     let modalref = this.modalService.open(AddProgrambudgetyearComponent,{size:'lg',backdrop:'static'})
 
     modalref.result.then((isConfirmed) => {
-
-   
-   
-      this.programBudgetYearList()
-      
-     
+      this.programBudgetYearList(this.user.SubOrgId)
     })
 
 }
@@ -60,7 +59,7 @@ budgetYearsDetails(value:ProgramBudgetYear){
   let modalRef = this.modalService.open(ProgramByDetailsComponent,{size:'lg',backdrop:"static"})
   modalRef.componentInstance.programBudget= value;
   modalRef.result.then((isConfirmed)=>{
-this.programBudgetYearList()
+  this.programBudgetYearList(this.user.SubOrgId)
   })
 
 }

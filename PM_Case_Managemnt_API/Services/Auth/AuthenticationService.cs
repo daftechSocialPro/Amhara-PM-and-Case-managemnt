@@ -70,16 +70,18 @@ namespace PM_Case_Managemnt_API.Services.Auth
                 {
                     await _userManager.AddToRoleAsync(applicationUser, "Regulator");
                 }
+                
+                if(model.EmployeeId != Guid.Empty) 
+                {
+                    var emp = _dbcontext.Employees.Find(model.EmployeeId);
+                    emp.UserName = model.UserName;
+                    emp.Password = model.Password;
 
-                var emp = _dbcontext.Employees.Find(model.EmployeeId);
-                emp.UserName = model.UserName;
-                emp.Password = model.Password;
+                    _dbcontext.Entry(emp).State = EntityState.Modified;
+                    _dbcontext.SaveChangesAsync();
 
-                _dbcontext.Entry(emp).State = EntityState.Modified;
-                _dbcontext.SaveChangesAsync();
-
-
-
+                }
+                
                 return 1;
             }
             catch (Exception ex)

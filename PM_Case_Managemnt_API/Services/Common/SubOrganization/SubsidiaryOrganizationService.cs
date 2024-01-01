@@ -7,8 +7,7 @@ using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Models.Common.Organization;
 using PM_Case_Managemnt_API.Services.Auth;
 using PM_Case_Managemnt_API.Services.Common.SubsidiaryOrganization;
-using PMCaseManagemntAPI.Migrations.Authentication;
-using System.Net;
+
 
 namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
 {
@@ -19,20 +18,23 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
         private readonly IAuthenticationService _authService;
         private AuthenticationContext _authenticationContext;
         private readonly IEmployeeService _empService;
+        private readonly IOrgStructureService _orgStucService;
                 
 
-        public SubsidiaryOrganizationService(DBContext dbContext, IAuthenticationService authService, IEmployeeService empService, AuthenticationContext authenticationContext)
+        public SubsidiaryOrganizationService(DBContext dbContext, IAuthenticationService authService, IEmployeeService empService, AuthenticationContext authenticationContext, IOrgStructureService orgStucService)
         {
             _dBContext = dbContext;
             _authService = authService;
             _empService = empService;
             _authenticationContext = authenticationContext;
+            _orgStucService = orgStucService;
         }
 
         public async Task<int> CreateSubsidiaryOrganization(SubOrgDto subOrg)
         {
             try
             {
+                subOrg.OrganizationProfileId = _dBContext.OrganizationProfile.FirstOrDefault().Id;
                 var subOrganization = new Models.Common.Organization.SubsidiaryOrganization
                 {
                     Id = Guid.NewGuid(),
@@ -56,7 +58,7 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
                 {
                     SubsidiaryOrganizationId = subOrganization.Id,
                     UserName = $"{prefix}_{uniqueIdentifier}",
-                    EmployeeId = Guid.Parse("278b4187-413d-4f28-a63a-3d4f2b6c7f45"),
+                    EmployeeId = Guid.Empty,
                     Roles = new string[] {"SUPER ADMIN"},
                     FullName = $"SUPER ADMIN for {subOrganization.OrganizationNameEnglish}",
                     Password = "P@ssw0rd"
@@ -68,6 +70,21 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
                 await _dBContext.SaveChangesAsync();
 
                 await _authService.PostApplicationUser(superadmin);
+
+                var orgStruc = new OrgStructureDto()
+                {
+                    SubsidiaryOrganizationId = subOrganization.Id,
+                    StructureName = subOrganization.OrganizationNameEnglish,
+                    Order = 1,
+                    IsBranch = true,
+                    OfficeNumber = subOrganization.Address,
+                    Weight = 100,
+                    Remark = "",
+                    OrganizationBranchId = Guid.Empty,
+                    RowStatus= 0,
+                };
+
+                await _orgStucService.CreateOrganizationalStructure(orgStruc);
 
                 return 1;
             }

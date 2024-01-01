@@ -26,15 +26,15 @@ namespace PM_Case_Managemnt_API.Services.Common
             return 1;
 
         }
-        public async Task<List<ProgramBudgetYear>> GetProgramBudgetYears()
+        public async Task<List<ProgramBudgetYear>> GetProgramBudgetYears(Guid subOrgId)
         {
-            return await _dBContext.ProgramBudgetYears.Include(x => x.BudgetYears).ToListAsync();
+            return await _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId == subOrgId).Include(x => x.BudgetYears).ToListAsync();
         }
 
-        public async Task<List<SelectListDto>> getProgramBudgetSelectList()
+        public async Task<List<SelectListDto>> getProgramBudgetSelectList(Guid subOrgId)
         {
 
-            List<SelectListDto> list = await (from x in _dBContext.ProgramBudgetYears
+            List<SelectListDto> list = await (from x in _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId.Equals(subOrgId))
                                               select new SelectListDto
                                               {
                                                   Id = x.Id,

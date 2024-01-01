@@ -12,8 +12,8 @@ using PM_Case_Managemnt_API.Data;
 namespace PMCaseManagemntAPI.Migrations.DB
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20231225081900_modifyArchiveAndUnitofMesurment")]
-    partial class modifyArchiveAndUnitofMesurment
+    [Migration("20240101124352_removedchange")]
+    partial class removedchange
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -939,10 +939,15 @@ namespace PMCaseManagemntAPI.Migrations.DB
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("ToYear")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("ProgramBudgetYears");
                 });
@@ -2250,6 +2255,17 @@ namespace PMCaseManagemntAPI.Migrations.DB
                         .IsRequired();
 
                     b.Navigation("ParentStructure");
+
+                    b.Navigation("SubsidiaryOrganization");
+                });
+
+            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.ProgramBudgetYear", b =>
+                {
+                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
+                        .WithMany()
+                        .HasForeignKey("SubsidiaryOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("SubsidiaryOrganization");
                 });

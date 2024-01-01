@@ -936,10 +936,15 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("ToYear")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("ProgramBudgetYears");
                 });
@@ -2247,6 +2252,17 @@ namespace PMCaseManagemntAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("ParentStructure");
+
+                    b.Navigation("SubsidiaryOrganization");
+                });
+
+            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.ProgramBudgetYear", b =>
+                {
+                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
+                        .WithMany()
+                        .HasForeignKey("SubsidiaryOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("SubsidiaryOrganization");
                 });

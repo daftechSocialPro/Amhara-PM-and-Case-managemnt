@@ -9,11 +9,11 @@ using PM_Case_Managemnt_API.Data;
 
 #nullable disable
 
-namespace PMCaseManagemntAPI.Migrations.DB
+namespace PMCaseManagemntAPI.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20231222114103_caseModification")]
-    partial class caseModification
+    [Migration("20240101091838_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -939,10 +939,15 @@ namespace PMCaseManagemntAPI.Migrations.DB
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("ToYear")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("ProgramBudgetYears");
                 });
@@ -1004,10 +1009,15 @@ namespace PMCaseManagemntAPI.Migrations.DB
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ShelfNumber")
                         .IsUnique();
+
+                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("Shelf");
                 });
@@ -1101,10 +1111,15 @@ namespace PMCaseManagemntAPI.Migrations.DB
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubsidiaryOrganizationId");
 
                     b.ToTable("UnitOfMeasurment");
                 });
@@ -1655,6 +1670,10 @@ namespace PMCaseManagemntAPI.Migrations.DB
 
                     b.Property<Guid>("SubsidiaryOrganizationId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("change")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -2244,6 +2263,17 @@ namespace PMCaseManagemntAPI.Migrations.DB
                     b.Navigation("SubsidiaryOrganization");
                 });
 
+            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.ProgramBudgetYear", b =>
+                {
+                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
+                        .WithMany()
+                        .HasForeignKey("SubsidiaryOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubsidiaryOrganization");
+                });
+
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.Row", b =>
                 {
                     b.HasOne("PM_Case_Managemnt_API.Models.Common.Shelf", "Shelf")
@@ -2255,11 +2285,33 @@ namespace PMCaseManagemntAPI.Migrations.DB
                     b.Navigation("Shelf");
                 });
 
+            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.Shelf", b =>
+                {
+                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
+                        .WithMany()
+                        .HasForeignKey("SubsidiaryOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubsidiaryOrganization");
+                });
+
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.StandardizedFormDocuments", b =>
                 {
                     b.HasOne("PM_Case_Managemnt_API.Models.Common.StandrizedForm", null)
                         .WithMany("StandardizedFormDocuments")
                         .HasForeignKey("StandrizedFormId");
+                });
+
+            modelBuilder.Entity("PM_Case_Managemnt_API.Models.Common.UnitOfMeasurment", b =>
+                {
+                    b.HasOne("PM_Case_Managemnt_API.Models.Common.Organization.SubsidiaryOrganization", "SubsidiaryOrganization")
+                        .WithMany()
+                        .HasForeignKey("SubsidiaryOrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubsidiaryOrganization");
                 });
 
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.PM.Activity", b =>

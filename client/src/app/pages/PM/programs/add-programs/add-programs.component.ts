@@ -7,6 +7,8 @@ import { ProgramService } from '../programs.services';
 import { Program } from '../Program';
 import { IndividualConfig } from 'ngx-toastr';
 import { CommonService, toastPayload } from 'src/app/common/common.service';
+import { UserView } from 'src/app/pages/pages-login/user';
+import { UserService } from 'src/app/pages/pages-login/user.service';
 @Component({
   selector: 'app-add-programs',
   templateUrl: './add-programs.component.html',
@@ -14,6 +16,7 @@ import { CommonService, toastPayload } from 'src/app/common/common.service';
 })
 export class AddProgramsComponent implements OnInit {
 
+  user!: UserView
   toast !: toastPayload;
   programForm!: FormGroup;
   programBudgetYears!: SelectList[];
@@ -23,11 +26,13 @@ export class AddProgramsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private budgetYearService: BudgetYearService,
     private programService: ProgramService,
-    private commonService: CommonService) { }
+    private commonService: CommonService,
+    private userSevice: UserService) { }
 
   ngOnInit(): void {
 
-    this.budgetYearService.getProgramBudgetYearSelectList().subscribe({
+    this.user = this.userSevice.getCurrentUser()
+    this.budgetYearService.getProgramBudgetYearSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         console.log("res", res)
         this.programBudgetYears = res
@@ -41,7 +46,8 @@ export class AddProgramsComponent implements OnInit {
       ProgramBudgetYearId: ['', Validators.required],
       ProgramName: ['', Validators.required],
       ProgramPlannedBudget: [0, Validators.required],
-      Remark: ['']
+      Remark: [''],
+      SubsidiaryOrganizationId: [this.user.SubOrgId]
 
     })
 

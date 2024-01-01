@@ -21,11 +21,15 @@ namespace PM_Case_Managemnt_API.Services.Common
 
 
             //var orgainzationProfile = _dBContext.OrganizationProfile.FirstOrDefault();
+            var id = Guid.NewGuid();
+            if (orgStructure.OrganizationBranchId == Guid.Empty)
+            {
+                orgStructure.OrganizationBranchId = id;
+            }
 
-            
             var orgStructure2 = new OrganizationalStructure
             {
-                Id = Guid.NewGuid(),
+                Id = id,
                 OrganizationBranchId = orgStructure.OrganizationBranchId,
                 //OrganizationProfileId = orgainzationProfile.Id,
                 SubsidiaryOrganizationId = orgStructure.SubsidiaryOrganizationId,

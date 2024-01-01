@@ -12,8 +12,8 @@ using PM_Case_Managemnt_API.Data;
 namespace PMCaseManagemntAPI.Migrations
 {
     [DbContext(typeof(AuthenticationContext))]
-    [Migration("20231117121405_subOrganization")]
-    partial class subOrganization
+    [Migration("20240101091807_InitialCreateAuth")]
+    partial class InitialCreateAuth
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,6 +245,9 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });

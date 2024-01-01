@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PMCaseManagemntAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class subOrganization : Migration
+    public partial class InitialCreateAuth : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,6 +33,7 @@ namespace PMCaseManagemntAPI.Migrations
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(150)", nullable: true),
                     EmployeesId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

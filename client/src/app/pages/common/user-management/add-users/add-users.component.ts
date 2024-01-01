@@ -78,7 +78,8 @@ export class AddUsersComponent {
           EmployeeId: this.employee.Id,
           Password: this.userForm.value.Password,
           UserName: this.userForm.value.UserName,
-          Roles: this.userForm.value.Roles
+          Roles: this.userForm.value.Roles,
+          SubsidiaryOrganizationId: this.user.SubOrgId
         }
         this.userService.createUser(user).subscribe({
           next: (res) => {

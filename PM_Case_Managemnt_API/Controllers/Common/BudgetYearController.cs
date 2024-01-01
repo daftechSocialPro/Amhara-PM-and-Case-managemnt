@@ -42,16 +42,16 @@ namespace PM_Case_Managemnt_API.Controllers.Common
         }
         [HttpGet]
 
-        public async Task<List<ProgramBudgetYear>> GetProgramBudgetYears()
+        public async Task<List<ProgramBudgetYear>> GetProgramBudgetYears(Guid subOrgId)
         {
-            return await _budgetyearService.GetProgramBudgetYears();
+            return await _budgetyearService.GetProgramBudgetYears(subOrgId);
         }
 
         [HttpGet("programbylist")]
 
-        public async Task<List<SelectListDto>> GetProgramBudgetYearList()
+        public async Task<List<SelectListDto>> GetProgramBudgetYearList(Guid subOrgId)
         {
-            return await _budgetyearService.getProgramBudgetSelectList();
+            return await _budgetyearService.getProgramBudgetSelectList(subOrgId);
         }
 
         [HttpPost("budgetyear")]
@@ -79,9 +79,9 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
         [HttpGet("budgetbylist")]
 
-        public async Task<List<SelectListDto>> GetBudgetYearList()
+        public async Task<List<SelectListDto>> GetBudgetYearList(Guid subOrgId)
         {
-            return await _budgetyearService.getProgramBudgetSelectList();
+            return await _budgetyearService.getProgramBudgetSelectList(subOrgId);
         }
         [HttpGet("budgetyearbyprogramid")]
 

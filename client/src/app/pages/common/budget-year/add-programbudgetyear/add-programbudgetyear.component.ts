@@ -35,7 +35,8 @@ export class AddProgrambudgetyearComponent implements OnInit {
       FromYear: [0, Validators.required],
       ToYear: [0, Validators.required],
       Remark: [''],
-      CreatedBy: ['']
+      CreatedBy: [''],
+      SubsidiaryOrganizationId: ['']
 
     })
   }
@@ -50,6 +51,7 @@ export class AddProgrambudgetyearComponent implements OnInit {
     console.log(this.programBudgetForm.value)
 
     this.programBudgetForm.controls['CreatedBy'].setValue(this.user.UserID)
+    this.programBudgetForm.controls['SubsidiaryOrganizationId'].setValue(this.user.SubOrgId)
 
     if (this.programBudgetForm.valid) {
       this.budgetYearService.CreateProgramBudgetYear(this.programBudgetForm.value).subscribe({

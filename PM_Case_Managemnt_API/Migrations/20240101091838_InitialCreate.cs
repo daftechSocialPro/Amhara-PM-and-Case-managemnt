@@ -6,75 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PMCaseManagemntAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class suorganization : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Applicants",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ApplicantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerIdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApplicantType = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Applicants", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CaseTypes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CaseTypeTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotlaPayment = table.Column<float>(type: "real", nullable: false),
-                    Counter = table.Column<float>(type: "real", nullable: false),
-                    ParentCaseTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    OrderNumber = table.Column<int>(type: "int", nullable: true),
-                    MeasurementUnit = table.Column<int>(type: "int", nullable: false),
-                    CaseForm = table.Column<int>(type: "int", nullable: true),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CaseTypes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CaseTypes_CaseTypes_ParentCaseTypeId",
-                        column: x => x.ParentCaseTypeId,
-                        principalTable: "CaseTypes",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Commitees",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CommiteeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Commitees", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "OrganizationProfile",
                 columns: table => new
@@ -93,24 +29,6 @@ namespace PMCaseManagemntAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrganizationProfile", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProgramBudgetYears",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FromYear = table.Column<int>(type: "int", nullable: false),
-                    ToYear = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProgramBudgetYears", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,22 +51,6 @@ namespace PMCaseManagemntAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Shelf",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShelfNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Shelf", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StandrizedForms",
                 columns: table => new
                 {
@@ -165,48 +67,6 @@ namespace PMCaseManagemntAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UnitOfMeasurment",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LocalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UnitOfMeasurment", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FileSettings",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CaseTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileType = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FileSettings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FileSettings_CaseTypes_CaseTypeId",
-                        column: x => x.CaseTypeId,
-                        principalTable: "CaseTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SubsidiaryOrganizations",
                 columns: table => new
                 {
@@ -214,12 +74,12 @@ namespace PMCaseManagemntAPI.Migrations
                     OrganizationProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrganizationNameEnglish = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrganizationNameInLocalLanguage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Logo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SmsCode = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    isRegulatoryBody = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RowStatus = table.Column<int>(type: "int", nullable: false),
@@ -232,78 +92,6 @@ namespace PMCaseManagemntAPI.Migrations
                         name: "FK_SubsidiaryOrganizations_OrganizationProfile_OrganizationProfileId",
                         column: x => x.OrganizationProfileId,
                         principalTable: "OrganizationProfile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BudgetYears",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProgramBudgetYearId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BudgetYears", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BudgetYears_ProgramBudgetYears_ProgramBudgetYearId",
-                        column: x => x.ProgramBudgetYearId,
-                        principalTable: "ProgramBudgetYears",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Programs",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProgramName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProgramPlannedBudget = table.Column<float>(type: "real", nullable: false),
-                    ProgramBudgetYearId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Programs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Programs_ProgramBudgetYears_ProgramBudgetYearId",
-                        column: x => x.ProgramBudgetYearId,
-                        principalTable: "ProgramBudgetYears",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rows",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RowNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ShelfId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rows", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Rows_Shelf_ShelfId",
-                        column: x => x.ShelfId,
-                        principalTable: "Shelf",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -329,6 +117,91 @@ namespace PMCaseManagemntAPI.Migrations
                         column: x => x.StandrizedFormId,
                         principalTable: "StandrizedForms",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Applicants",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApplicantName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerIdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApplicantType = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Applicants", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Applicants_SubsidiaryOrganizations_SubsidiaryOrganizationId",
+                        column: x => x.SubsidiaryOrganizationId,
+                        principalTable: "SubsidiaryOrganizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CaseTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CaseTypeTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotlaPayment = table.Column<float>(type: "real", nullable: false),
+                    Counter = table.Column<float>(type: "real", nullable: false),
+                    ParentCaseTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    OrderNumber = table.Column<int>(type: "int", nullable: true),
+                    MeasurementUnit = table.Column<int>(type: "int", nullable: false),
+                    CaseForm = table.Column<int>(type: "int", nullable: true),
+                    SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CaseTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CaseTypes_CaseTypes_ParentCaseTypeId",
+                        column: x => x.ParentCaseTypeId,
+                        principalTable: "CaseTypes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CaseTypes_SubsidiaryOrganizations_SubsidiaryOrganizationId",
+                        column: x => x.SubsidiaryOrganizationId,
+                        principalTable: "SubsidiaryOrganizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Commitees",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CommiteeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Commitees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Commitees_SubsidiaryOrganizations_SubsidiaryOrganizationId",
+                        column: x => x.SubsidiaryOrganizationId,
+                        principalTable: "SubsidiaryOrganizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -366,12 +239,14 @@ namespace PMCaseManagemntAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Folder",
+                name: "ProgramBudgetYears",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FolderName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FromYear = table.Column<int>(type: "int", nullable: false),
+                    ToYear = table.Column<int>(type: "int", nullable: false),
+                    SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RowStatus = table.Column<int>(type: "int", nullable: false),
@@ -379,11 +254,83 @@ namespace PMCaseManagemntAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Folder", x => x.Id);
+                    table.PrimaryKey("PK_ProgramBudgetYears", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Folder_Rows_RowId",
-                        column: x => x.RowId,
-                        principalTable: "Rows",
+                        name: "FK_ProgramBudgetYears_SubsidiaryOrganizations_SubsidiaryOrganizationId",
+                        column: x => x.SubsidiaryOrganizationId,
+                        principalTable: "SubsidiaryOrganizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Shelf",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ShelfNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shelf", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Shelf_SubsidiaryOrganizations_SubsidiaryOrganizationId",
+                        column: x => x.SubsidiaryOrganizationId,
+                        principalTable: "SubsidiaryOrganizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnitOfMeasurment",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LocalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnitOfMeasurment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UnitOfMeasurment_SubsidiaryOrganizations_SubsidiaryOrganizationId",
+                        column: x => x.SubsidiaryOrganizationId,
+                        principalTable: "SubsidiaryOrganizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FileSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CaseTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileType = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileSettings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FileSettings_CaseTypes_CaseTypeId",
+                        column: x => x.CaseTypeId,
+                        principalTable: "CaseTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -420,23 +367,14 @@ namespace PMCaseManagemntAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cases",
+                name: "BudgetYears",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CaseNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ApplicantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LetterNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LetterSubject = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CaseTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CompletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AffairStatus = table.Column<int>(type: "int", nullable: false),
-                    PhoneNumber2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Representative = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsArchived = table.Column<bool>(type: "bit", nullable: false),
-                    SMSStatus = table.Column<bool>(type: "bit", nullable: false),
-                    FolderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProgramBudgetYearId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RowStatus = table.Column<int>(type: "int", nullable: false),
@@ -444,28 +382,68 @@ namespace PMCaseManagemntAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cases", x => x.Id);
+                    table.PrimaryKey("PK_BudgetYears", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cases_Applicants_ApplicantId",
-                        column: x => x.ApplicantId,
-                        principalTable: "Applicants",
-                        principalColumn: "Id");
+                        name: "FK_BudgetYears_ProgramBudgetYears_ProgramBudgetYearId",
+                        column: x => x.ProgramBudgetYearId,
+                        principalTable: "ProgramBudgetYears",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Programs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProgramName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProgramPlannedBudget = table.Column<float>(type: "real", nullable: false),
+                    ProgramBudgetYearId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    change = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Programs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cases_CaseTypes_CaseTypeId",
-                        column: x => x.CaseTypeId,
-                        principalTable: "CaseTypes",
+                        name: "FK_Programs_ProgramBudgetYears_ProgramBudgetYearId",
+                        column: x => x.ProgramBudgetYearId,
+                        principalTable: "ProgramBudgetYears",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Cases_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id");
+                        name: "FK_Programs_SubsidiaryOrganizations_SubsidiaryOrganizationId",
+                        column: x => x.SubsidiaryOrganizationId,
+                        principalTable: "SubsidiaryOrganizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rows",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RowNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ShelfId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rows", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cases_Folder_FolderId",
-                        column: x => x.FolderId,
-                        principalTable: "Folder",
-                        principalColumn: "Id");
+                        name: "FK_Rows_Shelf_ShelfId",
+                        column: x => x.ShelfId,
+                        principalTable: "Shelf",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -495,7 +473,7 @@ namespace PMCaseManagemntAPI.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -554,6 +532,151 @@ namespace PMCaseManagemntAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Folder",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FolderName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Folder", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Folder_Rows_RowId",
+                        column: x => x.RowId,
+                        principalTable: "Rows",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tasks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PlanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TaskDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShouldStartPeriod = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ActuallStart = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ShouldEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ActualEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PlanedBudget = table.Column<float>(type: "real", nullable: false),
+                    ActualBudget = table.Column<float>(type: "real", nullable: true),
+                    Goal = table.Column<float>(type: "real", nullable: true),
+                    Weight = table.Column<float>(type: "real", nullable: true),
+                    ActualWorked = table.Column<float>(type: "real", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    HasActivityParent = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tasks_Plans_PlanId",
+                        column: x => x.PlanId,
+                        principalTable: "Plans",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cases",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CaseNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ApplicantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LetterNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LetterSubject = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CaseTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AffairStatus = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumber2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Representative = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsArchived = table.Column<bool>(type: "bit", nullable: false),
+                    SMSStatus = table.Column<bool>(type: "bit", nullable: false),
+                    FolderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cases_Applicants_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicants",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Cases_CaseTypes_CaseTypeId",
+                        column: x => x.CaseTypeId,
+                        principalTable: "CaseTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cases_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Cases_Folder_FolderId",
+                        column: x => x.FolderId,
+                        principalTable: "Folder",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Cases_SubsidiaryOrganizations_SubsidiaryOrganizationId",
+                        column: x => x.SubsidiaryOrganizationId,
+                        principalTable: "SubsidiaryOrganizations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ActivityParents",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ActivityParentDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShouldStartPeriod = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ActuallStart = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ShouldEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ActualEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PlanedBudget = table.Column<float>(type: "real", nullable: false),
+                    ActualBudget = table.Column<float>(type: "real", nullable: true),
+                    Goal = table.Column<float>(type: "real", nullable: true),
+                    Weight = table.Column<float>(type: "real", nullable: true),
+                    ActualWorked = table.Column<float>(type: "real", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    HasActivity = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActivityParents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ActivityParents_Tasks_TaskId",
+                        column: x => x.TaskId,
+                        principalTable: "Tasks",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Appointements",
                 columns: table => new
                 {
@@ -580,7 +703,7 @@ namespace PMCaseManagemntAPI.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -611,7 +734,7 @@ namespace PMCaseManagemntAPI.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -744,7 +867,7 @@ namespace PMCaseManagemntAPI.Migrations
                         column: x => x.AssignedByEmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_CaseIssues_Employees_AssignedToEmployeeId",
                         column: x => x.AssignedToEmployeeId,
@@ -817,101 +940,6 @@ namespace PMCaseManagemntAPI.Migrations
                         principalTable: "FileSettings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tasks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    TaskDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ShouldStartPeriod = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ActuallStart = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ShouldEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ActualEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PlanedBudget = table.Column<float>(type: "real", nullable: false),
-                    ActualBudget = table.Column<float>(type: "real", nullable: true),
-                    Goal = table.Column<float>(type: "real", nullable: true),
-                    Weight = table.Column<float>(type: "real", nullable: true),
-                    ActualWorked = table.Column<float>(type: "real", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    HasActivityParent = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tasks_Plans_PlanId",
-                        column: x => x.PlanId,
-                        principalTable: "Plans",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CaseHistoryAttachments",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CaseHistoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CaseHistoryAttachments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CaseHistoryAttachments_CaseHistories_CaseHistoryId",
-                        column: x => x.CaseHistoryId,
-                        principalTable: "CaseHistories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CaseHistoryAttachments_Cases_CaseId",
-                        column: x => x.CaseId,
-                        principalTable: "Cases",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ActivityParents",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ActivityParentDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ShouldStartPeriod = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ActuallStart = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ShouldEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ActualEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PlanedBudget = table.Column<float>(type: "real", nullable: false),
-                    ActualBudget = table.Column<float>(type: "real", nullable: true),
-                    Goal = table.Column<float>(type: "real", nullable: true),
-                    Weight = table.Column<float>(type: "real", nullable: true),
-                    ActualWorked = table.Column<float>(type: "real", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    HasActivity = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RowStatus = table.Column<int>(type: "int", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ActivityParents", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ActivityParents_Tasks_TaskId",
-                        column: x => x.TaskId,
-                        principalTable: "Tasks",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -1065,6 +1093,35 @@ namespace PMCaseManagemntAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CaseHistoryAttachments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CaseHistoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RowStatus = table.Column<int>(type: "int", nullable: false),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CaseHistoryAttachments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CaseHistoryAttachments_CaseHistories_CaseHistoryId",
+                        column: x => x.CaseHistoryId,
+                        principalTable: "CaseHistories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CaseHistoryAttachments_Cases_CaseId",
+                        column: x => x.CaseId,
+                        principalTable: "Cases",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ActivityTargetDivisions",
                 columns: table => new
                 {
@@ -1127,7 +1184,7 @@ namespace PMCaseManagemntAPI.Migrations
                         column: x => x.ApprovedByDirectorId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_ActivityTerminationHistories_Employees_FromEmployeeId",
                         column: x => x.FromEmployeeId,
@@ -1167,7 +1224,7 @@ namespace PMCaseManagemntAPI.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -1245,7 +1302,7 @@ namespace PMCaseManagemntAPI.Migrations
                         column: x => x.EmployeeValueId,
                         principalTable: "Employees",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -1350,6 +1407,11 @@ namespace PMCaseManagemntAPI.Migrations
                 name: "IX_ActivityTerminationHistories_ToEmployeeId",
                 table: "ActivityTerminationHistories",
                 column: "ToEmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applicants_SubsidiaryOrganizationId",
+                table: "Applicants",
+                column: "SubsidiaryOrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointements_CaseId",
@@ -1488,9 +1550,19 @@ namespace PMCaseManagemntAPI.Migrations
                 column: "FolderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cases_SubsidiaryOrganizationId",
+                table: "Cases",
+                column: "SubsidiaryOrganizationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CaseTypes_ParentCaseTypeId",
                 table: "CaseTypes",
                 column: "ParentCaseTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CaseTypes_SubsidiaryOrganizationId",
+                table: "CaseTypes",
+                column: "SubsidiaryOrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CommiteEmployees_CommiteeId",
@@ -1501,6 +1573,11 @@ namespace PMCaseManagemntAPI.Migrations
                 name: "IX_CommiteEmployees_EmployeeId",
                 table: "CommiteEmployees",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Commitees_SubsidiaryOrganizationId",
+                table: "Commitees",
+                column: "SubsidiaryOrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_OrganizationalStructureId",
@@ -1584,9 +1661,19 @@ namespace PMCaseManagemntAPI.Migrations
                 column: "StructureId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProgramBudgetYears_SubsidiaryOrganizationId",
+                table: "ProgramBudgetYears",
+                column: "SubsidiaryOrganizationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Programs_ProgramBudgetYearId",
                 table: "Programs",
                 column: "ProgramBudgetYearId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Programs_SubsidiaryOrganizationId",
+                table: "Programs",
+                column: "SubsidiaryOrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProgressAttachments_ActivityProgressId",
@@ -1609,6 +1696,11 @@ namespace PMCaseManagemntAPI.Migrations
                 table: "Shelf",
                 column: "ShelfNumber",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shelf_SubsidiaryOrganizationId",
+                table: "Shelf",
+                column: "SubsidiaryOrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubsidiaryOrganizations_OrganizationProfileId",
@@ -1669,6 +1761,11 @@ namespace PMCaseManagemntAPI.Migrations
                 name: "IX_Tasks_PlanId",
                 table: "Tasks",
                 column: "PlanId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitOfMeasurment_SubsidiaryOrganizationId",
+                table: "UnitOfMeasurment",
+                column: "SubsidiaryOrganizationId");
         }
 
         /// <inheritdoc />
