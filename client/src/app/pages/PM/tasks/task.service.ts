@@ -30,9 +30,9 @@ export class TaskService {
     return this.http.post(this.BaseURI + "/TaskMembers", taskMemebers)
   }
 
-  getEmployeeNoTaskMembers(taskId: String) {
+  getEmployeeNoTaskMembers(taskId: String, suborgId: string) {
 
-    return this.http.get<SelectList[]>(this.BaseURI + "/selectlsitNoTask?taskId=" + taskId)
+    return this.http.get<SelectList[]>(this.BaseURI + "/selectlsitNoTask?taskId=" + taskId + "&subOrgId="+ suborgId)
   }
 
   addTaskMemos(taskMemo: any) {

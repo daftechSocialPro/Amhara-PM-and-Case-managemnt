@@ -16,7 +16,7 @@ namespace PM_Case_Managemnt_API.Services.PM
         public Task<int> AddTaskMemo(TaskMemoRequestDto taskMemo);
 
 
-        public Task<List<SelectListDto>> GetEmployeesNoTaskMembersSelectList(Guid taskId);
+        public Task<List<SelectListDto>> GetEmployeesNoTaskMembersSelectList(Guid taskId, Guid subOrgId);
 
 
         public Task<List<SelectListDto>> GetTasksSelectList(Guid PlanId);

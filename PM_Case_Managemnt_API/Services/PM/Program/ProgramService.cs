@@ -93,8 +93,8 @@ namespace PM_Case_Managemnt_API.Services.PM.Program
                 ProgramBudgetYear = program.ProgramBudgetYear.Name + " ( " + program.ProgramBudgetYear.FromYear + " - " + program.ProgramBudgetYear.ToYear + " )",
                 NumberOfProjects = 0,
                 ProgramPlannedBudget = program.ProgramPlannedBudget,
-                RemainingBudget = program.ProgramPlannedBudget - _dBContext.Plans.Sum(x => x.PlandBudget),
-                RemainingWeight = 100 - _dBContext.Plans.Sum(x => x.PlanWeight),
+                RemainingBudget = program.ProgramPlannedBudget - _dBContext.Plans.Where(x => x.ProgramId == program.Id).Sum(x => x.PlandBudget),
+                RemainingWeight = 100 - _dBContext.Plans.Where(x => x.ProgramId == program.Id).Sum(x => x.PlanWeight),
                 
                 Remark = program.Remark
             };

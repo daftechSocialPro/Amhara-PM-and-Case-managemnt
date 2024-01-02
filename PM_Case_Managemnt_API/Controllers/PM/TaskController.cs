@@ -72,10 +72,10 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         }
         [HttpGet("selectlsitNoTask")]
 
-        public async Task<List<SelectListDto>> GetEmployeesNoTaskMembers(Guid taskId)
+        public async Task<List<SelectListDto>> GetEmployeesNoTaskMembers(Guid taskId, Guid subOrgId)
         {
 
-            return await _taskService.GetEmployeesNoTaskMembersSelectList(taskId);
+            return await _taskService.GetEmployeesNoTaskMembersSelectList(taskId, subOrgId);
         }
 
 

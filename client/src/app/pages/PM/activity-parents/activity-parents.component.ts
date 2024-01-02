@@ -44,12 +44,12 @@ export class ActivityParentsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.user = this.userService.getCurrentUser();
     this.parentId = this.route.snapshot.paramMap.get('parentId')!
     this.requestFrom = this.route.snapshot.paramMap.get('requestFrom')!
     this.getSingleTask();
     this.ListofEmployees();
-    this.user = this.userService.getCurrentUser();
+    
     this.getAttachments()
 
   }
@@ -74,7 +74,7 @@ export class ActivityParentsComponent implements OnInit {
 
   ListofEmployees() {
 
-    this.taskService.getEmployeeNoTaskMembers(this.parentId).subscribe({
+    this.taskService.getEmployeeNoTaskMembers(this.parentId, this.user.SubOrgId).subscribe({
       next: (res) => {
         this.Employees = res
       }

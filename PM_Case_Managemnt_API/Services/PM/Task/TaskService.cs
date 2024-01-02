@@ -345,7 +345,7 @@ namespace PM_Case_Managemnt_API.Services.PM
          
             return 1;
         }
-        public async Task<List<SelectListDto>> GetEmployeesNoTaskMembersSelectList(Guid taskId)
+        public async Task<List<SelectListDto>> GetEmployeesNoTaskMembersSelectList(Guid taskId, Guid subOrgId)
         {
             var taskMembers = _dBContext.TaskMembers.Where(x =>
             (x.TaskId != Guid.Empty && x.TaskId == taskId) ||
@@ -353,7 +353,7 @@ namespace PM_Case_Managemnt_API.Services.PM
             (x.ActivityParentId != Guid.Empty && x.ActivityParentId == taskId)
             ).Select(x => x.EmployeeId).ToList();
 
-            var EmployeeSelectList = await (from e in _dBContext.Employees
+            var EmployeeSelectList = await (from e in _dBContext.Employees.Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId)
                                             where !(taskMembers.Contains(e.Id))
                                             select new SelectListDto
                                             {
