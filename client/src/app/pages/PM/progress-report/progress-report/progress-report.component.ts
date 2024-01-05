@@ -190,5 +190,10 @@ exportTableToExcel(table: HTMLElement, fileName: string): void {
 
   }
 
+  roleMatch (value : string[]){
+
+    return this.userService.roleMatch(value)
+  }
+
 
 }

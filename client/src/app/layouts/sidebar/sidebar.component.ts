@@ -45,7 +45,7 @@ export class SidebarComponent implements OnInit {
 
   roleMatch (value : string[]){
 
-return this.userService.roleMatch(value)
+    return this.userService.roleMatch(value)
   }
 
 

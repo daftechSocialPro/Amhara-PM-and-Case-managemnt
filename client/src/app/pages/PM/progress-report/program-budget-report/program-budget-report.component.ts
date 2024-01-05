@@ -69,4 +69,9 @@ export class ProgramBudgetReportComponent implements OnInit {
       error: (err) => console.error(err)
     })
   }
+
+  roleMatch (value : string[]){
+
+    return this.userService.roleMatch(value)
+  }
 }

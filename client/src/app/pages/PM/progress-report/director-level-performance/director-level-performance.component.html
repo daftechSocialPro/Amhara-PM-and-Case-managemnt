@@ -13,26 +13,26 @@
     
     
     <!-- ssssssssssss -->
-    <div class="row">
-      <div class="col-12">
-        <div class="card p-2">
-          
-          <div class="d-flex justify-content-center ">
+      <div *ngIf="roleMatch(['Regulator'])" class="row">
+        <div class="col-12">
+          <div class="card p-2">
             
-            <div class="form-floating col-3 me-2">
-              <select class="form-control"  id="ReportBy"
-              placeholder="ReportBy" (change)="onSubChange($event)" >
-              <option value="">--Select Subsidiary Organization--</option>
-              <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
-            </select>
-            <label for="ReportBy">Subsidiary Organization</label>
-          </div>
+            <div class="d-flex justify-content-center ">
+              
+              <div class="form-floating col-3 me-2">
+                <select class="form-control"  id="ReportBy"
+                placeholder="ReportBy" (change)="onSubChange($event)" >
+                <option value="">--Select Subsidiary Organization--</option>
+                <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
+                </select>
+                <label for="ReportBy">Subsidiary Organization</label>
+              </div>
+            
+            </div>
           
+          </div>
         </div>
-        
       </div>
-    </div>
-  </div>
   <!-- sssssssssssss -->
   
   

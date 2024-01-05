@@ -162,6 +162,7 @@ import { UpdateCaseComponent } from './pages/Case/encode-case/update-case/update
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SubOrganizationComponent } from './pages/common/organization/sub-organization/sub-organization.component';
 import { AddSubOrgComponent } from './pages/common/organization/sub-organization/add-sub-org/add-sub-org.component';
+import { PlanDetailComponent } from './pages/PM/plans/plan-detail/plan-detail.component';
 
 @NgModule({
   declarations: [
@@ -298,7 +299,8 @@ import { AddSubOrgComponent } from './pages/common/organization/sub-organization
     SearchCasesComponent,
     UpdateCaseComponent,
     SubOrganizationComponent,
-    AddSubOrgComponent
+    AddSubOrgComponent,
+    PlanDetailComponent
    
   ],
   imports: [

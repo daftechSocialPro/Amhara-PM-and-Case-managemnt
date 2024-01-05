@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="PlannedBudget" placeholder="EndDate"
+                                        <input type="number" class="form-control" id="PlannedBudget" [min]="0" placeholder="EndDate" #budget (change)="budgetChange(budget.value)"
                                             formControlName="PlannedBudget">
                                         <label for="PlannedBudget">Planned Budget</label>
                                         <small style="color: red;">Remaining Budget : {{task?.RemainingBudget}}</small>
@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="Weight" placeholder="Weight"
+                                        <input type="number" class="form-control" id="Weight" [min]="0" placeholder="Weight" #weight (change)="weightChange(weight.value)"
                                             formControlName="Weight">
                                         <label for="Weight">Weight</label>
                                         <small style="color: red;">Remaining Weight : {{task?.RemianingWeight}}</small>

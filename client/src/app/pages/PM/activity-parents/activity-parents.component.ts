@@ -23,7 +23,7 @@ import { PMService } from '../pm.services';
 export class ActivityParentsComponent implements OnInit {
 
   @ViewChild('taskMemoDesc') taskMemoDesc!: ElementRef
-  task: TaskView = {};
+  task!: TaskView;
   parentId: string = "";
   requestFrom: string = "";
   Employees: SelectList[] = [];

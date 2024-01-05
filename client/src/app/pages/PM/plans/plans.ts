@@ -1,17 +1,17 @@
 import { TaskView } from "../tasks/task"
 
 export interface Plan {
-    BudgetYearId: String
+    BudgetYearId: string
     HasTask: Boolean
-    PlanName: String
+    PlanName: string
     PlanWeight: Number
     PlandBudget: Number
-    ProgramId: String
-    ProjectType: String
-    Remark: String
-    StructureId: String;
-    ProjectManagerId: String;
-    FinanceId: String;
+    ProgramId: string
+    ProjectType: string
+    Remark: string
+    StructureId: string;
+    ProjectManagerId: string;
+    FinanceId: string;
 
 }
 
@@ -19,15 +19,15 @@ export interface Plan {
 export interface PlanView {
 
     Id : string,
-    PlanName: String,
+    PlanName: string,
     PlanWeight: Number,
     PlandBudget: Number,
     RemainingBudget: Number,
-    ProjectManager: String,
+    ProjectManager: string,
     FinanceManager: string,
     Director: string,
-    StructureName: String,
-    ProjectType: String,
+    StructureName: string,
+    ProjectType: string,
     NumberOfTask: number,
     NumberOfActivities: number,
     NumberOfTaskCompleted: number,
@@ -38,8 +38,8 @@ export interface PlanView {
 }
 
 export interface PlanSingleview {
-    Id:String,
-    PlanName:String,
+    Id:string,
+    PlanName:string,
     PlanWeight:number,
     RemainingWeight:number,
     PlannedBudget:number,

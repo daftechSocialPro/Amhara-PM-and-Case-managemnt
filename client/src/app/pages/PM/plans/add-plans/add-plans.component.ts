@@ -30,7 +30,7 @@ export class AddPlansComponent implements OnInit {
   Branchs: SelectList[] = [];
   employeeList: SelectList[] = [];
   program!: Program;
-  ProjectManagerId!: String;
+  ProjectManagerId!: string;
   FinanceId!: string;
   user!: UserView
 

@@ -70,7 +70,7 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
                 await _dBContext.SaveChangesAsync();
 
                 await _authService.PostApplicationUser(superadmin);
-
+                
                 var orgStruc = new OrgStructureDto()
                 {
                     SubsidiaryOrganizationId = subOrganization.Id,

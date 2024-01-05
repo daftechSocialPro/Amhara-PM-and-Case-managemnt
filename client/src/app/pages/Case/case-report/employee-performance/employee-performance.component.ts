@@ -102,4 +102,9 @@ export class EmployeePerformanceComponent implements OnInit {
     }
   }
 
+  roleMatch (value : string[]){
+
+    return this.userService.roleMatch(value)
+  }
+
 }

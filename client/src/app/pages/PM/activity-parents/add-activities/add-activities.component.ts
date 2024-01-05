@@ -271,5 +271,49 @@ export class AddActivitiesComponent implements OnInit {
     })
   }
 
+  weightChange(weight:string){
+
+    if (this.task){
+      if ( Number(weight)>this.task.RemianingWeight){
+
+        this.toast = {
+          message: "Weight can not be greater than Remaining weight",
+          title: 'Form Validation.',
+          type: 'error',
+          ic: {
+            timeOut: 2500,
+            closeButton: true,
+          } as IndividualConfig,
+        };
+        this.commonService.showToast(this.toast);
+
+        this.activityForm.controls['Weight'].setValue('')
+      }
+    }
+  }
+
+
+  
+  budgetChange(budget:string){
+
+    if (this.task){
+      if ( Number(budget)>this.task.RemainingBudget){
+
+        this.toast = {
+          message: "Budget can not be greater than Remaining Budget",
+          title: 'Form Validation.',
+          type: 'error',
+          ic: {
+            timeOut: 2500,
+            closeButton: true,
+          } as IndividualConfig,
+        };
+        this.commonService.showToast(this.toast);
+
+        this.activityForm.controls['PlannedBudget'].setValue('')
+      }
+    }
+  }
+
 
 }

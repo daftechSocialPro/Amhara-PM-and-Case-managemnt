@@ -77,6 +77,7 @@ import { PerformanceReportComponent } from './pages/pm/progress-report/performan
 import { EstimatedCoastComponent } from './pages/pm/progress-report/estimated-coast/estimated-coast.component';
 import { SearchCasesComponent } from './pages/Case/search-cases/search-cases.component';
 import { SubOrganizationComponent } from './pages/common/organization/sub-organization/sub-organization.component';
+import { PlanDetailComponent } from './pages/PM/plans/plan-detail/plan-detail.component';
 
 
 
@@ -97,6 +98,8 @@ const routes: Routes = [
   { path: 'usermanagement', canActivate: [AuthGuard], component: UserManagementComponent,data:{permittedRoles : ['Super Admin','Employee Manager']} },
   { path: 'program', canActivate:[AuthGuard],component:ProgramsComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'plan', canActivate:[AuthGuard],component:PlansComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
+  //
+  { path: 'planDetail/:planId', canActivate:[AuthGuard],component:PlanDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'task',canActivate:[AuthGuard],component:TasksComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},  
   { path: 'activityparent', canActivate:[AuthGuard],component:ActivityParentsComponent ,data:{permittedRoles:['Super Admin','Director','Employee Manager','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']}},
   { path: 'encodecase' ,canActivate:[AuthGuard],component : EncodeCaseComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},

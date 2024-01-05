@@ -42,3 +42,7 @@ export interface BudgetYearwithoutId {
 }
 
 
+export interface GetStartEndDate{
+    fromDate: string;
+    endDate: string;
+}

@@ -26,7 +26,7 @@
                     
                           
                             
-                            <div class="d-flex justify-content-start m-2">
+                            <div *ngIf="roleMatch(['Regulator'])" class="d-flex justify-content-start m-2">
                               
                               <div class="form-floating col-3 me-2">
                                 <select class="form-control"  id="ReportBy"

@@ -51,5 +51,10 @@ export class DirectorLevelPerformanceComponent implements OnInit {
     }
   }
 
+  roleMatch (value : string[]){
+
+    return this.userService.roleMatch(value)
+  }
+
 
 }
