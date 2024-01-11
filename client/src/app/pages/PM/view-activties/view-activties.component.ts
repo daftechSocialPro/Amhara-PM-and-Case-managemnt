@@ -45,6 +45,7 @@ export class ViewActivtiesComponent implements OnInit {
     
     this.user = this.userService.getCurrentUser()
     if (this.actView.Members.find(x => x.EmployeeId?.toLowerCase() == this.user.EmployeeId.toLowerCase()) ) {
+    
       this.isMember = true;
     }
   }

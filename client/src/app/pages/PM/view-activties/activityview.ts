@@ -20,6 +20,7 @@ export interface ActivityView {
     IsProjectManager: boolean
     IsDirector: boolean
     OverAllProgress:number
+    UsedBudget: number
 
 
 }

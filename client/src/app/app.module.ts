@@ -163,6 +163,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { SubOrganizationComponent } from './pages/common/organization/sub-organization/sub-organization.component';
 import { AddSubOrgComponent } from './pages/common/organization/sub-organization/add-sub-org/add-sub-org.component';
 import { PlanDetailComponent } from './pages/PM/plans/plan-detail/plan-detail.component';
+import { ActivityDetailComponent } from './pages/PM/plans/plan-detail/activity-detail/activity-detail.component';
+import { TaskReportComponent } from './pages/PM/progress-report/task-report/task-report.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [
@@ -300,7 +303,9 @@ import { PlanDetailComponent } from './pages/PM/plans/plan-detail/plan-detail.co
     UpdateCaseComponent,
     SubOrganizationComponent,
     AddSubOrgComponent,
-    PlanDetailComponent
+    PlanDetailComponent,
+    ActivityDetailComponent,
+    TaskReportComponent
    
   ],
   imports: [
@@ -328,7 +333,12 @@ import { PlanDetailComponent } from './pages/PM/plans/plan-detail/plan-detail.co
     OrganizationChartModule,
     PdfViewerModule,
     CarouselModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxEchartsModule.forRoot({
+      
+      echarts: () => import('echarts'), 
+    }),
+    
   
   ],
   providers: [

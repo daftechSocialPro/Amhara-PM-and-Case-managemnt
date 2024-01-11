@@ -34,7 +34,7 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
         {
             try
             {
-                subOrg.OrganizationProfileId = _dBContext.OrganizationProfile.FirstOrDefault().Id;
+                var OrganizationProfileId = _dBContext.OrganizationProfile.FirstOrDefault();
                 var subOrganization = new Models.Common.Organization.SubsidiaryOrganization
                 {
                     Id = Guid.NewGuid(),
@@ -44,7 +44,7 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
                     Address = subOrg.Address,
                     PhoneNumber = subOrg.PhoneNumber,
                     SmsCode = subOrg.SmsCode,
-                    OrganizationProfileId = subOrg.OrganizationProfileId
+                    OrganizationProfileId = OrganizationProfileId.Id
                 };
                 
 
@@ -68,11 +68,9 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
 
                 await _dBContext.AddAsync(subOrganization);
                 await _dBContext.SaveChangesAsync();
-
-                await _authService.PostApplicationUser(superadmin);
-                
                 var orgStruc = new OrgStructureDto()
                 {
+
                     SubsidiaryOrganizationId = subOrganization.Id,
                     StructureName = subOrganization.OrganizationNameEnglish,
                     Order = 1,
@@ -81,10 +79,28 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
                     Weight = 100,
                     Remark = "",
                     OrganizationBranchId = Guid.Empty,
-                    RowStatus= 0,
+                    RowStatus = 0,
+                    Id = Guid.NewGuid(),
                 };
 
                 await _orgStucService.CreateOrganizationalStructure(orgStruc);
+
+                var emp = new EmployeeDto()
+                {
+                    FullName = $"SUPER-ADMIN for {subOrganization.OrganizationNameEnglish}",
+                    Title = "MR.",
+                    PhoneNumber = subOrganization.PhoneNumber,
+                    Gender = "Male",
+                    Remark = subOrganization.Remark,
+                    StructureId = orgStruc.Id.ToString(),
+                    Position = "Director",
+                    Photo = OrganizationProfileId.Logo,
+                };
+                await _empService.CreateEmployee(emp);
+
+                await _authService.PostApplicationUser(superadmin);
+                
+               
 
                 return 1;
             }
@@ -127,6 +143,11 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
 
 
 
+        }
+        public async Task<Models.Common.Organization.SubsidiaryOrganization> GetSubsidiaryOrganizationById(Guid subOrgId)
+        {
+
+            return await _dBContext.SubsidiaryOrganizations.Where(x => x.Id == subOrgId).Include(u => u.OrganizationProfile).FirstOrDefaultAsync();
         }
 
     }

@@ -31,6 +31,6 @@ namespace PM_Case_Managemnt_API.DTOS.Common
         
         public string ? Password { get; set; }
 
-
+        
     }
 }

@@ -30,6 +30,7 @@
                 </div>
 
             </div>
+            <h6 class="mt-2">Organization: <b>{{subOrg.OrganizationNameInLocalLanguage}} </b> </h6>
 
             <h6 class="mt-2">Project: <b>{{Plans.PlanName}} </b> </h6>
             
@@ -156,10 +157,10 @@
                                     <td style="border: 1px solid black;">
                                         {{index1 + 1}}.{{index2 + 1}}
                                         <button class="btn btn-outline-primary btn-sm"
-                                            *ngIf="(act.MonthPerformance!.length===0)" (click)="AssignTarget(act)"> <i
+                                            *ngIf="(act.MonthPerformance!.length===0)" (click)="AssignTarget(act)" > <i
                                                 class="bi bi-plus me-1"></i> Target </button>
                                     </td>
-                                    <td style="border: 1px solid black;">{{act.Name}}</td>
+                                    <td style="border: 1px solid black;"(click)="routeToActDetail(act)" style="cursor: pointer;">{{act.Name}}</td>
                                     <td style="border: 1px solid black;">{{act.Weight}} %</td>
                                     <td style="border: 1px solid black;">{{act.UnitOfMeasurment}}</td>
                                     <td style="border: 1px solid black;">{{act.Begining}}</td>

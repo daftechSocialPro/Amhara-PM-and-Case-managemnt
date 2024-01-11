@@ -22,7 +22,7 @@ export class DirectorLevelPerformanceComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.user = this .userService.getCurrentUser()
+    this.user = this.userService.getCurrentUser()
     this.getSubOrgSelectList()
     this.getOrganizationList(this.user.SubOrgId)
   }
@@ -31,6 +31,8 @@ export class DirectorLevelPerformanceComponent implements OnInit {
     this.pmService.getDirectorLevelPerformance(subOrgId).subscribe({
       next:(res)=>{    
         this.data=res
+        console.log('this.data: ', this.data);
+
       },error:(err=>{
         console.log(err)
       })

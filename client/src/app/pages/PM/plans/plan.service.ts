@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Plan, PlanView,PlanSingleview } from './plans';
+import { SelectList } from '../../common/common';
 
 
 @Injectable({
@@ -27,6 +28,11 @@ export class PlanService {
     getSinglePlans(planId:String){
 
         return this.http.get<PlanSingleview>(this.BaseURI+"/getbyplanid?planId="+planId)
+    }
+
+    getPlanSelectList(programId:String){
+
+        return this.http.get<SelectList[]>(this.BaseURI+"/getByProgramIdSelectList?programId="+programId)
     }
 
 

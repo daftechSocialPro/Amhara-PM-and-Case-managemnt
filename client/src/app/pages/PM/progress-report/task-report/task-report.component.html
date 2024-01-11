@@ -1,0 +1,64 @@
+
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Task Report</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+          <li class="breadcrumb-item">Task's Activities </li>
+          <li class="breadcrumb-item active">Report</li>
+        </ol>
+      </nav>
+    </div>
+    <section class="section">
+      
+      
+      <!-- ssssssssssss -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card p-2">
+              
+              <div class="d-flex justify-content-center ">
+                
+                <div class="form-floating col-3 me-2">
+                  <select class="form-control"  id="ReportBy"
+                  placeholder="ReportBy" (change)="onProgramChange($event)" >
+                  <option value="">--Select Program--</option>
+                  <option *ngFor="let bl of programSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
+                  </select>
+                  <label for="ReportBy">Programs</label>
+                </div>
+                <div class="form-floating col-3 me-2">
+                    <select class="form-control"  id="ReportBy"
+                    placeholder="ReportBy" (change)="onPlanChange($event)" >
+                    <option value="">--Select Project--</option>
+                    <option *ngFor="let bl of planSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
+                    </select>
+                    <label for="ReportBy">Projects</label>
+                </div>
+                <div class="form-floating col-3 me-2">
+                    <select class="form-control"  id="ReportBy"
+                    placeholder="ReportBy" (change)="onTaskChange($event)" >
+                    <option value="">--Select Task--</option>
+                    <option *ngFor="let bl of taskSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
+                    </select>
+                    <label for="ReportBy">Tasks</label>
+                </div>
+              
+              </div>
+            
+            </div>
+          </div>
+        </div>
+    <!-- sssssssssssss -->
+    
+    
+    <div class="row">
+      
+      <div class="card flex justify-content-center p-2">
+        <div echarts [options]="chartOption"></div>
+      </div>
+    </div>
+  </section>
+  </main>
+  

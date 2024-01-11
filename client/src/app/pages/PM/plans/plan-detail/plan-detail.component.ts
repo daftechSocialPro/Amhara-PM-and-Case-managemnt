@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddTasksComponent } from '../../tasks/add-tasks/add-tasks.component';
 import { AddActivitiesComponent } from '../../activity-parents/add-activities/add-activities.component';
@@ -13,6 +13,8 @@ import { ActivityView } from '../../view-activties/activityview';
 import { PlanService } from '../plan.service';
 import { PlanSingleview } from '../plans';
 import { GetStartEndDate } from 'src/app/pages/common/common';
+import { ActivityDetailDto } from '../../activity-parents/add-activities/add-activities';
+import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 
 @Component({
   selector: 'app-plan-detail',
@@ -31,6 +33,7 @@ export class PlanDetailComponent implements OnInit {
   plan!: PlanSingleview
   planTasks: Map<string, any[]> = new Map<string, any[]>();
   taskActivities: Map<string, any[]> = new Map<string, any[]>();
+  subOrg: any
 
 
   filterBy:number=1
@@ -42,6 +45,8 @@ export class PlanDetailComponent implements OnInit {
     private taskService: TaskService,
     private userService: UserService,
     private modalService : NgbModal,
+    private router : Router,
+    private orgService: OrganizationService
     
 
 
@@ -51,6 +56,7 @@ export class PlanDetailComponent implements OnInit {
     this.user = this.userService.getCurrentUser()
     this.planId = this.activatedROute.snapshot.paramMap.get('planId')!
     this.getPlans()
+    this.getSubOrg(this.user.SubOrgId)
   }
 
 
@@ -169,7 +175,29 @@ export class PlanDetailComponent implements OnInit {
     link.href = uri + base64(format(template, ctx));
     link.click();
 }
-  }
+routeToActDetail(act: ActivityView){
+
+  console.log('act: ', act);
+  
+  this.router.navigate(['activityDetail', {Activties:act}]);
+
+}
+
+getSubOrg(subOrgId: string){
+  this.orgService.getSubOrgById(subOrgId).subscribe({
+    next:(res) => {
+      this.subOrg = res
+      console.log('this.subOrg : ', this.subOrg );
+    },
+    error: (err) => {
+      console.error(err)
+    }
+  })
+}
+
+
+
+}
 
 
 

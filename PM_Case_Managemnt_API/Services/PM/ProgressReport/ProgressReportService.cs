@@ -25,12 +25,17 @@ namespace PM_Case_Managemnt_API.Services.PM.ProgressReport
         public async Task<List<DiagramDto>> GetDirectorLevelPerformance(Guid subOrgId, Guid? BranchId)
         {
 
-            var orgStructures = _dBContext.OrganizationalStructures.Where(x => x.SubsidiaryOrganizationId == subOrgId || x.ParentStructureId == null).Include(x => x.ParentStructure).ToList();
-            var employess = _dBContext.Employees.Where(x => x.OrganizationalStructureId == subOrgId).ToList();
+            var orgStructures = _dBContext.OrganizationalStructures.Where(x => x.SubsidiaryOrganizationId == subOrgId).Include(x => x.ParentStructure).ToList();
+            var orgStructureIds = orgStructures.Select(x => x.Id).ToList();
+
+            var employess = _dBContext.Employees.Where(x => orgStructureIds.Contains(x.OrganizationalStructureId)).ToList();
             var childs = new List<DiagramDto>();
 
             var parentStructure = orgStructures.FirstOrDefault(x => x.ParentStructureId == null);
-            var BudgetYear = _dBContext.BudgetYears.Single(x => x.RowStatus == RowStatus.Active);
+
+            var programBudgetYearsIds = _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId == subOrgId).Select(x => x.Id).ToList();
+
+            var BudgetYear = _dBContext.BudgetYears.Where(x => programBudgetYearsIds.Contains(x.ProgramBudgetYearId)).Single(x => x.RowStatus == RowStatus.Active);
 
 
 

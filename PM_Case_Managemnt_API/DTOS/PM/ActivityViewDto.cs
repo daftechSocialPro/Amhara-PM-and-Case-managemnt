@@ -26,6 +26,7 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public bool IsFinance { get; set; }
         public bool IsProjectManager { get; set; }
         public bool IsDirector { get; set; }
+        public float? UsedBudget { get; set; }
     }
 
     public class MonthPerformanceViewDto

@@ -39,5 +39,9 @@ export class TaskService {
     return this.http.post(this.BaseURI + "/TaskMemo", taskMemo)
   }
 
+  getTaskSelectList(planId: string){
+    return this.http.get<SelectList[]>(this.BaseURI + "/getByTaskIdSelectList?planId=" + planId)
+  }
+
 
 }

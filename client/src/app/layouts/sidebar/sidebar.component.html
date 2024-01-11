@@ -124,6 +124,14 @@
                               routerLink="/directorlevelperformance"> <i
                                           class="bi bi-circle"></i><span>Director level
                                           performance</span> </a></li>
+
+                        <li *ngIf="roleMatch(['Super Admin','PM Admin','Director'])"> <a 
+                              [ngClass]="getUrl()=='/taskreport'?'nav-link ':'nav-link collapsed'"
+                              routerLink="/taskreport"> <i
+                              class="bi bi-circle"></i><span>Task Report
+                                     </span> </a></li>
+
+
                         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director'])"> <a 
                               [ngClass]="getUrl()=='/programbudgetreport'?'nav-link ':'nav-link collapsed'"
                               routerLink="/programbudgetreport"> <i

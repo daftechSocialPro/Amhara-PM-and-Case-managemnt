@@ -46,6 +46,10 @@ export class OrganizationService {
     return this.http.get<SelectList[]>(this.BaseURI+ "/SubOrganization/selectlist")
   }
 
+  getSubOrgById(subOrgId: string){
+    return this.http.get(this.BaseURI + "/SubOrganization/ById?subOrgId=" + subOrgId)
+  }
+
   // branch
   OrgBranchCreate(orgBranch: OrganizationBranch) {
     return this.http.post(this.BaseURI + "/OrgBranch", orgBranch)

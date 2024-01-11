@@ -43,6 +43,14 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
         {
             return await _subOrganizationService.GetSubsidiaryOrganization();
         }
+
+        [HttpGet("ById")]
+
+        public async Task<SubsidiaryOrganization> getSubsidiaryOrganizationById(Guid subOrgId)
+        {
+            return await _subOrganizationService.GetSubsidiaryOrganizationById(subOrgId);
+        }
+
         [HttpPut, DisableRequestSizeLimit]
         public IActionResult Update()
         {

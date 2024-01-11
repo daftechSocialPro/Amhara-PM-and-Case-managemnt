@@ -22,7 +22,7 @@ namespace PM_Case_Managemnt_API.Services.Common
 
             //var orgainzationProfile = _dBContext.OrganizationProfile.FirstOrDefault();
             var id = Guid.NewGuid();
-            if (orgStructure.OrganizationBranchId == Guid.Empty)
+            if (orgStructure.OrganizationBranchId == Guid.Empty || orgStructure.OrganizationBranchId == null)
             {
                 orgStructure.OrganizationBranchId = id;
             }

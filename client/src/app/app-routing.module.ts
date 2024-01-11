@@ -78,6 +78,8 @@ import { EstimatedCoastComponent } from './pages/pm/progress-report/estimated-co
 import { SearchCasesComponent } from './pages/Case/search-cases/search-cases.component';
 import { SubOrganizationComponent } from './pages/common/organization/sub-organization/sub-organization.component';
 import { PlanDetailComponent } from './pages/PM/plans/plan-detail/plan-detail.component';
+import { ActivityDetailComponent } from './pages/PM/plans/plan-detail/activity-detail/activity-detail.component';
+import { TaskReportComponent } from './pages/PM/progress-report/task-report/task-report.component';
 
 
 
@@ -99,6 +101,7 @@ const routes: Routes = [
   { path: 'program', canActivate:[AuthGuard],component:ProgramsComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'plan', canActivate:[AuthGuard],component:PlansComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   //
+  { path: 'activityDetail', canActivate:[AuthGuard],component:ActivityDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'planDetail/:planId', canActivate:[AuthGuard],component:PlanDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'task',canActivate:[AuthGuard],component:TasksComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},  
   { path: 'activityparent', canActivate:[AuthGuard],component:ActivityParentsComponent ,data:{permittedRoles:['Super Admin','Director','Employee Manager','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']}},
@@ -141,6 +144,7 @@ const routes: Routes = [
 { path: 'planreportdetail',canActivate:[AuthGuard], component: PlanReportTodayComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
 { path: 'plannedreport',canActivate:[AuthGuard], component: PlannedReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
 { path: 'progressreport',canActivate:[AuthGuard], component: ProgressReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
+{ path: 'taskreport',canActivate:[AuthGuard], component: TaskReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
 
 
 { path: 'progressreportbystructure',canActivate:[AuthGuard], component: ProgressReportBystructureComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
