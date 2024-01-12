@@ -29,6 +29,8 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
 
 
         public Task<List<ActivityAttachmentDto>> getAttachemnts(Guid taskId);
-        
+        public Task<ActivityViewDto> getActivityById(Guid actId);
+
+
     }
 }

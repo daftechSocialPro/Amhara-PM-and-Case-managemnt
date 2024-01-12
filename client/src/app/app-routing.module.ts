@@ -101,7 +101,7 @@ const routes: Routes = [
   { path: 'program', canActivate:[AuthGuard],component:ProgramsComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'plan', canActivate:[AuthGuard],component:PlansComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   //
-  { path: 'activityDetail', canActivate:[AuthGuard],component:ActivityDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
+  { path: 'activityDetail/:actId', canActivate:[AuthGuard],component:ActivityDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'planDetail/:planId', canActivate:[AuthGuard],component:PlanDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'task',canActivate:[AuthGuard],component:TasksComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},  
   { path: 'activityparent', canActivate:[AuthGuard],component:ActivityParentsComponent ,data:{permittedRoles:['Super Admin','Director','Employee Manager','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']}},

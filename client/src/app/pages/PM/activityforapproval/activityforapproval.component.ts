@@ -26,6 +26,7 @@ export class ActivityforapprovalComponent {
   ngOnInit(): void {
     
     if(!this.Activties){
+    
         this.user = this.userService.getCurrentUser();
         this.getActivityForApproval()
     }

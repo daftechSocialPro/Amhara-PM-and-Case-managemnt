@@ -11,11 +11,79 @@
     </div>
     <div class="col-lg-12">
         <div >                                    
-            <div *ngFor="let actView of Activties">                                    
-                <app-view-activties  [actView]="actView"></app-view-activties>
-            </div>  
+                                     
+            <app-view-activties  [actView]="Activties"></app-view-activties>
+             
         </div>        
     </div>
     <section class="section profile">
     </section>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Activity Progress for {{Activties.Name}}</h5>
+            <hr />
+
+            <table class="table table-bordered ">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Actual Worked</th>
+                        <th scope="col">Used Budget</th>
+                        <th scope="col">Documents </th>
+                        <th scope="col">Finance Doc </th>
+                        <th scope="col">Progress Status </th>
+                        <!-- <th scope="col">Approval reason </th> -->
+                        <th scope="col">Remark</th>
+                        <th scope="col">Date</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pro of progress; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{pro.ActalWorked}}</td>
+                        <td>{{pro.UsedBudget}}</td>
+                        <td>
+
+
+                            <ng-container *ngFor="let file of pro.Documents;let i = index;">
+                                <a target="_blank" class="btn btn-sm btn-secondary m-2" href={{getFilePath(file)}}>View
+                                    FIle {{i+1}}</a>
+                            </ng-container>
+
+                        </td>
+                        <td><a target="_blank" class="btn btn-sm btn-secondary"
+                                href={{getFilePath(pro.FinanceDocument!)}}>View File</a></td>
+                        <td>
+
+                            <span>
+                                Director: <span [class]="pro.IsApprovedByDirector==='approved'?'badge bg-success':'badge bg-warning'">{{pro.IsApprovedByDirector}}</span>
+                                {{pro.DirectorApprovalRemark}}
+                            </span><br />
+
+                            <span>
+                                Finance: <span [class]="pro.IsApprovedByFinance==='approved'?'badge bg-success':'badge bg-warning'">{{pro.IsApprovedByFinance}}</span>
+                                {{pro.FinanceApprovalRemark}}
+                            </span> <br />
+
+                            <span>
+                                Pro.Man: <span [class]="pro.IsApprovedByManager==='approved'?'badge bg-success':'badge bg-warning'"   >{{pro.IsApprovedByManager}} ( {{pro.ManagerApprovalRemark}} )</span>
+                               
+                            </span>
+
+
+
+
+                        </td>
+                        <td>{{pro.Remark}}</td>
+                        <td>{{pro.CreatedAt| date:'fullDate'}}</td>
+                        
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 </main>

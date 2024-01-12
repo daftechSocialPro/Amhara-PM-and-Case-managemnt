@@ -215,5 +215,11 @@ namespace PM_Case_Managemnt_API.Controllers.PM
           
         }
 
+        [HttpGet("byActivityId")]
+        public async Task<ActivityViewDto> getActivityById(Guid actId)
+        {
+            return await _activityService.getActivityById(actId);
+        }
+
     }
 }

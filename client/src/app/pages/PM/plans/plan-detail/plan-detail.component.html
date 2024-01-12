@@ -49,30 +49,30 @@
                     <thead>
                         <tr>
                             <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">
-                                Task/Activity</th>
-                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black">Description
+                                ተግባር/እንቅስቃሴ</th>
+                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black">መግለጫ
                             </th>
-                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">Weight
+                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">ክብደት
                             </th>
-                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">Indicator
+                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">መለኪያ
                             </th>
-                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">Baseline
+                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">መነሻ አፈጻጸም
                             </th>
-                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">Annual
-                                Target</th>
-                            <th scope="col" [attr.colspan]="filterBy==0?16:4" style="border: 1px solid black;">Target
+                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">ዓመታዊ ግብ
                             </th>
-                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">Budget
+                            <th scope="col" [attr.colspan]="filterBy==0?16:4" style="border: 1px solid black;">ግብ
+                            </th>
+                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">በጀት
                             </th>
                             <!-- <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">Source of
                                 Budget</th> -->
                         </tr>
 
                         <tr>
-                            <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">Q1</th>
-                            <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">Q2</th>
-                            <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">Q3</th>
-                            <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">Q4</th>
+                            <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">1ኛ ሩ.ዓ</th>
+                            <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">2ኛ ሩ.ዓ</th>
+                            <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">3ኛ ሩ.ዓ</th>
+                            <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">4ኛ ሩ.ዓ</th>
                             <!-- <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">Q1</th>
                             <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">Q2</th>
                             <th scope="col" [attr.colspan]="filterBy==0?4:0" style="border: 1px solid black;">Q3</th>
@@ -81,22 +81,22 @@
                                 Budget</th> -->
                         </tr>
                         <tr *ngIf="filterBy==0">
-                            <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">Q1 T</th>
+                            <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">1ኛ ሩ.ዓ</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Jul</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Aug</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Sep</th>
 
-                            <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">Q2 T</th>
+                            <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">2ኛ ሩ.ዓ</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Oct</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Nov</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Dec</th>
 
-                            <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">Q3 T</th>
+                            <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">3ኛ ሩ.ዓ</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Jan</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Feb</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Mar</th>
 
-                            <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">Q4 T</th>
+                            <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">4ኛ ሩ.ዓ</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Apr</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">May</th>
                             <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Jun</th>
@@ -142,7 +142,7 @@
                                             class="bi bi-plus me-1"></i> {{exportingToExcel?"":"Activity"}} </button>
                                 </td>
                                 <td [attr.colspan]="filterBy==0?22:10" style="border: 1px solid black;  background-color: #e8ffde;width: 200px;">
-                                    {{task.TaskName}} ( Weight = {{task.TaskWeight}} % )
+                                    {{task.TaskName}} ( ክብደት = {{task.TaskWeight}} % )
                                 </td>
                                 <!-- <ng-container *ngFor="let item of items; index as i">
                                     <td style="border: 1px solid black; background-color: #eee"></td>
@@ -160,7 +160,7 @@
                                             *ngIf="(act.MonthPerformance!.length===0)" (click)="AssignTarget(act)" > <i
                                                 class="bi bi-plus me-1"></i> Target </button>
                                     </td>
-                                    <td style="border: 1px solid black;"(click)="routeToActDetail(act)" style="cursor: pointer;">{{act.Name}}</td>
+                                    <td style="border: 1px solid black;"(click)="routeToActDetail(act.Id)" style="cursor: pointer;">{{act.Name}}</td>
                                     <td style="border: 1px solid black;">{{act.Weight}} %</td>
                                     <td style="border: 1px solid black;">{{act.UnitOfMeasurment}}</td>
                                     <td style="border: 1px solid black;">{{act.Begining}}</td>

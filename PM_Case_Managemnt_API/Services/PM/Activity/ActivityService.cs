@@ -613,6 +613,58 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
             return response;
 
         }
+
+        public async Task<ActivityViewDto> getActivityById(Guid actId)
+        {
+            var activityProgress = _dBContext.ActivityProgresses;
+            ActivityViewDto activityViewDtos = await (from e in _dBContext.Activities.Include(x => x.UnitOfMeasurement)
+                                where e.Id == actId
+                                // join ae in _dBContext.EmployeesAssignedForActivities.Include(x=>x.Employee) on e.Id equals ae.ActivityId
+                                select new ActivityViewDto
+                                {
+                                    Id = e.Id,
+                                    Name = e.ActivityDescription,
+                                    PlannedBudget = e.PlanedBudget,
+                                    ActivityType = e.ActivityType.ToString(),
+                                    Weight = e.Weight,
+                                    Begining = e.Begining,
+                                    Target = e.Goal,
+                                    UnitOfMeasurment = e.UnitOfMeasurement.Name,
+                                    OverAllPerformance = 0,
+                                    StartDate = e.ShouldStat.ToString(),
+                                    EndDate = e.ShouldEnd.ToString(),
+                                    Members = e.CommiteeId == null ? _dBContext.EmployeesAssignedForActivities.Include(x => x.Employee).Where(x => x.ActivityId == e.Id).Select(y => new SelectListDto
+                                    {
+                                        Id = y.Id,
+                                        Name = y.Employee.FullName,
+                                        Photo = y.Employee.Photo,
+                                        EmployeeId = y.EmployeeId.ToString(),
+
+                                    }).ToList() : _dBContext.CommiteEmployees.Where(x => x.CommiteeId == e.CommiteeId).Include(x => x.Employee)
+                                    .Select(y => new SelectListDto
+                                    {
+                                        Id = y.Id,
+                                        Name = y.Employee.FullName,
+                                        Photo = y.Employee.Photo,
+                                        EmployeeId = y.EmployeeId.ToString(),
+
+                                    }).ToList(),
+                                    MonthPerformance = _dBContext.ActivityTargetDivisions.Where(x => x.ActivityId == e.Id).OrderBy(x => x.Order).Select(y => new MonthPerformanceViewDto
+                                    {
+                                        Id = y.Id,
+                                        Order = y.Order,
+                                        Planned = y.Target,
+                                        Actual = activityProgress.Where(x => x.QuarterId == y.Id).Sum(x => x.ActualWorked),
+                                        Percentage = y.Target != 0 ? (activityProgress.Where(x => x.QuarterId == y.Id && x.IsApprovedByDirector == approvalStatus.approved && x.IsApprovedByFinance == approvalStatus.approved && x.IsApprovedByManager == approvalStatus.approved).Sum(x => x.ActualWorked) / y.Target) * 100 : 0
+
+                                    }).ToList(),
+                                    OverAllProgress = activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByDirector == approvalStatus.approved && x.IsApprovedByFinance == approvalStatus.approved && x.IsApprovedByManager == approvalStatus.approved).Sum(x => x.ActualWorked) * 100 / e.Goal,
+
+
+                                }
+                                 ).FirstOrDefaultAsync();
+            return activityViewDtos;
+        }
     }
 }
 

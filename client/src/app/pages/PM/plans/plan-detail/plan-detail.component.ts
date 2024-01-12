@@ -175,11 +175,10 @@ export class PlanDetailComponent implements OnInit {
     link.href = uri + base64(format(template, ctx));
     link.click();
 }
-routeToActDetail(act: ActivityView){
+routeToActDetail(act: string){
 
-  console.log('act: ', act);
-  
-  this.router.navigate(['activityDetail', {Activties:act}]);
+   
+  this.router.navigate(['/activityDetail',act]);
 
 }
 
