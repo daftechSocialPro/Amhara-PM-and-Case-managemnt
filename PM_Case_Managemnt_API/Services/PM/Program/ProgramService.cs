@@ -47,10 +47,10 @@ namespace PM_Case_Managemnt_API.Services.PM.Program
                               .Include(x => x.Structure)
                               .Where(x => x.ProgramId == p.Id)
                               .Select(x => new ProgramStructureDto
-                                {
-                                    StructureName = x.Structure.StructureName + "( "+ _dBContext.Employees.Where(y => y.OrganizationalStructureId == x.StructureId && y.Position == Position.Director).FirstOrDefault().FullName +" )",
-                                    //StructureHead = 
-                                })
+                              {
+                                  StructureName = x.Structure.StructureName + "( "+ _dBContext.Employees.Where(y => y.OrganizationalStructureId == x.StructureId && y.Position == Position.Director).FirstOrDefault().FullName +" )",
+                                  //StructureHead = 
+                              })
                                 .GroupBy(x => x.StructureName)
                                 .Select(g => new ProgramStructureDto
                                 {

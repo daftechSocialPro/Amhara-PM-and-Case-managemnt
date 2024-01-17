@@ -63,20 +63,28 @@ namespace PM_Case_Managemnt_API.Services.PM
         public async Task<TaskVIewDto> GetSingleTask(Guid taskId)
         {
 
-            var task = await _dBContext.Tasks.FirstOrDefaultAsync(x => x.Id == taskId);
+            var task = await _dBContext.Tasks.Include(x => x.Plan).FirstOrDefaultAsync(x => x.Id == taskId);
 
             if (task != null)
             {
 
-                var taskMembers = (from t in _dBContext.TaskMembers.Include(x => x.Employee).Where(x => x.TaskId == task.Id)
+                //var taskMembers = (from t in _dBContext.TaskMembers.Include(x => x.Employee).Where(x => x.TaskId == task.Id)
+                //                   select new SelectListDto
+                //                   {
+                //                       Id = t.Id,
+                //                       Name = t.Employee.FullName,
+                //                       Photo = t.Employee.Photo,
+                //                       EmployeeId = t.EmployeeId.ToString()
+                //                   }).ToList();
+
+                var taskMembers = (from t in _dBContext.Employees.Where(x => x.OrganizationalStructureId == task.Plan.StructureId)
                                    select new SelectListDto
                                    {
-                                       Id = t.Id,
-                                       Name = t.Employee.FullName,
-                                       Photo = t.Employee.Photo,
-                                       EmployeeId = t.EmployeeId.ToString()
+                                       //Id = t.Id,
+                                       Name = t.FullName,
+                                       Photo = t.Photo,
+                                       EmployeeId = t.Id.ToString()
                                    }).ToList();
-
 
 
                 var taskMemos = (from t in _dBContext.TaskMemos.Include(x => x.Employee).Where(x => x.TaskId == taskId)
@@ -224,15 +232,23 @@ namespace PM_Case_Managemnt_API.Services.PM
 
                 if (plan != null)
                 {
-                    var taskMembers = (from t in _dBContext.TaskMembers.Include(x => x.Employee).Where(x => x.PlanId == plan.Id)
+                    //var taskMembers = (from t in _dBContext.TaskMembers.Include(x => x.Employee).Where(x => x.PlanId == plan.Id)
+                    //                   select new SelectListDto
+                    //                   {
+                    //                       Id = t.Id,
+                    //                       Name = t.Employee.FullName,
+                    //                       Photo = t.Employee.Photo,
+                    //                       EmployeeId = t.EmployeeId.ToString()
+                    //                   }).ToList();
+
+                    var taskMembers = (from t in _dBContext.Employees.Where(x => x.OrganizationalStructureId == plan.StructureId)
                                        select new SelectListDto
                                        {
                                            Id = t.Id,
-                                           Name = t.Employee.FullName,
-                                           Photo = t.Employee.Photo,
-                                           EmployeeId = t.EmployeeId.ToString()
+                                           Name = t.FullName,
+                                           Photo = t.Photo,
+                                           EmployeeId = t.Id.ToString()
                                        }).ToList();
-
 
 
                     var taskMemos = (from t in _dBContext.TaskMemos.Include(x => x.Employee).Where(x => x.PlanId == plan.Id)
@@ -303,7 +319,8 @@ namespace PM_Case_Managemnt_API.Services.PM
                         ActivityViewDtos = activityViewDtos,
                         TaskWeight = activityViewDtos.Sum(x => x.Weight),
                         RemianingWeight = 100 - activityViewDtos.Sum(x => x.Weight),
-                        NumberofActivities = activityViewDtos.Count()
+                        NumberofActivities = activityViewDtos.Count(),
+                        
                     };
                 }
 

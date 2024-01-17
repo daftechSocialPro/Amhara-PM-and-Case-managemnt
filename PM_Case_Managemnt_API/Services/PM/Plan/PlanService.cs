@@ -4,6 +4,7 @@ using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
 using PM_Case_Managemnt_API.Models.PM;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace PM_Case_Managemnt_API.Services.PM.Plan
 {
@@ -58,7 +59,7 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                               PlanWeight = p.PlanWeight,
                               PlandBudget = p.PlandBudget,
                               StructureName = p.Structure.StructureName,
-                              RemainingBudget =p.PlandBudget- _dBContext.Tasks.Where(x=>x.PlanId ==p.Id).Sum(x=>x.PlanedBudget),
+                              RemainingBudget =p.PlandBudget - _dBContext.Tasks.Where(x=>x.PlanId ==p.Id).Sum(x=>x.PlanedBudget),
                               ProjectManager = p.ProjectManager.FullName,
                               FinanceManager = p.Finance.FullName,
                               Director = _dBContext.Employees.Where(x => x.Position == Models.Common.Position.Director&&x.OrganizationalStructureId== p.StructureId).FirstOrDefault().FullName,
@@ -93,7 +94,7 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
 
                               }).FirstOrDefaultAsync();
 
-            var tasks = (from t in _dBContext.Tasks.Where(x => x.PlanId == planId)
+            var tasks = (from t in _dBContext.Tasks.Include(z => z.Plan).Where(x => x.PlanId == planId)
                         select new TaskVIewDto
                         {
                             Id= t.Id,
@@ -107,21 +108,32 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                            
                             HasActivity= t.HasActivityParent,
                             PlannedBudget  = t.PlanedBudget,
-                            NumberOfMembers = _dBContext.TaskMembers.Count(x=>x.TaskId == t.Id),
+                            //NumberOfMembers = _dBContext.TaskMembers.Count(x=>x.TaskId == t.Id),
                          
                             RemianingWeight = (float)(plan.PlanWeight - _dBContext.Activities.Where(x => x.Task.PlanId == planId || x.ActivityParent.Task.PlanId == planId).Sum(x => x.Weight)),
                             NumberofActivities = _dBContext.Activities.Include(x => x.ActivityParent).Count(x => x.TaskId == t.Id || x.ActivityParent.TaskId == t.Id),
                             NumberOfFinalized = _dBContext.Activities.Include(x => x.ActivityParent).Count(x => x.Status == Status.Finalized && ( x.TaskId == t.Id || x.ActivityParent.TaskId == t.Id)),
                             NumberOfTerminated = _dBContext.Activities.Include(x => x.ActivityParent).Count(x => x.Status == Status.Terminated &&( x.TaskId == t.Id || x.ActivityParent.TaskId == t.Id)),
-                            TaskMembers = (from tm in _dBContext.TaskMembers.Include(x => x.Employee).Where(x => x.TaskId == t.Id)
-                                           select new SelectListDto
-                                           {
-                                               Id = tm.Id,
-                                               Name = tm.Employee.FullName,
-                                               Photo = tm.Employee.Photo,
-                                               EmployeeId = tm.EmployeeId.ToString()
-                                           }).ToList(),
+                            //TaskMembers = (from tm in _dBContext.TaskMembers.Include(x => x.Employee).Where(x => x.TaskId == t.Id)
+                            //               select new SelectListDto
+                            //               {
+                            //                   Id = tm.Id,
+                            //                   Name = tm.Employee.FullName,
+                            //                   Photo = tm.Employee.Photo,
+                            //                   EmployeeId = tm.EmployeeId.ToString()
+                            //               }).ToList(),
+                            TaskMembers = (from tm in _dBContext.Employees.Where(x => x.OrganizationalStructureId == t.Plan.StructureId)
+                                                             select new SelectListDto
+                                                             {
+                                                                 Id = tm.Id,
+                                                                 Name = tm.FullName,
+                                                                 Photo = tm.Photo,
+                                                                 EmployeeId = tm.Id.ToString()
+                                                             }).ToList(),
+                            RemainingBudget = t.PlanedBudget - _dBContext.Activities.Where(x => x.ActivityParent.TaskId == t.Id)
+                      .Sum(x => x.PlanedBudget),
                             
+
 
                         }).ToList();
 

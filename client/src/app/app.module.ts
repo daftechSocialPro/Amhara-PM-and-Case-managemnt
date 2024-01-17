@@ -166,6 +166,7 @@ import { PlanDetailComponent } from './pages/PM/plans/plan-detail/plan-detail.co
 import { ActivityDetailComponent } from './pages/PM/plans/plan-detail/activity-detail/activity-detail.component';
 import { TaskReportComponent } from './pages/PM/progress-report/task-report/task-report.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { ProgramDetailComponent } from './pages/pm/programs/program-detail/program-detail.component';
 
 @NgModule({
   declarations: [
@@ -305,7 +306,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     AddSubOrgComponent,
     PlanDetailComponent,
     ActivityDetailComponent,
-    TaskReportComponent
+    TaskReportComponent,
+    ProgramDetailComponent
    
   ],
   imports: [

@@ -12,112 +12,59 @@
    <div class="text-end col-lg-12">
       <button class="btn btn-primary text-end mb-3" (click)="addProgram()"> Add Programs </button>
    </div>
-   <!-- <section class="section profile">
-      <div class="row">        
-         <div *ngFor="let program of Programs" style="cursor: pointer;" (click)="getProjects(program.Id)" >         
-            <div class="card"  >
-               <div class="card-header">{{program.ProgramName}}</div>
-               <div class="card-body" style="background-color: #f6f9ff !important;">
-                  <h5 class="card-title">
-                     
-                     {{program.ProgramBudgetYear}}
-                  </h5>             
-                  <table class="table table-bordered mt-2">
-                     <thead>
-                        <tr>
-                           <th scope="col">#</th>
-                           <th scope="col">Structure Name</th>
-                           <th scope="col">Structure Head</th>
-                           
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr *ngFor="let ps of program.ProgramStructure;let i = index">
-                           <th scope="row">{{i+1}}</th>
-                           <td>{{ps.StructureName}}</td>
-                           <td>{{ps.StructureHead}}</td>
-                           
-                        </tr>                                               
-                     </tbody>
-                  </table>
-                  <!-- mcmc -->
-                  <!-- <table class="table table-bordered mt-2">
-                     <thead>
-                        <tr>
-                           <th scope="col" rowspan="2" style="border: 1px solid black;">ተ.ቁ</th>
-                           <th scope="col" rowspan="2" style="border: 1px solid black;">ስትራቴጂክ ግቦች፣ ዋና ዋና ተግባራት እና ዝርዝር ቁልፍ የአፈፃፀም አመልካቾች</th>
-                           <th scope="col" rowspan="2" style="border: 1px solid black;">ክብደት</th>
-                           <th scope="col" rowspan="2" style="border: 1px solid black;">መለኪያ</th>
-                           <th scope="col" rowspan="2" style="border: 1px solid black;">የ{{ program.ProgramBudgetYear.split('(')[1].split(' ')[1] }} አፈጻጸም(መነሻ) </th>
-                           <th scope="col" rowspan="2" style="border: 1px solid black;">የ{{ program.ProgramBudgetYear.split('-')[1].split(' ')[1] }} ግብ(ዓመታዊ)</th>
-                           <th scope="col" colspan="4" style="border: 1px solid black;">ሩብ ዓመት</th>
-                        </tr>
-                        <tr>
-                           <th scope="col" style="border: 1px solid black;">1ኛ</th>
-                           <th scope="col" style="border: 1px solid black;">2ኛ</th>
-                           <th scope="col" style="border: 1px solid black;">3ኛ</th>
-                           <th scope="col" style="border: 1px solid black;">4ኛ</th>
-                        </tr>
-                     </thead>                     
-                     <tbody class="labels">
-                        <tr>
-                           <td style="border: 1px solid black;"></td>
-                           <td colspan="9" style="border: 1px solid black;">
-                              <label for="accounting">{{program.ProgramName}}</label>
-                           </td>
-                        </tr>
-                     </tbody>
-                     <tbody>
-                        <tr>
-                           <td style="border: 1px solid black;">Australia</td>
-                           <td style="border: 1px solid black;">$7,685.00</td>
-                           <td style="border: 1px solid black;">$3,544.00</td>
-                           <td style="border: 1px solid black;">$5,834.00</td>
-                           <td style="border: 1px solid black;">$10,583.00</td>
-                           <td style="border: 1px solid black;">$10,583.00</td>
-                           <td style="border: 1px solid black;">$</td>
-                           <td style="border: 1px solid black;">$</td>
-                           <td style="border: 1px solid black;">$</td>
-                           <td style="border: 1px solid black;">$</td>
-                        </tr>                    
-                     </tbody>
-                  </table> 
-                  <span class="card-title"> Planned Budegt : {{program.ProgramPlannedBudget}} </span> <br/>                  
-                  {{program.Remark}}
+   <section class="section profile">
+      <div class="row">
+
+        <div class="col-lg-6"*ngFor="let program of Programs"  >
+       
+           <div class="card"  >
+              
+              <div class="card-header">{{program.ProgramName}}</div>
+              
+              <div (click)="getProjects(program.Id)"  class="card-body" style="background-color: #f6f9ff !important;" style="cursor: pointer;">
+                 
+                 <h5 class="card-title">
+                    
+                    {{program.ProgramBudgetYear}}
+                 </h5>
+
+                
+
+                 <table class="table table-bordered mt-2">
+                    <thead>
+                       <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Structure Name ( Structure Head )</th>
+                          <th scope="col">Number of Projects</th>
+                          
+                       </tr>
+                    </thead>
+                    <tbody>
+                       <tr *ngFor="let ps of program.ProgramStructure;let i = index">
+                          <th scope="row">{{i+1}}</th>
+                          <td>{{ps.StructureName}}</td>
+                          <td>{{ps.StructureHead}}</td>
+                       
+                       </tr>
+                    </tbody>
+                 </table>
+
+                 <span class="card-title"> Planned Budget : {{program.ProgramPlannedBudget}} </span> <br/>
+             
+                {{program.Remark}}
+              </div>
+              <div class="card-footer d-flex justify-content-between align-items-center">
+                 Projects: {{program.NumberOfProjects}}
+                 <button class="btn btn-primary text-end mb-3" (click)="programDetail(program.Id)">
+                   Detail View
+                 </button>
                </div>
-               <div class="card-footer"> Projects: {{program.NumberOfProjects}}</div>
-            </div>                       
-         </div>         
+               
+           </div>
+           
+        </div>
+        
       </div>
-   </section> -->
-   <div class="card">
-      <p-table [value]="Programs" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '75rem'}"
-       [rowHover]="true" dataKey="id"
-         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-         <ng-template pTemplate="header">
-            <tr>
-               
-               <th pSortableColumn="ProgramName">Name <p-sortIcon field="ProgramName"></p-sortIcon></th>
-               <th pSortableColumn="StructureName">Structure Name <p-sortIcon field="StructureName"></p-sortIcon></th>
-               <th pSortableColumn="StructureHead">Structure Head <p-sortIcon field="StructureHead"></p-sortIcon></th>
-               <th pSortableColumn="ProgramBudgetYear">Budget Year <p-sortIcon field="ProgramBudgetYear"></p-sortIcon></th>
-               <th pSortableColumn="ProgramPlannedBudget">Planned Budget <p-sortIcon field="ProgramPlannedBudget"></p-sortIcon></th>
-               <th pSortableColumn="NumberOfProjects"> Projects <p-sortIcon field="NumberOfProjects"></p-sortIcon></th>
-               
-            </tr>
-         </ng-template>
-         <ng-template pTemplate="body" let-program >
-            <tr [pSelectableRow]="program" (click)="getProjects(program.Id)" >
-               
-               <td>{{program.ProgramName}}</td>
-               <td>{{program.ProgramStructure[0]?.StructureName}}</td>
-               <td>{{program.ProgramStructure[0]?.StructureHead}}</td>
-               <td>{{program.ProgramBudgetYear }} </td>
-               <td>{{program.ProgramPlannedBudget }}</td>
-               <td>{{program.NumberOfProjects }}</td>
-               
-            </tr>
-         </ng-template>
-      </p-table>
-   </div>
+   </section>
+
 </main>

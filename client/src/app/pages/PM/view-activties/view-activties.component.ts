@@ -42,7 +42,7 @@ export class ViewActivtiesComponent implements OnInit {
     private userService: UserService) { }
 
   ngOnInit(): void {
-    
+    console.log('this.actView: ', this.actView);
     this.user = this.userService.getCurrentUser()
     if (this.actView.Members.find(x => x.EmployeeId?.toLowerCase() == this.user.EmployeeId.toLowerCase()) ) {
     

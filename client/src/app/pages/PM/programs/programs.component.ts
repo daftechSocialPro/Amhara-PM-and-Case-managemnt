@@ -6,6 +6,7 @@ import { Program } from './Program';
 import { ProgramService } from './programs.services';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
+import { ProgramDetailComponent } from './program-detail/program-detail.component';
 
 @Component({
   selector: 'app-programs',
@@ -60,6 +61,14 @@ export class ProgramsComponent implements OnInit {
 
   }
 
+  programDetail(programId: string) {
+    let modalRef = this.modalService.open(ProgramDetailComponent, { size: 'xl', backdrop: 'static' })
+    modalRef.componentInstance.programId = programId
+    modalRef.result.then((res) => {
+      this.listPrograms()
+    })
+
+  }
 
 
 }

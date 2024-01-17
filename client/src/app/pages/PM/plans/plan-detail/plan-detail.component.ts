@@ -194,7 +194,15 @@ getSubOrg(subOrgId: string){
   })
 }
 
-
+TaskDetail(task : TaskView ){
+  const taskId = task ? task.Id :null
+  if(!task.HasActivity){
+    this.router.navigate(['activityparent',{parentId:taskId,requestFrom:'TASK'}])
+  }
+  else{
+    this.router.navigate(['activityparent',{parentId:taskId,requestFrom:'ACTIVITY'}])
+  }
+}
 
 }
 

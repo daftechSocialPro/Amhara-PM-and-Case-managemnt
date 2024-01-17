@@ -15,10 +15,10 @@
             <div class="card-header">
                 <div class="card-title d-flex justify-content-between">
                     {{task.TaskName}}
-                    <button class="btn btn-primary text-end" *ngIf="requestFrom == 'ACTIVITY'" (click)="addActivity()"> Add Activity </button>
+                    <!-- <button class="btn btn-primary text-end" *ngIf="requestFrom == 'ACTIVITY'" (click)="addActivity()"> Add Activity </button>
                    
                    
-                    <button class="btn btn-primary text-end" *ngIf="requestFrom != 'ACTIVITY' && task.ActivityViewDtos && task.ActivityViewDtos.length == 0" (click)="addActivity()"> Add Activity </button>
+                    <button class="btn btn-primary text-end" *ngIf="requestFrom != 'ACTIVITY' && task.ActivityViewDtos && task.ActivityViewDtos.length == 0" (click)="addActivity()"> Add Activity </button> -->
                 
                 </div>
             </div>
@@ -73,7 +73,7 @@
                     <div class="col-4 ">
 
                         <div class="accordion mt-2">
-                            <div class="accordion-item">
+                            <!-- <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingOne"> <button class="accordion-button "
                                         type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                                         aria-expanded="true" aria-controls="collapseOne"> Add Members</button></h2>
@@ -106,12 +106,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingTwo"> <button class="accordion-button collapsed"
                                         type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                        aria-expanded="false" aria-controls="collapseTwo">Attachments </button></h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                        aria-expanded="true" aria-controls="collapseTwo">Attachments </button></h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
 

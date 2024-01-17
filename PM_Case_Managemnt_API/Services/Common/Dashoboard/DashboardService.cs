@@ -230,7 +230,9 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
             {
                 structureId = Structure_Hierarchy.Id;
             }
-            var thisBudgetYear = _dBContext.BudgetYears.Single(x => x.RowStatus == RowStatus.Active);
+            var programBudgetYearsIds = _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId == subOrgId).Select(x => x.Id).ToList();
+
+            var thisBudgetYear = _dBContext.BudgetYears.Where(x => programBudgetYearsIds.Contains(x.ProgramBudgetYearId)).Single(x => x.RowStatus == RowStatus.Active);
             budget = thisBudgetYear;
             
             var prog = _dBContext.Programs.Where(x => x.RowStatus == RowStatus.Active && x.ProgramBudgetYearId == thisBudgetYear.ProgramBudgetYearId && x.SubsidiaryOrganizationId == subOrgId).ToList();
@@ -477,7 +479,8 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
         }
         public void ExpiredItems(Guid subOrgId)
         {
-            var BudgetYear = _dBContext.BudgetYears.Single(x => x.RowStatus == RowStatus.Active);
+            var programBudgetYearsIds = _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId == subOrgId).Select(x => x.Id).ToList();
+            var BudgetYear = _dBContext.BudgetYears.Where(x => programBudgetYearsIds.Contains(x.ProgramBudgetYearId)).Single(x => x.RowStatus == RowStatus.Active);
             int Month = XAPI.EthiopicDateTime.GetEthiopicMonth(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year);
             if (Month == 13)
             {
@@ -700,7 +703,11 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
             };
             bugetYears.datasets.Add(dataset1);
 
-            var BudgetArea = _dBContext.BudgetYears.OrderBy(x => x.Year).ToList();
+            var programBudgetYearsIds = _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId == subOrgId).Select(x => x.Id).ToList();
+
+            var BudgetArea = _dBContext.BudgetYears.Where(x => programBudgetYearsIds.Contains(x.ProgramBudgetYearId)).OrderBy(x => x.Year).ToList();
+
+            //var BudgetArea = _dBContext.BudgetYears.OrderBy(x => x.Year).ToList();
             var structu = _dBContext.OrganizationalStructures.Include(x=>x.SubTask).Where(x => x.ParentStructureId == null).FirstOrDefault();
             var structures = structu.SubTask;
             if (structureId != Guid.Empty)
