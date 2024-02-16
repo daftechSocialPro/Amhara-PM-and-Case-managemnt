@@ -77,8 +77,8 @@ export class OrganizationService {
     return this.http.put(this.BaseURI + "/OrgStructure", OrgStructure)
   }
 
-  getOrgStructureList(branchId : string ) {
-    return this.http.get<OrganizationalStructure[]>(this.BaseURI + "/OrgStructure?BranchId="+branchId)
+  getOrgStructureList(subOrgId:string,branchId : string ) {
+    return this.http.get<OrganizationalStructure[]>(this.BaseURI + "/OrgStructure?SubOrgId="+subOrgId+"&BranchId="+branchId)
   }
 
   getOrgStructureSelectList(branchid: string) {

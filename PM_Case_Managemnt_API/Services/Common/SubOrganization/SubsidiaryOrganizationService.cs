@@ -130,7 +130,7 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
 
         public async Task<List<SelectListDto>> GetSubOrgSelectList()
         {
-            var EmployeeSelectList = await (from e in _dBContext.SubsidiaryOrganizations
+            var EmployeeSelectList = await (from e in _dBContext.SubsidiaryOrganizations.Where( x => x.isMonitor == false)
 
                                             select new SelectListDto
                                             {

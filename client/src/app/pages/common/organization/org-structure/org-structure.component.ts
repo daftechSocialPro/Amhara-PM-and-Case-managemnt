@@ -117,9 +117,11 @@ export class OrgStructureComponent implements OnInit {
         console.log(err)
       })
     });
-    this.orgService.getOrgStructureList(this.serachForm.value.branchId).subscribe({
+    this.orgService.getOrgStructureList(this.user.SubOrgId, this.serachForm.value.branchId).subscribe({
       next: (res) => {
         this.structures = res;
+        console.log('this.structures: ', this.structures);
+
         res.forEach((el) => {
           this.familyData.push({
             key: el.Id,

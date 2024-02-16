@@ -25,6 +25,7 @@ using PM_Case_Managemnt_API.Services.CaseService.CaseTypes;
 using PM_Case_Managemnt_API.Services.CaseService.Encode;
 using PM_Case_Managemnt_API.Services.CaseService.FileSettings;
 using PM_Case_Managemnt_API.Services.Common;
+using PM_Case_Managemnt_API.Services.Common.Analytics;
 using PM_Case_Managemnt_API.Services.Common.Dashoboard;
 using PM_Case_Managemnt_API.Services.Common.FolderService;
 using PM_Case_Managemnt_API.Services.Common.RowService;
@@ -124,6 +125,7 @@ builder.Services.AddScoped<ISMSHelper, SMSHelper>();
 builder.Services.AddScoped<IProgressReportService, ProgressReportService>();
 builder.Services.AddScoped<ISubsidiaryOrganizationService, SubsidiaryOrganizationService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 
 //Jwt Authentication
 

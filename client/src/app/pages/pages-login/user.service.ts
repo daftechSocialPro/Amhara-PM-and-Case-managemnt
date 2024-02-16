@@ -43,7 +43,6 @@ export class UserService {
   roleMatch(allowedRoles: any): boolean {
     var isMatch = false;
     var payLoad = JSON.parse(window.atob(sessionStorage.getItem('token')!.split('.')[1]));
-
     var userRole:string[] = payLoad.role.split(",");
     allowedRoles.forEach((element: any) => {
       if (userRole.includes(element)) {
@@ -64,7 +63,6 @@ export class UserService {
 
   getCurrentUser(){
     var payLoad = JSON.parse(window.atob(sessionStorage.getItem('token')!.split('.')[1]));
-
     let user : UserView={
       UserID : payLoad.UserID,
       FullName: payLoad.FullName,

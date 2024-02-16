@@ -7,6 +7,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { PlanService } from '../../plans/plan.service';
 import { TaskService } from '../../tasks/task.service';
 import { TaskView } from '../../tasks/task';
+import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 
 
 @Component({
@@ -25,19 +26,20 @@ export class TaskReportComponent implements OnInit, AfterViewInit {
   labelNames!:string[]
   plannedBudget!: number[]
   usedBudget!: number[]
+  subOrgSelectList: SelectList[] = []
 
   constructor(
     private programService: ProgramService,
     private userService: UserService,
     private planService: PlanService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private orgService: OrganizationService
     ){}
   ngOnInit(): void {
 
     this.user = this.userService.getCurrentUser()
+    this.getSubOrgSelectList()
     this.getProgramSelectList(this.user.SubOrgId)
-
-
   }
   
   ngAfterViewInit(): void {
@@ -53,7 +55,7 @@ export class TaskReportComponent implements OnInit, AfterViewInit {
           this.labelNames = this.task!.ActivityViewDtos!.map(dto => dto.Name);
           this.plannedBudget = this.task!.ActivityViewDtos!.map(dto => dto.PlannedBudget);
           this.usedBudget = this.task!.ActivityViewDtos!.map(dto => dto.UsedBudget)
-          console.log('this.task!.ActivityViewDtos!: ', this.task!.ActivityViewDtos!);
+          
           this.chartOption = {
     
             tooltip: {
@@ -174,4 +176,20 @@ export class TaskReportComponent implements OnInit, AfterViewInit {
       }
     })
   }
+
+  onSubChange(event: any) {
+    if (event.target.value !== "") {
+      
+      this.getProgramSelectList(event.target.value)
+    } else {
+      this.getProgramSelectList(this.user.SubOrgId)
+    }
+  }
+  getSubOrgSelectList() {
+    this.orgService.getSubOrgSelectList().subscribe({
+      next: (res) => this.subOrgSelectList = res,
+      error: (err) => console.error(err)
+    })
+  }
+
 }

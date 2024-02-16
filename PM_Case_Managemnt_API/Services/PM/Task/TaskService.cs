@@ -199,7 +199,7 @@ namespace PM_Case_Managemnt_API.Services.PM
 
                                             }).ToList(),
                                             OverAllProgress = activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByDirector == approvalStatus.approved && x.IsApprovedByFinance == approvalStatus.approved && x.IsApprovedByManager == approvalStatus.approved).Sum(x => x.ActualWorked) * 100 / e.Goal,
-
+                                            UsedBudget = activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByFinance == approvalStatus.approved).Sum(x => x.ActualBudget)
 
                                         }
                                           ).ToList();
@@ -302,7 +302,7 @@ namespace PM_Case_Managemnt_API.Services.PM
 
                                                 }).ToList(),
                                                 OverAllProgress = activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByDirector == approvalStatus.approved && x.IsApprovedByFinance == approvalStatus.approved && x.IsApprovedByManager == approvalStatus.approved).Sum(x => x.ActualWorked) * 100 / e.Goal,
-
+                                                UsedBudget = activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByFinance == approvalStatus.approved).Sum(x => x.ActualBudget)
 
                                             }
                                             ).ToList();

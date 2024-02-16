@@ -37,6 +37,7 @@ namespace PM_Case_Managemnt_API.Models.Common.Organization
         public string Password { get; set; } = null!;
 
         public bool isRegulatoryBody { get; set; }
+        public bool isMonitor { get; set; }
 
 
 

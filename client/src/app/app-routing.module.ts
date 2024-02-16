@@ -80,16 +80,17 @@ import { SubOrganizationComponent } from './pages/common/organization/sub-organi
 import { PlanDetailComponent } from './pages/PM/plans/plan-detail/plan-detail.component';
 import { ActivityDetailComponent } from './pages/PM/plans/plan-detail/activity-detail/activity-detail.component';
 import { TaskReportComponent } from './pages/PM/progress-report/task-report/task-report.component';
+import { AnalyticsDashboardComponent } from './pages/Analytics/analytics-dashboard/analytics-dashboard.component';
 
 
 
 const routes: Routes = [
 
 
-  { path: '', canActivate: [AuthGuard], component: PmDashboardComponent,data:{permittedRoles : ['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']} },
+  { path: '', canActivate: [AuthGuard], component: PmDashboardComponent,data:{permittedRoles : ['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder','Monitor']} },
   { path: 'pmdashboard', canActivate: [AuthGuard], component: PmDashboardComponent,data:{permittedRoles :['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery']} },
-  { path: 'orgprofile', canActivate: [AuthGuard], component: OrgProfileComponent,data:{permittedRoles : ['Super Admin','Employee Manager']} },
-  { path: 'suborganization', canActivate: [AuthGuard], component: SubOrganizationComponent ,data:{permittedRoles : ['Super Admin','Employee Manager']}  },
+  { path: 'orgprofile', canActivate: [AuthGuard], component: OrgProfileComponent,data:{permittedRoles : ['Super Admin','Employee Manager','Monitor']} },
+  { path: 'suborganization', canActivate: [AuthGuard], component: SubOrganizationComponent ,data:{permittedRoles : ['Monitor']}  },
   { path: 'orgbranch', canActivate: [AuthGuard], component: OrgBranchComponent,data:{permittedRoles : ['Super Admin','Employee Manager']}  },
   { path: 'orgstructure', canActivate: [AuthGuard], component: OrgStructureComponent ,data:{permittedRoles : ['Super Admin','Employee Manager']}  },
   { path: 'budgetyear', canActivate: [AuthGuard], component: BudgetYearComponent,data:{permittedRoles : ['Super Admin','Case Admin','PM Admin']} },
@@ -126,32 +127,34 @@ const routes: Routes = [
   { path: 'completedCases', canActivate:[AuthGuard],component: CompletedCasesComponent,data:{permittedRoles : ['Super Admin','Case Admin','Director']}},
   { path: 'archivecase', canActivate:[AuthGuard],component: ArchivecaseComponent, data : {permittedRoles:['Super Admin','Case Admin','Director']}},
 
+  //analytics
+  { path: 'analyticsdashboard', canActivate: [AuthGuard], component: AnalyticsDashboardComponent ,data:{permittedRoles : ['Monitor']}  },
 
 
   
 //report 
-{ path: 'casereport', canActivate:[AuthGuard],component: CaseReportComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin']}},
-{ path: 'empperformance', canActivate:[AuthGuard], component: EmployeePerformanceComponent,data:{permittedROels : ['Super Admin','Director','Case Admin','Member','Secretery','Employee Manager','Encoder']} },
-{ path: 'smsreport', canActivate:[AuthGuard], component : SmsReportComponent,data : {permittedRoles:['Super Admin','Director','Case Admin','Secretery']}},
-{ path: 'casedetailreport', canActivate:[AuthGuard],component: CaseDetailReportComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin']}},
+{ path: 'casereport', canActivate:[AuthGuard],component: CaseReportComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin','Monitor']}},
+{ path: 'empperformance', canActivate:[AuthGuard], component: EmployeePerformanceComponent,data:{permittedROels : ['Super Admin','Director','Case Admin','Member','Secretery','Employee Manager','Encoder','Monitor']} },
+{ path: 'smsreport', canActivate:[AuthGuard], component : SmsReportComponent,data : {permittedRoles:['Super Admin','Director','Case Admin','Secretery','Monitor']}},
+{ path: 'casedetailreport', canActivate:[AuthGuard],component: CaseDetailReportComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin','Monitor']}},
 { path: 'user-profile',canActivate:[AuthGuard], component: UsersProfileComponent },
-{ path: 'casedashboard',canActivate:[AuthGuard], component: CasedashboardComponent,data:{permittedRoles:['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager','PM Admin','Planner','Plan Reporting']} },
+{ path: 'casedashboard',canActivate:[AuthGuard], component: CasedashboardComponent,data:{permittedRoles:['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager','PM Admin','Planner','Plan Reporting','Monitor']} },
 
 
 //Pm report 
-{ path: 'directorlevelperformance',canActivate:[AuthGuard], component: DirectorLevelPerformanceComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
-{ path: 'programbudgetreport',canActivate:[AuthGuard], component: ProgramBudgetReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
-{ path: 'planreportdetail',canActivate:[AuthGuard], component: PlanReportTodayComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
-{ path: 'plannedreport',canActivate:[AuthGuard], component: PlannedReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
-{ path: 'progressreport',canActivate:[AuthGuard], component: ProgressReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
-{ path: 'taskreport',canActivate:[AuthGuard], component: TaskReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
+{ path: 'directorlevelperformance',canActivate:[AuthGuard], component: DirectorLevelPerformanceComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+{ path: 'programbudgetreport',canActivate:[AuthGuard], component: ProgramBudgetReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+{ path: 'planreportdetail',canActivate:[AuthGuard], component: PlanReportTodayComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+{ path: 'plannedreport',canActivate:[AuthGuard], component: PlannedReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+{ path: 'progressreport',canActivate:[AuthGuard], component: ProgressReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+{ path: 'taskreport',canActivate:[AuthGuard], component: TaskReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 
 
-{ path: 'progressreportbystructure',canActivate:[AuthGuard], component: ProgressReportBystructureComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
+{ path: 'progressreportbystructure',canActivate:[AuthGuard], component: ProgressReportBystructureComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 
-{ path: 'performancereport',canActivate:[AuthGuard], component: PerformanceReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
+{ path: 'performancereport',canActivate:[AuthGuard], component: PerformanceReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 
-{ path: 'estimatedcoast',canActivate:[AuthGuard], component: EstimatedCoastComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director']} },
+{ path: 'estimatedcoast',canActivate:[AuthGuard], component: EstimatedCoastComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 
 
   { path: 'alerts', component: AlertsComponent },

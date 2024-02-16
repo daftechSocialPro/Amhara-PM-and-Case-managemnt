@@ -37,7 +37,15 @@ export class PagesLoginComponent implements OnInit {
           sessionStorage.setItem('token', res.Value.token);
           this.user = this.userService.getCurrentUser()
           console.log(this.user)
-          this.router.navigateByUrl('/casedashboard');
+          if(this.IsInRole(['Monitor'])){
+            this.router.navigateByUrl('/analyticsdashboard');
+
+          }
+          else{
+            this.router.navigateByUrl('/casedashboard');
+          }
+
+          
         },
         error: (err) => {
           if (err.status == 400){
@@ -58,6 +66,10 @@ export class PagesLoginComponent implements OnInit {
         }
       })
     }
+  }
+
+  IsInRole(roles:string[]){
+    return this.userService.roleMatch(roles)
   }
 
 }

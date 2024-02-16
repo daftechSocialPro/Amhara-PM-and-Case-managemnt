@@ -144,4 +144,8 @@ export class HeaderComponent implements OnInit {
 
     this.authGuard.logout();
   }
+  roleMatch (value : string[]){
+
+    return this.userService.roleMatch(value)
+  }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-analytics-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

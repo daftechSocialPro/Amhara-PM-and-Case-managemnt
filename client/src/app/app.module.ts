@@ -168,6 +168,7 @@ import { TaskReportComponent } from './pages/PM/progress-report/task-report/task
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ProgramDetailComponent } from './pages/pm/programs/program-detail/program-detail.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -307,7 +308,8 @@ import { ProgramDetailComponent } from './pages/pm/programs/program-detail/progr
     PlanDetailComponent,
     ActivityDetailComponent,
     TaskReportComponent,
-    ProgramDetailComponent
+    ProgramDetailComponent,
+   
    
   ],
   imports: [

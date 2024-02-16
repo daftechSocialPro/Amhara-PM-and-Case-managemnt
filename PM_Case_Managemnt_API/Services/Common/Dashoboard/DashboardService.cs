@@ -859,13 +859,12 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
         public class PmDashboardBarchartDateset
         {
             public string label { get; set; }
-           public List<float> data { get; set; }
-
+            public List<float> data { get; set; }
             public List<string> backgroundColor { get; set; }
             public List<string> borderColor { get; set; }
             public int borderWidth { get; set; }
             }
     }
-    }
+}
 
 
