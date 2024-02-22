@@ -179,6 +179,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                         CaseTypeId = st.CaseTypeId.ToString(),
                         Representative = st.Representative,
                         CreatedAt = st.CreatedAt.ToString(),
+                        CreatedBy = st.CreatedBy.ToString()
 
 
                     }).FirstOrDefaultAsync();
