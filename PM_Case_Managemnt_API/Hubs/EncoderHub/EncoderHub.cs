@@ -28,5 +28,9 @@ namespace PM_Case_Managemnt_API.Hubs.EncoderHub
 
             await Clients.Group(employeeId).getNotification(notifcations, employeeId);
         }
+        public async Task getUplodedFiles(List<CaseFilesGetDto> files, string employeeId)
+        {
+            await Clients.Group(employeeId).getUplodedFiles(files, employeeId);
+        }
     }
 }

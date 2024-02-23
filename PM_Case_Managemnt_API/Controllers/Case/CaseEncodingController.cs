@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using PM_Case_Managemnt_API.DTOS.CaseDto;
+using PM_Case_Managemnt_API.Hubs.EncoderHub;
+using PM_Case_Managemnt_API.Models.Auth;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Services.CaseMGMT.Applicants;
@@ -18,17 +22,23 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         private readonly ICaseEncodeService _caseEncodeService;
         private readonly ICaseAttachementService _caseAttachmentService;
         private readonly IFilesInformationService _filesInformationService;
-        private readonly IApplicantService _applicantService; 
+        private readonly IApplicantService _applicantService;
+        private IHubContext<EncoderHub, IEncoderHubInterface> _encoderHub;
+        private UserManager<ApplicationUser> _userManager;
         public CaseEncodingController(
             ICaseEncodeService caseEncodeService,
             ICaseAttachementService caseAttachementService, 
             IFilesInformationService filesInformationService,
-            IApplicantService applicantService)
+            IApplicantService applicantService,
+            IHubContext<EncoderHub, IEncoderHubInterface> encoderHub,
+            UserManager<ApplicationUser> userManager)
         {
             _caseEncodeService = caseEncodeService;
             _caseAttachmentService = caseAttachementService;
             _filesInformationService = filesInformationService;
             _applicantService = applicantService;
+            _encoderHub = encoderHub;
+            _userManager = userManager;
         }
 
 
@@ -48,14 +58,43 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                     PhoneNumber2 = Request.Form["PhoneNumber2"],
                     Representative = Request.Form["Representative"],
                     CreatedBy = Guid.Parse(Request.Form["CreatedBy"]),
-                    SubsidiaryOrganizationId = Guid.Parse(Request.Form["SubsidiaryOrganizationId"]),
                 };
                 string caseId = await _caseEncodeService.Add(caseEncodePostDto);
+                var result = new { CaseId = caseId, CaseData = caseEncodePostDto };
+
+
+                return Ok(result);
+
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+
+        }
+
+
+        [HttpPost("fileEncoding"), DisableRequestSizeLimit]
+        public async Task<IActionResult> Upload()
+        {
+            try
+            {
+                var caseId = Request.Form["CaseId"]/*.ToString().Split('_')[0]*/;
+                var Case = await _caseEncodeService.GetSingleCase(Guid.Parse(caseId));
+                var user = await _userManager.FindByIdAsync(Case.CreatedBy);
+                //var employeeId = Request.Form["CaseId"].ToString().Split('_')[1];
+                var employeeId = "";
+                if (user != null)
+                {
+                    employeeId = user.EmployeesId.ToString();
+                }
 
                 if (Request.Form.Files.Any())
                 {
                     List<CaseAttachment> attachments = new List<CaseAttachment>();
                     List<FilesInformation> fileInfos = new List<FilesInformation>();
+                    List<CaseFilesGetDto> fileList = new List<CaseFilesGetDto>();
                     foreach (var file in Request.Form.Files)
                     {
 
@@ -63,7 +102,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                         {
                             string folderName = Path.Combine("Assets", "CaseAttachments");
 
-                            var applicant = _applicantService.GetApplicantById(caseEncodePostDto.ApplicantId);
+                            var applicant = _applicantService.GetApplicantById(Guid.Parse(Case.ApplicantId));
                             string applicantName = applicant.Result.ApplicantName; // replace with actual applicant name
                             string applicantFolder = Path.Combine(folderName, applicantName);
 
@@ -89,12 +128,19 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                                 {
                                     Id = Guid.NewGuid(),
                                     CreatedAt = DateTime.Now,
-                                    CreatedBy = caseEncodePostDto.CreatedBy,
+                                    CreatedBy = Guid.Parse(Case.CreatedBy),
                                     RowStatus = RowStatus.Active,
                                     CaseId = Guid.Parse(caseId),
                                     FilePath = dbPath
                                 };
                                 attachments.Add(attachment);
+                                CaseFilesGetDto uplodedFile = new()
+                                {
+                                    FileName = fileName,
+                                    FilePath = dbPath
+                                };
+                                fileList.Add(uplodedFile);
+
                             }
 
                         }
@@ -123,7 +169,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                                 {
                                     Id = Guid.NewGuid(),
                                     CreatedAt = DateTime.Now,
-                                    CreatedBy = caseEncodePostDto.CreatedBy,
+                                    CreatedBy = Guid.Parse(Case.CreatedBy),
                                     RowStatus = RowStatus.Active,
                                     FilePath = dbPath,
                                     FileSettingId = Guid.Parse(fileName.Split(".")[0]),
@@ -132,11 +178,17 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                                 };
                                 fileInfos.Add(filesInformation);
 
+
                             }
                         }
+
+
+
                     }
                     await _caseAttachmentService.AddMany(attachments);
                     await _filesInformationService.AddMany(fileInfos);
+                    await _encoderHub.Clients.Group(employeeId).getUplodedFiles(fileList, employeeId);
+
                 }
 
                 return NoContent();
@@ -145,8 +197,10 @@ namespace PM_Case_Managemnt_API.Controllers.Case
             {
                 return StatusCode(500, "Internal Server Error");
             }
-
         }
+
+
+
         [HttpPut("encoding"), DisableRequestSizeLimit]
         public async Task<IActionResult> Update()
         {
