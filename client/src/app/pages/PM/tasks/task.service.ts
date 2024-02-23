@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SelectList } from '../../common/common';
-import { IActivityAttachment } from './Iactivity';
 import { TaskView, TaskMembers, Task } from './task';
 
 @Injectable({
