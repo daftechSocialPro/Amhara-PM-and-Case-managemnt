@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IndividualConfig } from 'ngx-toastr';
 import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
+import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
+import { SelectList } from 'src/app/pages/common/common';
 
 @Component({
   selector: 'app-send-sms',
@@ -18,14 +20,17 @@ export class SendSmsComponent implements OnInit {
   user! : UserView
   smsForm!: FormGroup
   toast !:toastPayload 
+  smsTemplateSelectList! : SelectList[]
   constructor(
     private activeModal: NgbActiveModal,
     private userService : UserService,
     private caseService: CaseService,
     private formBuilder: FormBuilder,
-    private commonService : CommonService) {
+    private commonService : CommonService,
+    private orgService: OrganizationService) {
 
     this.smsForm = this.formBuilder.group({
+      SmsTemplate:[null, Validators.required],
       Remark: ['']
     })
 
@@ -33,15 +38,25 @@ export class SendSmsComponent implements OnInit {
   ngOnInit(): void {
 
     this.user = this.userService.getCurrentUser()
+    this.getSmsTemplateSelectList()
 
   }
 
+  getSmsTemplateSelectList(){
+
+    this.orgService.getSmsTemplateSelectList(this.user.SubOrgId).subscribe({
+      next : (res) => {
+        this.smsTemplateSelectList = res
+      }
+    })
+  }
   submit() {
 
     this.caseService.SendSms({
       CaseHistoryId: this.historyId,
       EmployeeId: this.user.UserID,
-      Remark: this.smsForm.value.Remark
+      Remark: this.smsForm.value.Remark,
+      SmsTemplateContent: this.smsForm.value.SmsTemplate
     }).subscribe({
       next:(res)=>{
         this.toast = {

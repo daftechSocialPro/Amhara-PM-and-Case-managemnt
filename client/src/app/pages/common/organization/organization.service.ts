@@ -10,6 +10,7 @@ import { ChangePasswordModel, Employee } from './employee/employee';
 import { OrganizationBranch } from './org-branch/org-branch';
 import { OrganizationProfile } from './org-profile/org-profile';
 import { OrganizationalStructure } from './org-structure/org-structure';
+import { SmsTemplateGetDto, SmsTemplatePostDto } from '../sms-template/sms-template';
 
 
 @Injectable({
@@ -170,7 +171,32 @@ export class OrganizationService {
     return this.http.get<TreeNode[]>(this.BaseURI+"/OrgStructure/orgdiagram?BranchId="+branchId)
   }
 
+  
+  //SMS Template
+
+  getSmsTemplate(subOrgId:string){
+    return this.http.get<SmsTemplateGetDto[]>(this.BaseURI + "/SmsTemplate/GetSmsTemplate?subOrgId="+subOrgId)
+  }
+  getSmsTemplateById(id:string){
+    return this.http.get<SmsTemplateGetDto>(this.BaseURI + "/SmsTemplate/GetSmsTemplateById?id="+id)
+  }
+  getSmsTemplateSelectList(subOrgId:string){
+    return this.http.get<SelectList[]>(this.BaseURI + "/SmsTemplate/GetSmsTemplateSelectList?subOrgId="+subOrgId)
+  }
+  
+  createSmsTemplate(template:SmsTemplatePostDto){
+    return this.http.post<any>(this.BaseURI + "/SmsTemplate/CreateSmsTemplate", template )
+  }
+
+  updateSmsTemplate(template:SmsTemplateGetDto){
+    return this.http.put<any>(this.BaseURI + "/SmsTemplate/UpdateSmsTemplate", template )
+  }
+  deleteSmsTemplate(id:string){
+    return this.http.delete<any>(this.BaseURI + "/SmsTemplate/DeleteSmsTemplate?id="+id )
+  }
+}
+
 
   
 
-}
+

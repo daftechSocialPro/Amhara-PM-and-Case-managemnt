@@ -81,6 +81,8 @@ import { PlanDetailComponent } from './pages/PM/plans/plan-detail/plan-detail.co
 import { ActivityDetailComponent } from './pages/PM/plans/plan-detail/activity-detail/activity-detail.component';
 import { TaskReportComponent } from './pages/PM/progress-report/task-report/task-report.component';
 import { AnalyticsDashboardComponent } from './pages/Analytics/analytics-dashboard/analytics-dashboard.component';
+import { CaseDetailsComponent } from './pages/case/encode-case/add-case/case-details/case-details.component';
+import { CaseFilesComponent } from './pages/case/encode-case/add-case/case-files/case-files.component';
 
 
 
@@ -107,6 +109,13 @@ const routes: Routes = [
   { path: 'task',canActivate:[AuthGuard],component:TasksComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},  
   { path: 'activityparent', canActivate:[AuthGuard],component:ActivityParentsComponent ,data:{permittedRoles:['Super Admin','Director','Employee Manager','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']}},
   { path: 'encodecase' ,canActivate:[AuthGuard],component : EncodeCaseComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
+  
+  {path: 'casedetails' ,canActivate:[AuthGuard],component : CaseDetailsComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
+  {path: 'casefiles' ,canActivate:[AuthGuard],component : CaseFilesComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
+  ///
+  {path: 'updatecasedetails' ,canActivate:[AuthGuard],component : UpdateCaseDetailsComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
+  {path: 'updatecasefiles' ,canActivate:[AuthGuard],component : UpdateCaseFilesComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
+
   { path: 'searchcase' ,canActivate:[AuthGuard],component : SearchCasesComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
  
  

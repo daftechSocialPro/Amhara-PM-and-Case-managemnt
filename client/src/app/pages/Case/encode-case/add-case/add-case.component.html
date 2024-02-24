@@ -1,4 +1,34 @@
+
 <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Add Case</h5>
+        <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+    
+    <div class="card">
+        
+        <div class="card-body">
+            
+            
+            <div class="col-12">
+                
+                <div class="col-12 md:col-8 h-full">
+                    <p-steps [model]="routeItems" styleClass="mt-5" [readonly]="true"></p-steps>
+                </div>
+                <div class="col-12 md:col-4  md:mt-0">
+                    <router-outlet></router-outlet>
+                </div>
+                
+            </div>
+            
+            
+        </div>
+    </div>
+    
+</div>
+
+
+<!-- <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title">Add Case</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
@@ -93,8 +123,8 @@
 
                             <!-- <ngx-doc-scanner *ngIf="image" [file]="image" [config]="config"
                                 (editResult)="editResult($event)" (exitEditor)="exitEditor($event)"
-                                (error)="onError($event)" (processing)="editorState($event)"></ngx-doc-scanner> -->
-                                <!-- <ngx-document-scanner></ngx-document-scanner> -->
+                                (error)="onError($event)" (processing)="editorState($event)"></ngx-doc-scanner> ->
+                                <!-- <ngx-document-scanner></ngx-document-scanner> ->
                                <app-scanner (imagesScannedUpdated)="onImagesScannedUpdate($event)"></app-scanner>
                         </div>
 
@@ -105,8 +135,8 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">File Name</th>
-                                        <!-- <th scope="col">Files /Statments</th> -->
-                                        <!-- <th scope="col">Document Checked</th> -->
+                                        <!-- <th scope="col">Files /Statments</th> ->
+                                        <!-- <th scope="col">Document Checked</th> ->
 
                                     </tr>
                                 </thead>
@@ -117,7 +147,7 @@
                                         <th>{{fileSetting.Name}}</th>
                                         <!-- <th><input id={{i}} class="form-control" required
                                                 (change)="onFileSettongSelected(fileSetting.Id,$event)" type="file">
-                                        </th> -->
+                                        </th> ->
                                     </tr>
 
                                 </tbody>
@@ -149,4 +179,4 @@
         </div>
     </div>
 
-</div>
+</div> -->

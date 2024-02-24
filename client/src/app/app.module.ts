@@ -167,6 +167,12 @@ import { ActivityDetailComponent } from './pages/PM/plans/plan-detail/activity-d
 import { TaskReportComponent } from './pages/PM/progress-report/task-report/task-report.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ProgramDetailComponent } from './pages/pm/programs/program-detail/program-detail.component';
+import { SmsTemplateComponent } from './pages/common/sms-template/sms-template.component';
+import { AddSmsTemplateComponent } from './pages/common/sms-template/add-sms-template/add-sms-template.component';
+import { CaseDetailsComponent } from './pages/case/encode-case/add-case/case-details/case-details.component';
+import { CaseFilesComponent } from './pages/case/encode-case/add-case/case-files/case-files.component';
+import { QRCodeModule } from 'angularx-qrcode';
+import { StepsModule } from 'primeng/steps';
 
 
 @NgModule({
@@ -309,6 +315,10 @@ import { ProgramDetailComponent } from './pages/pm/programs/program-detail/progr
     ActivityDetailComponent,
     TaskReportComponent,
     ProgramDetailComponent,
+    SmsTemplateComponent,
+    AddSmsTemplateComponent,
+    CaseDetailsComponent,
+    CaseFilesComponent,
    
    
   ],
@@ -342,6 +352,8 @@ import { ProgramDetailComponent } from './pages/pm/programs/program-detail/progr
       
       echarts: () => import('echarts'), 
     }),
+    QRCodeModule,
+    StepsModule,
     
   
   ],
