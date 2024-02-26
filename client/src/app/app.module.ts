@@ -183,6 +183,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
+import { AnalyticsDashboardComponent } from './pages/Analytics/analytics-dashboard/analytics-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -332,6 +333,7 @@ import { ToastModule } from 'primeng/toast';
     UpdateCaseFilesComponent,
     AssignEmployeesActivityComponent,
     AssignTargetToBranchComponent,
+    AnalyticsDashboardComponent
    
    
   ],
@@ -362,8 +364,7 @@ import { ToastModule } from 'primeng/toast';
     CarouselModule,
     NgxPaginationModule,
     NgxEchartsModule.forRoot({
-      
-      echarts: () => import('echarts'), 
+      echarts: () => import('echarts'),
     }),
     QRCodeModule,
     StepsModule,

@@ -204,34 +204,41 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
                 await _dbContext.SaveChangesAsync();
 
-                var employee = await _dbContext.Employees.Include(x => x.OrganizationalStructure).Where(x => x.Id == selectedHistory.ToEmployeeId).FirstOrDefaultAsync();
-                if (employee != null)
+                var employees = await _dbContext.Employees.Include(x => x.OrganizationalStructure).Where(x => x.Id == selectedHistory.ToEmployeeId).ToListAsync();
+                if (employees.Any())
+                   
                 {
+                    var employee = employees.FirstOrDefault();
 
-                    var activity = await _dbContext.Activities.Where(x => x.CaseTypeId == currentCase.CaseTypeId && x.OrganizationalStructureId == employee.OrganizationalStructure.OrganizationBranchId).FirstOrDefaultAsync();
-                    var actTarget = await _dbContext.ActivityTargetDivisions.Where(x => x.ActivityId == activity.Id).ToListAsync();
-                    if (activity != null && actTarget.Any())
+                    var activities = await _dbContext.Activities.Where(x => x.CaseTypeId == currentCase.CaseTypeId && x.OrganizationalStructureId == employee.OrganizationalStructure.OrganizationBranchId).ToListAsync();
+
+                    if (activities.Any())
                     {
-
-                        var activityProgress2 = new ActivityProgress
+                        var activity = activities.FirstOrDefault();
+                        var actTarget = await _dbContext.ActivityTargetDivisions.Where(x => x.ActivityId == activity.Id).ToListAsync();
+                        if (activity != null && actTarget.Any())
                         {
-                            Id = Guid.NewGuid(),
-                            CreatedAt = DateTime.Now,
-                            QuarterId = actTarget.FirstOrDefault().Id,
-                            ActualBudget = 0,
-                            ActualWorked = 1,
-                            progressStatus = ProgressStatus.SimpleProgress,
-                            Remark = "From Case",
-                            ActivityId = activity.Id,
-                            CreatedBy = selectedHistory.CreatedBy,
-                            EmployeeValueId = employee.Id,
-                            CaseId = selectedHistory.Id,
-                            Lat = "",
-                            Lng = "",
-                        };
 
-                        _dbContext.ActivityProgresses.Add(activityProgress2);
-                        await _dbContext.SaveChangesAsync();
+                            var activityProgress2 = new ActivityProgress
+                            {
+                                Id = Guid.NewGuid(),
+                                CreatedAt = DateTime.Now,
+                                QuarterId = actTarget.FirstOrDefault().Id,
+                                ActualBudget = 0,
+                                ActualWorked = 1,
+                                progressStatus = ProgressStatus.SimpleProgress,
+                                Remark = "From Case",
+                                ActivityId = activity.Id,
+                                CreatedBy = selectedHistory.CreatedBy,
+                                EmployeeValueId = employee.Id,
+                                CaseId = selectedHistory.Id,
+                                Lat = "",
+                                Lng = "",
+                            };
+
+                            _dbContext.ActivityProgresses.Add(activityProgress2);
+                            await _dbContext.SaveChangesAsync();
+                        }
                     }
                 }
 

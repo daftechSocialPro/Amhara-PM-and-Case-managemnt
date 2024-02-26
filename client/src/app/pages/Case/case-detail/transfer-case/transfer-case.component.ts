@@ -10,6 +10,8 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
 import { ICaseState } from './IcaseState';
+import * as signalR from '@microsoft/signalr';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-transfer-case',
@@ -17,12 +19,10 @@ import { ICaseState } from './IcaseState';
   styleUrls: ['./transfer-case.component.css']
 })
 export class TransferCaseComponent implements OnInit {
-
   @Input() historyId!: string
   @Input() CaseTypeName!: string
   @Input() CaseTypeId !: string
-
-  @Input() caseId !:string
+  @Input() CaseId !: string
   user!: UserView
   transferForm!: FormGroup
   toast !: toastPayload
@@ -31,7 +31,11 @@ export class TransferCaseComponent implements OnInit {
   Employees !: SelectList[]
   Documents: any
 
+  qrData!:string
   caseState !: ICaseState
+  mobileUplodedFiles:any[] = []
+  public connection!: signalR.HubConnection;
+  urlHub : string = environment.assetUrl+"/ws/Encoder"
 
   constructor(
     private activeModal: NgbActiveModal,
@@ -50,10 +54,35 @@ export class TransferCaseComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
     this.user = this.userService.getCurrentUser()
+    console.log("historyid",this.historyId)
+    console.log("caseid",this.CaseId)
     this.getBranches()
     this.getCaseState()
+    this.connection = new signalR.HubConnectionBuilder()
+    .withUrl(this.urlHub, {
+      skipNegotiation: true,
+      transport: signalR.HttpTransportType.WebSockets
+    })
+    .configureLogging(signalR.LogLevel.Debug)
+    .build();
+
+
+  this.connection.start()
+    .then((res) => {
+      console.log("employeeId",this.user.EmployeeId)
+     this.connection.invoke('addDirectorToGroup', this.user.EmployeeId);
+      console.log('Connection started.......!');
+    })
+    .catch((err) => console.log('Error while connecting to the server', err));
+    if(this.connection){
+      this.connection.on('getUplodedFiles', (result) => {
+        this.mobileUplodedFiles = result
+        console.log("UPLODED FILES",this.mobileUplodedFiles)
+       });
+    }
+
+    this.qrData = `${this.CaseId}_${this.user.EmployeeId}_CASE`
   }
 
   getCaseState() {
@@ -61,6 +90,7 @@ export class TransferCaseComponent implements OnInit {
     this.caseService.GetCaseState(this.CaseTypeId, this.historyId).subscribe({
       next: (res) => {
         this.caseState = res
+        console.log('this.caseState: ', this.caseState);
 
       }
       , error: (err) => {
@@ -219,4 +249,12 @@ export class TransferCaseComponent implements OnInit {
 
 
 
+  viewFile(file: string) {
+    return this.commonService.createImgPath(file)
+  }
+}
+
+export interface fileSettingSender {
+  FileSettingId: string;
+  File: File;
 }

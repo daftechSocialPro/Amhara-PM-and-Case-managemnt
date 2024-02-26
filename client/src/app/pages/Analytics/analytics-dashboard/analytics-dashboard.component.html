@@ -9,6 +9,22 @@
        </nav>
     </div>
     <section class="section dashboard">
+      <div class="row">
+         
+         <div class="card flex justify-content-center p-2 col-md-5">
+            <h3>Subsidiary Organizations Planned Budget</h3>
+            <div echarts [options]="pieChartOption" ></div>
+            <div echarts [options]="barChartOption" ></div>
+         </div>
+         <div class="col-md-2"></div>
+         <div class="card flex justify-content-center p-2 col-md-5">
+            <h3>Subsidiary Organizations Used Budget</h3>
+            <div echarts [options]="pieChartOption2" ></div>
+            <div echarts [options]="barChartOption2" ></div>
+         </div>
+       </div>
+
+       
 
     </section>
 </main>

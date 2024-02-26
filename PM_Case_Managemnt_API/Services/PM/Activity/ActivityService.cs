@@ -583,8 +583,7 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
                                                         x.IsApprovedByFinance == approvalStatus.approved &&
                                                         x.IsApprovedByManager == approvalStatus.approved)
                                             .Sum(x => x.ActualWorked) / y.Target) * 100 : 0
-                            })
-                                    .ToList(),
+                            }).ToList(),
                              ProjectType = e.ActivityParentId != null
                                     ? e.ActivityParent.Task.Plan.ProjectType
                                     : (e.TaskId != null

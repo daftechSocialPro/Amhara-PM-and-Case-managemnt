@@ -12,4 +12,17 @@
         public List<OverallBudgetDto> PlannedBudget { get; set; }
         public List<OverallBudgetDto> Usedbudget { get; set; }
     }
+
+    public record OverallPerformanceDto
+    {
+        public string? SubOrganiztionName { get; set; }
+        public float? SubOrganizationPerformace { get; set; }
+
+    }
+
+
+
+    
+
+
 }
