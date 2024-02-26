@@ -63,7 +63,7 @@ export class AddCaseTypeComponent {
   }
   }
   submit() {
-
+    
     if (this.caseForm.valid) {
       let caseType: CaseType = {
         CaseTypeTitle: this.caseForm.value.CaseTypeTitle,
@@ -73,7 +73,8 @@ export class AddCaseTypeComponent {
         MeasurementUnit: this.caseForm.value.MeasurementUnit,
         CaseForm: this.caseForm.value.CaseForm,
         Remark: this.caseForm.value.Remark,
-        CreatedBy: this.user.UserID
+        CreatedBy: this.user.UserID,
+        SubsidiaryOrganizationId: this.user.SubOrgId
       }
       this.caseService.createCaseType(caseType).subscribe({
         next: (res) => {
@@ -121,6 +122,7 @@ export class AddCaseTypeComponent {
         Counter: this.caseForm.value.Counter,
         MeasurementUnit: this.caseForm.value.MeasurementUnit,     
         Remark: this.caseForm.value.Remark,
+        SubsidiaryOrganizationId: this.user.SubOrgId
 
       }
 

@@ -15,5 +15,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
         public Task DeleteCaseType(Guid caseTypeId);
 
         public int GetChildOrder(Guid caseTypeId);
+
+        public Task<List<CaseTypeGetDto>> GetCaseTypeChildren(Guid caseTypeId);
     }
 }

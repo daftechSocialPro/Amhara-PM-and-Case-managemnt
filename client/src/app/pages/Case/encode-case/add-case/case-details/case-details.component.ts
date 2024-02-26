@@ -10,6 +10,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../../case.service';
 import { AddApplicantComponent } from '../../add-applicant/add-applicant.component';
+import { CaseTypeView } from '../../../case-type/casetype';
 
 @Component({
   selector: 'app-case-details',
@@ -27,6 +28,7 @@ export class CaseDetailsComponent implements OnInit{
   Documents: any;
   settingsFile: fileSettingSender[] = [];
   user!: UserView;
+  childCases!:CaseTypeView[];
 
 
   constructor(
@@ -73,6 +75,16 @@ export class CaseDetailsComponent implements OnInit{
     });
   }
 
+  getChildCases(caseTypeId:string){
+    this.caseService.GetCaseTypeChildren(caseTypeId).subscribe({
+      next: (res) => {
+        this.childCases = res;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
   getOutSideCases() {
     this.caseService.getCaseTypeByCaseForm('Outside',this.user.SubOrgId).subscribe({
       next: (res) => {
@@ -94,16 +106,7 @@ export class CaseDetailsComponent implements OnInit{
     });
   }
 
-  getFileSettings(casetTypeId: string) {
-    this.caseService.getFileSettignsByCaseTypeId(casetTypeId).subscribe({
-      next: (res) => {
-        this.fileSettings = res;
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
-  }
+  
   submit() {
     if (this.caseForm.valid) {
 

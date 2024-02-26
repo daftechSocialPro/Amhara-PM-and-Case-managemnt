@@ -42,6 +42,7 @@ export class CaseFilesComponent implements OnInit{
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
+    this.getFileSettings(this.case.CaseData.CaseTypeId)
     console.log('this.caseId: ', this.case);
     this.connection = new signalR.HubConnectionBuilder()
     .withUrl(this.urlHub, {
@@ -72,7 +73,6 @@ export class CaseFilesComponent implements OnInit{
     this.caseService.getFileSettignsByCaseTypeId(casetTypeId).subscribe({
       next: (res) => {
         this.fileSettings = res;
-        console.log(res)
       },
       error: (err) => {
         console.error(err);

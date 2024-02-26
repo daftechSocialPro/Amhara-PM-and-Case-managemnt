@@ -52,6 +52,9 @@ export class CaseService {
     getCaseTypeByCaseForm(caseForm: string,subOrgId: string) {
         return this.http.get<SelectList[]>(this.BaseURI + "/byCaseForm?caseForm=" + caseForm + "&subOrgId=" + subOrgId)
     }
+    GetCaseTypeChildren(caseTypeId: string) {
+        return this.http.get<CaseTypeView[]>(this.BaseURI + "/GetCaseTypeChildren?caseTypeId=" + caseTypeId)
+    }
 
     //file setting 
 

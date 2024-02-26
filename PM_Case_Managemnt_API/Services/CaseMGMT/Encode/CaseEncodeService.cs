@@ -209,7 +209,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
         public async Task<string> GetCaseNumber(Guid subOrgId)
         {
 
-            var subOrgName = _dbContext.Cases.Where(x => x.SubsidiaryOrganizationId == subOrgId).OrderByDescending(x => x.CreatedAt).Select(c => c.SubsidiaryOrganization.OrganizationNameEnglish).FirstOrDefault();
+            var subOrgName = _dbContext.SubsidiaryOrganizations.Where(x => x.Id == subOrgId).Select(c => c.OrganizationNameEnglish).FirstOrDefault();
 
             
 
@@ -223,7 +223,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
 
 
             var latestNumber = _dbContext.Cases.Where(x => x.SubsidiaryOrganizationId == subOrgId).OrderByDescending(x => x.CreatedAt).Select(c => c.CaseNumber).FirstOrDefault();
-            Console.WriteLine(latestNumber);
+            
 
             if (latestNumber != null)
             {

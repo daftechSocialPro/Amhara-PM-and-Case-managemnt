@@ -1,1 +1,47 @@
-<p>add-sms-template works!</p>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{this.template ? "Add": "Update"}}SMS Template</h5>
+        <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">SMS Template Detail</h5>
+            <form class="" [formGroup]="templateForm" (ngSubmit)="submit()">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="Title" placeholder="Title"
+                                    formControlName="Title">
+                                <label for="Title">Title</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating"><textarea class="form-control" formControlName="Description"
+                                    placeholder="Description" id="Description" style="height: 100px;"></textarea><label
+                                    for="Description">Description</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="form-floating"><textarea class="form-control" formControlName="Remark"
+                                    placeholder="Remark" id="Remark" style="height: 100px;"></textarea><label
+                                    for="Remark">Remark</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                        (click)="closeModal()">Close</button>
+                    <button type="button" type="submit" [disabled]="!templateForm.valid" class="btn btn-success">Save
+                        changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>

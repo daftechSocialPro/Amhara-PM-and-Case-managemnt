@@ -214,5 +214,25 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
         }
 
 
+        public async Task<List<CaseTypeGetDto>> GetCaseTypeChildren(Guid caseTypeId)
+        {
+            var children = await _dbContext.CaseTypes.Where(x => x.ParentCaseTypeId == caseTypeId).Select(y => new CaseTypeGetDto
+            {
+                Id = y.Id,
+                CaseTypeTitle = y.CaseTypeTitle,
+                Code = y.Code,
+                CreatedAt = y.CreatedAt.ToString(),
+                CreatedBy = y.CreatedBy,
+                Counter = y.Counter,
+                MeasurementUnit = y.MeasurementUnit.ToString(),
+                Remark = y.Remark,
+                RowStatus = y.RowStatus.ToString(),
+                TotalPayment = y.TotlaPayment,
+
+            }).ToListAsync();
+
+            return children;
+        }
+
     }
 }

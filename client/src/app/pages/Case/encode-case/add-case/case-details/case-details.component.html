@@ -57,7 +57,7 @@
                     <div class="col-md-6">
                         <div class="form-floating mb-3">
                             <select class="form-select" id="CaseTypeId" formControlName="CaseTypeId" #outsideCasee
-                                    (change)="getFileSettings(outsideCasee.value)" aria-label="State">
+                            (change)="getChildCases(outsideCasee.value)" aria-label="State">
 
                                 <option *ngFor="let outsideCase of outsideCases" value={{outsideCase.Id}}>
                                     {{outsideCase.Name}}</option>
@@ -85,22 +85,28 @@
                     </div>
 
                     <div class="col-md-8">
-                        <label for="inputNumber" class="col-sm-12 col-form-label">Expected Files</label>
+                        <label for="inputNumber" class="col-sm-12 col-form-label">Child Case Types</label>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">File Name</th>
-                                    <!-- <th scope="col">Files /Statments</th> -->
-                                    <!-- <th scope="col">Document Checked</th> -->
+                                    <th scope="col">Child Case Type Title</th>
+                                    <th scope="col">Total Payment</th>
+                                    <th scope="col">Mesaurement Unit</th>
+                                    <th scope="col">SMS Code</th>
+                                    
 
                                 </tr>
                             </thead>
                             <tbody>
 
-                                <tr *ngFor="let fileSetting of fileSettings; let i = index">
+                                <tr *ngFor="let child of childCases; let i = index">
                                     <th>{{i+1}}</th>
-                                    <th>{{fileSetting.Name}}</th>
+                                    <th>{{child.CaseTypeTitle}}</th>
+                                    <th>{{child.TotalPayment}}</th>
+                                    <th>{{child.MeasurementUnit}}</th>
+                                    <th>{{child.Code}}</th>
+                                    
                                     <!-- <th><input id={{i}} class="form-control" required
                                             (change)="onFileSettongSelected(fileSetting.Id,$event)" type="file">
                                     </th> -->

@@ -135,5 +135,21 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
         }
 
+        [HttpGet("GetCaseTypeChildren")]
+
+        public async Task<IActionResult> GetCaseTypeChildren(Guid caseTypeId)
+        {
+
+            try
+            {
+                return Ok(await _caseTypeService.GetCaseTypeChildren(caseTypeId));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+
+        }
+
     }
 }

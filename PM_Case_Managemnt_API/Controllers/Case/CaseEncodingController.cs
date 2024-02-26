@@ -58,6 +58,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                     PhoneNumber2 = Request.Form["PhoneNumber2"],
                     Representative = Request.Form["Representative"],
                     CreatedBy = Guid.Parse(Request.Form["CreatedBy"]),
+                    SubsidiaryOrganizationId = Guid.Parse(Request.Form["SubsidiaryOrganizationId"])
                 };
                 string caseId = await _caseEncodeService.Add(caseEncodePostDto);
                 var result = new { CaseId = caseId, CaseData = caseEncodePostDto };

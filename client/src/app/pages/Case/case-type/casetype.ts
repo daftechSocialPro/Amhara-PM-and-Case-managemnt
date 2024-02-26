@@ -11,7 +11,7 @@ export interface CaseType {
     CreatedBy?: string,
     OrderNumber?: number,
     ParentCaseTypeId?: string,
-    SubsidiaryOrganizationId? : string
+    SubsidiaryOrganizationId : string
 
 }
 
