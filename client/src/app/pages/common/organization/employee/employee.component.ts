@@ -22,6 +22,7 @@ export class EmployeeComponent implements OnInit {
 
   user!: UserView
   employees: Employee[] = []
+  filterdEmployees:Employee[]=[]
 
   constructor(private orgService: OrganizationService, private commonServcie: CommonService, private modalService: NgbModal, private userService: UserService) { }
 
@@ -37,6 +38,7 @@ export class EmployeeComponent implements OnInit {
     this.orgService.getEmployees(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.employees = res
+        this.filterdEmployees = res
         console.log("employees", this.employees)
       }, error: (err) => {
         console.error(err)
@@ -68,6 +70,24 @@ export class EmployeeComponent implements OnInit {
     })
   }
 
+  Filter(value:string){
+
+    const searchTerm = value.toLowerCase()
+
+
+    this.filterdEmployees = this.employees.filter((item)=> {
+    return (
+         item.FullName.toLowerCase().includes(searchTerm) ||
+         item.PhoneNumber.toLowerCase().includes(searchTerm) ||
+         item.StructureName.toLowerCase().includes(searchTerm)
+        )
+    }
+
+
+    )
+
+
+  }
 
 }
 

@@ -12,7 +12,7 @@ import { ActivityView } from 'src/app/pages/PM/view-activties/activityview';
 })
 export class SidebarComponent implements OnInit {
   user !: UserView
-  Activties!: ActivityView[]
+  Activties!: number
   constructor(private router : Router
     ,private pmService: PMService,
     private userService: UserService,
@@ -34,7 +34,7 @@ export class SidebarComponent implements OnInit {
 
 
   getAssignedActivites() {
-    this.pmService.getAssignedActivities(this.user.EmployeeId).subscribe({
+    this.pmService.getAssignedActivtiesNumber(this.user.EmployeeId).subscribe({
       next: (res) => {
         this.Activties = res
       }, error: (err) => {

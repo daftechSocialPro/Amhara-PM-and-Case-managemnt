@@ -82,7 +82,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-floating mb-3">
-                                        <select class="form-select" id="ProjectType" formControlName="ProjectType"
+                                        <select class="form-select" id="ProjectType" #ptype formControlName="ProjectType"
                                             aria-label="State">
 
                                             <option></option>
@@ -103,7 +103,7 @@
                                         <small *ngIf="program" style="color: red;">Remaining Weight : {{program.RemainingWeight}} % </small>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" *ngIf="ptype.value=='0'">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" [min]="0"   #budget (change)="budgetChange(budget.value)" id="PlandBudget"
                                             placeholder="PlannedBudget" formControlName="PlandBudget">
@@ -122,7 +122,7 @@
                                 </div>
 
 
-                                <div class="col-md-4">
+                                <div class="col-md-4" *ngIf="ptype.value=='0'">
                                     <div class="form-floating">
                                         <app-autocomplete *ngIf="employeeList.length>0" [data]="employeeList"
                                             placeHolder="Finacne" (selectedItem)="selectEmployeeF($event)">
@@ -130,6 +130,14 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-4" *ngIf="ptype.value=='0'">
+
+                                    <input type="text" class="form-control" id="ProjectFunder" 
+                                    placeholder="ProjectFunder"  formControlName="ProjectFunder">
+
+
+
+                                </div>
 
 
 

@@ -30,6 +30,7 @@ using PM_Case_Managemnt_API.Services.Common.Dashoboard;
 using PM_Case_Managemnt_API.Services.Common.FolderService;
 using PM_Case_Managemnt_API.Services.Common.RowService;
 using PM_Case_Managemnt_API.Services.Common.ShelfService;
+using PM_Case_Managemnt_API.Services.Common.SmsTemplate;
 using PM_Case_Managemnt_API.Services.Common.SubOrganization;
 using PM_Case_Managemnt_API.Services.Common.SubsidiaryOrganization;
 using PM_Case_Managemnt_API.Services.PM;
@@ -126,6 +127,7 @@ builder.Services.AddScoped<IProgressReportService, ProgressReportService>();
 builder.Services.AddScoped<ISubsidiaryOrganizationService, SubsidiaryOrganizationService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+builder.Services.AddScoped<ISmsTemplateService, SmsTemplateService>();
 
 //Jwt Authentication
 

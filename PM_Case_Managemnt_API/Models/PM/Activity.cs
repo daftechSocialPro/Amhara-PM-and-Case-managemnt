@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using PM_Case_Managemnt_API.Models.Common;
 using System.ComponentModel.DataAnnotations.Schema;
+using PM_Case_Managemnt_API.Models.CaseModel;
 
 namespace PM_Case_Managemnt_API.Models.PM
 {
@@ -64,7 +65,13 @@ namespace PM_Case_Managemnt_API.Models.PM
         public Guid? TaskId { get; set; }
         public virtual Task Task { get; set; } = null!;
         public Guid? ActivityParentId { get; set; }
+        public Guid? CaseTypeId { get; set; }
+
+        public virtual CaseType CaseType { get; set; }
+
         public virtual ActivityParent ActivityParent { get; set; } = null!;
+        public Guid? OrganizationalStructureId { get; set; }
+        public virtual OrganizationalStructure OrganizationalStructure { get; set; }
 
 
         public ICollection<ActivityProgress> ActProgress { get; set; }

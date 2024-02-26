@@ -5,7 +5,7 @@ export interface ActivityDetailDto {
     TaskId:String,
     CreatedBy:string
     ActivityDetails:SubActivityDetailDto[]
-
+    CaseTypeId? : string
 
 }
 
@@ -15,17 +15,20 @@ export interface SubActivityDetailDto {
     EndDate :string,
     PlannedBudget:number,
     Weight:Number,
-    ActivityType:number,
-    OfficeWork:number,
-    FieldWork:number,
-    UnitOfMeasurement : string,
+    ActivityType?:number,
+    OfficeWork?:number,
+    FieldWork?:number,
+    UnitOfMeasurement? : string,
+    UnitOfMeasurementId? : string,
     PreviousPerformance:number,
     Goal:number,
-    TeamId:string,
-    CommiteeId:string,
+    TeamId?:string,
+    CommiteeId?:string,
     PlanId?:string,
     TaskId?:string,
-    Employees :string[]
+    IsClassfiedToBranch?:Boolean,
+    Employees? :string[],
+    BranchId?:string
 }
 
     

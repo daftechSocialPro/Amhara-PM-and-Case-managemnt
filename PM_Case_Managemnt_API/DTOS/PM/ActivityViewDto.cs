@@ -14,6 +14,9 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public float Begining { get; set; }
         public float Target { get; set; }
         public string UnitOfMeasurment { get; set; } = null!;
+
+        public bool AssignedToBranch { get; set; }
+        public Guid? UnitOfMeasurmentId { get; set; }
         public float OverAllPerformance { get; set; }
         public string StartDate { get; set; } = null!;
         public string EndDate { get; set; } = null!;
@@ -26,6 +29,10 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public bool IsFinance { get; set; }
         public bool IsProjectManager { get; set; }
         public bool IsDirector { get; set; }
+        public Guid? BranchId { get; set; }
+        public bool IsClassfiedToBranch { get; set; }
+
+        public ProjectType? ProjectType { get; set; }
         public float? UsedBudget { get; set; }
     }
 
@@ -71,8 +78,8 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public string ProgressStatus { get; set; }
         public float ActualBudget { get; set; }
         public float ActualWorked { get; set; }
-        public string Lat { get; set; } = null!;
-        public string Lng { get; set; } = null!;
+        public string? Lat { get; set; }
+        public string? Lng { get; set; }
         public Guid CreatedBy { get; set; }
 
         public string[] DcoumentPath { get; set; }
@@ -100,6 +107,9 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public string? FinanceApprovalRemark { get; set; }
         public string? ManagerApprovalRemark { get; set; }
         public string? DirectorApprovalRemark { get; set; }
+
+        public Guid? CaseId { get; set; }
+
 
         public DateTime CreatedAt { get; set; }
 
@@ -131,6 +141,15 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public string ActivityDesctiption { get; set; }
     }
 
+    public class ActivityEmployees
+    {
+
+        public Guid ActivityId { get; set; }
+
+        public Guid CreatedBy { get; set; }
+
+        public List<String> Employees { get; set; }
+    }
 
 
 }

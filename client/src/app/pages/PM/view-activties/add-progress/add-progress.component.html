@@ -55,7 +55,7 @@
                         <div class="col-sm-12"> <input (change)="onFileSelected($event)"  class="form-control" multiple type="file" id="formFile"></div>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-6" *ngIf="activity.ProjectType==0">
                         <label for="inputNumber" class="col-sm-12 col-form-label">Finance Documents</label>
                         <div class="col-sm-12"> <input (change)="onFinanceFileSelected($event)"  class="form-control" type="file" id="formFile2"></div>
                     </div>

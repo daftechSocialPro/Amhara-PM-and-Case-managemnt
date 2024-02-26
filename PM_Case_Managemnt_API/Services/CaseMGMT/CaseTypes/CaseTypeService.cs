@@ -52,6 +52,36 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
             }
         }
 
+
+
+
+        public async Task UpdateCaseType(CaseTypePostDto caseTypeDto)
+        {
+            try
+            {
+                var caseType = await _dbContext.CaseTypes.FindAsync(caseTypeDto.Id);
+
+                caseType.CaseTypeTitle = caseTypeDto.CaseTypeTitle;
+                caseType.TotlaPayment = caseTypeDto.TotalPayment;
+                caseType.Code = caseTypeDto.Code;
+                caseType.Remark = caseTypeDto.Remark;
+                caseType.Counter = caseTypeDto.Counter;
+                caseType.MeasurementUnit = Enum.Parse<TimeMeasurement>(caseTypeDto.MeasurementUnit);
+
+
+                await _dbContext.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+
+
+
         public async Task<List<CaseTypeGetDto>> GetAll(Guid subOrgId)
         {
             try
@@ -160,8 +190,27 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
             if (!childCases.Any())
                 return 1;
             else 
-            return (int)childCases.FirstOrDefault().OrderNumber+1;
+                return (int)childCases.FirstOrDefault().OrderNumber+1;
 
+        }
+
+        public async Task DeleteCaseType(Guid caseTypeId)
+        {
+
+            var caseType = await _dbContext.CaseTypes.FindAsync(caseTypeId);
+
+            var childCases = await _dbContext.CaseTypes.Where(x => x.ParentCaseTypeId == caseTypeId).ToListAsync();
+
+            if (caseType != null)
+            {
+                _dbContext.CaseTypes.RemoveRange(childCases);
+                await _dbContext.SaveChangesAsync();
+
+                _dbContext.CaseTypes.Remove(caseType);
+                await _dbContext.SaveChangesAsync();
+            }
+
+;
         }
 
 

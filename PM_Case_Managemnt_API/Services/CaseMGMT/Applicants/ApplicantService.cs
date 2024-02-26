@@ -46,6 +46,30 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
             }
         }
 
+        public async Task<Guid> Update(ApplicantPostDto applicantPost)
+        {
+            try
+            {
+                var applicant = await _dbContext.Applicants.FindAsync(applicantPost.ApplicantId);
+
+
+                applicant.ApplicantName = applicantPost.ApplicantName;
+                applicant.ApplicantType = Enum.Parse<ApplicantType>(applicantPost.ApplicantType);
+                applicant.CustomerIdentityNumber = applicantPost.CustomerIdentityNumber;
+                applicant.Email = applicantPost.Email;
+                applicant.PhoneNumber = applicantPost.PhoneNumber;
+
+                await _dbContext.SaveChangesAsync();
+
+                return applicant.Id;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error adding applicant");
+            }
+        }
+
         public async Task<List<ApplicantGetDto>> GetAll(Guid subOrgId)
         {
             try
@@ -89,7 +113,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
         {
             try
             {
-                List<Applicant> applicants = await _dbContext.Applicants.Where(x => x.SubsidiaryOrganizationId == subOrgId).ToListAsync();
+                List<Applicant> applicants = await _dbContext.Applicants.Where(x => x.SubsidiaryOrganizationId == subOrgId).OrderBy(x => x.ApplicantName).ToListAsync();
                 List<SelectListDto> result = new();
 
                 foreach (Applicant applicant in applicants)
@@ -97,7 +121,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
                     result.Add(new SelectListDto()
                     {
                         Id = applicant.Id,
-                        Name = applicant.ApplicantName+" ( "+applicant.CustomerIdentityNumber+" ) ",
+                        Name = applicant.ApplicantName + " ( " + applicant.CustomerIdentityNumber + " ) ",
 
                     });
                 }

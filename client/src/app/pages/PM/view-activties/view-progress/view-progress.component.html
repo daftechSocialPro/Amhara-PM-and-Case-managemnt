@@ -16,7 +16,7 @@
                         <th scope="col">Actual Worked</th>
                         <th scope="col">Used Budget</th>
                         <th scope="col">Documents </th>
-                        <th scope="col">Finance Doc </th>
+                        <th scope="col" *ngIf="activity.ProjectType==0">Finance Doc </th>
                         <th scope="col">Progress Status </th>
                         <!-- <th scope="col">Approval reason </th> -->
                         <th scope="col">Remark</th>
@@ -38,16 +38,19 @@
                             </ng-container>
 
                         </td>
-                        <td><a target="_blank" class="btn btn-sm btn-secondary"
+                        <td *ngIf="activity.ProjectType==0"><a *ngIf="pro.FinanceDocument" target="_blank" class="btn btn-sm btn-secondary"
                                 href={{getFilePath(pro.FinanceDocument!)}}>View File</a></td>
                         <td>
+                            <a *ngIf="pro.CaseId" class="btn btn-sm btn-outline-primary"
+                            (click)="detailCase(pro.CaseId)" style="cursor: pointer;"><span>Case Detail</span> </a> <br/>
+
 
                             <span>
                                 Director: <span [class]="pro.IsApprovedByDirector==='approved'?'badge bg-success':'badge bg-warning'">{{pro.IsApprovedByDirector}}</span>
                                 {{pro.DirectorApprovalRemark}}
                             </span><br />
 
-                            <span>
+                            <span *ngIf="activity.ProjectType==0">
                                 Finance: <span [class]="pro.IsApprovedByFinance==='approved'?'badge bg-success':'badge bg-warning'">{{pro.IsApprovedByFinance}}</span>
                                 {{pro.FinanceApprovalRemark}}
                             </span> <br />
@@ -92,7 +95,7 @@
                                 </li>
                             </span><br />
 
-                            <span *ngIf="activity.IsFinance&& pro.IsApprovedByFinance==='pending'">
+                            <span *ngIf="activity.IsFinance&& pro.IsApprovedByFinance==='pending'&&activity.ProjectType==0">
                                 Finance:
                                 <li style="list-style: none; text-align: right;">
                                     <a class="nav-link nav-profile  pe-0" href="#" data-bs-toggle="dropdown"> <span

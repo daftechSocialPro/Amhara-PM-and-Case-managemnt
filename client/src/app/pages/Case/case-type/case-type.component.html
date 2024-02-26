@@ -43,7 +43,13 @@
                  <td>{{caset.Counter }} {{caset.MeasurementUnit }}</td>
                  <td>{{caset.RowStatus }}</td>
                  <td>{{caset.Code }}</td>
-                 <td><p-button class="p-button-rounded p-button-success mr-2" type="button" icon="pi pi-plus " (click)="AddChild(caset)"> </p-button></td>
+                 <td>
+
+                    <button class="btn btn-sm btn-outline-success" (click)="AddChild(caset)"><i class="pi pi-plus"></i></button> <br/>
+                    <button class="btn btn-sm btn-outline-warning mt-2" (click)="UpdateCaseType(caset)"><i class="pi pi-pencil"></i></button> <br/>
+                    <button class="btn btn-sm btn-outline-danger mt-2" (click)="DeleteCaseType(caset.Id)"><i class="pi pi-trash"></i></button>
+
+                </td>
            </tr>
          </ng-template>
          <ng-template pTemplate="rowexpansion" let-caset>
@@ -59,7 +65,7 @@
                                     <th pSortableColumn="MeasurementUnit">MeasurementUnit <p-sortIcon field="MeasurementUnit"></p-sortIcon></th>
                                     <th pSortableColumn="RowStatus">RowStatus <p-sortIcon field="RowStatus"></p-sortIcon></th>
                                     <th pSortableColumn="Code">Code <p-sortIcon field="Code"></p-sortIcon></th>
-                                    
+                                    <th>Action</th>
                                  </tr>
                              </ng-template>
                              <ng-template pTemplate="body" let-child>
@@ -70,6 +76,12 @@
                                     <td>{{child.Counter }} {{child.MeasurementUnit }}</td>
                                     <td>{{child.RowStatus }}</td>
                                     <td>{{child.Code }}</td>
+                                    <td>
+
+                                        <button class="btn btn-sm btn-outline-warning " (click)="UpdateCaseChild(child,caset)"><i class="pi pi-pencil"></i></button> <br/>
+                                        <button class="btn btn-sm btn-outline-danger mt-2" (click)="DeleteCaseType(child.Id)"><i class="pi pi-trash"></i></button>
+
+                                    </td>
 
                                   
                                  </tr>

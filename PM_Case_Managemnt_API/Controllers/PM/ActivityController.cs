@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.SqlServer.Server;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.PM;
 using PM_Case_Managemnt_API.Services.PM.Activity;
 
@@ -38,11 +39,11 @@ namespace PM_Case_Managemnt_API.Controllers.PM
 
 
         [HttpPost("AddSubActivity")]
-        public IActionResult AddSubActivity([FromBody] SubActivityDetailDto subActivity)
+        public async Task<IActionResult> AddSubActivity([FromBody] SubActivityDetailDto subActivity)
         {
             try
             {
-                var response = _activityService.AddSubActivity(subActivity);
+                var response = await _activityService.AddSubActivity(subActivity);
                 return Ok(new { response });
             }
             catch (Exception ex)
@@ -180,11 +181,24 @@ namespace PM_Case_Managemnt_API.Controllers.PM
             return await _activityService.ViewProgress(actId);
         }
 
+        [HttpGet("getEmployeesFromBranch")]
+        public async Task<List<SelectListDto>> GetEmployeesFromBranch(Guid branchId)
+        {
+            return await _activityService.GetEmployeesInBranch(branchId);
+        }
+
         [HttpGet("getAssignedActivties")]
         public async Task<List<ActivityViewDto>> GetAssignedActivity (Guid employeeId)
         {
             return await _activityService.GetAssignedActivity(employeeId);
         }
+
+        [HttpGet("getAssignedActivtiesNumber")]
+        public async Task<int> GetAssignedActivityNumber(Guid employeeId)
+        {
+            return await _activityService.GetAssignedActivityNumber(employeeId);
+        }
+
 
         [HttpGet("forApproval")]
         public async Task<List<ActivityViewDto>> forApproval(Guid employeeId)
@@ -220,6 +234,11 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         {
             return await _activityService.getActivityById(actId);
         }
+        [HttpPost("AssignEmployee")]
 
+        public async Task<ReponseMessage> AssignEmmployees(ActivityEmployees activityEmployees)
+        {
+            return await _activityService.AssignEmployees(activityEmployees);
+        }
     }
 }

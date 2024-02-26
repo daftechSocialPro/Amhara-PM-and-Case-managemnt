@@ -231,6 +231,7 @@ export class CaseDetailComponent implements OnInit {
     modalRef.componentInstance.historyId = this.caseHistoryId;
     modalRef.componentInstance.CaseTypeName = this.caseDetail.CaseTypeName;
     modalRef.componentInstance.CaseTypeId = this.caseDetail.CaseTypeId
+    modalRef.componentInstance.caseId = this.caseDetail.Id
   }
 
   Appointment() {

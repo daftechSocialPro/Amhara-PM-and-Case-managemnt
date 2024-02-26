@@ -1,13 +1,14 @@
 export interface CaseType {
 
-    CaseTypeTitle: string,
-    Code: string,
-    TotalPayment: number,
-    Counter: number,
-    MeasurementUnit: string,
+    Id?:string
+    CaseTypeTitle?: string,
+    Code?: string,
+    TotalPayment?: number,
+    Counter?: number,
+    MeasurementUnit?: string,
     CaseForm?: string,
-    Remark: string,
-    CreatedBy: string,
+    Remark?: string,
+    CreatedBy?: string,
     OrderNumber?: number,
     ParentCaseTypeId?: string,
     SubsidiaryOrganizationId? : string

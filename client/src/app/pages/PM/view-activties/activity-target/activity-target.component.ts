@@ -99,7 +99,7 @@ export class ActivityTargetComponent implements OnInit {
 
     
 
-    if (sumOfTarget != (this.activity.Target - this.activity.Begining)) {
+    if (sumOfTarget != (this.activity.Target)) {
 
       this.toast = {
         message: 'Sum of Activity target not equal to target of Activity',

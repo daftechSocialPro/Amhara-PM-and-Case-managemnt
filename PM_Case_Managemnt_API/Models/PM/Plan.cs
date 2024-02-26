@@ -23,8 +23,8 @@ namespace PM_Case_Managemnt_API.Models.PM
         public DateTime? PeriodEndAt { get; set; }
         public Guid ProjectManagerId { get; set; }
         public virtual Employee ProjectManager { get; set; } = null!;
-       // public Guid ProjectCordinatorId { get; set; }
-        public Guid FinanceId { get; set; }
+        // public Guid ProjectCordinatorId { get; set; }
+        public Guid? FinanceId { get; set; }
         public virtual Employee Finance { get; set; } = null!;
         public Guid? ProgramId { get; set; }
         public virtual Programs Program { get; set; } = null!;
@@ -34,8 +34,9 @@ namespace PM_Case_Managemnt_API.Models.PM
         public bool HasTask { get; set; }
         public float PlandBudget { get; set; }
         public ProjectType ProjectType { get; set; }
+        public string? ProjectFunder { get; set; }
 
-     
+
         public ICollection<Task> Tasks { get; set; }
 
      

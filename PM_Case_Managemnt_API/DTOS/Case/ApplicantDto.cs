@@ -5,6 +5,7 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
 {
     public class ApplicantPostDto
     {
+        public Guid ApplicantId { get; set; }
         public string ApplicantName { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
         public string Email { get; set; }

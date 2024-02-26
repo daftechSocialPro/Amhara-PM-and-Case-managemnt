@@ -173,7 +173,16 @@ import { CaseDetailsComponent } from './pages/case/encode-case/add-case/case-det
 import { CaseFilesComponent } from './pages/case/encode-case/add-case/case-files/case-files.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { StepsModule } from 'primeng/steps';
+import { UpdateCaseDetailsComponent } from './pages/case/encode-case/update-case/update-case-details/update-case-details.component';
+import { UpdateCaseFilesComponent } from './pages/case/encode-case/update-case/update-case-files/update-case-files.component';
+import { AssignEmployeesActivityComponent } from './pages/PM/plans/plan-detail/assign-employees-activity/assign-employees-activity.component';
+import { AssignTargetToBranchComponent } from './pages/PM/plans/plan-detail/assign-target-to-branch/assign-target-to-branch.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -319,6 +328,10 @@ import { StepsModule } from 'primeng/steps';
     AddSmsTemplateComponent,
     CaseDetailsComponent,
     CaseFilesComponent,
+    UpdateCaseDetailsComponent,
+    UpdateCaseFilesComponent,
+    AssignEmployeesActivityComponent,
+    AssignTargetToBranchComponent,
    
    
   ],
@@ -354,6 +367,8 @@ import { StepsModule } from 'primeng/steps';
     }),
     QRCodeModule,
     StepsModule,
+    ConfirmDialogModule,
+    ToastModule,
     
   
   ],
@@ -363,6 +378,9 @@ import { StepsModule } from 'primeng/steps';
       useClass: AuthHeaderIneterceptor,
       multi: true,
     },
+    ConfirmationService,
+    DialogService,
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })

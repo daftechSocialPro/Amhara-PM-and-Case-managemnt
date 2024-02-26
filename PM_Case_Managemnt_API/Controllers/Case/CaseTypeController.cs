@@ -42,6 +42,38 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                 return StatusCode(500, "Internal Server Error");
             }
         }
+
+
+        [HttpPost("UpdateCaseType")]
+        public async Task<IActionResult> UpdateCaseType(CaseTypePostDto caseType)
+        {
+            try
+            {
+                await _caseTypeService.UpdateCaseType(caseType);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+
+        [HttpDelete("DeleteCaseType")]
+        public async Task<IActionResult> DeleteCaseType(Guid caseTypeId)
+        {
+            try
+            {
+                await _caseTypeService.DeleteCaseType(caseTypeId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+
         [HttpGet("typeSelectList")]
         public async Task<IActionResult> GetSelectList(Guid subOrgId)
         {

@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add New Applicant</h5>
+        <h5 class="modal-title">{{applicantId?"Update":"Add New"}} Applicant</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -11,7 +11,7 @@
 
 
 
-            <form class="" [formGroup]="applicantForm" (ngSubmit)="submit()">
+            <form class="" [formGroup]="applicantForm" (ngSubmit)="applicantId?update(): submit()">
                 <div class="modal-body">
                     <div class="row g-3">
 
@@ -75,7 +75,7 @@
                 <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                         (click)="closeModal()">Close</button>
                     <button type="button" type="submit" [disabled]="!applicantForm.valid"
-                        class="btn btn-success">Create</button>
+                        [class]="applicantId?'btn btn-warning':'btn btn-success'">{{applicantId?'Update':'Create'}}</button>
                 </div>
             </form>
 

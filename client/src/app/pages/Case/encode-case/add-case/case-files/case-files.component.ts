@@ -68,6 +68,17 @@ export class CaseFilesComponent implements OnInit{
     
   }
 
+  getFileSettings(casetTypeId: string) {
+    this.caseService.getFileSettignsByCaseTypeId(casetTypeId).subscribe({
+      next: (res) => {
+        this.fileSettings = res;
+        console.log(res)
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
   submit(){
 
     const formData = new FormData();

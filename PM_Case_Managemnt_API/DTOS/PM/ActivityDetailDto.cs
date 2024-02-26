@@ -8,6 +8,7 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public bool HasActivity { get; set; }
         public Guid TaskId { get; set; }
 
+        public Guid? CaseTypeId { get; set; }
         public Guid CreatedBy { get; set; }
         public List<SubActivityDetailDto>? ActivityDetails { get; set; }
     }
@@ -31,6 +32,29 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public Guid? CommiteeId { get; set; }
         public Guid? PlanId { get; set; }
         public Guid? TaskId { get; set; }
+        public Guid? BranchId { get; set; }
+        public bool IsClassfiedToBranch { get; set; }
         public string[]? Employees { get; set; } 
+    }
+
+    public class BranchTargetDto
+    {
+
+        public Guid ActParentId { get; set; }
+
+        public string ActivityName { get; set; }
+        public Guid BranchId { get; set; }
+        public float Target { get; set; }
+        public float Budget { get; set; }
+
+        public float Weight { get; set; }
+        public Guid CreatedBy { get; set; }
+    }
+
+    public class ReponseMessage
+    {
+        public bool Success { get; set; }
+
+        public string Message { get; set; }
     }
 }

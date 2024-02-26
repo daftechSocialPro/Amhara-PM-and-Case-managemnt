@@ -24,6 +24,12 @@ export class TaskService {
     return this.http.get<TaskView>(this.BaseURI + "/ById?taskId=" + taskId)
   }
 
+  getSingleActivityParent(actParentId: String) {
+
+    return this.http.get<any>(this.BaseURI + "/ByActivityParentId?actParentId=" + actParentId)
+  }
+
+
   addTaskMembers(taskMemebers: TaskMembers) {
 
     return this.http.post(this.BaseURI + "/TaskMembers", taskMemebers)

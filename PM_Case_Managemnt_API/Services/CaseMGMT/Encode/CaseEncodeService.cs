@@ -411,11 +411,13 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                    .Include(x => x.Case).ThenInclude(x => x.Employee)
                    .Include(x => x.FromEmployee)
                    .Include(x => x.FromStructure)
+                   .Include(x => x.ToEmployee)
+                   .Include(x => x.ToStructure)
                    .OrderByDescending(x => x.CreatedAt)
-                   .Where(x => (x.Case.Applicant.ApplicantName.ToLower().Contains(filter.ToLower()) || x.Case.Applicant.PhoneNumber.Contains(filter) || x.Case.CaseNumber.ToLower().Contains(filter.ToLower())) && x.ReciverType == ReciverType.Orginal && x.Case.SubsidiaryOrganizationId == subOrgId)
+                   .Where(x => (x.Case.Applicant.ApplicantName.ToLower().Contains(filter.ToLower()) || x.Case.Applicant.PhoneNumber.Contains(filter) || x.Case.CaseNumber.ToLower().Equals(filter.ToLower())) && x.ReciverType == ReciverType.Orginal && x.Case.SubsidiaryOrganizationId == subOrgId)
                     .Select(x => new CaseEncodeGetDto
                     {
-                        Id = x.Id,
+                        Id = x.CaseId,
                         CaseTypeName = x.Case.CaseType.CaseTypeTitle,
                         CaseNumber = x.Case.CaseNumber,
                         CreatedAt = x.Case.CreatedAt.ToString(),
@@ -433,8 +435,10 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                         IsConfirmedBySeretery = x.IsConfirmedBySeretery,
                         ToEmployee = x.ToEmployee.FullName,
                         ToStructure = x.ToStructure.StructureName,
-                        AffairHistoryStatus = x.AffairHistoryStatus.ToString()
-                    }).ToListAsync();
+                        AffairHistoryStatus = x.AffairHistoryStatus.ToString(),
+                        ChildOrder = x.childOrder
+                    }).OrderByDescending(x => x.ChildOrder)
+                        .ToListAsync();
 
 
 

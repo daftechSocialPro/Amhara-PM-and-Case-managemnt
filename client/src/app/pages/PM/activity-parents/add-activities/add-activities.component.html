@@ -38,6 +38,9 @@
                                         <label for="EndDate">End Date</label>
                                     </div>
                                 </div>
+
+
+
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" id="PlannedBudget" [min]="0" placeholder="EndDate" #budget (change)="budgetChange(budget.value)"
@@ -95,14 +98,14 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" id="Performance"
                                             placeholder="Performance" formControlName="PreviousPerformance">
                                         <label for="Performance">Performance</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" id="Target" placeholder="Target"
                                             formControlName="Goal">
@@ -110,11 +113,21 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="form-check" style="font-size: 30px;"> <input class="form-check-input"  (change)="onClassfiedBranch()"
+                                            formControlName="IsClassfiedToBranch" type="checkbox" id="gridCheck"> <label
+                                            class="form-check-label" style="font-size: 20px;font-weight: bold;"
+                                            for="gridCheck">Is Classfied to Branch  </label></div>
+                                </div>
+
+
+                                <div *ngIf="!isClassfiedtoBranch">
+
+
+                                <div class="col-md-6" >
                                     <div class="form-floating mb-3">
                                         <select class="form-select" id="assignactivityto" formControlName="WhomToAssign"
                                             #assign>
-
                                             <option>--- Select Whom to Assign ---</option>
                                             <option value="0"> To Comittee </option>
                                             <option value="1"> To Employees </option>
@@ -134,13 +147,13 @@
                                 <div class="col-md-6" *ngIf="assign.value=='1'">
                                     <div class="form-floating mb-3">
                                         <div class="mb-4">
-
                                             <select class="form-select" formControlName="AssignedEmployee" id="employees" multiple>
                                                 <option *ngFor="let emp of task.TaskMembers" value={{emp.EmployeeId}}>{{emp.Name}}</option>
                                             </select>
-
                                         </div>
                                     </div>
+                                </div>
+
                                 </div>
                             </div>
                         </div>
@@ -165,18 +178,15 @@
                                 <span class="card-title">Remaining Task Weight :{{task.RemianingWeight}} %</span>
                             </div>
                         </div>
-
                     </div>
                     <div class="modal-content mt-2 " *ngIf="comitteEmployees.length>0" >
                         <div class="modal-header bg-secondary text-white">
                             <h5 class="modal-title">Comittee Employees</h5>
                         </div>
                         <div class="modal-body" >
-
                             <ul>
                                 <li *ngFor="let item of comitteEmployees">
                                     <span>{{item.Name}} ({{item.CommiteeStatus}})</span>
-
                                 </li>
                                 </ul>
                             <!-- <div class="card-title text-center">{{task.TaskName!}}</div> -->
@@ -187,9 +197,7 @@
                                 <span class="card-title">Remaining Task Weight :{{task.RemianingWeight}} %</span>
                             </div> -->
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>

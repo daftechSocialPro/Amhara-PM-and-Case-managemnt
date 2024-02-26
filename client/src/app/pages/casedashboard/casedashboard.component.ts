@@ -4,6 +4,8 @@ import { OrganizationService } from '../common/organization/organization.service
 import { IDashboardDto } from './IDashboard';
 import { UserView } from '../pages-login/user';
 import { UserService } from '../pages-login/user.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DetailReportComponent } from '../Case/case-report/case-detail-report/detail-report/detail-report.component';
 declare const $: any
 
 @Component({
@@ -18,6 +20,15 @@ export class CasedashboardComponent implements OnInit {
 
   stackedData:any
   stackedOptions:any
+
+  selectedYear : number= 2016
+
+  constructor(private modalService : NgbModal, private orgService: OrganizationService, private formBuilder: FormBuilder, private userService: UserService) {
+    this.serachForm = this.formBuilder.group({
+      startDate: [''],
+      endDate: ['']
+    })
+  }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
@@ -92,12 +103,7 @@ export class CasedashboardComponent implements OnInit {
 
   }
 
-  constructor(private orgService: OrganizationService, private formBuilder: FormBuilder, private userService: UserService) {
-    this.serachForm = this.formBuilder.group({
-      startDate: [''],
-      endDate: ['']
-    })
-  }
+  
 
   getDashboardReport (startAt?: string, endAt?: string) {
     this.orgService.getDashboardReport(this.user.SubOrgId,startAt, endAt).subscribe({
@@ -111,7 +117,7 @@ export class CasedashboardComponent implements OnInit {
   }
 
   getBarChart (){
-    this.orgService.getDashboardLineChart(this.user.SubOrgId).subscribe({
+    this.orgService.getDashboardLineChart(this.user.SubOrgId,this.selectedYear).subscribe({
       next:(res)=>{
         this.stackedData = res 
       },error:(err)=>{
@@ -128,6 +134,9 @@ export class CasedashboardComponent implements OnInit {
 
 
   }
-
+  detail(caseId : string) {
+    let modalRef = this.modalService.open(DetailReportComponent, { size: "xl", backdrop: "static" })
+    modalRef.componentInstance.CaseId = caseId
+  }
 
 }

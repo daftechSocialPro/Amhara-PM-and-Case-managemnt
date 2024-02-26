@@ -11,6 +11,8 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
         public Task<List<SelectListDto>> GetAllSelectList(Guid subOrgId);
 
         public Task<List<SelectListDto>> GetFileSettigs(Guid caseTypeId);
+        public Task UpdateCaseType(CaseTypePostDto caseTypeDto);
+        public Task DeleteCaseType(Guid caseTypeId);
 
         public int GetChildOrder(Guid caseTypeId);
     }

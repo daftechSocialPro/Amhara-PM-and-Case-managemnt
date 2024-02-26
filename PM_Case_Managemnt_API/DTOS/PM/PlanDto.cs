@@ -17,6 +17,7 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public Guid StructureId { get; set; }
         public Guid ProjectManagerId { get; set; }
         public Guid FinanceId { get; set; }
+        public string? ProjectFunder { get; set; }
         ///
         //public Guid SubsidiaryOrganizationId { get; set; } 
 

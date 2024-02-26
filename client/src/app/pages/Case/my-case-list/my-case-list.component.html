@@ -101,9 +101,12 @@
                                         style="position: absolute; right: -20px; bottom: -15px; font-size:80%"
                                         class="badge bg-success">{{mycase.AffairHistoryStatus}} </span>
 
-                                    <span *ngIf="mycase.AffairHistoryStatus != 'Seen'"
+                                    <span *ngIf="mycase.AffairHistoryStatus != 'Seen'&&mycase.AffairHistoryStatus != 'Waiting'"
                                         style="position: absolute;right: -20px; bottom: -15px; font-size:80%"
                                         class="badge bg-danger"> {{mycase.AffairHistoryStatus }}</span>
+                                    <span *ngIf="mycase.AffairHistoryStatus =='Waiting'"
+                                        style="position: absolute;right: -20px; bottom: -15px; font-size:80%"
+                                        class="badge bg-warning"> {{mycase.AffairHistoryStatus }}</span>
 
                                 </div>
 

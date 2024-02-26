@@ -15,6 +15,8 @@ export class UserManagementComponent implements OnInit {
 
   user!: UserView
   employees: Employee[] = []
+  filterdEmployees : Employee[]=[]
+  searchBY!:string 
   constructor(private modalService: NgbModal, private userService: UserService, private commonService : CommonService) { }
 
   ngOnInit(): void {
@@ -27,6 +29,7 @@ getUsers(){
   this.userService.getSystemUsers(this.user.SubOrgId).subscribe({
     next: (res) => {
       this.employees = res
+      this.filterdEmployees = res
     }, error: (err) => {
       console.error(err)
     }
@@ -40,8 +43,36 @@ getUsers(){
 
   }
 
+  // manageRoles(userId: string){
+  //   let modalRef= this.modalService.open(ManageRolesComponent,{size:'lg',backdrop:'static'})
+  //   modalRef.componentInstance.userId = userId
+  //   modalRef.result.then(()=>{this.getUsers()})
+  // }
+  // changePassword(userId: string){
+  //   let modalRef= this.modalService.open(ChangePasswordComponent,{size:'lg',backdrop:'static'})
+  //   modalRef.componentInstance.userId = userId
+  //   modalRef.result.then(()=>{this.getUsers()})
+  // }
   getPath(value:string){
     return this.commonService.createImgPath(value)
   }
 
+  Filter(value:string){
+
+    const searchTerm = value.toLowerCase()
+
+
+    this.filterdEmployees = this.employees.filter((item)=> {
+    return (
+         item.FullName.toLowerCase().includes(searchTerm) ||
+         item.PhoneNumber.toLowerCase().includes(searchTerm) ||
+         item.StructureName.toLowerCase().includes(searchTerm)
+        )
+    }
+
+
+    )
+
+
+  }
 }

@@ -61,6 +61,7 @@ export class AddPlansComponent implements OnInit {
       HasTask: [false, Validators.required],
       PlandBudget: [0, [Validators.required,Validators.max(this.program?.RemainingBudget)]],
       ProjectType: ['', Validators.required],
+      ProjectFunder : [''],
       Remark: ['']
 
     })
@@ -171,7 +172,7 @@ export class AddPlansComponent implements OnInit {
       return
     }
 
-    if (!this.FinanceId){
+    if (!this.FinanceId && this.planForm.value.ProjectType=="0"){
       this.toast = {
         message: "Finance Not selected",
         title: 'Network error.',
@@ -199,7 +200,8 @@ export class AddPlansComponent implements OnInit {
         Remark: this.planForm.value.Remark,
         StructureId: this.planForm.value.StructureId,
         ProjectManagerId: this.ProjectManagerId,
-        FinanceId: this.FinanceId
+        FinanceId: this.FinanceId,
+        ProjectFunder :this.planForm.value.ProjectFunder
 
       }
 

@@ -39,12 +39,12 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
         [HttpGet("GetMonthlyReportBarChart")]
 
-        public async Task<IActionResult> GetMonthlyReportBarChart(Guid subOrgId)
+        public async Task<IActionResult> GetMonthlyReportBarChart(Guid subOrgId, int year)
         {
 
             try
             {
-                return Ok(await _dashboardService.GetMonthlyReport(subOrgId));
+                return Ok(await _dashboardService.GetMonthlyReport(subOrgId,year));
             }
             catch (Exception ex)
             {

@@ -8,6 +8,7 @@ export interface IDashboardDto{
 }
 
 export interface IDashboardView{
+    Id ?:string
  CaseTypeTitle:string
  ApplicantName :string
  AffairNumber :string

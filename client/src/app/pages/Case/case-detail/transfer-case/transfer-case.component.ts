@@ -21,6 +21,8 @@ export class TransferCaseComponent implements OnInit {
   @Input() historyId!: string
   @Input() CaseTypeName!: string
   @Input() CaseTypeId !: string
+
+  @Input() caseId !:string
   user!: UserView
   transferForm!: FormGroup
   toast !: toastPayload

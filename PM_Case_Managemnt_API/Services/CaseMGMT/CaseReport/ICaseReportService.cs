@@ -1,5 +1,6 @@
 ﻿using PM_Case_Managemnt_API.DTOS.Case;
 using PM_Case_Managemnt_API.DTOS.CaseDto;
+using PM_Case_Managemnt_API.Models.CaseModel;
 
 namespace PM_Case_Managemnt_API.Services.CaseMGMT
 {
@@ -13,6 +14,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         public Task<List<SMSReportDto>> GetSMSReport(Guid subOrgId, string? startAt, string? endAt);
         public Task<List<CaseDetailReportDto>> GetCaseDetail(Guid subOrgId, string key);
         public Task<CaseProgressReportDto> GetCaseProgress(Guid CaseNumber);
+        public Task<List<CaseType>> GetChildCaseTypes(Guid caseId);
 
     }
 }

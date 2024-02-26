@@ -52,31 +52,17 @@
                                                 style="color: #204382;"
                                                 class="d-none d-md-block dropdown-toggle ps-2">Action
                                             </span> </a>
-                                        <!-- <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                                            <li
-                                                *ngIf="(mycase.Position==='Secertary'&& !mycase.IsConfirmedBySeretery)||( mycase.Position==='Director' && (mycase.AffairHistoryStatus == 'pend' || mycase.AffairHistoryStatus == 'seen') && !mycase.SecreateryNeeded)">
+                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                                            <li>
                                                 <a class="dropdown-item d-flex align-items-center"
-                                                    (click)="confirmTransaction(mycase.Id)" style="cursor: pointer;"> <i
-                                                        class="bi bi-bookmark-check text-success"></i> <span>Confirm</span>
+                                                    (click)="detail(mycase.Id)" style="cursor: pointer;"> <i
+                                                        class="bi bi-bookmark-check text-success"></i> <span>Detail</span>
                                                 </a>
                                             </li>
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-    
-                                            <li
-                                                *ngIf=" mycase.AffairHistoryStatus == 'Pend' || mycase.AffairHistoryStatus == 'Seen' || mycase.AffairHistoryStatus == 'Waiting'">
-                                                <a class="dropdown-item d-flex align-items-center"
-                                                    (click)="detailCase(mycase.Id)" style="cursor: pointer;"> <i
-                                                        class="bi bi-list text-primary"></i> <span>Detail</span> </a>
-                                            </li>
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-    
-    
-    
-                                        </ul> -->
+
+
+
+                                        </ul>
                                     </li>
                                 </div>
                                 <div>
@@ -89,6 +75,8 @@
     
                             <span style="color: #798eb3;"> From : </span> {{mycase.FromEmployeeId}} (
                             {{mycase.FromStructure}} )
+                            <span style="color: #798eb3;"> Current : </span> {{mycase.ToStructure}} (
+                                {{mycase.ToEmployee}} )
                             <h5 class="card-title ">
     
                                 {{mycase.LetterSubject}}

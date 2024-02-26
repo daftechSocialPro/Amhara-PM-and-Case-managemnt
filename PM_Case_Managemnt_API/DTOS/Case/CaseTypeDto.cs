@@ -6,6 +6,7 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
 {
     public class CaseTypePostDto
     {
+        public Guid Id { get; set; }
         public string CaseTypeTitle { get; set; } = null!;
         public string Code { get; set; } = null!;
         public float TotalPayment { get; set; }

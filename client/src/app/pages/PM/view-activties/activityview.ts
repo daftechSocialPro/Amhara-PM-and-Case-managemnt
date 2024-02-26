@@ -10,6 +10,8 @@ export interface ActivityView {
     Begining: number
     Target: number
     UnitOfMeasurment: string,
+    UnitOfMeasurmentId?: string,
+    AssignedToBranch?:boolean,
     OverAllPerformance: Number,
     StartDate: string,
     EndDate: string,
@@ -21,6 +23,8 @@ export interface ActivityView {
     IsDirector: boolean
     OverAllProgress:number
     UsedBudget: number
+    ProjectType?:number
+    BranchId?:string
 
 
 }
@@ -78,6 +82,7 @@ export interface ViewProgressDto {
     DirectorApprovalRemark: string
     CreatedAt: string
 
+    CaseId?:string
 
 }
 
@@ -91,3 +96,11 @@ export interface ApprovalProgressDto {
 
 }
 
+export interface  ActivityEmployees  
+{
+
+    ActivityId:string
+    CreatedBy :string 
+    Employees:string[]
+
+}

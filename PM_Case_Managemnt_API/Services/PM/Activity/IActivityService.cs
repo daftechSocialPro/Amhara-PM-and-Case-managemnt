@@ -19,9 +19,9 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
 
         public Task<List<ActivityViewDto>> GetAssignedActivity(Guid employeeId);
 
+        public Task<int> GetAssignedActivityNumber(Guid employeeId);
 
-        
-        
+
         public Task <List<ActivityViewDto>> GetActivtiesForApproval (Guid employeeId);
 
 
@@ -30,6 +30,11 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
 
         public Task<List<ActivityAttachmentDto>> getAttachemnts(Guid taskId);
         public Task<ActivityViewDto> getActivityById(Guid actId);
+
+
+        public Task<List<SelectListDto>> GetEmployeesInBranch(Guid branchId);
+
+        public Task<ReponseMessage> AssignEmployees(ActivityEmployees activityEmployee);
 
 
     }

@@ -34,9 +34,8 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
                  .Include(a => a.Applicant)
                 .Include(a => a.CaseHistories)
                             .Include(a => a.Employee.OrganizationalStructure)
-                .Where(a =>
-                a.CreatedAt.Month == DateTime.Now.Month && a.SubsidiaryOrganizationId == subOrgId);
-            allAffairps = allAffairps.Where(x => x.AffairStatus != AffairStatus.Completed);
+                .Where(x => x.AffairStatus != AffairStatus.Completed && x.SubsidiaryOrganizationId == subOrgId)
+                            .ToList();
 
             //if (startAt != null)
             //    allAffairs = allAffairs.Where(x => x.CreatedDateTime >= startAt);
@@ -47,6 +46,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
             foreach (var affair in allAffairps.ToList())
             {
                 var eachReport = new TopAffairsViewmodel();
+                eachReport.Id = affair.Id;
                 eachReport.CaseTypeTitle = affair.CaseType.CaseTypeTitle;
                 eachReport.AffairNumber = affair.CaseNumber;
                 eachReport.ApplicantName = affair.Applicant?.ApplicantName;
@@ -101,14 +101,13 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
                  .Include(a => a.Applicant)
                   .Include(a => a.Employee)
                 .Include(a => a.CaseHistories)
-                .Where(a =>
-                a.CreatedAt.Month == DateTime.Now.Month);
-            allAffairps = allAffairps.Where(x => x.AffairStatus == AffairStatus.Completed);
+                .Where(x => x.AffairStatus == AffairStatus.Completed && x.SubsidiaryOrganizationId == subOrgId).ToList();
 
             report = new List<TopAffairsViewmodel>();
             foreach (var affair in allAffairps.ToList())
             {
                 var eachReport = new TopAffairsViewmodel();
+                eachReport.Id = affair.Id;
                 eachReport.CaseTypeTitle = affair.CaseType.CaseTypeTitle;
                 eachReport.AffairNumber = affair.CaseNumber;
                 eachReport.ApplicantName = affair.Applicant != null ? affair.Applicant.ApplicantName : affair.Employee.FullName;
@@ -178,16 +177,23 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
 
 
-        public async Task<barChartDto> GetMonthlyReport(Guid subOrgId)
+        public async Task<barChartDto> GetMonthlyReport(Guid subOrgId, int year)
         {
 
+            var gerYear = XAPI.EthiopicDateTime.GetGregorianDate(7, 7, year).Year;
+
+
+
+
+
+
             barChartDto barChart = new barChartDto();
-            barChart.labels = new List<string>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            barChart.labels = new List<string>() { "ጥር", "የካቲት", "መጋቢት", "ሚያዚያ", "ግንቦት", "ሰኔ", "ሃምሌ", "ነሃሴ", "መስከረም", "ጥቅምት", "ህዳር", "ታህሳስ" };
             barChart.datasets = new List<barChartDetailDto>();
 
 
 
-            var allAffairs = _dBContext.Cases.Include(x=>x.CaseType).Where(x => x.CreatedAt.Year == DateTime.Now.Year && x.SubsidiaryOrganizationId == subOrgId).ToList();
+            var allAffairs = _dBContext.Cases.Include(x=>x.CaseType).Where(x => x.CreatedAt.Year == gerYear && x.SubsidiaryOrganizationId == subOrgId).ToList();
             var allAffairTypes = _dBContext.CaseTypes.Where(x => x.RowStatus == RowStatus.Active && x.ParentCaseTypeId == null && x.CaseForm == CaseForm.Outside).ToList();
             var monthList = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
             foreach (var affairType in allAffairTypes)

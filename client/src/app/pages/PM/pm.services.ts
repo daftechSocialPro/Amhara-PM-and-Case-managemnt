@@ -8,7 +8,7 @@ import { ActivityDetailDto, SubActivityDetailDto } from './activity-parents/add-
 import { ComiteeAdd, CommiteeAddEmployeeView, CommitteeView } from './comittes/committee';
 import { IPlanReportByProgramDto } from './progress-report/program-budget-report/program-budget-report';
 import { IActivityAttachment } from './tasks/Iactivity';
-import { ActivityTargetDivisionDto, ActivityView, ApprovalProgressDto, ViewProgressDto } from './view-activties/activityview';
+import { ActivityEmployees, ActivityTargetDivisionDto, ActivityView, ApprovalProgressDto, ViewProgressDto } from './view-activties/activityview';
 import { IPlanReportDetailDto } from './progress-report/plan-report-today/IplanReportDetai';
 import { IPlannedReport } from './progress-report/planned-report/planned-report';
 import { FilterationCriteria } from './progress-report/progress-report/Iprogress-report';
@@ -83,6 +83,12 @@ export class PMService {
 
         return this.http.get<ActivityView[]>(this.BaseURI + "/Activity/getAssignedActivties?employeeId=" + empId)
     }
+
+    getAssignedActivtiesNumber(empId:string){
+        return this.http.get<number>(this.BaseURI + "/Activity/getAssignedActivtiesNumber?employeeId=" + empId)
+    }
+
+
 
     getActivityForApproval(empId: string) {
         return this.http.get<ActivityView[]>(this.BaseURI + "/Activity/forApproval?employeeId=" + empId)
@@ -180,4 +186,13 @@ export class PMService {
         return this.http.get<SelectList[]>(this.BaseURI + "/Commite/GetCommiteeEmployees?commiteId=" + comitteId)
     }
 
+    getEmployeesFromBranch(branchId:string){
+
+        return this.http.get<SelectList[]>(`${this.BaseURI}/Activity/getEmployeesFromBranch?branchId=${branchId}`)
+
+    }
+
+    AssignEmployee(assignedEmployees : ActivityEmployees){
+        return this.http.post<any>(`${this.BaseURI}/Activity/AssignEmployee`,assignedEmployees)
+    }
 }

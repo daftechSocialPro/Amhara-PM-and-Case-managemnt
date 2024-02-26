@@ -118,7 +118,8 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
         public string ? ApplicantId { get; set; }
 
         public string ? Representative { get; set; }
-        
+
+        public int? ChildOrder { get; set; }
         public List<SelectListDto> ? Attachments { get; set; } 
         
         public List<CaseDetailStructureDto>? CaseDetailStructures { get; set; }

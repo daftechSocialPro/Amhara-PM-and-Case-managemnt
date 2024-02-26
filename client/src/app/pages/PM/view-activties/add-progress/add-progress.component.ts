@@ -91,8 +91,10 @@ export class AddProgressComponent implements OnInit {
       formData.set('ProgressStatus',this.ProgressStatus);
       formData.set('CreatedBy', this.user.UserID);
       formData.set('EmployeeValueId', this.user.EmployeeId);
-      formData.set('lat',this.position.lat)
-      formData.set('lng',this.position.lng)
+      if(this.position != null){
+        formData.set('lat',this.position.lat)
+        formData.set('lng',this.position.lng)
+      }
 
    
 

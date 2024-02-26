@@ -1,13 +1,13 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add Case Type</h5>
+        <h5 class="modal-title">{{caseType?'Update':'Add'}} Case Type</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
     <div class="card" >
 
         <div class="card-body">
-                <form [formGroup]="caseForm"  (ngSubmit)="submit()">
+                <form [formGroup]="caseForm" (ngSubmit)="caseType?update():submit()">
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             
-                            <div class="col-md-6">
+                            <div class="col-md-6" *ngIf="!caseType">
                                 <div class="form-floating">
                                     <select class="form-select" id="casetype" #activity
                                         formControlName="CaseForm">
@@ -79,7 +79,7 @@
                     <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                             (click)="closeModal()">Close</button>
                         <button type="button" type="submit" [disabled]="!caseForm.valid"
-                            class="btn btn-success">Create</button>
+                            [class]="caseType?'btn btn-warning': 'btn btn-success'"> {{caseType?"Update":"Create"}}</button>
                     </div>
                 </form>
 

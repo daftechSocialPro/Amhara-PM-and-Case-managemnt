@@ -39,6 +39,16 @@ namespace PM_Case_Managemnt_API.Controllers.PM
 
 
         }
+
+        [HttpGet("ByActivityParentId")]
+        public async Task<List<ActivityViewDto>> GetSingleActivityParent(Guid actParentId)
+        {
+
+            return await _taskService.GetSingleActivityParent(actParentId);
+
+
+        }
+
         [HttpPost("TaskMembers")]
 
         public IActionResult AddTaskMembers(TaskMembersDto taskMembers)

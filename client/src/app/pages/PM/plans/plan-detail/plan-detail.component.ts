@@ -15,6 +15,8 @@ import { PlanSingleview } from '../plans';
 import { GetStartEndDate } from 'src/app/pages/common/common';
 import { ActivityDetailDto } from '../../activity-parents/add-activities/add-activities';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
+import { AssignTargetToBranchComponent } from './assign-target-to-branch/assign-target-to-branch.component';
+import { AssignEmployeesActivityComponent } from './assign-employees-activity/assign-employees-activity.component';
 
 @Component({
   selector: 'app-plan-detail',
@@ -34,6 +36,7 @@ export class PlanDetailComponent implements OnInit {
   planTasks: Map<string, any[]> = new Map<string, any[]>();
   taskActivities: Map<string, any[]> = new Map<string, any[]>();
   subOrg: any
+  actParentActivities:Map<string, any[]> = new Map<string, any[]>();
 
 
   filterBy:number=1
@@ -95,6 +98,12 @@ export class PlanDetailComponent implements OnInit {
       next: (res) => {
         if (res.ActivityViewDtos !== undefined) {
           const result = res.ActivityViewDtos;
+          result.forEach((actParent) => {
+            console.log('actparent',actParent)
+            if (actParent.Id !== undefined) {
+              this.getSingleParentActivities(actParent.Id)
+            }  
+          });
           this.taskActivities.set(taskId, result);
         }
 
@@ -106,6 +115,19 @@ export class PlanDetailComponent implements OnInit {
 
   }
 
+  getSingleParentActivities(actparentId: string) {
+    this.taskService.getSingleActivityParent(actparentId).subscribe({
+      next: (res) => {
+        if (res !== undefined) {
+          const result = res;
+          this.actParentActivities.set(actparentId, result);
+        }
+      }, error: (err) => {
+        console.error(err)
+      }
+    })
+
+  }
   ListTask(planId: string) {
 
     this.planService.getSinglePlans(planId).subscribe({
@@ -158,7 +180,12 @@ export class PlanDetailComponent implements OnInit {
     let modalRef = this.modalService.open(ActivityTargetComponent, { size: 'xl', backdrop: 'static' })
     modalRef.componentInstance.activity = actview
   }
+  AssignTargetToBranch(actview:ActivityView){
 
+    let modalRef = this.modalService.open(AssignTargetToBranchComponent,{size:'xl',backdrop:'static'})
+    modalRef.componentInstance.activity=actview
+
+  }
   
   exportAsExcel(name:string) {
     this.exportingToExcel= true
@@ -202,6 +229,17 @@ TaskDetail(task : TaskView ){
   else{
     this.router.navigate(['activityparent',{parentId:taskId,requestFrom:'ACTIVITY'}])
   }
+}
+AssignEmployee (act: ActivityView){
+
+
+  let modalRef = this.modalService.open(AssignEmployeesActivityComponent,{size:'lg',backdrop:'static'})
+  modalRef.componentInstance.activity = act 
+  modalRef.result.then(()=>{
+    this.getPlans()
+  })
+
+
 }
 
 }

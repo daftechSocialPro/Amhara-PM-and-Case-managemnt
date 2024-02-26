@@ -45,6 +45,13 @@
 
             <div class="card col-8 me-2 p-2">
                 <h5>Case Types to month Ratio</h5>
+                <div class="col-md-4 text-end" >
+                    <select class="form-control" [(ngModel)]="selectedYear" (change)="getBarChart()">
+
+                        <option value=2015> 2015 </option>
+                        <option value=2016> 2016 </option>
+                    </select>
+                </div>
                 <p-chart type="bar" [data]="stackedData" [options]="stackedOptions"></p-chart>
             </div>
 
@@ -93,7 +100,8 @@
                                     <th pSortableColumn="AffairNumber">Applicant Name<p-sortIcon field="AffairNumber">
                                         </p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="CaseTypeTitle">Case Type Title<p-sortIcon field="CaseTypeTitle">
+                                    <th pSortableColumn="CaseTypeTitle">Case Type Title<p-sortIcon
+                                        field="CaseTypeTitle">
                                     </p-sortIcon>
                                 </th>
                                     <th pSortableColumn="Subject">Subject <p-sortIcon field="Subject"></p-sortIcon>
@@ -119,7 +127,7 @@
 
                             </ng-template>
                             <ng-template pTemplate="body" let-dash>
-                                <tr [pSelectableRow]="dash" class="text-danger" >
+                                <tr [pSelectableRow]="dash" class="text-danger" (click)="detail(dash.Id)">
                                     <td>
                                         <span class="p-column-title">Case Number</span>
                                         {{dash.AffairNumber}}
@@ -148,6 +156,8 @@
                                     <td>
                                         <span class="p-column-title">Elapstime</span>
                                         <span class="bg-danger text-white p-1" style="border-radius: 2px;">{{dash.Elapstime}}</span>
+                                        <span class="bg-danger text-white p-1"
+                                            style="border-radius: 2px;">{{dash.Elapstime}}</span>
                                     </td>
                                     <!-- <td>
                                         <span class="p-column-title">Level</span>
@@ -180,7 +190,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Completed Reports</h5>
-                        <p-table #dt [value]="dashboardDtos.completedReports" [rows]="5" [paginator]="true"
+                        <p-table #dt2 [value]="dashboardDtos.completedReports" [rows]="5" [paginator]="true"
                             [globalFilterFields]="['CaseNumber','AffairNumber','Subject','Subject','Structure','Employee','Elapstime','Level','CreatedDateTime']"
                             [tableStyle]="{'min-width': '75rem'}" [rowHover]="true" dataKey="Id"
                             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -192,7 +202,7 @@
                                     <span class="p-input-icon-left">
                                         <i class="pi pi-search"></i>
                                         <input pInputText type="text"
-                                            (input)="dt.filterGlobal( $any($event.target)?.value, 'contains')"
+                                            (input)="dt2.filterGlobal( $any($event.target)?.value, 'contains')"
                                             placeholder="Search..." />
                                     </span>
                                 </div>
@@ -234,7 +244,7 @@
 
                             </ng-template>
                             <ng-template pTemplate="body" let-dash>
-                                <tr [pSelectableRow]="dash">
+                                <tr [pSelectableRow]="dash" (click)="detail(dash.Id)">
                                     <td>
                                         <span class="p-column-title">Case Number</span>
                                         {{dash.AffairNumber}}

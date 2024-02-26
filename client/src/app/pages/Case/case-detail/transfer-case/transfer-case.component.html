@@ -41,6 +41,12 @@
                                       </select>
                                         <label for="ForEmployee">For Employee</label>
                                     </div>
+                                    <div class="col-12">
+                                        <div class="form-floating"><textarea class="form-control" formControlName="Remark"
+                                                placeholder="Address" id="Remark" style="height: 120px;"></textarea><label
+                                                for="Remark">Remark</label>
+                                        </div>
+                                    </div>
 
                                     <div class="col-6">
                                         <label for="inputNumber" class="col-sm-12 col-form-label">Documents</label>
@@ -48,15 +54,13 @@
                                     
                                         <app-scanner (imagesScannedUpdated)="onImagesScannedUpdate($event)"></app-scanner>
                                     </div>
+                                    <div class="col-md-6">
+                                        <qrcode [qrdata]="caseId" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                                    </div>
                 
                            
 
-                                <div class="col-12">
-                                    <div class="form-floating"><textarea class="form-control" formControlName="Remark"
-                                            placeholder="Address" id="Remark" style="height: 120px;"></textarea><label
-                                            for="Remark">Remark</label>
-                                    </div>
-                                </div>
+                                
 
                             </div>
 

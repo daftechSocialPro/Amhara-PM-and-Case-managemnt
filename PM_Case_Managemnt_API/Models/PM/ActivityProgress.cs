@@ -34,6 +34,9 @@ namespace PM_Case_Managemnt_API.Models.PM
 
      
         public  ICollection<ProgressAttachment> ProgressAttachments { get; set; }
+
+        public Guid? CaseId { get; set; }
+        public virtual PM_Case_Managemnt_API.Models.CaseModel.CaseHistory Case { get; set; }
     }
     public enum ProgressStatus
     {
