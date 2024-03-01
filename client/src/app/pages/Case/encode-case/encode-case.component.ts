@@ -8,6 +8,7 @@ import { ICaseView } from './Icase';
 import { AssignCaseComponent } from './assign-case/assign-case.component';
 import { RaiseIssueComponent } from './raise-issue/raise-issue.component';
 import { UpdateCaseComponent } from './update-case/update-case.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-encode-case',
@@ -19,7 +20,7 @@ export class EncodeCaseComponent implements OnInit {
   encodedCases!: ICaseView[]
   user!: UserView
   p: number = 1; 
-  constructor(private modalService: NgbModal, private caseService: CaseService, private userService: UserService) { }
+  constructor(private modalService: NgbModal, private caseService: CaseService, private userService: UserService, private router: Router) { }
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.getEnocdedCases()
@@ -38,6 +39,7 @@ export class EncodeCaseComponent implements OnInit {
   addCase() {
     let modalRef = this.modalService.open(AddCaseComponent, { size: 'xl', backdrop: 'static' })
     modalRef.result.then(()=>{
+      this.router.navigate(['encodecase']);
       this.getEnocdedCases()
     })
   }
@@ -55,6 +57,7 @@ export class EncodeCaseComponent implements OnInit {
     let modalRef = this.modalService.open(UpdateCaseComponent,{size:'xl', backdrop:'static'});
     modalRef.componentInstance.caseId = caseId
     modalRef.result.then(()=>{
+      this.router.navigate(['encodecase']);
       this.getEnocdedCases()
     })
   }

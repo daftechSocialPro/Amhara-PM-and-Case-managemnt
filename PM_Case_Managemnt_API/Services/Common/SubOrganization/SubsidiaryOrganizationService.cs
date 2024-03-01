@@ -52,13 +52,14 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
                 string uniqueIdentifier = Guid.NewGuid().ToString("N").Substring(0, 4);
 
                 string prefix = "superadmin";
-
+                
+                var empId = Guid.NewGuid();
 
                 var superadmin = new ApplicationUserModel()
                 {
                     SubsidiaryOrganizationId = subOrganization.Id,
                     UserName = $"{prefix}_{uniqueIdentifier}",
-                    EmployeeId = Guid.Empty,
+                    EmployeeId = empId,
                     Roles = new string[] {"SUPER ADMIN"},
                     FullName = $"SUPER ADMIN for {subOrganization.OrganizationNameEnglish}",
                     Password = "P@ssw0rd"
@@ -87,6 +88,7 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
 
                 var emp = new EmployeeDto()
                 {
+                    Id = empId,
                     FullName = $"SUPER-ADMIN for {subOrganization.OrganizationNameEnglish}",
                     Title = "MR.",
                     PhoneNumber = subOrganization.PhoneNumber,
@@ -101,7 +103,6 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
                 await _authService.PostApplicationUser(superadmin);
                 
                
-
                 return 1;
             }
             catch (Exception ex)

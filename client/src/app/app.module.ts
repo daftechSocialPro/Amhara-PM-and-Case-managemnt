@@ -184,6 +184,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { AnalyticsDashboardComponent } from './pages/Analytics/analytics-dashboard/analytics-dashboard.component';
+import { ChangePasswordComponent } from './pages/common/user-management/change-password/change-password.component';
+import { ManageRolesComponent } from './pages/common/user-management/manage-roles/manage-roles.component';
+import { PickListModule } from 'primeng/picklist';
 
 @NgModule({
   declarations: [
@@ -333,7 +336,9 @@ import { AnalyticsDashboardComponent } from './pages/Analytics/analytics-dashboa
     UpdateCaseFilesComponent,
     AssignEmployeesActivityComponent,
     AssignTargetToBranchComponent,
-    AnalyticsDashboardComponent
+    AnalyticsDashboardComponent,
+    ChangePasswordComponent,
+    ManageRolesComponent
    
    
   ],
@@ -370,6 +375,7 @@ import { AnalyticsDashboardComponent } from './pages/Analytics/analytics-dashboa
     StepsModule,
     ConfirmDialogModule,
     ToastModule,
+    PickListModule
     
   
   ],

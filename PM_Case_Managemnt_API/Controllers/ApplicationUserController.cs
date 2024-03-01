@@ -108,5 +108,86 @@ namespace PM_Case_Managemnt_API.Controllers
 
         }
 
+        [HttpGet("getNotAssignedRole")]
+
+        public async Task<IActionResult> GetNotAssignedRole(string userId)
+        {
+
+
+            return Ok(await _authenticationService.GetNotAssignedRole(userId));
+        }
+
+        [HttpGet("getAssignedRoles")]
+
+        public async Task<IActionResult> GetAssignedRoles(string userId)
+        {
+
+
+            return Ok(await _authenticationService.GetAssignedRoles(userId));
+        }
+
+        [HttpPost("assignRole")]
+
+        public async Task<IActionResult> AssignRole(UserRoleDto userRole)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    return Ok(await _authenticationService.AssignRole(userRole));
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
+        [HttpPost("revokeRole")]
+
+        public async Task<IActionResult> ChangePassword(UserRoleDto userRole)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    return Ok(await _authenticationService.RevokeRole(userRole));
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
+        [HttpPost("ChangePasswordAdmin")]
+
+        public async Task<IActionResult> ChangePasswordAdmin(ChangePasswordModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    return Ok(await _authenticationService.ChangePasswordAdmin(model));
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+
+        }
     }
 }

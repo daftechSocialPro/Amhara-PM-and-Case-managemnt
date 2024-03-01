@@ -83,4 +83,23 @@ export class UserService {
   getSystemUsers(subOrgId : string){
     return this.http.get<Employee[]>(this.BaseURI+"/ApplicationUser/users?subOrgId=" + subOrgId)
   }
+
+  assignRole(data:any){
+    return this.http.post(this.BaseURI + "/ApplicationUser/assignRole",data)
+
+  }
+  revokeRole(data:any){
+    return this.http.post(this.BaseURI + "/ApplicationUser/revokeRole",data)
+  }
+  getNotAssignedRoles(userId: string){
+    return this.http.get<SelectList[]>(this.BaseURI+'/ApplicationUser/getNotAssignedRole?userId='+userId)
+
+  }
+  getAssignedRoles(userId:string){
+    return this.http.get<SelectList[]>(this.BaseURI+'/ApplicationUser/getAssignedRoles?userId='+userId)
+
+  }
+  changePasswordAdmin(data:any){
+    return this.http.post(this.BaseURI + "/ApplicationUser/ChangePasswordAdmin",data)
+  }
 }

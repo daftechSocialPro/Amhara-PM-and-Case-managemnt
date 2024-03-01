@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Hubs.EncoderHub;
 using PM_Case_Managemnt_API.Models.Auth;
 using PM_Case_Managemnt_API.Models.Common;
@@ -24,6 +25,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
         private AuthenticationContext _authenticationContext;
         private readonly DBContext _dbcontext;
         private IHubContext<EncoderHub, IEncoderHubInterface> _encoderHub;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AuthenticationService(
             DBContext dbcontext,
@@ -31,7 +33,8 @@ namespace PM_Case_Managemnt_API.Services.Auth
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IOptions<ApplicationSettings> appSettings,
-            IHubContext<EncoderHub, IEncoderHubInterface> encoderHub
+            IHubContext<EncoderHub, IEncoderHubInterface> encoderHub,
+            RoleManager<IdentityRole> roleManager
 )
         {
             _userManager = userManager;
@@ -40,6 +43,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
             _authenticationContext = authenticationContext;
             _dbcontext = dbcontext;
             _encoderHub = encoderHub;
+            _roleManager = roleManager;
         }
 
         
@@ -174,7 +178,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
                     join e in _dbcontext.Employees.Include(x => x.OrganizationalStructure) on u.EmployeesId equals e.Id
                     select new EmployeeDto
                     {
-
+                        Id = Guid.Parse(u.Id),
                         UserName = u.UserName,
                         FullName = e.FullName,
                         Photo = e.Photo,
@@ -185,28 +189,206 @@ namespace PM_Case_Managemnt_API.Services.Auth
                         Position = e.Position.ToString(),
                         Remark = e.Remark,
 
-
                     }).ToList();
         }
 
        
-        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        public async Task<ResponseMessage> ChangePassword(ChangePasswordModel model)
         {
             var user = await _userManager.FindByIdAsync(model.UserId);
 
             if (user == null)
             {
-                throw new Exception("User not found.");
+                return new ResponseMessage
+                {
+                    Message = "User not found.",
+                    Success = false
+                };
             }
 
             var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
 
             if (!result.Succeeded)
             {
-                return new ObjectResult(new { message = result.Errors });
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = result.Errors.ToString()
+                };
             }
 
-            return new JsonResult("Password changed successfully.");
+            return new ResponseMessage 
+            { 
+                Success = true,
+                Message ="Password Changed Successfully"
+            };
         }
+
+
+        
+        public async Task<List<SelectRolesListDto>> GetNotAssignedRole(string userId)
+        {
+            var currentuser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(userId));
+            if (currentuser != null)
+            {
+                var currentRoles = await _userManager.GetRolesAsync(currentuser);
+                if (currentRoles.Any())
+                {
+                    var notAssignedRoles = await _roleManager.Roles.
+                                  Where(x =>
+                                  !currentRoles.Contains(x.Name)).Select(x => new SelectRolesListDto
+                                  {
+                                      Id = x.Id,
+                                      Name = x.Name
+                                  }).ToListAsync();
+
+                    return notAssignedRoles;
+                }
+                else
+                {
+                    var notAssignedRoles = await _roleManager.Roles
+                                .Select(x => new SelectRolesListDto
+                                {
+                                    Id = x.Id,
+                                    Name = x.Name
+                                }).ToListAsync();
+
+                    return notAssignedRoles;
+
+                }
+
+
+            }
+
+            throw new FileNotFoundException();
+        }
+
+        
+        public async Task<List<SelectRolesListDto>> GetAssignedRoles(string userId)
+        {
+            var currentuser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(userId));
+            if (currentuser != null)
+            {
+                var currentRoles = await _userManager.GetRolesAsync(currentuser);
+                if (currentRoles.Any())
+                {
+                    var notAssignedRoles = await _roleManager.Roles.
+                                      Where(x =>
+                                      currentRoles.Contains(x.Name)).Select(x => new SelectRolesListDto
+                                      {
+                                          Id = x.Id,
+                                          Name = x.Name
+                                      }).ToListAsync();
+
+                    return notAssignedRoles;
+                }
+
+                return new List<SelectRolesListDto>();
+
+            }
+
+            throw new FileNotFoundException();
+        }
+
+      
+        public async Task<ResponseMessage> AssignRole(UserRoleDto userRole)
+        {
+            var currentUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userRole.UserId);
+
+
+            if (currentUser != null)
+            {
+                var roleExists = await _roleManager.RoleExistsAsync(userRole.RoleName);
+
+                if (roleExists)
+                {
+                    await _userManager.AddToRoleAsync(currentUser, userRole.RoleName);
+
+                    return new ResponseMessage
+                    {
+                        Success = true,
+                        Message = "Successfully Added Roles."
+                    };
+                }
+                else
+                {
+                    return new ResponseMessage
+                    {
+                        Success = false,
+                        Message = "Role does not exist."
+                    };
+                }
+            }
+            else
+            {
+                return new ResponseMessage
+                {
+                    Message = "User not found.",
+                    Success = false
+                };
+            }
+        }
+
+        [HttpPost]
+        [Route("revokeRole")]
+        public async Task<ResponseMessage> RevokeRole(UserRoleDto userRole)
+        {
+            var curentUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(userRole.UserId));
+
+            if (curentUser != null)
+            {
+                await _userManager.RemoveFromRoleAsync(curentUser, userRole.RoleName);
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "Succesfully Revoked Roles."
+                }; 
+            }
+            return new ResponseMessage
+            {
+                Message = "User not found.",
+                Success = false
+            };
+
+        }
+        /////
+        //
+
+
+        [HttpPost("ChangePassword")]
+
+        public async Task<ResponseMessage> ChangePasswordAdmin(ChangePasswordModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+
+            if (user == null)
+            {
+                return new ResponseMessage
+                {
+                    Message = "User not found.",
+                    Success = false
+                };
+            }
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, resetToken, model.NewPassword);
+            // var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = result.Errors.ToString()
+                };
+            }
+
+            return new ResponseMessage
+            {
+                Success = true,
+                Message = "Password Changed Successfully."
+            };
+        }
+
+
     }
 }

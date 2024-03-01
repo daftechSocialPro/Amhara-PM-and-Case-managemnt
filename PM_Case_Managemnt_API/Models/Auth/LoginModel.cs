@@ -16,10 +16,15 @@ namespace PM_Case_Managemnt_API.Models.Auth
         [Required]
 
         public string UserId { get; set; }
-        [Required]
-        public string CurrentPassword { get; set; }
+        
+        public string? CurrentPassword { get; set; }
 
         [Required]
         public string NewPassword { get; set; }
+    }
+    public class UserRoleDto
+    {
+        public string UserId { get; set; } = null!;
+        public string RoleName { get; set; } = null!;
     }
 }

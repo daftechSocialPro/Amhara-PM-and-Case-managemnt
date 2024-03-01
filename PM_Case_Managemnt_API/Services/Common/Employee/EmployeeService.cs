@@ -24,10 +24,15 @@ namespace PM_Case_Managemnt_API.Services.Common
         {
             try
             {
+                if (employee.Id == null || employee.Id == Guid.Empty)
+                {
+                    employee.Id = Guid.NewGuid();
+
+                }
 
                Employee employee1 = new Employee
                 {
-                    Id = Guid.NewGuid(),
+                    Id = (Guid)employee.Id,
                     CreatedAt = DateTime.Now,
                     Photo = employee.Photo,
                     FullName = employee.FullName,
@@ -58,8 +63,9 @@ namespace PM_Case_Managemnt_API.Services.Common
         {
             var emp = _authentication.ApplicationUsers.Where(j => j.SubsidiaryOrganizationId == subOrgId).Select(x => x.EmployeesId).ToList();
 
+
             var EmployeeSelectList = await (from e in _dBContext.Employees
-                                            where !(emp.Contains(e.Id))
+                                            where e.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId && !emp.Contains(e.Id)
                                             select new SelectListDto
                                             {
                                                 Id = e.Id,
