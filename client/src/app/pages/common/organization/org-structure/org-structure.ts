@@ -12,4 +12,5 @@ export interface OrganizationalStructure {
   ParentWeight?: Number;
   Remark: string;
   RowStatus: Number;
+  SubsidiaryOrganizationId:string
 }

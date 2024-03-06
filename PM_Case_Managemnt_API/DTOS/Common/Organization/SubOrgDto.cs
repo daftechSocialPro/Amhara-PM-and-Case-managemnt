@@ -1,7 +1,11 @@
-﻿namespace PM_Case_Managemnt_API.DTOS.Common.Organization
+﻿using Microsoft.EntityFrameworkCore;
+using PM_Case_Managemnt_API.Models.Common;
+
+namespace PM_Case_Managemnt_API.DTOS.Common.Organization
 {
     public class SubOrgDto
     {
+        public Guid? Id {  get; set; }
         public string OrganizationNameEnglish { get; set; } = null!;
 
         public string OrganizationNameInLocalLanguage { get; set; } = null!;
@@ -20,7 +24,9 @@
 
         public bool isRegulatoryBody { get; set; }
         public Guid OrganizationProfileId { get; set; }
-        
+        public string? Remark { get; set; }
 
     }
+    
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService, toastPayload } from 'src/app/common/common.service';
@@ -13,6 +13,7 @@ import { IndividualConfig } from 'ngx-toastr';
   styleUrls: ['./add-sub-org.component.css']
 })
 export class AddSubOrgComponent implements OnInit {
+  @Input() subOrg!:any
 
   toast !: toastPayload;
   subOrgForm !: FormGroup;
@@ -26,23 +27,80 @@ export class AddSubOrgComponent implements OnInit {
     private commonService: CommonService, 
     private activeModal: NgbActiveModal, 
     private userService: UserService
-  ){
-    this.subOrgForm = this.formBuilder.group({
-      OrganizationNameEnglish:['',Validators.required],
-      OrganizationNameInLocalLanguage: ['',Validators.required],
-      Address: ['',Validators.required],
-      isRegulatoryBody: [false , Validators.required],
-      PhoneNumber:['',Validators.required],
-      SmsCode: ['', Validators.required],
-      Remark: ['']
-    })
-
-  }
+  ){}
 
   ngOnInit(): void {
-      
+      if(this.subOrg){
+        console.log("this.subOrg",this.subOrg)
+        this.subOrgForm = this.formBuilder.group({
+          OrganizationNameEnglish:[this.subOrg.OrganizationNameEnglish,Validators.required],
+          OrganizationNameInLocalLanguage: [this.subOrg.OrganizationNameInLocalLanguage,Validators.required],
+          Address: [this.subOrg.Address,Validators.required],
+          isRegulatoryBody: [this.subOrg.isRegulatoryBody , Validators.required],
+          PhoneNumber:[this.subOrg.PhoneNumber,Validators.required],
+          SmsCode: [this.subOrg.SmsCode, Validators.required],
+          Remark: [this.subOrg.Remark]
+        })
+
+      }
+      else{
+        this.subOrgForm = this.formBuilder.group({
+          OrganizationNameEnglish:['',Validators.required],
+          OrganizationNameInLocalLanguage: ['',Validators.required],
+          Address: ['',Validators.required],
+          isRegulatoryBody: [false , Validators.required],
+          PhoneNumber:['',Validators.required],
+          SmsCode: ['', Validators.required],
+          Remark: ['']
+        })
+      }
   }
 
+  Update(){
+    if(this.subOrgForm.valid){
+      const subOrgData = {
+        Id:this.subOrg.Id,
+        OrganizationNameEnglish:this.subOrgForm.value.OrganizationNameEnglish,
+        OrganizationNameInLocalLanguage:this.subOrgForm.value.OrganizationNameInLocalLanguage,
+        Address:this.subOrgForm.value.Address,
+        isRegulatoryBody:this.subOrgForm.value.isRegulatoryBody,
+        PhoneNumber:this.subOrgForm.value.PhoneNumber,
+        SmsCode:this.subOrgForm.value.SmsCode,
+        Remark:this.subOrgForm.value.Remark,
+
+      }
+      this.orgService.updateSubOrg(subOrgData).subscribe({
+
+        next: (res) => {
+          this.toast = {
+            message: 'Subsidiary Organization Successfully Updated',
+            title: 'Successfully Updated.',
+            type: 'success',
+            ic: {
+              timeOut: 2500,
+              closeButton: true,
+            } as IndividualConfig,
+          };
+          this.commonService.showToast(this.toast);
+
+          this.closeModal();
+          this.subOrgForm.reset();
+        }, error: (err) => {
+          this.toast = {
+            message: err,
+            title: 'Network error.',
+            type: 'error',
+            ic: {
+              timeOut: 2500,
+              closeButton: true,
+            } as IndividualConfig,
+          };
+          this.commonService.showToast(this.toast);
+        }
+      }
+      );
+    }
+  }
   submit() {
 
     if (this.subOrgForm.valid) {

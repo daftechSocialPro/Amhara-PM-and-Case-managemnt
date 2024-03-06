@@ -64,14 +64,22 @@ namespace PM_Case_Managemnt_API.Services.Common
             var emp = _authentication.ApplicationUsers.Where(j => j.SubsidiaryOrganizationId == subOrgId).Select(x => x.EmployeesId).ToList();
 
 
-            var EmployeeSelectList = await (from e in _dBContext.Employees
-                                            where e.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId && !emp.Contains(e.Id)
-                                            select new SelectListDto
+            //var EmployeeSelectList = await (from e in _dBContext.Employees
+            //                                where e.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId && !emp.Contains(e.Id)
+            //                                select new SelectListDto
+            //                                {
+            //                                    Id = e.Id,
+            //                                    Name = e.FullName
+
+            //                                }).ToListAsync();
+            var EmployeeSelectList = await _dBContext.Employees.Where(e =>
+                                                e.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId && !emp.Contains(e.Id))
+                                            .Select(e => new SelectListDto
                                             {
                                                 Id = e.Id,
                                                 Name = e.FullName
-
-                                            }).ToListAsync();
+                                            })
+                                            .ToListAsync();
 
             return EmployeeSelectList;
 

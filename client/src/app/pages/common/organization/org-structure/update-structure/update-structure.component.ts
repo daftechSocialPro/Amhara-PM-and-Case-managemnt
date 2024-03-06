@@ -85,7 +85,8 @@ export class UpdateStructureComponent {
         IsBranch:this.structureForm.value.IsBranch,
         OfficeNumber : this.structureForm.value.OfficeNumber,
         BranchName: '',
-        ParentStructureName: ''
+        ParentStructureName: '',
+        SubsidiaryOrganizationId: this.user.SubOrgId
       }
 
 

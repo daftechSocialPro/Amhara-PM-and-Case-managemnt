@@ -48,7 +48,7 @@ export class AddCaseChildComponent implements OnInit {
         TotalPayment: [this.caseChild.TotalPayment, Validators.required],
         Counter: [this.caseChild.Counter, Validators.required],
         MeasurementUnit: [this.caseChild.MeasurementUnit, Validators.required],
-        Code: [this.caseChild.Code, Validators.required],
+        Code: [this.caseChild.Code],
 
         Remark: [this.caseChild.Remark],
 
@@ -60,7 +60,7 @@ export class AddCaseChildComponent implements OnInit {
         TotalPayment: [0, Validators.required],
         Counter: [0, Validators.required],
         MeasurementUnit: ['', Validators.required],
-        Code: ['', Validators.required],
+        Code: [''],
         OrderNumber: [{value:'',disabled: true}, [Validators.required]],
         Remark: [''],
   

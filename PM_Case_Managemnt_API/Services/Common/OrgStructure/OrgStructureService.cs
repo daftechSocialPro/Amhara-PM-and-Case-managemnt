@@ -122,7 +122,7 @@ namespace PM_Case_Managemnt_API.Services.Common
             orgStructure2.OfficeNumber = orgStructure.OfficeNumber;
             orgStructure2.Remark = orgStructure.Remark;
             orgStructure2.RowStatus = orgStructure.RowStatus == 0 ? RowStatus.Active : RowStatus.InActive;
-            orgStructure2.SubsidiaryOrganizationId= orgStructure.SubsidiaryOrganizationId;
+            //orgStructure2.SubsidiaryOrganizationId= orgStructure.SubsidiaryOrganizationId;
 
             _dBContext.Entry(orgStructure2).State = EntityState.Modified;
             await _dBContext.SaveChangesAsync();

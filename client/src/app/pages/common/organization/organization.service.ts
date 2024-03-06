@@ -51,6 +51,14 @@ export class OrganizationService {
     return this.http.get(this.BaseURI + "/SubOrganization/ById?subOrgId=" + subOrgId)
   }
 
+  updateSubOrg(formData:any){
+    return this.http.put(this.BaseURI + "/SubOrganization" ,formData)
+  }
+
+  deleteSubOrg(subOrgId:string){
+    return this.http.delete(this.BaseURI + "/SubOrganization?suborgId="+subOrgId)
+  }
+
   // branch
   OrgBranchCreate(orgBranch: OrganizationBranch) {
     return this.http.post(this.BaseURI + "/OrgBranch", orgBranch)

@@ -1,7 +1,7 @@
 
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add Subsidiary Organization</h5>
+        <h5 class="modal-title">{{subOrg?'Update':'Add'}} Subsidiary Organization</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()"></button>
     </div>
 
@@ -11,7 +11,7 @@
 
 
 
-            <form class="needs-validation" [formGroup]="subOrgForm" (submit)="submit()">
+            <form class="needs-validation" [formGroup]="subOrgForm" (ngSubmit)="subOrg?Update():submit()">
 
                 <div class="modal-body">
                     <div class="row g-3">

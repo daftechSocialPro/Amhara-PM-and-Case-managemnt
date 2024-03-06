@@ -52,63 +52,25 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
         }
 
         [HttpPut, DisableRequestSizeLimit]
-        public IActionResult Update()
+        public async Task<IActionResult> Update(SubOrgDto subOrg)
         {
             try
             {
-                string dbpath = "";
-                if (Request.Form.Files.Any())
-                {
-                    var file = Request.Form.Files[0];
-                    var folderName = Path.Combine("Assets", "Organization");
-                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                return Ok(await _subOrganizationService.UpdateSubsidiaryOrganization(subOrg));
+            }
 
-                    if (!Directory.Exists(pathToSave))
-                        Directory.CreateDirectory(pathToSave);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error : {ex}");
+            }
+        }
 
-                    if (file.Length > 0)
-                    {
-                        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                        var fileNameSave = Request.Form["id"] + "." + fileName.Split('.')[1];
-                        var fullPath = Path.Combine(pathToSave, fileNameSave);
-                        dbpath = Path.Combine(folderName, fileNameSave);
-
-                        if (System.IO.File.Exists(fullPath))
-                        {
-                            System.IO.File.Delete(fullPath);
-                        }
-
-                        using (var stream = new FileStream(fullPath, FileMode.Create))
-                        {
-                            file.CopyTo(stream);
-                        }
-                    }
-
-                }
-                var subOrganizational = new SubsidiaryOrganization
-                {
-                    Id = Guid.Parse(Request.Form["id"]),
-                    //Logo = dbpath != "" ? dbpath : Request.Form["logo"],
-                    OrganizationNameEnglish = Request.Form["organizationNameEnglish"],
-                    OrganizationNameInLocalLanguage = Request.Form["organizationNameInLocalLanguage"],
-                    Address = Request.Form["address"],
-                    PhoneNumber = Request.Form["phoneNumber"],
-                    Remark = Request.Form["remark"],
-                    CreatedAt = DateTime.Now,
-                    SmsCode = Int32.Parse(Request.Form["SmsCode"]),
-                    UserName = Request.Form["UserName"],
-                    Password = Request.Form["Password"],
-                    
-                };
-
-                var response = _subOrganizationService.UpdateSubsidiaryOrganization(subOrganizational);
-
-
-
-
-
-                return Ok(new { response });
-
+        [HttpDelete, DisableRequestSizeLimit]
+        public async Task<IActionResult> Delete(Guid suborgId)
+        {
+            try
+            {
+                return Ok(await _subOrganizationService.DeleteSubsidiaryOrganization(suborgId));
             }
 
             catch (Exception ex)
