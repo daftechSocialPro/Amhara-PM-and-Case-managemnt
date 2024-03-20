@@ -86,6 +86,7 @@ import { CaseFilesComponent } from './pages/case/encode-case/add-case/case-files
 import { UpdateCaseDetailsComponent } from './pages/case/encode-case/update-case/update-case-details/update-case-details.component';
 import { UpdateCaseFilesComponent } from './pages/case/encode-case/update-case/update-case-files/update-case-files.component';
 import { SmsTemplateComponent } from './pages/common/sms-template/sms-template.component';
+import { InsideCaseComponent } from './pages/Case/inside-case/inside-case.component';
 
 
 
@@ -119,6 +120,7 @@ const routes: Routes = [
   {path: 'updatecasedetails' ,canActivate:[AuthGuard],component : UpdateCaseDetailsComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
   {path: 'updatecasefiles' ,canActivate:[AuthGuard],component : UpdateCaseFilesComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
 
+  { path :'insidecase',canActivate:[AuthGuard],component:InsideCaseComponent,data:{permittedRoles : ['Super Admin','Director','Employee Manager','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']}},
   { path: 'searchcase' ,canActivate:[AuthGuard],component : SearchCasesComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
  
  

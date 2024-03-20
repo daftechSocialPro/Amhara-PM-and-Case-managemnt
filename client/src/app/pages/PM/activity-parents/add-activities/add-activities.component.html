@@ -16,25 +16,25 @@
                             <div class="row g-3">
 
 
-                                <div  class="col-12">
+                                <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control"
-                                            formControlName="ActivityDescription" placeholder="ActivityDescription"
-                                            id="ActivityDescription" style="height: 120px;"></textarea><label
-                                            for="ActivityDescription">Activity Description</label>
+                                        <textarea class="form-control" formControlName="ActivityDescription"
+                                            placeholder="ActivityDescription" id="ActivityDescription"
+                                            style="height: 120px;"></textarea><label for="ActivityDescription">Activity
+                                            Description</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control stdate" id="StartDate" formControlName="StartDate"
-                                            placeholder="StartDate" >
+                                        <input type="text" class="form-control stdate" id="StartDate"
+                                            formControlName="StartDate" placeholder="StartDate">
                                         <label for="StartDate">Start Date</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="EndDate" placeholder="EndDate" formControlName="EndDate"
-                                            >
+                                        <input type="text" class="form-control" id="EndDate" placeholder="EndDate"
+                                            formControlName="EndDate">
                                         <label for="EndDate">End Date</label>
                                     </div>
                                 </div>
@@ -43,7 +43,8 @@
 
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="PlannedBudget" [min]="0" placeholder="EndDate" #budget (change)="budgetChange(budget.value)"
+                                        <input type="number" class="form-control" id="PlannedBudget" [min]="0"
+                                            placeholder="EndDate" #budget (change)="budgetChange(budget.value)"
                                             formControlName="PlannedBudget">
                                         <label for="PlannedBudget">Planned Budget</label>
                                         <small style="color: red;">Remaining Budget : {{task?.RemainingBudget}}</small>
@@ -51,7 +52,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="number" class="form-control" id="Weight" [min]="0" placeholder="Weight" #weight (change)="weightChange(weight.value)"
+                                        <input type="number" class="form-control" id="Weight" [min]="0"
+                                            placeholder="Weight" #weight (change)="weightChange(weight.value)"
                                             formControlName="Weight">
                                         <label for="Weight">Weight</label>
                                         <small style="color: red;">Remaining Weight : {{task?.RemianingWeight}}</small>
@@ -114,45 +116,50 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <div class="form-check" style="font-size: 30px;"> <input class="form-check-input"  (change)="onClassfiedBranch()"
-                                            formControlName="IsClassfiedToBranch" type="checkbox" id="gridCheck"> <label
-                                            class="form-check-label" style="font-size: 20px;font-weight: bold;"
-                                            for="gridCheck">Is Classfied to Branch  </label></div>
+                                    <div class="form-check" style="font-size: 30px;"> <input class="form-check-input"
+                                            (change)="onClassfiedBranch()" formControlName="IsClassfiedToBranch"
+                                            type="checkbox" id="gridCheck"> <label class="form-check-label"
+                                            style="font-size: 20px;font-weight: bold;" for="gridCheck">Is Classfied to
+                                            Branch </label></div>
                                 </div>
 
 
                                 <div *ngIf="!isClassfiedtoBranch">
 
 
-                                <div class="col-md-6" >
-                                    <div class="form-floating mb-3">
-                                        <select class="form-select" id="assignactivityto" formControlName="WhomToAssign"
-                                            #assign>
-                                            <option>--- Select Whom to Assign ---</option>
-                                            <option value="0"> To Comittee </option>
-                                            <option value="1"> To Employees </option>
-                                            <!-- <option value="2"> To Team Leader </option> -->
-                                        </select>
-                                        <label for="assignactivityto">Assign Activity to</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6" *ngIf="assign.value=='0'">
-                                    <div class="form-floating mb-3">
-                                        <select class="form-select" id="comiteee" #committeValue (change)="onCommiteChange(committeValue.value)"    formControlName="CommiteeId">
-                                            <option *ngFor="let c of committees" value={{c.Id}}>{{c.Name}}</option>
-                                        </select>
-                                        <label for="comiteee">Comittee</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6" *ngIf="assign.value=='1'">
-                                    <div class="form-floating mb-3">
-                                        <div class="mb-4">
-                                            <select class="form-select" formControlName="AssignedEmployee" id="employees" multiple>
-                                                <option *ngFor="let emp of task.TaskMembers" value={{emp.EmployeeId}}>{{emp.Name}}</option>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="assignactivityto"
+                                                formControlName="WhomToAssign" #assign>
+                                                <option>--- Select Whom to Assign ---</option>
+                                                <option value="0"> To Directoret </option>
+                                                <option value="1"> To Employees </option>
+                                                <!-- <option value="2"> To Team Leader </option> -->
                                             </select>
+                                            <label for="assignactivityto">Assign Activity to</label>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="col-md-6" *ngIf="assign.value=='0'">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="comiteee" #committeValue
+                                                (change)="onCommiteChange(committeValue.value)"
+                                                formControlName="CommiteeId">
+                                                <option *ngFor="let c of committees" value={{c.Id}}>{{c.Name}}</option>
+                                            </select>
+                                            <label for="comiteee">Directoret</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="assign.value=='1'">
+                                        <div class="form-floating mb-3">
+                                            <div class="mb-4">
+                                                <select class="form-select" formControlName="AssignedEmployee"
+                                                    id="employees" multiple>
+                                                    <option *ngFor="let emp of task.TaskMembers"
+                                                        value={{emp.EmployeeId}}>{{emp.Name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -169,26 +176,28 @@
                         <div class="modal-header bg-secondary text-white">
                             <h5 class="modal-title">Tips</h5>
                         </div>
-                        <div class="modal-body" *ngIf="task" >
+                        <div class="modal-body" *ngIf="task">
                             <div class="card-title text-center">{{task.TaskName!}}</div>
                             <div class="text-center">
-                                <span  class="card-title"> {{task.StartDate! | date:"MMMM d, YYYY"}} - {{task.EndDate! | date:"MMMM d, YYYY"}} </span> <br />
+                                <span class="card-title"> {{task.StartDate! | date:"MMMM d, YYYY"}} - {{task.EndDate! |
+                                    date:"MMMM d, YYYY"}} </span> <br />
                                 <span class="card-title"> Task Budget : {{task.PlannedBudget!}} ETB</span> <br />
-                                <span  class="card-title"> Remaining Task Budget : {{task.RemainingBudget}} ETB</span> <br />
+                                <span class="card-title"> Remaining Task Budget : {{task.RemainingBudget}} ETB</span>
+                                <br />
                                 <span class="card-title">Remaining Task Weight :{{task.RemianingWeight}} %</span>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-content mt-2 " *ngIf="comitteEmployees.length>0" >
+                    <div class="modal-content mt-2 " *ngIf="comitteEmployees.length>0">
                         <div class="modal-header bg-secondary text-white">
                             <h5 class="modal-title">Comittee Employees</h5>
                         </div>
-                        <div class="modal-body" >
+                        <div class="modal-body">
                             <ul>
                                 <li *ngFor="let item of comitteEmployees">
                                     <span>{{item.Name}} ({{item.CommiteeStatus}})</span>
                                 </li>
-                                </ul>
+                            </ul>
                             <!-- <div class="card-title text-center">{{task.TaskName!}}</div> -->
                             <!-- <div class="text-center">
                                 <span  class="card-title"> {{task.StartDate! | date:"MMMM d, YYYY"}} - {{task.EndDate! | date:"MMMM d, YYYY"}} </span> <br />

@@ -8,7 +8,7 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
     {
         public Guid Id { get; set; }
         public string CaseTypeTitle { get; set; } = null!;
-        public string Code { get; set; } = null!;
+        public string? Code { get; set; } = null!;
         public float TotalPayment { get; set; }
         public float Counter { get; set; }
         public string MeasurementUnit { get; set; }

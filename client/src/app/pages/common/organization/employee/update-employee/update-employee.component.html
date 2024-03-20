@@ -40,7 +40,7 @@
                             <div class="col-md-4">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="branchList" #branch 
-                                        (change)="onBranchChange(branch.value)"  aria-label="BranchList">
+                                        (change)="onBranchChange(branch.value)"  aria-label="BranchList" formControlName="branchId">
                                         <option></option>
                                         <option *ngFor="let bl of branchList" [value]="bl.Id">
                                             {{bl.Name}}
@@ -72,7 +72,7 @@
 
                                         <option value="Director">Director</option>
                                         <option value="Secertary">Secertary</option>
-                                        <option value="Member">Member</option>
+                                        <option value="Member">Expert</option>
 
 
 

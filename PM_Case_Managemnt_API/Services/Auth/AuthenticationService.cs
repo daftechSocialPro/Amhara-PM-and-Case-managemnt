@@ -153,10 +153,10 @@ namespace PM_Case_Managemnt_API.Services.Auth
         
         public async Task<List<SelectRolesListDto>> GetRolesForUser()
         {
-            var excludedRoleName = "REGULATOR";
+            string[] excludedRoleName = new string[] { "REGULATOR", "MONITOR" };
 
             return await (from x in _authenticationContext.Roles
-                          where x.Name != excludedRoleName
+                          where !excludedRoleName.Contains(x.Name)
                           select new SelectRolesListDto
                           {
                               Id = x.Id,
@@ -229,6 +229,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
         public async Task<List<SelectRolesListDto>> GetNotAssignedRole(string userId)
         {
             var currentuser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(userId));
+            string[] excludedRoleName = new string[] { "REGULATOR", "MONITOR" };
             if (currentuser != null)
             {
                 var currentRoles = await _userManager.GetRolesAsync(currentuser);
@@ -236,7 +237,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
                 {
                     var notAssignedRoles = await _roleManager.Roles.
                                   Where(x =>
-                                  !currentRoles.Contains(x.Name)).Select(x => new SelectRolesListDto
+                                  !currentRoles.Contains(x.Name) && !excludedRoleName.Contains(x.Name)).Select(x => new SelectRolesListDto
                                   {
                                       Id = x.Id,
                                       Name = x.Name
@@ -246,7 +247,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
                 }
                 else
                 {
-                    var notAssignedRoles = await _roleManager.Roles
+                    var notAssignedRoles = await _roleManager.Roles.Where(x => !excludedRoleName.Contains(x.Name))
                                 .Select(x => new SelectRolesListDto
                                 {
                                     Id = x.Id,
@@ -267,6 +268,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
         public async Task<List<SelectRolesListDto>> GetAssignedRoles(string userId)
         {
             var currentuser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(userId));
+            string[] excludedRoleName = new string[] { "REGULATOR", "MONITOR" };
             if (currentuser != null)
             {
                 var currentRoles = await _userManager.GetRolesAsync(currentuser);
@@ -274,7 +276,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
                 {
                     var notAssignedRoles = await _roleManager.Roles.
                                       Where(x =>
-                                      currentRoles.Contains(x.Name)).Select(x => new SelectRolesListDto
+                                      currentRoles.Contains(x.Name) && !excludedRoleName.Contains(x.Name)).Select(x => new SelectRolesListDto
                                       {
                                           Id = x.Id,
                                           Name = x.Name

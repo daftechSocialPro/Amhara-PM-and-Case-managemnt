@@ -106,6 +106,7 @@ namespace PM_Case_Managemnt_API.Services.Common
                               StructureId = e.OrganizationalStructureId.ToString(),
                               Remark = e.Remark,
                               BranchName =x.StructureName,
+                              RowStatus = x.RowStatus == RowStatus.Active? 0 : 1
 
                           }).ToListAsync();
 
@@ -148,7 +149,7 @@ namespace PM_Case_Managemnt_API.Services.Common
 
         public async Task<List<SelectListDto>> GetEmployeesSelectList(Guid subOrgId)
         {
-            var EmployeeSelectList = await (from e in _dBContext.Employees.Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId)
+            var EmployeeSelectList = await (from e in _dBContext.Employees.Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId && x.RowStatus == RowStatus.Active)
                                           
                                             select new SelectListDto
                                             {
@@ -183,12 +184,12 @@ namespace PM_Case_Managemnt_API.Services.Common
             orgEmployee.Photo = employeeDto.Photo;
             orgEmployee.Title = employeeDto.Title;
             orgEmployee.FullName = employeeDto.FullName;
-            //orgEmployee.Gender = Enum.Parse<Gender>( employeeDto.Gender);
+            orgEmployee.Gender = Enum.Parse<Gender>( employeeDto.Gender);
             orgEmployee.PhoneNumber = employeeDto.PhoneNumber;
             orgEmployee.Remark = employeeDto.Remark;
-            //orgEmployee.Position = Enum.Parse<Position>( employeeDto.Position);
-            //orgEmployee.OrganizationalStructureId = Guid.Parse(employeeDto.StructureId);
-            //orgEmployee.RowStatus = employeeDto.RowStatus==0?RowStatus.Active:RowStatus.InActive;
+            orgEmployee.Position = Enum.Parse<Position>( employeeDto.Position);
+            orgEmployee.OrganizationalStructureId = Guid.Parse(employeeDto.StructureId);
+            orgEmployee.RowStatus = employeeDto.RowStatus==0?RowStatus.Active:RowStatus.InActive;
 
 
             _dBContext.Entry(orgEmployee).State = EntityState.Modified;

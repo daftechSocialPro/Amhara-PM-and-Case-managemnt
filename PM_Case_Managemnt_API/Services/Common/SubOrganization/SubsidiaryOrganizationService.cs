@@ -126,7 +126,7 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
         public async Task<List<Models.Common.Organization.SubsidiaryOrganization>> GetSubsidiaryOrganization()
         {
 
-            return await _dBContext.SubsidiaryOrganizations.Include(u => u.OrganizationProfile).ToListAsync();
+            return await _dBContext.SubsidiaryOrganizations.Include(u => u.OrganizationProfile).Where(x => x.isMonitor == false).ToListAsync();
         }
 
 

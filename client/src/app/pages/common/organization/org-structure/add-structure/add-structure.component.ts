@@ -31,7 +31,7 @@ export class AddStructureComponent implements OnInit {
       ParentStructureId: [null,Validators.required],
       StructureName: ['', Validators.required],
       Order: ['', Validators.required],
-      Weight: ['', Validators.required],
+      Weight: ['', Validators.required,Validators.min(1)],
       Remark: ['']
     })
   }
@@ -40,7 +40,11 @@ export class AddStructureComponent implements OnInit {
     this.user = this.userService.getCurrentUser()
     this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe(
       {
-        next: (res) => this.branchList = res,
+        next: (res) => {
+          this.branchList = res
+          console.log('this.branchList: ', this.branchList);
+        },
+        
         error: (err) => console.error(err)
       })
 

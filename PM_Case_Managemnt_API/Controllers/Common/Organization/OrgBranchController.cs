@@ -22,7 +22,6 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
 
 
         [HttpPost]
-
         public IActionResult Create([FromBody]  OrgBranchDto organizationBranch)
         {
             try

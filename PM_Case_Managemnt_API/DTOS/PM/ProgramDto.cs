@@ -16,6 +16,16 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public string Remark { get; set; }
 
     }
+    
+    public record ProgramPostDto
+    {
+        public Guid? Id { get; set; }
+        public string ProgramName { get; set; }
+        public float ProgramPlannedBudget { get; set; }
+        public Guid ProgramBudgetYearId { get; set; }
+        public string Remark { get; set; }
+
+    }
 
     public class ProgramStructureDto {
         public string  StructureName { get; set; }

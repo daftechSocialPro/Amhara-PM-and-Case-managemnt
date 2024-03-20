@@ -6,6 +6,7 @@ namespace PM_Case_Managemnt_API.DTOS.PM
 {
     public class PlanDto
     {
+        public Guid? Id { get; set; }
         public Guid BudgetYearId { get; set; }
         public bool HasTask { get; set; }
         public string PlanName { get; set; }

@@ -2,6 +2,7 @@
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.PM;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -175,6 +176,249 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
 
         }
 
+        public async Task<ResponseMessage> UpdatePlan(PlanDto plan)
+        {
+            try
+            {
+                var singlePlan = await _dBContext.Plans.FindAsync(plan.Id);
+                var budgetYear = await _dBContext.BudgetYears.FindAsync(plan.BudgetYearId);
+
+                if (singlePlan != null)
+                {
+
+                    singlePlan.HasTask = plan.HasTask;
+                    singlePlan.BudgetYearId = plan.BudgetYearId;
+                    singlePlan.PlanName = plan.PlanName;
+                    singlePlan.PlanWeight = plan.PlanWeight;
+                    singlePlan.PlandBudget = plan.PlandBudget;
+                    singlePlan.ProgramId = plan.ProgramId;
+                    singlePlan.ProjectType = plan.ProjectType == 0 ? ProjectType.Capital : ProjectType.Regular;
+                    singlePlan.Remark = plan.Remark;
+                    singlePlan.StructureId = plan.StructureId;
+                    singlePlan.ProjectManagerId = plan.ProjectManagerId;
+                    singlePlan.ProjectFunder = plan.ProjectFunder;
+                    singlePlan.PeriodStartAt = budgetYear.FromDate;
+                    singlePlan.PeriodEndAt = budgetYear.ToDate;
+                    
+
+                    if (plan.ProjectManagerId != Guid.Empty)
+                    {
+                        singlePlan.ProjectManagerId = plan.ProjectManagerId;
+
+                    }
+                    await _dBContext.SaveChangesAsync();
+
+                }
+
+              
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "Project Updated Successfully"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = ex.Message.ToString()
+                };
+            }
+
+        }
+        public async Task<ResponseMessage> DeleteProject(Guid planId)
+        {
+            var plan = await _dBContext.Plans.FindAsync(planId);
+
+            if (plan == null)
+            {
+                return new ResponseMessage
+                {
+
+                    Message = "Project Not Found!!!",
+                    Success = false
+                };
+            }
+
+            try
+            {
+                
+
+                var tasks = await _dBContext.Tasks.Where(x => x.PlanId == planId).ToListAsync();
+
+                if (tasks.Any())
+                {
+                    foreach (var task in tasks)
+                    {
+                        var taskMemos = await _dBContext.TaskMemos.Where(x => x.TaskId == task.Id).ToListAsync();
+                        var taskMembers = await _dBContext.TaskMembers.Where(x => x.TaskId == task.Id).ToListAsync();
+
+                        if (taskMemos.Any())
+                        {
+                            _dBContext.TaskMemos.RemoveRange(taskMemos);
+                            await _dBContext.SaveChangesAsync();
+                        }
+                        if (taskMembers.Any())
+                        {
+                            _dBContext.TaskMembers.RemoveRange(taskMembers);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+                        var activityParents = await _dBContext.ActivityParents.Where(x => x.TaskId == task.Id).ToListAsync();
+
+                        if (activityParents.Any())
+                        {
+                            foreach (var actP in activityParents)
+                            {
+                                var actvities = await _dBContext.Activities.Where(x => x.ActivityParentId == actP.Id).ToListAsync();
+
+                                foreach (var act in actvities)
+                                {
+                                    var actProgress = await _dBContext.ActivityProgresses.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+                                    foreach (var actpro in actProgress)
+                                    {
+                                        var progAttachments = await _dBContext.ProgressAttachments.Where(x => x.ActivityProgressId == actpro.Id).ToListAsync();
+                                        if (progAttachments.Any())
+                                        {
+                                            _dBContext.ProgressAttachments.RemoveRange(progAttachments);
+                                            await _dBContext.SaveChangesAsync();
+                                        }
+
+                                    }
+
+                                    if (actProgress.Any())
+                                    {
+                                        _dBContext.ActivityProgresses.RemoveRange(actProgress);
+                                        await _dBContext.SaveChangesAsync();
+                                    }
+
+                                    var activityTargets = await _dBContext.ActivityTargetDivisions.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                                    if (activityTargets.Any())
+                                    {
+                                        _dBContext.ActivityTargetDivisions.RemoveRange(activityTargets);
+                                        await _dBContext.SaveChangesAsync();
+                                    }
+
+
+                                    var employees = await _dBContext.EmployeesAssignedForActivities.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                                    if (activityTargets.Any())
+                                    {
+                                        _dBContext.EmployeesAssignedForActivities.RemoveRange(employees);
+                                        await _dBContext.SaveChangesAsync();
+                                    }
+                                    
+
+
+
+
+
+                                }
+                            }
+
+                            _dBContext.ActivityParents.RemoveRange(activityParents);
+                            await _dBContext.SaveChangesAsync();
+
+                        }
+                        var actvities2 = await _dBContext.Activities.Where(x => x.TaskId == task.Id).ToListAsync();
+
+                        if (actvities2.Any())
+                        {
+                            foreach (var act in actvities2)
+                            {
+                                var actProgress = await _dBContext.ActivityProgresses.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+                                foreach (var actpro in actProgress)
+                                {
+                                    var progAttachments = await _dBContext.ProgressAttachments.Where(x => x.ActivityProgressId == actpro.Id).ToListAsync();
+                                    if (progAttachments.Any())
+                                    {
+                                        _dBContext.ProgressAttachments.RemoveRange(progAttachments);
+                                        await _dBContext.SaveChangesAsync();
+                                    }
+
+                                }
+
+                                if (actProgress.Any())
+                                {
+                                    _dBContext.ActivityProgresses.RemoveRange(actProgress);
+                                    await _dBContext.SaveChangesAsync();
+                                }
+
+                                var activityTargets = await _dBContext.ActivityTargetDivisions.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                                if (activityTargets.Any())
+                                {
+                                    _dBContext.ActivityTargetDivisions.RemoveRange(activityTargets);
+                                    await _dBContext.SaveChangesAsync();
+                                }
+
+
+                                var employees = await _dBContext.EmployeesAssignedForActivities.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                                if (employees.Any())
+                                {
+                                    _dBContext.EmployeesAssignedForActivities.RemoveRange(employees);
+                                    await _dBContext.SaveChangesAsync();
+                                }
+
+                                if (activityParents.Any())
+                                {
+                                    _dBContext.ActivityParents.RemoveRange(activityParents);
+                                    await _dBContext.SaveChangesAsync();
+                                }
+
+                                
+
+                            }
+
+                            _dBContext.Activities.RemoveRange(actvities2);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+                    }
+                    _dBContext.Tasks.RemoveRange(tasks);
+                    await _dBContext.SaveChangesAsync();
+
+
+                    _dBContext.Plans.Remove(plan);
+                    await _dBContext.SaveChangesAsync();
+                }
+
+                else
+                {
+                    _dBContext.Plans.Remove(plan);
+                    await _dBContext.SaveChangesAsync();
+                }
+
+                return new ResponseMessage
+                {
+
+                    Success = true,
+                    Message = "Project Deleted Successfully !!!"
+
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage
+                {
+
+                    Success = false,
+                    Message = ex.Message
+
+                };
+
+            }
+
+        }
 
 
     }

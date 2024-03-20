@@ -2,8 +2,11 @@
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Models.PM;
+using PM_Case_Managemnt_API.Services.PM.Plan;
+using System.Numerics;
 
 namespace PM_Case_Managemnt_API.Services.PM.Program
 {
@@ -11,9 +14,12 @@ namespace PM_Case_Managemnt_API.Services.PM.Program
     {
 
         private readonly DBContext _dBContext;
-        public ProgramService(DBContext context)
+        private readonly IPlanService planService;
+
+        public ProgramService(DBContext context, IPlanService planService)
         {
             _dBContext = context;
+            this.planService = planService;
         }
 
         public async Task<int> CreateProgram(Programs program)
@@ -104,6 +110,84 @@ namespace PM_Case_Managemnt_API.Services.PM.Program
 
         }
 
+        public async Task<ResponseMessage> UpdateProgram(ProgramPostDto program)
+        {
+            var prog = await _dBContext.Programs.FindAsync(program.Id);
+            if (prog != null) 
+            {
+                prog.ProgramName = program.ProgramName;
+                prog.ProgramPlannedBudget = program.ProgramPlannedBudget;
+                prog.ProgramBudgetYearId = program.ProgramBudgetYearId;
+                prog.Remark = program.Remark;
+
+
+                await _dBContext.SaveChangesAsync();
+
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "Program Updated Successfully"
+                };
+
+            }
+            else
+            {
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = "Program Not Found"
+                };
+
+            }
+
+        }
+
+        public async Task<ResponseMessage> DeleteProgram(Guid programId)
+        {
+            var prog = await _dBContext.Programs.FindAsync(programId);
+            if (prog == null)
+            {
+                return new ResponseMessage
+                {
+
+                    Message = "Program Not Found!!!",
+                    Success = false
+                };
+            }
+
+            try
+            {
+
+                var plans = await _dBContext.Plans.Where(x => x.ProgramId== programId).Select(x => x.Id).ToListAsync();
+
+                foreach(var plan in plans)
+                {
+                    planService.DeleteProject(plan);
+
+                }
+
+                _dBContext.Programs.Remove(prog);
+                await _dBContext.SaveChangesAsync();
+
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "Program Deleted Successfully !!!"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage
+                {
+
+                    Success = false,
+                    Message = ex.Message
+
+                };
+
+            }
+
+        }
        
 
 

@@ -17,7 +17,7 @@ namespace PM_Case_Managemnt_API.Models.CaseModel
         public string CaseTypeTitle { get; set; } = null!;
 
 
-        public string Code { get; set; } = null!;
+        public string? Code { get; set; }
        
 
         public float TotlaPayment { get; set; }

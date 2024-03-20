@@ -142,7 +142,10 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
                     FullName = Request.Form["FullName"],
                     Gender = Request.Form["Gender"],
                     PhoneNumber = Request.Form["PhoneNumber"],
-                    Remark = Request.Form["remark"],
+                    Position = Request.Form["Position"],
+                    StructureId = Request.Form["StructureId"],
+                    RowStatus = int.Parse(Request.Form["RowStatus"]),
+                    Remark = Request.Form["Remark"],
                    
                    
 

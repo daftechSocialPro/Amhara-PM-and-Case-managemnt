@@ -40,7 +40,7 @@ export class AddPlansComponent implements OnInit {
     private formBuilder: FormBuilder,
     private budgetYearService: BudgetYearService,
     private programService: ProgramService,
-    private planService : PlanService,
+    private planService: PlanService,
     private commonService: CommonService,
     private orgService: OrganizationService,
     private userService: UserService) { }
@@ -57,11 +57,11 @@ export class AddPlansComponent implements OnInit {
       BudgetYearId: ['', Validators.required],
       StructureId: ['', Validators.required],
       ProgramId: ['', Validators.required,],
-      PlanWeight: [0, [Validators.required,Validators.max(this.program?.RemainingWeight)]],
+      PlanWeight: [0, [Validators.required, Validators.max(this.program?.RemainingWeight!)]],
       HasTask: [false, Validators.required],
-      PlandBudget: [0, [Validators.required,Validators.max(this.program?.RemainingBudget)]],
+      PlandBudget: [0, [Validators.required, Validators.max(this.program?.RemainingBudget!)]],
       ProjectType: ['', Validators.required],
-      ProjectFunder : [''],
+      ProjectFunder: [''],
       Remark: ['']
 
     })
@@ -156,7 +156,7 @@ export class AddPlansComponent implements OnInit {
     console.log("finance", this.FinanceId)
     console.log("pm", this.ProjectManagerId)
 
-    if (!this.ProjectManagerId){
+    if (!this.ProjectManagerId) {
 
       this.toast = {
         message: "Project manager Not selected",
@@ -172,7 +172,7 @@ export class AddPlansComponent implements OnInit {
       return
     }
 
-    if (!this.FinanceId && this.planForm.value.ProjectType=="0"){
+    if (!this.FinanceId && this.planForm.value.ProjectType == "0") {
       this.toast = {
         message: "Finance Not selected",
         title: 'Network error.',
@@ -201,7 +201,7 @@ export class AddPlansComponent implements OnInit {
         StructureId: this.planForm.value.StructureId,
         ProjectManagerId: this.ProjectManagerId,
         FinanceId: this.FinanceId,
-        ProjectFunder :this.planForm.value.ProjectFunder
+        ProjectFunder: this.planForm.value.ProjectFunder
 
       }
 
@@ -252,17 +252,17 @@ export class AddPlansComponent implements OnInit {
     })
   }
 
-  
+
   closeModal() {
     this.activeModal.close();
   }
 
 
 
-  weightChange(weight:string){
+  weightChange(weight: string) {
 
-    if (this.program){
-      if ( Number(weight)>this.program.RemainingWeight){
+    if (this.program) {
+      if (Number(weight) > this.program!.RemainingWeight!) {
 
         this.toast = {
           message: "Weight can not be greater than Remaining weight",
@@ -281,11 +281,11 @@ export class AddPlansComponent implements OnInit {
   }
 
 
-  
-  budgetChange(budget:string){
 
-    if (this.program){
-      if ( Number(budget)>this.program.RemainingBudget){
+  budgetChange(budget: string) {
+
+    if (this.program) {
+      if (Number(budget) > this.program.RemainingBudget!) {
 
         this.toast = {
           message: "Budget can not be greater than Remaining Budget",

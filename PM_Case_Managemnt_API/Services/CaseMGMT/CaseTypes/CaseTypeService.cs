@@ -182,6 +182,20 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
 
         }
 
+        public async Task<List<SelectListDto>> GetChildCases(Guid caseTypeId)
+        {
+            return await (from f in _dbContext.CaseTypes.Where(x => x.ParentCaseTypeId == caseTypeId)
+                          .OrderBy(x => x.OrderNumber)
+                          select new SelectListDto
+                          {
+
+                              Id = f.Id,
+                              Name = f.CaseTypeTitle
+
+                          }).ToListAsync();
+        }
+
+
         public int GetChildOrder(Guid caseTypeId)
         {
 

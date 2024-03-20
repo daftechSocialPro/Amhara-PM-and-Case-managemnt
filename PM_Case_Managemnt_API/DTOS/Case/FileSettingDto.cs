@@ -5,6 +5,7 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
 {
     public class FileSettingPostDto
     {
+        public Guid? Id { get; set; }
         public Guid CaseTypeId { get; set; }
         public string Name { get; set; }
         public string FileType { get; set; }

@@ -7,7 +7,7 @@
     <div class="card" >
 
         <div class="card-body">
-                <form class=""  [formGroup]="settingForm" (ngSubmit)="submit()">
+                <form class=""  [formGroup]="settingForm" (ngSubmit)="file?update():submit()">
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-md-12">
@@ -44,7 +44,7 @@
                     <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                             (click)="closeModal()">Close</button>
                         <button type="button" type="submit" [disabled]="!settingForm.valid"
-                            class="btn btn-success">Create</button>
+                            class="btn btn-success">{{file?"Update":"Create"}}</button>
                     </div>
                 </form>
 

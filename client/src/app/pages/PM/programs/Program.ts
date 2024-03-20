@@ -1,22 +1,22 @@
 export interface Program {
-    Id : string,
+    Id: string,
 
-    ProgramName: string ;     
-    ProgramPlannedBudget:Number;
-    ProgramBudgetYear:string ;
+    ProgramName: string;
+    ProgramPlannedBudget: Number;
+    ProgramBudgetYear: string;
 
-    RemainingBudget:number
+    RemainingBudget?: number
 
-    RemainingWeight :number
+    RemainingWeight?: number
 
-    ProgramStructure :ProgramStructure[];
-    NumberOfProjects: Number;
-    Remark:string;
-    
+    ProgramStructure?: ProgramStructure[];
+    NumberOfProjects?: Number;
+    Remark?: string;
+
 }
 
 export interface ProgramStructure {
 
-    StructureName : string ; 
-    StructureHead : string ; 
+    StructureName: string;
+    StructureHead: string;
 }

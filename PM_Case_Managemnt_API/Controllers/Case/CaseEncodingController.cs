@@ -365,7 +365,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         {
             try
             {
-                return Ok(await _caseEncodeService.GetAllTransfred(employeeId));
+                    return Ok(await _caseEncodeService.GetAllTransfred(employeeId));
 
             }
             catch (Exception ex)

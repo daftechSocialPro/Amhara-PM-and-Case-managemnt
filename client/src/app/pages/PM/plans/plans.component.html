@@ -15,20 +15,23 @@
    <section class="section profile">
       <div class="row">
 
-         <div class="col-lg-6" *ngFor="let plan of Plans" style="cursor: pointer;"  >
+         <div class="col-lg-6" *ngFor="let plan of Plans" style="cursor: pointer;">
 
             <div class="card">
                <div class="card-header">
-                  
-          <div>
-            <div>
-               {{plan.PlanName}}
-            </div>
-            <div  style="text-align: right!important;">
-               <span *ngIf="plan.HasTask" class="badge bg-success" >Has Task</span> <span *ngIf="!plan.HasTask" class="badge bg-danger" >Has No Task</span></div>   
-          </div>
-           </div>
-               <div class="card-body" style="background-color: #f6f9ff !important;" (click)="tasks(plan)">
+
+                  <div>
+                     <div>
+                        {{plan.PlanName}}
+                     </div>
+                     <div style="text-align: right!important;">
+                        <span *ngIf="plan.HasTask" class="badge bg-success">Has Task</span> <span *ngIf="!plan.HasTask"
+                           class="badge bg-danger">Has No Task</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="card-body" style="background-color: #f6f9ff !important;">
+                  <!-- (click)="tasks(plan)" -->
                   <h5 class="card-title ">
                      <div class="row">
                         <div class="col-md-10">
@@ -66,7 +69,8 @@
                         Weight : {{plan.PlanWeight}} %
                      </div>
                      <div class="col-lg-4" style="text-align: right!important;">
-                        <button class="btn btn-primary text-end" (click)="routeToPlanDetail(plan.Id)" > Plan Detail </button>
+                        <button class="btn btn-primary text-end" (click)="routeToPlanDetail(plan.Id)"> Plan Detail
+                        </button>
                      </div>
                   </div>
 
@@ -77,17 +81,16 @@
 
                   <div class="progress mt-3">
                      <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar"
-                     
-                     [ngStyle]="applyStyles(plan.NumberOfActivities,plan.NumberOfTaskCompleted)"
-                         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        [ngStyle]="applyStyles(plan.NumberOfActivities,plan.NumberOfTaskCompleted)" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                </div>
             </div>
 
             <!-- mmm -->
-            
 
-             <!-- mmmmm -->
+
+            <!-- mmmmm -->
 
          </div>
 

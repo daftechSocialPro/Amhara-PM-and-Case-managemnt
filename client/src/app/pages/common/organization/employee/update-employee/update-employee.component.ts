@@ -38,38 +38,46 @@ export class UpdateEmployeeComponent implements OnInit {
     this.user = this.userService.getCurrentUser()
 
     console.log("employee",this.emp)
-    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe(
-      {
-        next: (res) => {
-          this.branchList = res
-         
-        },
-        error: (err) => console.error(err)
-      })
-
+    
+    this.getBranchs()
     this.imageURL = this.commonService.createImgPath(this.emp!.Photo)
     this.EmployeeForm = this.formBuilder.group({
       avatar: [null],
       // Photo: [this.emp?.Photo, Validators.required],
       Title: [this.emp?.Title, Validators.required],
-      psid : [this.emp?.BranchId,Validators.required],
+      branchId : ['',Validators.required],
       FullName: [this.emp?.FullName, Validators.required],
       Gender: [this.emp?.Gender, Validators.required],
       PhoneNumber: [this.emp?.PhoneNumber, Validators.required],
       Position: [this.emp?.Position, Validators.required],
-      StructureId: [this.emp?.StructureId, Validators.required],
+      StructureId: ['', Validators.required],
       RowStatus: [this.emp?.RowStatus, Validators.required],
       Remark: [this.emp?.Remark]
 
     })
     
 
-    this.onBranchChange(this.emp?.BranchId);
+    // this.onBranchChange(this.emp?.BranchId);
 
 
 
 
 
+  }
+
+  getBranchs(){
+    this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe(
+      {
+        next: (res) => {
+          this.branchList = res
+          console.log('this.branchList: ', this.branchList);
+          const lowerBranhId = this.emp?.BranchId.toLowerCase()
+          this.EmployeeForm.controls['branchId'].setValue(lowerBranhId);
+          this.onBranchChange(this.emp?.BranchId);
+
+        },
+        error: (err) => console.error(err)
+      })
   }
 
   showPreview(event: any) {
@@ -91,10 +99,11 @@ export class UpdateEmployeeComponent implements OnInit {
 
     this.orgService.getOrgStructureSelectList(value).subscribe(
       {
-        next: (res) => {this.parentStructureList = res
-        
-        console.log(this.parentStructureList)
-        
+        next: (res) => {
+          this.parentStructureList = res
+          const lowetStructureId = this.emp?.StructureId.toLowerCase()
+          this.EmployeeForm.controls["StructureId"].setValue(lowetStructureId)
+          console.log(this.parentStructureList)
         },
         error: (err) => console.error(err)
 

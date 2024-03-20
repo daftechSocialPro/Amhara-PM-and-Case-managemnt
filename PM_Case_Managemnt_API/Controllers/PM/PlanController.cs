@@ -66,6 +66,18 @@ namespace PM_Case_Managemnt_API.Controllers.PM
             }
         }
 
+        [HttpPut("editPlan")]
+        public async Task<IActionResult> UpdatePlan(PlanDto plan)
+        {
+            return Ok(await _planService.UpdatePlan(plan));
+        }
+
+        [HttpDelete("deletePlan")]
+        public async Task<IActionResult> DeleteProject(Guid planId)
+        {
+            return Ok(await _planService.DeleteProject(planId));
+        }
+
 
     }
 }

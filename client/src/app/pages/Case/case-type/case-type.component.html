@@ -24,7 +24,7 @@
                  <th pSortableColumn="TotalPayment">TotalPayment <p-sortIcon field="TotalPayment"></p-sortIcon></th>
                  <th pSortableColumn="MeasurementUnit">MeasurementUnit <p-sortIcon field="MeasurementUnit"></p-sortIcon></th>
                  <th pSortableColumn="RowStatus">RowStatus <p-sortIcon field="RowStatus"></p-sortIcon></th>
-                 <th pSortableColumn="Code">Code <p-sortIcon field="Code"></p-sortIcon></th>
+                 <!-- <th pSortableColumn="Code">Code <p-sortIcon field="Code"></p-sortIcon></th> -->
                  <th>Action</th>
              </tr>
 
@@ -42,7 +42,7 @@
                  <td>{{caset.TotalPayment }} ETB</td>
                  <td>{{caset.Counter }} {{caset.MeasurementUnit }}</td>
                  <td>{{caset.RowStatus }}</td>
-                 <td>{{caset.Code }}</td>
+                 <!-- <td>{{caset.Code }}</td> -->
                  <td>
 
                     <button class="btn btn-sm btn-outline-success" (click)="AddChild(caset)"><i class="pi pi-plus"></i></button> <br/>
@@ -64,7 +64,7 @@
                                     <th pSortableColumn="TotalPayment">TotalPayment <p-sortIcon field="TotalPayment"></p-sortIcon></th>
                                     <th pSortableColumn="MeasurementUnit">MeasurementUnit <p-sortIcon field="MeasurementUnit"></p-sortIcon></th>
                                     <th pSortableColumn="RowStatus">RowStatus <p-sortIcon field="RowStatus"></p-sortIcon></th>
-                                    <th pSortableColumn="Code">Code <p-sortIcon field="Code"></p-sortIcon></th>
+                                    <!-- <th pSortableColumn="Code">Code <p-sortIcon field="Code"></p-sortIcon></th> -->
                                     <th>Action</th>
                                  </tr>
                              </ng-template>
@@ -75,7 +75,7 @@
                                     <td>{{child.TotalPayment }} ETB</td>
                                     <td>{{child.Counter }} {{child.MeasurementUnit }}</td>
                                     <td>{{child.RowStatus }}</td>
-                                    <td>{{child.Code }}</td>
+                                    <!-- <td>{{child.Code }}</td> -->
                                     <td>
 
                                         <button class="btn btn-sm btn-outline-warning " (click)="UpdateCaseChild(child,caset)"><i class="pi pi-pencil"></i></button> <br/>

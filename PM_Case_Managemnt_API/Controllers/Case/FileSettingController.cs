@@ -26,6 +26,30 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                 return StatusCode(500, "Internal Server Error");
             }
         }
+        [HttpPut("fileSetting")]
+        public async Task<IActionResult> UpdateFileSetting(FileSettingPostDto fileSettingPostDto)
+        {
+            try
+            {
+                return Ok(await _fileSettingsService.UpdateFilesetting(fileSettingPostDto));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+        [HttpDelete("fileSetting")]
+        public async Task<IActionResult> DeleteFileSetting(Guid fileId)
+        {
+            try
+            {
+                return Ok(await _fileSettingsService.DeleteFileSetting(fileId));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
 
         [HttpPost("fileSetting")]
         public async Task<IActionResult> PostFileSetting(FileSettingPostDto fileSettingPostDto)

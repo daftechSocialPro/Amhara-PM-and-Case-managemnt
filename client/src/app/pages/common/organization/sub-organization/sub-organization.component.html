@@ -9,29 +9,33 @@
         </ol>
       </nav>
     </div>
-    <div class="text-end col-lg-12">
-        <button class="btn btn-primary text-end mb-3" (click)="addModal()"> Add
-           Subsidiary Organization</button>
-     </div>
+    
     <section class="section">
   
-      <div class="row">    
-             <p-table [value]="subOrgs" dataKey="name" [tableStyle]="{'min-width': '60rem'}">
+      <div class="row"> 
+          <div class="card">
+            <div class="text-end col-lg-12 mt-3">
+              <button class="btn btn-primary text-end mb-3" (click)="addModal()"> Add
+                 Subsidiary Organization</button>
+           </div>
+             <p-table [value]="subOrgs" dataKey="Id" [tableStyle]="{'min-width': '60rem'}">
               <ng-template pTemplate="header">
                   <tr>
                       <th style="width: 5rem"></th>
-                      <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                      <th>Name </th>
                       <th>Local Name</th>
-                      <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>
-                      <th pSortableColumn="number">Phone Number <p-sortIcon field="number"></p-sortIcon></th>
-                      <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+                      <th>Address </th>
+                      <th>Phone Number</th>
+                      <th>Status</th>
                       <th>Action</th>
                   </tr>
               </ng-template>
               <ng-template pTemplate="body" let-suborg let-expanded="expanded">
                   <tr>
                       <td>
-                          <button type="button" pButton pRipple [pRowToggler]="suborg" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                          <button type="button" pButton pRipple [pRowToggler]="suborg" 
+                            class="p-button-text p-button-rounded p-button-plain" 
+                            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                       </td>
                       <td>{{suborg.OrganizationNameEnglish}}</td>
                       <td>{{suborg.OrganizationNameInLocalLanguage}}</td>
@@ -78,6 +82,7 @@
                   </tr>
               </ng-template>
           </p-table>
+        </div>   
       </div>
     </section>
 </main>

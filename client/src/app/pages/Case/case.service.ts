@@ -70,6 +70,18 @@ export class CaseService {
         return this.http.get<SelectList[]>(this.BaseURI + "/fileSettingsByCaseTypeId?CaseTypeId=" + caseTypeId)
     }
 
+    updateFileSetting(fileSetting: any){
+        return this.http.put(this.BaseURI + "/fileSetting", fileSetting)
+    }
+
+    deleteFileSetting(fileId: string){
+        return this.http.delete(this.BaseURI + "/fileSetting?fileId="+fileId)
+    }
+
+    getChildCasesByCaseTypeId(caseTypeId: string) {
+
+        return this.http.get<SelectList[]>(this.BaseURI + "/childCasesByCaseTypeId?CaseTypeId=" + caseTypeId)
+    }
     //applicant 
 
     createApplicant(applicant: any) {

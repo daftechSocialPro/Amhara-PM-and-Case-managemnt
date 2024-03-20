@@ -17,22 +17,14 @@ namespace PM_Case_Managemnt_API.Models.Common
         //public virtual OrganizationalStructure OrganizationBranch { get; set; } = null!;
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-
+       
         //public Guid OrganizationProfileId { get; set; }
         //public virtual OrganizationProfile OrganizationProfile { get; set; } = null!;
 
         public Guid SubsidiaryOrganizationId { get; set; }
         public SubsidiaryOrganization SubsidiaryOrganization { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-
-
-
+        
         public Guid? ParentStructureId { get; set; }
         public virtual OrganizationalStructure ParentStructure { get; set; } = null!;
 

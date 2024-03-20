@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Plan, PlanView,PlanSingleview } from './plans';
-import { SelectList } from '../../common/common';
+import { Plan, PlanView, PlanSingleview } from './plans';
+import { ResponseMessage, SelectList } from '../../common/common';
 
 
 @Injectable({
@@ -19,22 +19,29 @@ export class PlanService {
         return this.http.post(this.BaseURI, plan)
     }
 
-    getPlans (subOrgId: string, programId ?: string){
+    getPlans(subOrgId: string, programId?: string) {
         if (programId)
-            return this.http.get<PlanView[]>(this.BaseURI+"?programId="+programId+"&SubOrgId="+subOrgId)
-        return this.http.get<PlanView[]>(this.BaseURI+"?SubOrgId="+subOrgId)
+            return this.http.get<PlanView[]>(this.BaseURI + "?programId=" + programId + "&SubOrgId=" + subOrgId)
+        return this.http.get<PlanView[]>(this.BaseURI + "?SubOrgId=" + subOrgId)
     }
 
-    getSinglePlans(planId:String){
+    getSinglePlans(planId: String) {
 
-        return this.http.get<PlanSingleview>(this.BaseURI+"/getbyplanid?planId="+planId)
+        return this.http.get<PlanSingleview>(this.BaseURI + "/getbyplanid?planId=" + planId)
     }
 
-    getPlanSelectList(programId:String){
+    getPlanSelectList(programId: String) {
 
-        return this.http.get<SelectList[]>(this.BaseURI+"/getByProgramIdSelectList?programId="+programId)
+        return this.http.get<SelectList[]>(this.BaseURI + "/getByProgramIdSelectList?programId=" + programId)
     }
 
+    editPlan(plan: Plan) {
+        return this.http.put<ResponseMessage>(this.BaseURI + "/editPlan", plan)
+    }
+
+    deletePlan(planId: string) {
+        return this.http.delete<ResponseMessage>(this.BaseURI + "/deletePlan?planId=" + planId)
+    }
 
 
 

@@ -42,7 +42,7 @@ export class AddCaseTypeComponent {
         TotalPayment: [this.caseType.TotalPayment, Validators.required],
         Counter: [this.caseType.Counter, Validators.required],
         MeasurementUnit: [this.caseType.MeasurementUnit, Validators.required],
-        Code: [this.caseType.Code, Validators.required],
+        Code: [this.caseType.Code],
 
         Remark: [this.caseType.Remark],
 
@@ -55,7 +55,7 @@ export class AddCaseTypeComponent {
       TotalPayment: [0, Validators.required],
       Counter: [0, Validators.required],
       MeasurementUnit: ['', Validators.required],
-      Code: ['', Validators.required],
+      Code: [''],
       CaseForm: ['', Validators.required],
       Remark: [''],
 

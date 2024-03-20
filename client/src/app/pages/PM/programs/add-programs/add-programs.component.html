@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add Programs</h5>
+        <h5 class="modal-title">{{program?'Update':'Add'}} Programs</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -17,8 +17,8 @@
                                     formControlName="ProgramBudgetYearId" aria-label="State">
 
                                     <option></option>
-                                        <option *ngFor="let pb of programBudgetYears" value={{pb.Id}}>{{pb.Name}}</option>
-                             
+                                    <option *ngFor="let pb of programBudgetYears" value={{pb.Id}}>{{pb.Name}}</option>
+
 
                                 </select>
                                 <label for="ProgramBudgetYearId">Program Budget year</label>
@@ -34,8 +34,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="number" class="form-control" id="ProgramPlannedBudget" placeholder="PlannedBudget"
-                                    formControlName="ProgramPlannedBudget">
+                                <input type="number" class="form-control" id="ProgramPlannedBudget"
+                                    placeholder="PlannedBudget" formControlName="ProgramPlannedBudget">
                                 <label for="ProgramPlannedBudget">Planned Budget</label>
                             </div>
                         </div>
@@ -51,7 +51,10 @@
                 </div>
                 <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                         (click)="closeModal()">Close</button>
-                    <button type="button" type="submit" [disabled]="!programForm.valid" class="btn btn-success">Create</button>
+                    <button type="button" type="submit" [disabled]="!programForm.valid"
+                        [class]="program?'btn btn-outline-warning':  'btn btn-outline-primary'">
+                        {{program?'Update':'Create'}}
+                    </button>
                 </div>
             </form>
 

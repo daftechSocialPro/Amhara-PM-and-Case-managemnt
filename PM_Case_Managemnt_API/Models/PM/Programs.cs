@@ -14,7 +14,6 @@ namespace PM_Case_Managemnt_API.Models.PM
         public virtual SubsidiaryOrganization? SubsidiaryOrganization { get; set; }
         public Guid SubsidiaryOrganizationId { get; set; }
         
-
         
     }
 }

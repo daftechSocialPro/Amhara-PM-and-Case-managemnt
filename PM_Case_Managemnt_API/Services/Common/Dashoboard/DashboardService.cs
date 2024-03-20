@@ -194,7 +194,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
 
             var allAffairs = _dBContext.Cases.Include(x=>x.CaseType).Where(x => x.CreatedAt.Year == gerYear && x.SubsidiaryOrganizationId == subOrgId).ToList();
-            var allAffairTypes = _dBContext.CaseTypes.Where(x => x.RowStatus == RowStatus.Active && x.ParentCaseTypeId == null && x.CaseForm == CaseForm.Outside).ToList();
+            var allAffairTypes = _dBContext.CaseTypes.Where(x => x.RowStatus == RowStatus.Active && x.ParentCaseTypeId == null && x.CaseForm == CaseForm.Outside && x.SubsidiaryOrganizationId == subOrgId).ToList();
             var monthList = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
             foreach (var affairType in allAffairTypes)
             {

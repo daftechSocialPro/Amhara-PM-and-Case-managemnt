@@ -2,10 +2,10 @@ export interface SelectList {
 
     Id: string;
     Name: string;
-    Photo?:string;
-    EmployeeId ?: string; 
-    CommiteeStatus?: string ;
-    
+    Photo?: string;
+    EmployeeId?: string;
+    CommiteeStatus?: string;
+
 }
 
 export interface ProgramBudgetYear {
@@ -36,13 +36,18 @@ export interface BudgetYearwithoutId {
     Year: Number;
     FromDate: Date;
     ToDate: Date;
-    Remark: String; 
+    Remark: String;
     CreatedBy: String
 
 }
 
 
-export interface GetStartEndDate{
+export interface GetStartEndDate {
     fromDate: string;
     endDate: string;
+}
+export interface ResponseMessage {
+    Success: boolean;
+    Message: string;
+    Data: any;
 }

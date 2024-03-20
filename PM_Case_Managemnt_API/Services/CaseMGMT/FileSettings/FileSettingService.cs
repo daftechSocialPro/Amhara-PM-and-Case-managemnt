@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.CaseDto;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.CaseModel;
 
 namespace PM_Case_Managemnt_API.Services.CaseService.FileSettings
@@ -37,6 +38,54 @@ namespace PM_Case_Managemnt_API.Services.CaseService.FileSettings
             }
         }
 
+        public async Task<ResponseMessage> UpdateFilesetting(FileSettingPostDto fileSettingPost)
+        {
+            try
+            {
+                var fileSet = await _dbContext.FileSettings.FindAsync(fileSettingPost.Id);
+
+
+                fileSet.FileName = fileSettingPost.Name;
+                fileSet.FileType = Enum.Parse<FileType>(fileSettingPost.FileType);
+                fileSet.CaseTypeId = fileSettingPost.CaseTypeId;
+        
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage { Success = false, Message = ex.ToString() };
+            }
+
+            return new ResponseMessage { Success= true , Message = "File Updated Successfully"};
+        }
+
+
+        public async Task<ResponseMessage> DeleteFileSetting(Guid fileId)
+        {
+            try
+            {
+                var fileSet = await _dbContext.FileSettings.FindAsync(fileId);
+
+                if(fileSet != null)
+                {
+                    _dbContext.FileSettings.Remove(fileSet);
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    return new ResponseMessage { Success = false, Message = "File Setting Not Found" };
+                }
+                
+                
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage { Success = false, Message = ex.ToString() };
+            }
+
+            return new ResponseMessage { Success = true, Message = "File Setting Deleted Successfully" };
+
+        }
         public async Task<List<FileSettingGetDto>> GetAll(Guid subOrgId)
         {
             try

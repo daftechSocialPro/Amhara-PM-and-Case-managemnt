@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.PM;
 using PM_Case_Managemnt_API.Services.Common;
 using PM_Case_Managemnt_API.Services.PM;
@@ -53,6 +54,18 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         {
             var response = await _programService.GetProgramsById(programId);
             return response;
+        }
+
+        [HttpPut("editProgram")]
+        public async Task<IActionResult> UpdateProgram(ProgramPostDto program)
+        {
+            return Ok(await _programService.UpdateProgram(program));
+        }
+
+        [HttpDelete("deleteProgram")]
+        public async Task<IActionResult> DeleteProgram(Guid programId)
+        {
+            return Ok(await _programService.DeleteProgram(programId));
         }
     }
 }

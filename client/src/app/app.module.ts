@@ -187,6 +187,8 @@ import { AnalyticsDashboardComponent } from './pages/Analytics/analytics-dashboa
 import { ChangePasswordComponent } from './pages/common/user-management/change-password/change-password.component';
 import { ManageRolesComponent } from './pages/common/user-management/manage-roles/manage-roles.component';
 import { PickListModule } from 'primeng/picklist';
+import { InsideCaseComponent } from './pages/case/inside-case/inside-case.component';
+import { AddInsideCaseComponent } from './pages/case/inside-case/add-inside-case/add-inside-case.component';
 
 @NgModule({
   declarations: [
@@ -338,7 +340,9 @@ import { PickListModule } from 'primeng/picklist';
     AssignTargetToBranchComponent,
     AnalyticsDashboardComponent,
     ChangePasswordComponent,
-    ManageRolesComponent
+    ManageRolesComponent,
+    InsideCaseComponent,
+    AddInsideCaseComponent
    
    
   ],

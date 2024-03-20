@@ -22,6 +22,7 @@
                   <th scope="col">File Name </th>
                   <th scope="col">File Type </th>
                   <th scope="col">Row status </th>
+                  <th scope="col">Action </th>
 
 
                </tr>
@@ -34,8 +35,8 @@
                   <td>{{file.FileType}}</td>
                   <td>{{file.RowStatus}} </td>
                   <td>
-                     <button class="btn btn-secondary text-end mb-2 m-2"> Edit </button>
-                     <button class="btn btn-secondary text-end mb-2 m-2"> Remove </button>
+                     <button class="btn btn-sm btn-outline-warning mt-2" (click)="UpdateFileSetting(file)"><i class="pi pi-pencil"></i></button><br/>
+                    <button class="btn btn-sm btn-outline-danger mt-2" (click)="DeleteFileSetting(file.Id)"><i class="pi pi-trash"></i></button>
                   </td>
                </tr>
             </tbody>

@@ -21,15 +21,19 @@ namespace PM_Case_Managemnt_API.Services.Common
 
 
             //var orgainzationProfile = _dBContext.OrganizationProfile.FirstOrDefault();
-            var id = Guid.NewGuid();
+            //var id = Guid.NewGuid();
+            if (orgStructure.Id == Guid.Empty || orgStructure.Id == null)
+            {
+                orgStructure.Id = Guid.NewGuid();
+            }
             if (orgStructure.OrganizationBranchId == Guid.Empty || orgStructure.OrganizationBranchId == null)
             {
-                orgStructure.OrganizationBranchId = id;
+                orgStructure.OrganizationBranchId = (Guid)orgStructure.Id;
             }
-
+            
             var orgStructure2 = new OrganizationalStructure
             {
-                Id = id,
+                Id = (Guid)orgStructure.Id,
                 OrganizationBranchId = orgStructure.OrganizationBranchId,
                 //OrganizationProfileId = orgainzationProfile.Id,
                 SubsidiaryOrganizationId = orgStructure.SubsidiaryOrganizationId,
@@ -60,8 +64,7 @@ namespace PM_Case_Managemnt_API.Services.Common
                                                       select new OrgStructureDto
                                                       {
                                                           Id = x.Id,
-                                                          BranchName = x.ParentStructure.IsBranch ? x.ParentStructure.StructureName : "",
-                                                          OrganizationBranchId = x.ParentStructure.IsBranch? x.ParentStructure.Id:Guid.NewGuid(),
+                                                          OrganizationBranchId = x.OrganizationBranchId,
                                                           SubsidiaryOrganizationId = x.SubsidiaryOrganizationId,
                                                           ParentStructureName = x.ParentStructure.StructureName,
                                                           ParentStructureId = x.ParentStructure.Id,
@@ -74,7 +77,13 @@ namespace PM_Case_Managemnt_API.Services.Common
                                                           Remark = x.Remark
 
                                                       }).ToListAsync();
+            foreach(var structure in structures)
+            {
 
+                var orgBranch = await _dBContext.OrganizationalStructures.FindAsync(structure.OrganizationBranchId);
+                structure.BranchName = orgBranch.StructureName;
+            }
+            
 
 
             return structures;
