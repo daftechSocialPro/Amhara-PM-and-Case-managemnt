@@ -35,6 +35,6 @@ namespace PM_Case_Managemnt_API.Models.Common
     {
         Director,
         Secertary,
-        Member
+        Expert
     }
 }

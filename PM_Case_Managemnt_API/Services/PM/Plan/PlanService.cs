@@ -227,7 +227,7 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
             }
 
         }
-        public async Task<ResponseMessage> DeleteProject(Guid planId)
+        public async Task<ResponseMessage> DeletePlan(Guid planId)
         {
             var plan = await _dBContext.Plans.FindAsync(planId);
 

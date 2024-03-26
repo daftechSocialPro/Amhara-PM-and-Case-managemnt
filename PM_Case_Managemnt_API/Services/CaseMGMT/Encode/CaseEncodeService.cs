@@ -6,6 +6,7 @@ using PM_Case_Managemnt_API.DTOS.CaseDto;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Hubs;
+using PM_Case_Managemnt_API.Hubs.EncoderHub;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Services.CaseMGMT.CaseForwardService;
@@ -18,10 +19,15 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
     public class CaseEncodeService : ICaseEncodeService
     {
         private readonly DBContext _dbContext;
+        private readonly AuthenticationContext _authenticationContext;
+        private IHubContext<EncoderHub, IEncoderHubInterface> _encoderHub;
 
-        public CaseEncodeService(DBContext dbContext)
+        public CaseEncodeService(DBContext dbContext, AuthenticationContext authenticationContext,
+            IHubContext<EncoderHub, IEncoderHubInterface> encoderHub)
         {
             _dbContext = dbContext;
+            _authenticationContext = authenticationContext;
+            _encoderHub = encoderHub;
         }
 
         public async Task<string> Add(CaseEncodePostDto caseEncodePostDto)
@@ -39,7 +45,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                     RowStatus = Models.Common.RowStatus.Active,
                     CreatedBy = caseEncodePostDto.CreatedBy,
                     ApplicantId = caseEncodePostDto.ApplicantId,
-                    //EmployeeId = caseEncodePostDto.EmployeeId,
+                    EmployeeId = caseEncodePostDto.EmployeeId,
                     LetterNumber = caseEncodePostDto.LetterNumber,
                     LetterSubject = caseEncodePostDto.LetterSubject,
                     CaseTypeId = caseEncodePostDto.CaseTypeId,
@@ -55,7 +61,94 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                 await _dbContext.AddAsync(newCase);
                 await _dbContext.SaveChangesAsync();
 
+                CaseType caseType = _dbContext.CaseTypes.Find(caseEncodePostDto.CaseTypeId);
 
+                if (caseType.CaseForm == CaseForm.Inside)
+                {
+                    Employee emp = _dbContext.Employees.Find(caseEncodePostDto.EmployeeId);
+                    CaseAssignDto caseAssignDto = new CaseAssignDto
+                    {
+                        CaseId = caseType.Id,
+                        AssignedByEmployeeId = emp.Id,
+                        AssignedToEmployeeId = emp.Id,
+                        AssignedToStructureId = emp.OrganizationalStructureId,
+                        ForwardedToStructureId = new Guid[] { emp.OrganizationalStructureId }
+
+                    };
+
+
+                    try
+                    {
+                        string userId = _authenticationContext.ApplicationUsers.Where(x => x.EmployeesId == caseAssignDto.AssignedByEmployeeId).FirstOrDefault().Id;
+                        Case caseToAssign = await _dbContext.Cases.SingleOrDefaultAsync(el => el.Id.Equals(newCase.Id));
+                        // CaseHistory caseHistory = await _dbContext.CaseHistories.SingleOrDefaultAsync(el => el.CaseId.Equals(caseAssignDto.CaseId));
+
+                        if (caseAssignDto.ForwardedToStructureId != null)
+                        {
+                            var startupHistory = new CaseHistory
+                            {
+                                Id = Guid.NewGuid(),
+                                CreatedAt = DateTime.Now,
+                                CreatedBy = Guid.Parse(userId),
+                                RowStatus = RowStatus.Active,
+                                CaseId = newCase.Id,
+                                CaseTypeId = caseToAssign.CaseTypeId,
+                                AffairHistoryStatus = AffairHistoryStatus.Pend,
+                                FromEmployeeId = caseAssignDto.AssignedByEmployeeId,
+                                FromStructureId = emp.OrganizationalStructureId,
+                                ReciverType = ReciverType.Orginal,
+                                ToStructureId = caseAssignDto.AssignedToStructureId,
+                                ToEmployeeId = emp.Id,
+
+                            };
+                            startupHistory.SecreateryNeeded = (caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null) ? true : false;
+
+                            caseToAssign.AffairStatus = AffairStatus.Assigned;
+                            _dbContext.Entry(caseToAssign).Property(x => x.AffairStatus).IsModified = true;
+
+                            await _dbContext.CaseHistories.AddAsync(startupHistory);
+                            await _dbContext.SaveChangesAsync();
+
+                            //foreach (var row in caseAssignDto.ForwardedToStructureId)
+                            //{
+
+
+
+                            //    CaseHistory history = new()
+                            //    {
+                            //        Id = Guid.NewGuid(),
+                            //        CreatedAt = DateTime.Now,
+                            //        CreatedBy = Guid.Parse(userId),
+                            //        CaseId = newCase.Id,
+                            //        AffairHistoryStatus = AffairHistoryStatus.Pend,
+                            //        FromEmployeeId = caseAssignDto.AssignedByEmployeeId,
+                            //        FromStructureId = emp.OrganizationalStructureId,
+                            //        ToStructureId = row,
+                            //        ReciverType = ReciverType.Cc,
+                            //        ToEmployeeId = emp.Id,
+                            //        RowStatus = RowStatus.Active,
+
+                            //    };
+                            //    await _dbContext.CaseHistories.AddAsync(history);
+                            //    await _dbContext.SaveChangesAsync();
+
+                            //}
+                        }
+                        var assigndCase = await GetAllTransfred(emp.Id);
+
+
+                        await _encoderHub.Clients.Group(emp.Id.ToString()).getNotification(assigndCase, emp.Id.ToString());
+
+                        //await _encoderHub.Clients.All.getNotification(assigndCase);
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+
+                }
 
                 return newCase.Id.ToString();
             }

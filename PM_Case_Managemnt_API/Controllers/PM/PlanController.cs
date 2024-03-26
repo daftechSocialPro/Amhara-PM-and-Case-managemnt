@@ -75,7 +75,7 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         [HttpDelete("deletePlan")]
         public async Task<IActionResult> DeleteProject(Guid planId)
         {
-            return Ok(await _planService.DeleteProject(planId));
+            return Ok(await _planService.DeletePlan(planId));
         }
 
 

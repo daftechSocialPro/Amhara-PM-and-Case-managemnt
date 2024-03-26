@@ -39,8 +39,6 @@ export class AddProgramsComponent implements OnInit {
         console.log("res", res)
         this.programBudgetYears = res
         const BudgetYear = this.programBudgetYears.find(x => x.Name == this.program.ProgramBudgetYear)?.Id
-
-
         this.programForm.controls['ProgramBudgetYearId'].setValue(BudgetYear)
       }, error: (err) => {
 

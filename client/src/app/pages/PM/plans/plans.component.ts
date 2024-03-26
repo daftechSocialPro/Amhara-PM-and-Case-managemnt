@@ -27,7 +27,7 @@ export class PlansComponent implements OnInit {
 
 
   ngOnInit(): void {
-  
+
     this.programId = this.activeRoute.snapshot.paramMap.get('programId')!
     this.user = this.userService.getCurrentUser()
     this.listPlans()
@@ -50,21 +50,26 @@ export class PlansComponent implements OnInit {
 
 
   addPlan() {
-
     let modalRef = this.modalService.open(AddPlansComponent, { size: 'xl', backdrop: 'static' });
     modalRef.result.then((res) => {
       this.listPlans()
     })
+  }
 
+  editPlan() {
+    let modalRef = this.modalService.open(AddPlansComponent, { size: 'xl', backdrop: 'static' });
+    modalRef.result.then((res) => {
+      this.listPlans()
+    })
   }
 
   tasks(plan: PlanView) {
     const planId = plan ? plan.Id : null
-    if(plan.HasTask){
+    if (plan.HasTask) {
       this.router.navigate(['task', { planId: planId }]);
     }
-    else{
-      this.router.navigate(['activityparent',{parentId:planId,requestFrom:'PLAN'}])
+    else {
+      this.router.navigate(['activityparent', { parentId: planId, requestFrom: 'PLAN' }])
     }
   }
 
@@ -75,7 +80,7 @@ export class PlansComponent implements OnInit {
     return styles;
   }
 
-  routeToPlanDetail(planId: string){
+  routeToPlanDetail(planId: string) {
 
     this.router.navigate(['/planDetail', planId]);
   }

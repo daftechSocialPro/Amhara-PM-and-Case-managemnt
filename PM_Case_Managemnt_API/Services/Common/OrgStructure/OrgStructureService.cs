@@ -56,7 +56,7 @@ namespace PM_Case_Managemnt_API.Services.Common
             return 1;
 
         }
-        public async Task<List<OrgStructureDto>> GetOrganizationStructures(Guid SubOrgId, Guid ? BranchId)
+        public async Task<List<OrgStructureDto>> GetOrganizationStructures(Guid SubOrgId, Guid? BranchId)
         {
 
             List<OrgStructureDto> structures = await (from x in _dBContext.OrganizationalStructures.Include(x => x.ParentStructure).Where(x=>x.SubsidiaryOrganizationId == SubOrgId && x.OrganizationBranchId == BranchId)
@@ -92,11 +92,11 @@ namespace PM_Case_Managemnt_API.Services.Common
         public async Task<List<SelectListDto>> getParentStrucctureSelectList(Guid branchId)
         {
 
-            List<SelectListDto> list = await (from x in _dBContext.OrganizationalStructures.Where(y => y.OrganizationBranchId == branchId && y.ParentStructureId !=null && !y.IsBranch)
+            List<SelectListDto> list = await (from x in _dBContext.OrganizationalStructures.Where(y => y.OrganizationBranchId == branchId  && (!y.IsBranch || y.Id == branchId))
                                               select new SelectListDto
                                               {
                                                   Id = x.Id,
-                                                  Name = x.StructureName
+                                                  Name = x.StructureName + (x.IsBranch ? "( Branch )" : "")
 
                                               }).ToListAsync();
 

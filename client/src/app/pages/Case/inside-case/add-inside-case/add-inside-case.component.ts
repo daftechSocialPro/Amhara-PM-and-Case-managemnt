@@ -23,7 +23,7 @@ export class AddInsideCaseComponent implements OnInit {
   applicants!: SelectList[];
   InsideCases!: SelectList[];
   fileSettings!: SelectList[];
-  childCases ! : SelectList[]
+  childCases !: SelectList[]
   toast!: toastPayload;
   CaseNumber!: string;
   Documents: any;
@@ -55,15 +55,15 @@ export class AddInsideCaseComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser();
     this.getCaseNumber();
- 
+
     this.getInsideCases();
     this.caseForm.controls['EmployeeId'].setValue(this.user.EmployeeId)
   }
 
 
   onImagesScannedUpdate(images: any) {
-    
-    
+
+
     const fileArray = [];
     for (let i = 0; i < images.length; i++) {
 
@@ -71,7 +71,7 @@ export class AddInsideCaseComponent implements OnInit {
       fileArray.push(Filee);
 
     }
- 
+
     this.Documents = this.createFileList(fileArray);
   }
 
@@ -88,7 +88,7 @@ export class AddInsideCaseComponent implements OnInit {
   }
 
   getInsideCases() {
-    this.caseService.getCaseTypeByCaseForm('Inside',this.user.SubOrgId).subscribe({
+    this.caseService.getCaseTypeByCaseForm('Inside', this.user.SubOrgId).subscribe({
       next: (res) => {
         this.InsideCases = res;
       },
@@ -99,11 +99,11 @@ export class AddInsideCaseComponent implements OnInit {
   }
 
 
-  getFiles (casetTypeId: string){
+  getFiles(casetTypeId: string) {
 
     this.getChildCases(casetTypeId),
-    this.getFileSettings(casetTypeId)
-    
+      this.getFileSettings(casetTypeId)
+
   }
 
   getFileSettings(casetTypeId: string) {
@@ -131,132 +131,137 @@ export class AddInsideCaseComponent implements OnInit {
 
   submit() {
     if (this.caseForm.valid) {
+      console.log("this.caseForm", this.caseForm)
+      if (!this.Documents) {
 
-      if (!this.Documents){
+        let modalRef = this.modalService.open(ConfirmationDialogComponent)
+        modalRef.componentInstance.title = "Confirmation"
+        modalRef.componentInstance.message = "Are you sure you want to continue with out documents?"
+        modalRef.componentInstance.btnCancelText = "Cancel"
+        modalRef.componentInstance.btnOkText = "Confirm"
 
-      let modalRef = this.modalService.open(ConfirmationDialogComponent)
-      modalRef.componentInstance.title = "Confirmation"
-      modalRef.componentInstance.message ="Are you sure you want to continue with out documents?"
-      modalRef.componentInstance.btnCancelText = "Cancel"
-      modalRef.componentInstance.btnOkText = "Confirm"
-
-      modalRef.result.then((res)=>{
-        if(res){
-          const formData = new FormData();
-          if (this.Documents) {
-            for (let file of this.Documents) {
-              formData.append('attachments', file);
+        modalRef.result.then((res) => {
+          if (res) {
+            const formData = new FormData();
+            if (this.Documents) {
+              for (let file of this.Documents) {
+                formData.append('attachments', file);
+              }
             }
-          }
-    
-          for (let file of this.settingsFile) {
-            formData.append(
-              'fileSettings',
-              file.File,
-              `${file.FileSettingId}.${file.File.name.split('.').reverse()[0]}`
-            );
-          }
-    
-          formData.set('CaseNumber', this.CaseNumber);
-          formData.set('LetterNumber', this.caseForm.value.LetterNumber);
-          formData.set('LetterSubject', this.caseForm.value.LetterSubject);
-          formData.set('CaseTypeId', this.caseForm.value.CaseTypeId);
-          formData.set('EmployeeId', this.user.EmployeeId);
-          formData.set('PhoneNumber2', this.caseForm.value.PhoneNumber2);
-          formData.set('Representative', this.caseForm.value.Representative);
-          formData.set('CreatedBy', this.user.UserID);
-    
-         
-    
-          this.caseService.addCase(formData).subscribe({
-            next: (res) => {
-              this.toast = {
-                message: ' Case Successfully Created',
-                title: 'Successfully Created.',
-                type: 'success',
-                ic: {
-                  timeOut: 2500,
-                  closeButton: true,
-                } as IndividualConfig,
-              };
-              this.commonService.showToast(this.toast);
-          
-              this.closeModal();
-            },
-            error: (err) => {
-              this.toast = {
-                message: err.message,
-                title: 'Something went wrong.',
-                type: 'error',
-                ic: {
-                  timeOut: 2500,
-                  closeButton: true,
-                } as IndividualConfig,
-              };
-              this.commonService.showToast(this.toast);
-             
-            },
-          });
+
+            for (let file of this.settingsFile) {
+              formData.append(
+                'fileSettings',
+                file.File,
+                `${file.FileSettingId}.${file.File.name.split('.').reverse()[0]}`
+              );
+            }
+
+            formData.set('CaseNumber', this.CaseNumber);
+            formData.set('LetterNumber', this.caseForm.value.LetterNumber);
+            formData.set('LetterSubject', this.caseForm.value.LetterSubject);
+            formData.set('CaseTypeId', this.caseForm.value.CaseTypeId);
+            formData.set('EmployeeId', this.user.EmployeeId);
+            formData.set('PhoneNumber2', this.caseForm.value.PhoneNumber2);
+            formData.set('Representative', this.caseForm.value.Representative);
+            formData.set('SubsidiaryOrganizationId', this.user.SubOrgId);
+            formData.set('CreatedBy', this.user.UserID);
 
 
-        }
-      })
+
+
+
+
+
+            this.caseService.addCase(formData).subscribe({
+              next: (res) => {
+                this.toast = {
+                  message: ' Case Successfully Created',
+                  title: 'Successfully Created.',
+                  type: 'success',
+                  ic: {
+                    timeOut: 2500,
+                    closeButton: true,
+                  } as IndividualConfig,
+                };
+                this.commonService.showToast(this.toast);
+
+                this.closeModal();
+              },
+              error: (err) => {
+                this.toast = {
+                  message: err.message,
+                  title: 'Something went wrong.',
+                  type: 'error',
+                  ic: {
+                    timeOut: 2500,
+                    closeButton: true,
+                  } as IndividualConfig,
+                };
+                this.commonService.showToast(this.toast);
+
+              },
+            });
+
+
+          }
+        })
       }
       else {
-      const formData = new FormData();
-      if (this.Documents) {
-        for (let file of this.Documents) {
-          formData.append('attachments', file);
+        const formData = new FormData();
+        if (this.Documents) {
+          for (let file of this.Documents) {
+            formData.append('attachments', file);
+          }
         }
-      }
 
-      for (let file of this.settingsFile) {
-        formData.append(
-          'fileSettings',
-          file.File,
-          `${file.FileSettingId}.${file.File.name.split('.').reverse()[0]}`
-        );
-      }
+        for (let file of this.settingsFile) {
+          formData.append(
+            'fileSettings',
+            file.File,
+            `${file.FileSettingId}.${file.File.name.split('.').reverse()[0]}`
+          );
+        }
 
-      formData.set('CaseNumber', this.CaseNumber);
-      formData.set('LetterNumber', this.caseForm.value.LetterNumber);
-      formData.set('LetterSubject', this.caseForm.value.LetterSubject);
-      formData.set('CaseTypeId', this.caseForm.value.CaseTypeId);
-      formData.set('EmployeeId', this.user.EmployeeId);
-      formData.set('PhoneNumber2', this.caseForm.value.PhoneNumber2);
-      formData.set('Representative', this.caseForm.value.Representative);
-      formData.set('CreatedBy', this.user.UserID);
+        formData.set('CaseNumber', this.CaseNumber);
+        formData.set('LetterNumber', this.caseForm.value.LetterNumber);
+        formData.set('LetterSubject', this.caseForm.value.LetterSubject);
+        formData.set('CaseTypeId', this.caseForm.value.CaseTypeId);
+        formData.set('EmployeeId', this.user.EmployeeId);
+        formData.set('PhoneNumber2', this.caseForm.value.PhoneNumber2);
+        formData.set('Representative', this.caseForm.value.Representative);
+        formData.set('CreatedBy', this.user.UserID);
+        formData.set('SubsidiaryOrganizationId', this.user.SubOrgId);
 
-   
 
-      this.caseService.addCase(formData).subscribe({
-        next: (res) => {
-          this.toast = {
-            message: ' Case Successfully Created',
-            title: 'Successfully Created.',
-            type: 'success',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-          this.closeModal();
-        },
-        error: (err) => {
-          this.toast = {
-            message: err.message,
-            title: 'Something went wrong.',
-            type: 'error',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-          
-        },
-      });
+        this.caseService.addCase(formData).subscribe({
+          next: (res) => {
+            this.toast = {
+              message: ' Case Successfully Created',
+              title: 'Successfully Created.',
+              type: 'success',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+            this.closeModal();
+          },
+          error: (err) => {
+            this.toast = {
+              message: err.message,
+              title: 'Something went wrong.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+
+          },
+        });
       }
     } else {
     }
@@ -266,7 +271,7 @@ export class AddInsideCaseComponent implements OnInit {
 
   onFileSelected(event: any) {
     this.Documents = event.target.files;
-   
+
 
   }
   createFileList(files: File[]): FileList {

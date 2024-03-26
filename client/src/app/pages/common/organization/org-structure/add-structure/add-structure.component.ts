@@ -25,13 +25,13 @@ export class AddStructureComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal, private userService: UserService) {
 
     this.structureForm = this.formBuilder.group({
-      OrganizationBranchId:['',Validators.required],
-      IsBranch: [false , Validators.required],
-      OfficeNumber:[""],
-      ParentStructureId: [null,Validators.required],
+      OrganizationBranchId: ['', Validators.required],
+      IsBranch: [false, Validators.required],
+      OfficeNumber: [""],
+      ParentStructureId: [null, Validators.required],
       StructureName: ['', Validators.required],
       Order: ['', Validators.required],
-      Weight: ['', Validators.required,Validators.min(1)],
+      Weight: ['', [Validators.required, Validators.min(1)]],
       Remark: ['']
     })
   }
@@ -44,7 +44,7 @@ export class AddStructureComponent implements OnInit {
           this.branchList = res
           console.log('this.branchList: ', this.branchList);
         },
-        
+
         error: (err) => console.error(err)
       })
 

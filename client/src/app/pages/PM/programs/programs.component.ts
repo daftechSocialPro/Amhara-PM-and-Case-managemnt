@@ -92,7 +92,7 @@ export class ProgramsComponent implements OnInit {
       accept: () => {
         this.programService.deleteProgram(programId).subscribe({
           next: (res) => {
-            debugger
+
             if (res.Success) {
               this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: res.Message });
               this.listPrograms()
