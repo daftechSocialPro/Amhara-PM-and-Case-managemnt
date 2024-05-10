@@ -134,6 +134,23 @@ namespace XAPI
             }
             return day + "/" + month + "/" + Convert.ToString(Year);
         }
+
+        public static string GetEthiopicDateUS(int intGCDay, int intGCMonth, int intGCYear)
+        {
+            SetEThiopicDate(intGCDay, intGCMonth, intGCYear);
+            string day = Day.ToString();
+            string month = Month.ToString();
+            if (month.Length == 1)
+            {
+                month = "0" + month;
+            }
+            if (day.Length == 1)
+            {
+                day = "0" + day;
+            }
+            return month + "/" + day + "/" + Convert.ToString(Year);
+        }
+
         public static string GetGregorianStringFormatedDate(int intEthDay, int intEthMonth, int intEthYear)
         {
             SetGCDate(intEthDay, intEthMonth, intEthYear);

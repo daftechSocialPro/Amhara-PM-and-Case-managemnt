@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IndividualConfig } from 'ngx-toastr';
@@ -9,7 +9,7 @@ import { OrganizationService } from 'src/app/pages/common/organization/organizat
 import { Program } from '../../programs/Program';
 import { ProgramService } from '../../programs/programs.services';
 import { PlanService } from '../plan.service';
-import { Plan } from '../plans';
+import { Plan, PlanView } from '../plans';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 
@@ -20,6 +20,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 })
 export class AddPlansComponent implements OnInit {
 
+  @Input() plan!: PlanView
   toast !: toastPayload;
   planForm!: FormGroup;
   employee!: SelectList;
@@ -51,20 +52,40 @@ export class AddPlansComponent implements OnInit {
     this.listEmployees();
     this.listPorgrams();
     this.listBranchs();
-    this.planForm = this.formBuilder.group({
+    if(this.plan){
+      this.planForm = this.formBuilder.group({
 
-      PlanName: ['', Validators.required],
-      BudgetYearId: ['', Validators.required],
-      StructureId: ['', Validators.required],
-      ProgramId: ['', Validators.required,],
-      PlanWeight: [0, [Validators.required, Validators.max(this.program?.RemainingWeight!)]],
-      HasTask: [false, Validators.required],
-      PlandBudget: [0, [Validators.required, Validators.max(this.program?.RemainingBudget!)]],
-      ProjectType: ['', Validators.required],
-      ProjectFunder: [''],
-      Remark: ['']
+        PlanName: [this.plan.PlanName, Validators.required],
+        BudgetYearId: ['', Validators.required],
+        BranchId: ['', Validators.required],
+        StructureId: ['', Validators.required],
+        ProgramId: ['', Validators.required,],
+        PlanWeight: [this.plan.PlanWeight, [Validators.required, Validators.max(this.program?.RemainingWeight!)]],
+        HasTask: [this.plan.HasTask, Validators.required],
+        PlandBudget: [this.plan.PlandBudget, [Validators.required, Validators.max(this.program?.RemainingBudget!)]],
+        ProjectType: [this.plan.ProjectType, Validators.required],
+        ProjectFunder: [this.plan.ProjectFunder],
+        Remark: [this.plan.Remark]
+  
+      })
+    }
+    else{
+      this.planForm = this.formBuilder.group({
 
-    })
+        PlanName: ['', Validators.required],
+        BudgetYearId: ['', Validators.required],
+        StructureId: ['', Validators.required],
+        ProgramId: ['', Validators.required],
+        PlanWeight: [0, [Validators.required, Validators.max(this.program?.RemainingWeight!)]],
+        HasTask: [false, Validators.required],
+        PlandBudget: [0, [Validators.required, Validators.max(this.program?.RemainingBudget!)]],
+        ProjectType: ['', Validators.required],
+        ProjectFunder: [''],
+        Remark: ['']
+  
+      })
+    }
+    
 
   }
 
@@ -73,6 +94,11 @@ export class AddPlansComponent implements OnInit {
     this.orgService.getOrgStructureSelectList(branchId).subscribe({
       next: (res) => {
         this.Structures = res
+        if(this.plan){
+          const struct = this.Structures.find(x => x.Id == this.plan.StructureId)?.Id
+          this.planForm.controls['StructureId'].setValue(struct)
+        }
+        
       }, error: (err) => {
         console.log(err)
       }
@@ -84,6 +110,10 @@ export class AddPlansComponent implements OnInit {
     this.orgService.getOrgBranchSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.Branchs = res
+        if(this.plan){
+          this.planForm.controls['BranchId'].setValue(this.plan.BranchId)
+          this.onBranchChange(this.plan.BranchId!)
+        }
       }, error: (err) => {
         console.error(err)
       }
@@ -107,6 +137,11 @@ export class AddPlansComponent implements OnInit {
     this.programService.getProgramsSelectList(this.user.SubOrgId).subscribe({
       next: (res) => {
         this.Programs = res
+        if(this.plan){
+          this.planForm.controls['ProgramId'].setValue(this.plan.ProgramId)
+          this.OnPorgramChange(this.plan.ProgramId!)
+        }
+        
       },
       error: (err) => {
         console.error(err)
@@ -120,6 +155,10 @@ export class AddPlansComponent implements OnInit {
     this.budgetYearService.getBudgetYearByProgramId(value).subscribe({
       next: (res) => {
         this.BudgetYears = res
+        if(this.plan){
+          this.planForm.controls['BudgetYearId'].setValue(this.plan.BudgetYearId)
+        }
+        
       }, error: (err) => {
         console.error(err)
       }
@@ -244,6 +283,10 @@ export class AddPlansComponent implements OnInit {
     this.orgService.getOrgStructureSelectList(branchId).subscribe({
       next: (res) => {
         this.Structures = res
+        if(this.plan){
+          const struct = this.Structures.find(x => x.Id == this.plan.StructureId)?.Id
+          this.planForm.controls['StructureId'].setValue(struct)
+        }
       }, error: (err) => {
 
         console.error(err)

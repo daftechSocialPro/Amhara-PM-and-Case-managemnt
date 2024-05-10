@@ -46,7 +46,9 @@
                                     <button class="btn btn-success text-white" data-bs-toggle="modal"
                                         data-bs-target="#BudgetYearList" (click)="budgetYearsDetails(pby)">
                                         <i class="bi bi-card-list"></i>&nbsp; Budget Years 
-                                    </button>
+                                    </button><br/>
+                                    <button class="btn btn-sm btn-outline-warning mt-2" (click)="UpdateProjectBudgetYear(pby)"><i class="pi pi-pencil"></i></button> &nbsp;
+                                    <button class="btn btn-sm btn-outline-danger mt-2" (click)="DeleteProjectBudgetYear(pby.Id!)"><i class="pi pi-trash"></i></button>
 
                                     <!-- <a  (click)="hello()" class="btn btn-primary">Primary</a> -->
                                 </td>

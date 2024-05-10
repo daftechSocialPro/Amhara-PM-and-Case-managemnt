@@ -189,6 +189,7 @@ import { ManageRolesComponent } from './pages/common/user-management/manage-role
 import { PickListModule } from 'primeng/picklist';
 import { InsideCaseComponent } from './pages/case/inside-case/inside-case.component';
 import { AddInsideCaseComponent } from './pages/case/inside-case/add-inside-case/add-inside-case.component';
+import { OrganizationProfileDetailComponent } from './pages/common/organization/org-profile/organization-profile-detail/organization-profile-detail.component';
 
 @NgModule({
   declarations: [
@@ -342,7 +343,8 @@ import { AddInsideCaseComponent } from './pages/case/inside-case/add-inside-case
     ChangePasswordComponent,
     ManageRolesComponent,
     InsideCaseComponent,
-    AddInsideCaseComponent
+    AddInsideCaseComponent,
+    OrganizationProfileDetailComponent
    
    
   ],

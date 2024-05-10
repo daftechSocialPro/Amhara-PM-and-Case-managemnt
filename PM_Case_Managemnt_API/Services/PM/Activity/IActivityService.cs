@@ -1,5 +1,6 @@
 ﻿using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.PM;
 
 
@@ -35,6 +36,9 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
         public Task<List<SelectListDto>> GetEmployeesInBranch(Guid branchId);
 
         public Task<ReponseMessage> AssignEmployees(ActivityEmployees activityEmployee);
+
+        public Task<ResponseMessage> UpdateActivityDetails(SubActivityDetailDto activityDetail);
+        public Task<ResponseMessage> DeleteActivity(Guid activityId, Guid taskId);
 
 
     }

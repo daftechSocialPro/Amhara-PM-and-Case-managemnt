@@ -30,8 +30,8 @@ export class OrganizationService {
     return this.http.put(this.BaseURI + "/Organization", formData, { reportProgress: true, observe: 'events' })
 
   }
-  getOrganizationalProfile() {
-    return this.http.get<OrganizationProfile>(this.BaseURI + "/Organization")
+  getOrganizationalProfile(subOrgId: string) {
+    return this.http.get<OrganizationProfile>(this.BaseURI + "/Organization?orgProId" + subOrgId)
   }
 
   //Subsidiary Organization

@@ -15,6 +15,7 @@ export interface ComiteeAdd {
     Name : string ; 
     Remark : string ;
     CreatedBy? : string ;
+    SubsidiaryOrganizationId?: string
   
 }
 

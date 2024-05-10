@@ -83,9 +83,9 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
         }
         [HttpGet]
 
-        public async Task<OrganizationProfile> getProfile()
+        public async Task<OrganizationProfile> getProfile(Guid orgProId)
         {
-            return await _organizationProfileService.GetOrganizationProfile();
+            return await _organizationProfileService.GetOrganizationProfile(orgProId);
         }
         [HttpPut, DisableRequestSizeLimit]
         public IActionResult ProfileUpdate()

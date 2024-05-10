@@ -24,6 +24,7 @@
                                 <th scope="col">From Date</th>
                                 <th scope="col">To Date</th>
                                 <th scope="col">Remark</th>
+                                <th scope="col">Action</th>
 
 
                             </tr>
@@ -37,6 +38,9 @@
                                 <td>{{by.FromDate}}</td>
                                 <td>{{by.ToDate}}</td>
                                 <td>{{by.Remark}}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning mt-2" (click)="UpdateBudgetYear(by)"><i class="pi pi-pencil"></i></button> &nbsp;
+                                    <button class="btn btn-sm btn-outline-danger mt-2" (click)="DeleteBudgetYear(by.Id)"><i class="pi pi-trash"></i></button></td>
 
 
                             </tr>

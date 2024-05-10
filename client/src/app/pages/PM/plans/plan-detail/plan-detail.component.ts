@@ -4,7 +4,6 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddTasksComponent } from '../../tasks/add-tasks/add-tasks.component';
 import { AddActivitiesComponent } from '../../activity-parents/add-activities/add-activities.component';
 import { ActivityTargetComponent } from '../../view-activties/activity-target/activity-target.component';
-
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { TaskView } from '../../tasks/task';
@@ -13,10 +12,11 @@ import { ActivityView } from '../../view-activties/activityview';
 import { PlanService } from '../plan.service';
 import { PlanSingleview } from '../plans';
 import { GetStartEndDate } from 'src/app/pages/common/common';
-import { ActivityDetailDto } from '../../activity-parents/add-activities/add-activities';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 import { AssignTargetToBranchComponent } from './assign-target-to-branch/assign-target-to-branch.component';
 import { AssignEmployeesActivityComponent } from './assign-employees-activity/assign-employees-activity.component';
+import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { PMService } from '../../pm.services';
 
 @Component({
   selector: 'app-plan-detail',
@@ -49,10 +49,11 @@ export class PlanDetailComponent implements OnInit {
     private userService: UserService,
     private modalService : NgbModal,
     private router : Router,
-    private orgService: OrganizationService
+    private orgService: OrganizationService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private pmService: PMService,
     
-
-
   ) { }
 
   ngOnInit(): void {
@@ -72,8 +73,6 @@ export class PlanDetailComponent implements OnInit {
       this.items2= Array(4).fill(0);
     }
   }
-
-
 
 
   getPlans() {
@@ -99,8 +98,9 @@ export class PlanDetailComponent implements OnInit {
         if (res.ActivityViewDtos !== undefined) {
           const result = res.ActivityViewDtos;
           result.forEach((actParent) => {
-            console.log('actparent',actParent)
+            
             if (actParent.Id !== undefined) {
+              console.log('actparent',actParent)
               this.getSingleParentActivities(actParent.Id)
             }  
           });
@@ -157,6 +157,58 @@ export class PlanDetailComponent implements OnInit {
     })
 
   }
+  editTask(task: TaskView) {
+    let modalRef = this.modalService.open(AddTasksComponent, { size: 'xl', backdrop: 'static' })
+    modalRef.componentInstance.plan = this.plan
+    modalRef.componentInstance.task = task
+    modalRef.result.then((res) => {
+      this.getPlans()
+    })
+
+  }
+
+  deleteTask(taskId: string) {
+
+    this.confirmationService.confirm({
+      message: 'Are You sure you want to delete this Task?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.taskService.deleteTask(taskId).subscribe({
+          next: (res) => {
+
+            if (res.Success) {
+              this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: res.Message });
+              this.getPlans()
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: res.Message });
+            }
+          }, error: (err) => {
+
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: err });
+
+
+          }
+        })
+
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+            break;
+        }
+      },
+      key: 'positionDialog'
+    });
+
+
+  }
+
 
   addActivity(task:TaskView) {
     let modalRef = this.modalService.open(AddActivitiesComponent, { size: "xl", backdrop: 'static' })
@@ -171,9 +223,74 @@ export class PlanDetailComponent implements OnInit {
     modalRef.componentInstance.requestFrom = "ACTIVITY";
     modalRef.componentInstance.requestFromId = task.Id;
     modalRef.componentInstance.dateAndTime = dateTime
+    modalRef.result.then((res) => {
+      this.getPlans()
+    })
 
     }
 
+  editActivity(task:TaskView, activity:ActivityView) {
+    let modalRef = this.modalService.open(AddActivitiesComponent, { size: "xl", backdrop: 'static' })
+
+    var dateTime : GetStartEndDate={
+      fromDate:this.Plans.StartDate.toString(),
+      endDate:this.Plans.EndDate.toString()
+    }
+
+    
+    modalRef.componentInstance.task = task
+    modalRef.componentInstance.requestFrom = "ACTIVITY";
+    modalRef.componentInstance.requestFromId = task.Id;
+    modalRef.componentInstance.dateAndTime = dateTime
+    modalRef.componentInstance.activity = activity
+    modalRef.result.then((res) => {
+      this.getPlans()
+    })
+
+  }
+
+
+  deleteActivity(activityId: string, taskId: string) {
+
+    this.confirmationService.confirm({
+      message: 'Are You sure you want to delete this Activity?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.pmService.deleteActivity(activityId, taskId).subscribe({
+          next: (res) => {
+
+            if (res.Success) {
+              this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: res.Message });
+              this.getPlans()
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: res.Message });
+            }
+          }, error: (err) => {
+
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: err });
+
+
+          }
+        })
+
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+            break;
+        }
+      },
+      key: 'positionDialog'
+    });
+
+
+  }
 
     
   AssignTarget(actview:ActivityView ) {

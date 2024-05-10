@@ -34,6 +34,11 @@ namespace PM_Case_Managemnt_API.DTOS.PM
 
         public ProjectType? ProjectType { get; set; }
         public float? UsedBudget { get; set; }
+        public float? OfficeWork { get; set; }
+        public float? FieldWork { get; set; }
+        public Guid? CommiteeId { get; set; }
+        public string? StartDateEth { get; set; }
+        public string? EndDateEth { get; set; }
     }
 
     public class MonthPerformanceViewDto

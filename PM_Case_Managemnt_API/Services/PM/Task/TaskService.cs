@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Models.PM;
 using System.Net.Sockets;
@@ -127,10 +129,19 @@ namespace PM_Case_Managemnt_API.Services.PM
                                             Members = new List<SelectListDto>(),
                                             MonthPerformance = new List<MonthPerformanceViewDto>(),
                                             OverAllProgress = 0,
-                                            UsedBudget = activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByFinance == approvalStatus.approved).Sum(x => x.ActualBudget)
+                                            UsedBudget = activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByFinance == approvalStatus.approved).Sum(x => x.ActualBudget),
 
-                                        }
-                                  ).ToList());
+                                            StartDateEth = e.ShouldStartPeriod != null
+                                                    ? XAPI.EthiopicDateTime.GetEthiopicDateUS(e.ShouldStartPeriod.Value.Day, e.ShouldStartPeriod.Value.Month, e.ShouldStartPeriod.Value.Year)
+                                                     : null,
+                                            EndDateEth = e.ShouldEnd != null
+                                                ? XAPI.EthiopicDateTime.GetEthiopicDateUS(e.ShouldEnd.Value.Day, e.ShouldEnd.Value.Month, e.ShouldEnd.Value.Year)
+                                                : null,
+                                            OfficeWork = 0,
+                                            FieldWork = 0,
+
+                                           }
+                                        ).ToList());
 
 
                 activityViewDtos.AddRange((from e in _dBContext.Activities.Include(x => x.UnitOfMeasurement)
@@ -178,15 +189,23 @@ namespace PM_Case_Managemnt_API.Services.PM
 
                                             }).ToList(),
                                             OverAllProgress = e.Goal != 0 ? activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByDirector == approvalStatus.approved && x.IsApprovedByFinance == approvalStatus.approved && x.IsApprovedByManager == approvalStatus.approved).Sum(x => x.ActualWorked) * 100 / e.Goal : 0,
-                                            UsedBudget = activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByFinance == approvalStatus.approved).Sum(x => x.ActualBudget)
+                                            UsedBudget = activityProgress.Where(x => x.ActivityId == e.Id && x.IsApprovedByFinance == approvalStatus.approved).Sum(x => x.ActualBudget),
+                                            OfficeWork = e.OfficeWork,
+                                            FieldWork = e.FieldWork,
+                                            CommiteeId = e.CommiteeId,
+                                            StartDateEth = e.ShouldStat != null
+                                                    ? XAPI.EthiopicDateTime.GetEthiopicDateUS(e.ShouldStat.Day, e.ShouldStat.Month, e.ShouldStat.Year)
+                                                     : null,
+                                            EndDateEth = e.ShouldEnd != null
+                                                ? XAPI.EthiopicDateTime.GetEthiopicDateUS(e.ShouldEnd.Day, e.ShouldEnd.Month, e.ShouldEnd.Year)
+                                                : null,
+
+
 
                                         }
                                           ).ToList());
 
                 
-
-
-
 
 
 
@@ -468,7 +487,204 @@ namespace PM_Case_Managemnt_API.Services.PM
         }
 
 
+        public async Task<ResponseMessage> UpdateTask(TaskDto updateTask)
+        {
+            try
+            {
+                var task = await _dBContext.Tasks.FindAsync(updateTask.Id);
+
+                if (task != null)
+                {
+                    task.TaskDescription = updateTask.TaskDescription;
+                    task.PlanedBudget = updateTask.PlannedBudget;
+                    task.HasActivityParent = updateTask.HasActvity;
+                    task.PlanId = updateTask.PlanId;
+
+                    await _dBContext.SaveChangesAsync();
+
+                    return new ResponseMessage
+                    {
+                        Success = true,
+                        Message = "Task Updated Successfully"
+                    };
+                }
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = "Task Not Found"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = ex.Message.ToString()
+                };
+            }
+        }
+
+        public async Task<ResponseMessage> DeleteTask(Guid taskId)
+        {
+            var task = await _dBContext.Tasks.FindAsync(taskId);
+
+            if (task != null)
+            {
+                
+                var taskMemos = await _dBContext.TaskMemos.Where(x => x.TaskId == task.Id).ToListAsync();
+                var taskMembers = await _dBContext.TaskMembers.Where(x => x.TaskId == task.Id).ToListAsync();
+
+                if (taskMemos.Any())
+                {
+                    _dBContext.TaskMemos.RemoveRange(taskMemos);
+                    await _dBContext.SaveChangesAsync();
+                }
+                if (taskMembers.Any())
+                {
+                    _dBContext.TaskMembers.RemoveRange(taskMembers);
+                    await _dBContext.SaveChangesAsync();
+                }
+
+                var activityParents = await _dBContext.ActivityParents.Where(x => x.TaskId == task.Id).ToListAsync();
+
+                if (activityParents.Any())
+                {
+                    foreach (var actP in activityParents)
+                    {
+                        var actvities = await _dBContext.Activities.Where(x => x.ActivityParentId == actP.Id).ToListAsync();
+
+                        foreach (var act in actvities)
+                        {
+                            var actProgress = await _dBContext.ActivityProgresses.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+                            foreach (var actpro in actProgress)
+                            {
+                                var progAttachments = await _dBContext.ProgressAttachments.Where(x => x.ActivityProgressId == actpro.Id).ToListAsync();
+                                if (progAttachments.Any())
+                                {
+                                    _dBContext.ProgressAttachments.RemoveRange(progAttachments);
+                                    await _dBContext.SaveChangesAsync();
+                                }
+
+                            }
+
+                            if (actProgress.Any())
+                            {
+                                _dBContext.ActivityProgresses.RemoveRange(actProgress);
+                                await _dBContext.SaveChangesAsync();
+                            }
+
+                            var activityTargets = await _dBContext.ActivityTargetDivisions.Where(x => x.ActivityId == act.Id).ToListAsync();
 
 
+                            if (activityTargets.Any())
+                            {
+                                _dBContext.ActivityTargetDivisions.RemoveRange(activityTargets);
+                                await _dBContext.SaveChangesAsync();
+                            }
+
+
+                            var employees = await _dBContext.EmployeesAssignedForActivities.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                            if (activityTargets.Any())
+                            {
+                                _dBContext.EmployeesAssignedForActivities.RemoveRange(employees);
+                                await _dBContext.SaveChangesAsync();
+                            }
+
+
+
+
+
+                        }
+                    }
+
+                    _dBContext.ActivityParents.RemoveRange(activityParents);
+                    await _dBContext.SaveChangesAsync();
+
+                }
+                var actvities2 = await _dBContext.Activities.Where(x => x.TaskId == task.Id).ToListAsync();
+
+                if (actvities2.Any())
+                {
+                    foreach (var act in actvities2)
+                    {
+                        var actProgress = await _dBContext.ActivityProgresses.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+                        foreach (var actpro in actProgress)
+                        {
+                            var progAttachments = await _dBContext.ProgressAttachments.Where(x => x.ActivityProgressId == actpro.Id).ToListAsync();
+                            if (progAttachments.Any())
+                            {
+                                _dBContext.ProgressAttachments.RemoveRange(progAttachments);
+                                await _dBContext.SaveChangesAsync();
+                            }
+
+                        }
+
+                        if (actProgress.Any())
+                        {
+                            _dBContext.ActivityProgresses.RemoveRange(actProgress);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+                        var activityTargets = await _dBContext.ActivityTargetDivisions.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                        if (activityTargets.Any())
+                        {
+                            _dBContext.ActivityTargetDivisions.RemoveRange(activityTargets);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+
+                        var employees = await _dBContext.EmployeesAssignedForActivities.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                        if (employees.Any())
+                        {
+                            _dBContext.EmployeesAssignedForActivities.RemoveRange(employees);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+                        if (activityParents.Any())
+                        {
+                            _dBContext.ActivityParents.RemoveRange(activityParents);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+
+
+                    }
+
+                    _dBContext.Activities.RemoveRange(actvities2);
+                    await _dBContext.SaveChangesAsync();
+                }
+
+                
+                _dBContext.Tasks.Remove(task);
+                await _dBContext.SaveChangesAsync();
+
+                return new ResponseMessage
+                {
+
+                    Success = true,
+                    Message = "Task Deleted Successfully !!!"
+
+                };
+
+            }
+            return new ResponseMessage
+            {
+
+                Success = false,
+                Message = "Task Not Found !!!"
+
+            };
+        }
+            
+
+ 
     }
 }

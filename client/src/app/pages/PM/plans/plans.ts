@@ -33,6 +33,15 @@ export interface PlanView {
     NumberOfActivities: number,
     NumberOfTaskCompleted: number,
     HasTask:Number,
+    //
+    BudgetYearId?: string
+    ProgramId?: string
+    Remark?: string
+    StructureId?: string;
+    ProjectManagerId?: string;
+    FinanceId?: string;
+    ProjectFunder?:string
+    BranchId?:string
 
 
 

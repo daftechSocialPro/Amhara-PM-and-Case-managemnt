@@ -8,6 +8,7 @@ import { PlanService } from './plan.service';
 import { PlanView } from './plans';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
+import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
 
 @Component({
   selector: 'app-plans',
@@ -23,7 +24,10 @@ export class PlansComponent implements OnInit {
     private planService: PlanService,
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private userService: UserService) { }
+    private userService: UserService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+    ) { }
 
 
   ngOnInit(): void {
@@ -56,11 +60,54 @@ export class PlansComponent implements OnInit {
     })
   }
 
-  editPlan() {
+  editPlan(plan:PlanView) {
     let modalRef = this.modalService.open(AddPlansComponent, { size: 'xl', backdrop: 'static' });
+    modalRef.componentInstance.plan = plan
     modalRef.result.then((res) => {
       this.listPlans()
     })
+  }
+
+  deletePlan(planId: string) {
+
+    this.confirmationService.confirm({
+      message: 'Are You sure you want to delete this Plan?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.planService.deletePlan(planId).subscribe({
+          next: (res) => {
+
+            if (res.Success) {
+              this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: res.Message });
+              this.listPlans()
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: res.Message });
+            }
+          }, error: (err) => {
+
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: err });
+
+
+          }
+        })
+
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+            break;
+        }
+      },
+      key: 'positionDialog'
+    });
+
+
   }
 
   tasks(plan: PlanView) {

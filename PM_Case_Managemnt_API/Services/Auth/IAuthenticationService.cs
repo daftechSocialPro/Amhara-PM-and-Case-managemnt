@@ -17,6 +17,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
         Task<ResponseMessage> AssignRole(UserRoleDto userRole);
         Task<ResponseMessage> RevokeRole(UserRoleDto userRole);
         Task<ResponseMessage> ChangePasswordAdmin(ChangePasswordModel model);
+        Task<ResponseMessage> DeleteUser(string userId);
 
 
 

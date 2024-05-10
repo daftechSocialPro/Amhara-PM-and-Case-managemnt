@@ -45,6 +45,17 @@ namespace PM_Case_Managemnt_API.Services.Common.SubOrganization
             try
             {
                 var OrganizationProfileId = _dBContext.OrganizationProfile.FirstOrDefault();
+                var OrganizationProfile = new OrganizationProfile
+                {
+                    Id = Guid.NewGuid(),
+                    OrganizationNameEnglish = subOrg.OrganizationNameEnglish,
+                    OrganizationNameInLocalLanguage = subOrg.OrganizationNameInLocalLanguage,
+                    Address = subOrg.Address,
+                    PhoneNumber = subOrg.PhoneNumber,
+                    Logo = " "
+                };
+
+
                 var subOrganization = new Models.Common.Organization.SubsidiaryOrganization
                 {
                     Id = Guid.NewGuid(),

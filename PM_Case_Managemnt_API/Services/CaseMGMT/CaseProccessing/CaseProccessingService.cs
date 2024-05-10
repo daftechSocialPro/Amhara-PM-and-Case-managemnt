@@ -202,6 +202,8 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 _dbContext.Entry(selectedCase).Property(x => x.CompletedAt).IsModified = true;
                 _dbContext.Entry(selectedCase).Property(x => x.AffairStatus).IsModified = true;
 
+                await _dbContext.CaseAttachments.AddRangeAsync(caseCompleteDto.CaseAttachments);
+
                 await _dbContext.SaveChangesAsync();
 
                 var employees = await _dbContext.Employees.Include(x => x.OrganizationalStructure).Where(x => x.Id == selectedHistory.ToEmployeeId).ToListAsync();
@@ -324,10 +326,10 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 _dbContext.Entry(currentLastHistory).Property(c => c.TransferedDateTime).IsModified = true;
 
                 var toEmployee = caseTransferDto.ToEmployeeId == Guid.Empty || caseTransferDto.ToEmployeeId == null ?
-       _dbContext.Employees.FirstOrDefault(
-           e =>
-               e.OrganizationalStructureId == caseTransferDto.ToStructureId &&
-               e.Position == Position.Director).Id : caseTransferDto.ToEmployeeId;
+                   _dbContext.Employees.FirstOrDefault(
+                       e =>
+                           e.OrganizationalStructureId == caseTransferDto.ToStructureId &&
+                           e.Position == Position.Director).Id : caseTransferDto.ToEmployeeId;
 
 
                 var newHistory = new CaseHistory

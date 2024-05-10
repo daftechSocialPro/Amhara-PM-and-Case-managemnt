@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add Task</h5>
+        <h5 class="modal-title">{{task?'Update':'Add'}} Task</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -45,7 +45,8 @@
                         <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                                 (click)="closeModal()">Close</button>
                             <button type="button" type="submit" [disabled]="!taskForm.valid"
-                                class="btn btn-success">Create</button>
+                            [class]="task?'btn btn-outline-warning':  'btn btn-outline-primary'">
+                            {{task?'Update':'Create'}}</button>
                         </div>
                     </form>
                 </div>

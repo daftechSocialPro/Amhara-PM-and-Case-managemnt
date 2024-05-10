@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
 import { Token, User, UserView } from './user';
-import { SelectList } from '../common/common';
+import { ResponseMessage, SelectList } from '../common/common';
 import { UserManagment } from '../common/user-management/user-managment';
 import { Employee } from '../common/organization/employee/employee';
 @Injectable({
@@ -101,5 +101,9 @@ export class UserService {
   }
   changePasswordAdmin(data:any){
     return this.http.post(this.BaseURI + "/ApplicationUser/ChangePasswordAdmin",data)
+  }
+
+  deleteUser(userId: string){
+    return this.http.delete<ResponseMessage>(this.BaseURI + "/ApplicationUser/DeleteUser?userId="+ userId)
   }
 }

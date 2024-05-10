@@ -10,6 +10,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { PMService } from '../../pm.services';
 import { TaskView } from '../../tasks/task';
 import {  ActivityDetailDto, SubActivityDetailDto } from './add-activities';
+import { ActivityView } from '../../view-activties/activityview';
 declare const $: any
 
 @Component({
@@ -19,7 +20,7 @@ declare const $: any
 })
 export class AddActivitiesComponent implements OnInit {
 
-
+  @Input() activity!: ActivityView
   @Input() task!: TaskView;
   @Input() requestFrom!: string;
   @Input() requestFromId!: string;
@@ -30,8 +31,8 @@ export class AddActivitiesComponent implements OnInit {
   unitMeasurments: SelectList[] = [];
   toast!: toastPayload;
   comitteEmployees : SelectList[]=[];
-
-  isClassfiedtoBranch:boolean= false
+  employeeId!: string[]
+  isClassfiedtoBranch!:boolean
 
 
 
@@ -43,32 +44,7 @@ export class AddActivitiesComponent implements OnInit {
     private pmService: PMService,
     private orgService: OrganizationService,
     private commonService: CommonService
-  ) {
-
-    this.activityForm = this.formBuilder.group({
-      StartDate: ['', Validators.required],
-      EndDate: ['', Validators.required],
-      ActivityDescription: ['', Validators.required],
-      PlannedBudget: ['', [Validators.required,Validators.max(this.task?.RemainingBudget!)]],
-      Weight: ['', [Validators.required,Validators.max(this.task?.RemianingWeight!)]],
-      ActivityType: [''],
-      OfficeWork: [0, Validators.required],
-      FieldWork: [0, Validators.required],
-      UnitOfMeasurement: ['', Validators.required],
-      PreviousPerformance: [0, [Validators.required,Validators.max(100),Validators.min(0)]],
-      Goal: [0,[Validators.required,Validators.max(100),Validators.min(0)]],
-      WhomToAssign: [''],
-      TeamId: [null],
-      CommiteeId: [null],
-      AssignedEmployee: [],
-      IsClassfiedToBranch:[false,Validators.required]
-
-
-
-
-
-    })
-  }
+  ) {}
 
 
 
@@ -79,24 +55,7 @@ export class AddActivitiesComponent implements OnInit {
   ngOnInit(): void {
 
     this.user = this.userService.getCurrentUser()
-
-    this.pmService.getComitteeSelectList().subscribe({
-      next: (res) => {
-        this.committees = res
-      }, error: (err) => {
-        console.log(err)
-      }
-    })
-
-    this.orgService.getUnitOfMeasurmentSelectList(this.user.SubOrgId).subscribe({
-      next: (res) => {
-        this.unitMeasurments = res
-      }, error: (err) => {
-        console.log(err)
-      }
-    })
-
-
+    console.log("this.activity",this.activity)
     $('#StartDate').calendarsPicker({
       calendar: $.calendars.instance('ethiopian', 'am'),
 
@@ -114,6 +73,104 @@ export class AddActivitiesComponent implements OnInit {
        
       },
     })
+
+    this.orgService.getUnitOfMeasurmentSelectList(this.user.SubOrgId).subscribe({
+      next: (res) => {
+        this.unitMeasurments = res
+      }, error: (err) => {
+        console.log(err)
+      }
+    })
+
+    if(this.activity){
+      this.isClassfiedtoBranch = this.activity.IsClassfiedToBranch
+      this.activityForm = this.formBuilder.group({
+        StartDate: [this.activity.StartDateEth!, Validators.required],
+        EndDate: [this.activity.EndDateEth!, Validators.required],
+        ActivityDescription: [this.activity.Name, Validators.required],
+        PlannedBudget: [this.activity.PlannedBudget, [Validators.required,Validators.max(this.task?.RemainingBudget!)]],
+        Weight: [this.activity.Weight, [Validators.required,Validators.max(this.task?.RemianingWeight!)]],
+        ActivityType: [this.activity.ActivityType],
+        OfficeWork: [this.activity.OfficeWork, Validators.required],
+        FieldWork: [this.activity.FieldWork, Validators.required],
+        UnitOfMeasurement: [this.activity.UnitOfMeasurmentId, Validators.required],
+        PreviousPerformance: [this.activity.Begining, [Validators.required,Validators.max(100),Validators.min(0)]],
+        Goal: [this.activity.Target,[Validators.required,Validators.max(100),Validators.min(0)]],
+        WhomToAssign: [''],
+        CommiteeId: [this.activity.CommiteeId],
+        AssignedEmployee: [this.activity.Members?.map(member => member.EmployeeId!) || []],
+        IsClassfiedToBranch:[this.activity.IsClassfiedToBranch,Validators.required]
+  
+      })
+    }
+    else{
+      this.activityForm = this.formBuilder.group({
+        StartDate: ['', Validators.required],
+        EndDate: ['', Validators.required],
+        ActivityDescription: ['', Validators.required],
+        PlannedBudget: ['', [Validators.required,Validators.max(this.task?.RemainingBudget!)]],
+        Weight: ['', [Validators.required,Validators.max(this.task?.RemianingWeight!)]],
+        ActivityType: [''],
+        OfficeWork: [0, Validators.required],
+        FieldWork: [0, Validators.required],
+        UnitOfMeasurement: ['', Validators.required],
+        PreviousPerformance: [0, [Validators.required,Validators.max(100),Validators.min(0)]],
+        Goal: [0,[Validators.required,Validators.max(100),Validators.min(0)]],
+        WhomToAssign: [''],
+        TeamId: [null],
+        CommiteeId: [null],
+        AssignedEmployee: [],
+        IsClassfiedToBranch:[false,Validators.required]
+  
+      })
+    }
+
+    
+    this.pmService.getComitteeSelectList(this.user.SubOrgId).subscribe({
+      next: (res) => {
+        this.committees = res
+        if(this.activity){
+          if(this.activity.IsClassfiedToBranch == false){
+            if(this.committees.find(x => x.Id === this.activity.CommiteeId)){
+              this.activityForm.controls['CommiteeId'].setValue(this.activity.CommiteeId)
+              this.activityForm.controls['WhomToAssign'].setValue(0)
+            }
+            else{
+              this.activityForm.controls['WhomToAssign'].setValue(1)
+            }
+          }
+          
+        }
+      }, error: (err) => {
+        console.log(err)
+      }
+    })
+
+    if(this.activity){
+      this.checkActivityType()
+    }
+
+  }
+
+  checkActivityType(){
+    
+    if(this.activity.ActivityType == "Both"){
+      this.activityForm.controls['ActivityType'].setValue(0)
+    }
+    if(this.activity.ActivityType == "Office_Work"){
+      this.activityForm.controls['ActivityType'].setValue(1)
+    }
+    if(this.activity.ActivityType == "Fild_Work"){
+      this.activityForm.controls['ActivityType'].setValue(2)
+    }
+    
+  }
+  checkAssignType(){
+    const firstMemberId = this.activity.Members?.[0]?.Id;
+    
+    this.employeeId = this.activity.Members?.map(member => member.EmployeeId!) || [];
+    console.log("employeeIds", this.employeeId)
+    return 1
 
   }
 
@@ -142,134 +199,196 @@ export class AddActivitiesComponent implements OnInit {
 
   addSubActivity(){
     if (this.activityForm.valid) {
-      let actvityP: SubActivityDetailDto = {
-        SubActivityDesctiption: this.activityForm.value.ActivityDescription,
-        StartDate: this.activityForm.value.StartDate,
-        EndDate: this.activityForm.value.EndDate,
-        PlannedBudget: this.activityForm.value.PlannedBudget,
-        Weight: this.activityForm.value.Weight,
-        ActivityType: this.activityForm.value.ActivityType,
-        OfficeWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.OfficeWork : this.activityForm.value.ActivityType == 1 ? 100 : 0,
-        FieldWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.FieldWork : this.activityForm.value.ActivityType == 2 ? 100 : 0,
-        UnitOfMeasurement: this.activityForm.value.UnitOfMeasurement,
-        PreviousPerformance: this.activityForm.value.PreviousPerformance,
-        Goal: this.activityForm.value.Goal,
-        TeamId: this.activityForm.value.TeamId,
-        TaskId : this.task.Id,
-        CommiteeId: this.activityForm.value.CommiteeId,
-        IsClassfiedToBranch:this.activityForm.value.IsClassfiedToBranch,
-        Employees: this.activityForm.value.AssignedEmployee
-      }
-      // if(this.requestFrom == "PLAN"){
-      //   actvityP.PlanId = this.requestFromId;
-      // }
-      // else if(this.requestFrom == "TASK"){
-      //   actvityP.TaskId = this.requestFromId;
-      // }
-
-      console.log("act",actvityP)
-
-      this.pmService.addSubActivity(actvityP).subscribe({
-        next: (res) => {
-          this.toast = {
-            message: ' Activity Successfully Created',
-            title: 'Successfully Created.',
-            type: 'success',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-          window.location.reload()
-          this.closeModal()
-         
-        }, error: (err) => {
-          this.toast = {
-            message: err.message,
-            title: 'Something went wrong.',
-            type: 'error',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-          console.error(err)
+      if(this.activity){
+        let actvityP: SubActivityDetailDto = {
+          Id: this.activity.Id,
+          SubActivityDesctiption: this.activityForm.value.ActivityDescription,
+          StartDate: this.activityForm.value.StartDate,
+          EndDate: this.activityForm.value.EndDate,
+          PlannedBudget: this.activityForm.value.PlannedBudget,
+          Weight: this.activityForm.value.Weight,
+          ActivityType: this.activityForm.value.ActivityType,
+          OfficeWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.OfficeWork : this.activityForm.value.ActivityType == 1 ? 100 : 0,
+          FieldWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.FieldWork : this.activityForm.value.ActivityType == 2 ? 100 : 0,
+          UnitOfMeasurement: this.activityForm.value.UnitOfMeasurement,
+          PreviousPerformance: this.activityForm.value.PreviousPerformance,
+          Goal: this.activityForm.value.Goal,
+          TeamId: this.activityForm.value.TeamId,
+          TaskId : this.task.Id,
+          CommiteeId: this.activityForm.value.CommiteeId,
+          IsClassfiedToBranch:this.activityForm.value.IsClassfiedToBranch,
+          Employees: this.activityForm.value.AssignedEmployee
         }
-      })
+        // if(this.requestFrom == "PLAN"){
+        //   actvityP.PlanId = this.requestFromId;
+        // }
+        // else if(this.requestFrom == "TASK"){
+        //   actvityP.TaskId = this.requestFromId;
+        // }
+  
+        console.log("act",actvityP)
+  
+        this.pmService.editActivity(actvityP).subscribe({
+          next: (res) => {
+            this.toast = {
+              message: ' Activity Successfully Updated',
+              title: 'Successfully Updated.',
+              type: 'success',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+            window.location.reload()
+            this.closeModal()
+           
+          }, error: (err) => {
+            this.toast = {
+              message: err.message,
+              title: 'Something went wrong.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+            console.error(err)
+          }
+        })
+      }
+      else{
+        let actvityP: SubActivityDetailDto = {
+          SubActivityDesctiption: this.activityForm.value.ActivityDescription,
+          StartDate: this.activityForm.value.StartDate,
+          EndDate: this.activityForm.value.EndDate,
+          PlannedBudget: this.activityForm.value.PlannedBudget,
+          Weight: this.activityForm.value.Weight,
+          ActivityType: this.activityForm.value.ActivityType,
+          OfficeWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.OfficeWork : this.activityForm.value.ActivityType == 1 ? 100 : 0,
+          FieldWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.FieldWork : this.activityForm.value.ActivityType == 2 ? 100 : 0,
+          UnitOfMeasurement: this.activityForm.value.UnitOfMeasurement,
+          PreviousPerformance: this.activityForm.value.PreviousPerformance,
+          Goal: this.activityForm.value.Goal,
+          TeamId: this.activityForm.value.TeamId,
+          TaskId : this.task.Id,
+          CommiteeId: this.activityForm.value.CommiteeId,
+          IsClassfiedToBranch:this.activityForm.value.IsClassfiedToBranch,
+          Employees: this.activityForm.value.AssignedEmployee
+        }
+        // if(this.requestFrom == "PLAN"){
+        //   actvityP.PlanId = this.requestFromId;
+        // }
+        // else if(this.requestFrom == "TASK"){
+        //   actvityP.TaskId = this.requestFromId;
+        // }
+  
+        console.log("act",actvityP)
+  
+        this.pmService.addSubActivity(actvityP).subscribe({
+          next: (res) => {
+            this.toast = {
+              message: ' Activity Successfully Created',
+              title: 'Successfully Created.',
+              type: 'success',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+            window.location.reload()
+            this.closeModal()
+           
+          }, error: (err) => {
+            this.toast = {
+              message: err.message,
+              title: 'Something went wrong.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+            console.error(err)
+          }
+        })
+      }
+      
     }
   }
 
-  addActivityParent(){
-    if (this.activityForm.valid) {
-      let actvityP: SubActivityDetailDto = {
-        SubActivityDesctiption: this.activityForm.value.ActivityDescription,
-        StartDate: this.activityForm.value.StartDate,
-        EndDate: this.activityForm.value.EndDate,
-        PlannedBudget: this.activityForm.value.PlannedBudget,
-        Weight: this.activityForm.value.Weight,
-        ActivityType: this.activityForm.value.ActivityType,
-        OfficeWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.OfficeWork : this.activityForm.value.ActivityType == 1 ? 100 : 0,
-        FieldWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.FieldWork : this.activityForm.value.ActivityType == 2 ? 100 : 0,
-        UnitOfMeasurement: this.activityForm.value.UnitOfMeasurement,
-        PreviousPerformance: this.activityForm.value.PreviousPerformance,
-        Goal: this.activityForm.value.Goal,
-        TeamId: this.activityForm.value.TeamId,
-        CommiteeId: this.activityForm.value.CommiteeId,
-        IsClassfiedToBranch:this.activityForm.value.IsClassfiedToBranch,
-        TaskId : this.task.Id,  
-        Employees: this.activityForm.value.AssignedEmployee
-      }
+  // addActivityParent(){
+  //   if (this.activityForm.valid) {
+  //     let actvityP: SubActivityDetailDto = {
+  //       SubActivityDesctiption: this.activityForm.value.ActivityDescription,
+  //       StartDate: this.activityForm.value.StartDate,
+  //       EndDate: this.activityForm.value.EndDate,
+  //       PlannedBudget: this.activityForm.value.PlannedBudget,
+  //       Weight: this.activityForm.value.Weight,
+  //       ActivityType: this.activityForm.value.ActivityType,
+  //       OfficeWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.OfficeWork : this.activityForm.value.ActivityType == 1 ? 100 : 0,
+  //       FieldWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.FieldWork : this.activityForm.value.ActivityType == 2 ? 100 : 0,
+  //       UnitOfMeasurement: this.activityForm.value.UnitOfMeasurement,
+  //       PreviousPerformance: this.activityForm.value.PreviousPerformance,
+  //       Goal: this.activityForm.value.Goal,
+  //       TeamId: this.activityForm.value.TeamId,
+  //       CommiteeId: this.activityForm.value.CommiteeId,
+  //       IsClassfiedToBranch:this.activityForm.value.IsClassfiedToBranch,
+  //       TaskId : this.task.Id,  
+  //       Employees: this.activityForm.value.AssignedEmployee
+  //     }
 
-      // if(this.requestFrom == "Plan"){
-      //   actvityP.PlanId = this.requestFromId;
-      // }
-      // else if(this.requestFrom == "Task"){
-      //   actvityP.TaskId = this.requestFromId;
-      // }
+  //     // if(this.requestFrom == "Plan"){
+  //     //   actvityP.PlanId = this.requestFromId;
+  //     // }
+  //     // else if(this.requestFrom == "Task"){
+  //     //   actvityP.TaskId = this.requestFromId;
+  //     // }
 
-      let activityList : SubActivityDetailDto[] = [];
-      activityList.push(actvityP);
+  //     let activityList : SubActivityDetailDto[] = [];
+  //     activityList.push(actvityP);
 
-      let addActivityDto: ActivityDetailDto = {
-        ActivityDescription: this.activityForm.value.ActivityDescription,
-        HasActivity: false,
-        TaskId: this.task.Id!,
-        CreatedBy: this.user.UserID,
-        ActivityDetails: activityList
-      }
-      console.log("activity detail", addActivityDto)
-      this.pmService.addActivityParent(addActivityDto).subscribe({
-        next: (res) => {
-          this.toast = {
-            message: ' Activity Successfully Created',
-            title: 'Successfully Created.',
-            type: 'success',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          window.location.reload()
-          this.commonService.showToast(this.toast);
-          this.closeModal()
-        }, error: (err) => {
-          this.toast = {
-            message: err.message,
-            title: 'Something went wrong.',
-            type: 'error',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-          console.error(err)
-        }
-      })
-    }
-  }
+  //     let addActivityDto: ActivityDetailDto = {
+  //       ActivityDescription: this.activityForm.value.ActivityDescription,
+  //       HasActivity: false,
+  //       TaskId: this.task.Id!,
+  //       CreatedBy: this.user.UserID,
+  //       ActivityDetails: activityList
+  //     }
+  //     console.log("activity detail", addActivityDto)
+  //     this.pmService.addActivityParent(addActivityDto).subscribe({
+  //       next: (res) => {
+  //         this.toast = {
+  //           message: ' Activity Successfully Created',
+  //           title: 'Successfully Created.',
+  //           type: 'success',
+  //           ic: {
+  //             timeOut: 2500,
+  //             closeButton: true,
+  //           } as IndividualConfig,
+  //         };
+  //         window.location.reload()
+  //         this.commonService.showToast(this.toast);
+  //         this.closeModal()
+  //       }, error: (err) => {
+  //         this.toast = {
+  //           message: err.message,
+  //           title: 'Something went wrong.',
+  //           type: 'error',
+  //           ic: {
+  //             timeOut: 2500,
+  //             closeButton: true,
+  //           } as IndividualConfig,
+  //         };
+  //         this.commonService.showToast(this.toast);
+  //         console.error(err)
+  //       }
+  //     })
+  //   }
+  // }
 
 
 

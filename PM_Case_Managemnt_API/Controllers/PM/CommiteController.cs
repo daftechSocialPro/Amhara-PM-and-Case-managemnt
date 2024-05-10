@@ -56,9 +56,9 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         }
 
         [HttpGet("getNotIncludedEmployees")]
-        public async Task<List<SelectListDto>> GetNotIncludedEmployees(Guid commiteId)
+        public async Task<List<SelectListDto>> GetNotIncludedEmployees(Guid commiteId, Guid subOrgId)
         {
-            var response = await _commiteService.GetNotIncludedEmployees(commiteId);
+            var response = await _commiteService.GetNotIncludedEmployees(commiteId, subOrgId);
 
             return response;
         }

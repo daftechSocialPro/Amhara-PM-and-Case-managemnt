@@ -22,19 +22,19 @@ namespace PM_Case_Managemnt_API.Services.Common
                 await _dBContext.AddAsync(organizationProfile);
 
 
-                var orgBranch = new OrganizationBranch
-                {
-                    OrganizationProfileId = organizationProfile.Id,
-                    Name = organizationProfile.OrganizationNameEnglish,
-                    Address = organizationProfile.Address,
-                    PhoneNumber = organizationProfile.PhoneNumber,
-                    IsHeadOffice = true,
-                    Remark= organizationProfile.Remark
+                //var orgBranch = new OrganizationBranch
+                //{
+                //    OrganizationProfileId = organizationProfile.Id,
+                //    Name = organizationProfile.OrganizationNameEnglish,
+                //    Address = organizationProfile.Address,
+                //    PhoneNumber = organizationProfile.PhoneNumber,
+                //    IsHeadOffice = true,
+                //    Remark= organizationProfile.Remark
                     
-                };
+                //};
 
 
-                await _dBContext.AddAsync(orgBranch);
+                //await _dBContext.AddAsync(orgBranch);
 
 
                 await _dBContext.SaveChangesAsync();
@@ -47,31 +47,33 @@ namespace PM_Case_Managemnt_API.Services.Common
             }
 
         }
-        public async Task<OrganizationProfile> GetOrganizationProfile()
+        public async Task<OrganizationProfile> GetOrganizationProfile(Guid orgProId)
         {
-            return await _dBContext.OrganizationProfile.FirstOrDefaultAsync();
+            var subOrg = await _dBContext.SubsidiaryOrganizations.Where(x => x.Id == orgProId).FirstOrDefaultAsync();
+            return await _dBContext.OrganizationProfile.Where(x => x.Id == subOrg.OrganizationProfileId).FirstOrDefaultAsync();
         }
 
         public async Task<int> UpdateOrganizationalProfile(OrganizationProfile organizationProfile)
         {
 
 
-            //var orgBranch = _dBContext.OrganizationProfile.Where(x=>x.IsHeadOffice).FirstOrDefault();
+            var orgBranch = _dBContext.OrganizationProfile.Where(x => x.Id == organizationProfile.Id).FirstOrDefault();
 
-            //orgBranch.OrganizationProfileId = organizationProfile.Id;
-            //orgBranch.Name = organizationProfile.OrganizationNameEnglish;
-            //orgBranch.Address = organizationProfile.Address;
-            //orgBranch.PhoneNumber = organizationProfile.PhoneNumber;
-            ////orgBranch.IsHeadOffice = true;
-            //orgBranch.Remark = organizationProfile.Remark;
+            
+            orgBranch.OrganizationNameEnglish = organizationProfile.OrganizationNameEnglish;
+            orgBranch.OrganizationNameInLocalLanguage = organizationProfile.OrganizationNameInLocalLanguage;
+            orgBranch.Address = organizationProfile.Address;
+            orgBranch.PhoneNumber = organizationProfile.PhoneNumber;
+            //orgBranch.IsHeadOffice = true;
+            orgBranch.Remark = organizationProfile.Remark;
 
 
 
-            //_dBContext.Entry(orgBranch).State = EntityState.Modified;
-            //await _dBContext.SaveChangesAsync();
-
-            _dBContext.Entry(organizationProfile).State = EntityState.Modified;
+            _dBContext.Entry(orgBranch).State = EntityState.Modified;
             await _dBContext.SaveChangesAsync();
+
+            //_dBContext.Entry(organizationProfile).State = EntityState.Modified;
+            //await _dBContext.SaveChangesAsync();
             return 1;
 
         }

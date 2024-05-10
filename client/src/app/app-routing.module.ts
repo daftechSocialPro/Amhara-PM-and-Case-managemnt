@@ -87,6 +87,7 @@ import { UpdateCaseDetailsComponent } from './pages/case/encode-case/update-case
 import { UpdateCaseFilesComponent } from './pages/case/encode-case/update-case/update-case-files/update-case-files.component';
 import { SmsTemplateComponent } from './pages/common/sms-template/sms-template.component';
 import { InsideCaseComponent } from './pages/Case/inside-case/inside-case.component';
+import { OrganizationProfileDetailComponent } from './pages/common/organization/org-profile/organization-profile-detail/organization-profile-detail.component';
 
 
 
@@ -96,6 +97,8 @@ const routes: Routes = [
   { path: '', canActivate: [AuthGuard], component: PmDashboardComponent,data:{permittedRoles : ['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder','Monitor']} },
   { path: 'pmdashboard', canActivate: [AuthGuard], component: PmDashboardComponent,data:{permittedRoles :['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery']} },
   { path: 'orgprofile', canActivate: [AuthGuard], component: OrgProfileComponent,data:{permittedRoles : ['Super Admin','Employee Manager','Monitor']} },
+  { path: 'orgdetail', canActivate: [AuthGuard], component: OrganizationProfileDetailComponent},
+
   { path: 'suborganization', canActivate: [AuthGuard], component: SubOrganizationComponent ,data:{permittedRoles : ['Monitor']}  },
   { path: 'orgbranch', canActivate: [AuthGuard], component: OrgBranchComponent,data:{permittedRoles : ['Super Admin','Employee Manager']}  },
   { path: 'orgstructure', canActivate: [AuthGuard], component: OrgStructureComponent ,data:{permittedRoles : ['Super Admin','Employee Manager']}  },

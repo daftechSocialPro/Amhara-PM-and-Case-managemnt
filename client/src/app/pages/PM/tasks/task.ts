@@ -2,6 +2,7 @@ import { SelectList } from "../../common/common"
 import { ActivityView } from "../view-activties/activityview"
 
 export interface Task {
+    Id?: string
     TaskDescription: string,
     HasActvity: Boolean,
     PlannedBudget: Number,

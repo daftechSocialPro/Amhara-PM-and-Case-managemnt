@@ -1,4 +1,5 @@
 ﻿using PM_Case_Managemnt_API.DTOS.Common;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.Common;
 
 namespace PM_Case_Managemnt_API.Services.Common
@@ -6,20 +7,20 @@ namespace PM_Case_Managemnt_API.Services.Common
     public interface IBudgetyearService
     {
         //Program Budget Year
-        public Task<int> CreateProgramBudgetYear(ProgramBudgetYear programBudgetYear);
+        Task<ResponseMessage> CreateProgramBudgetYear(ProgramBudgetYearDto programBudgetYear);
 
-        public Task<List<ProgramBudgetYear>> GetProgramBudgetYears(Guid subOrgId);
+        Task<ResponseMessage> EditProgramBudgetYear(ProgramBudgetYearDto programBudgetYear);
 
-        public Task<List<SelectListDto>> getProgramBudgetSelectList(Guid subOrgId);
+        Task<ResponseMessage> DeleteProgramBudgetYear(Guid programBudgetYeatId);
+        Task<List<ProgramBudgetYear>> GetProgramBudgetYears(Guid subOrgId);
+        Task<List<SelectListDto>> getProgramBudgetSelectList(Guid subOrgId);
 
 
         // Budget Year
-        public Task<int> CreateBudgetYear(BudgetYearDto budgetYear);
-
-        
-        public Task<List<BudgetYearDto>> GetBudgetYears(Guid programBudgetYearId);
-
-        public Task<List<SelectListDto>> GetBudgetYearsFromProgramId(Guid ProgramId);
-        public Task<List<SelectListDto>> getBudgetSelectList();
+        Task<ResponseMessage> CreateBudgetYear(BudgetYearDto BudgetYear);
+        Task<ResponseMessage> EditBudgetYear(BudgetYearDto BudgetYear);
+        Task<ResponseMessage> DeleteBudgetYear(Guid budgetYearId);
+        Task<List<BudgetYearDto>> GetBudgetYears(Guid programBudgetYearId);
+        Task<List<SelectListDto>> GetBudgetYearsFromProgramId(Guid ProgramId);
     }
 }

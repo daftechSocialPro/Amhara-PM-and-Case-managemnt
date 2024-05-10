@@ -52,9 +52,9 @@ namespace PM_Case_Managemnt_API.Services.PM.Commite
             
         }
 
-        public async Task<List<SelectListDto>> GetNotIncludedEmployees(Guid CommiteId)
+        public async Task<List<SelectListDto>> GetNotIncludedEmployees(Guid CommiteId, Guid subOrgId)
         {
-            var EmployeeSelectList = await (from e in _dBContext.Employees.Include(x=>x.OrganizationalStructure)
+            var EmployeeSelectList = await (from e in _dBContext.Employees.Include(x=>x.OrganizationalStructure).Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId)
                                             
                                             where !(_dBContext.CommiteEmployees.Where(x => x.CommiteeId.Equals(CommiteId)).Select(x => x.EmployeeId).Contains(e.Id))
                                             select new SelectListDto

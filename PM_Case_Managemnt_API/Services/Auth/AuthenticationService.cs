@@ -331,8 +331,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
             }
         }
 
-        [HttpPost]
-        [Route("revokeRole")]
+        
         public async Task<ResponseMessage> RevokeRole(UserRoleDto userRole)
         {
             var curentUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(userRole.UserId));
@@ -357,7 +356,6 @@ namespace PM_Case_Managemnt_API.Services.Auth
         //
 
 
-        [HttpPost("ChangePassword")]
 
         public async Task<ResponseMessage> ChangePasswordAdmin(ChangePasswordModel model)
         {
@@ -389,6 +387,43 @@ namespace PM_Case_Managemnt_API.Services.Auth
                 Success = true,
                 Message = "Password Changed Successfully."
             };
+        }
+
+        public async Task<ResponseMessage> DeleteUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new ResponseMessage
+                {
+                    Message = "User not found.",
+                    Success = false
+                };
+            }
+            else
+            {
+                
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return new ResponseMessage
+                    {
+                        Message = "User deleted successfully.",
+                        Success = true
+                    };
+                }
+                else
+                {
+                    return new ResponseMessage
+                    {
+                        Message = result.Errors.ToString(),
+                        Success = false
+                    };
+                }
+                
+            }
+
         }
 
 

@@ -10,11 +10,13 @@ export interface SelectList {
 
 export interface ProgramBudgetYear {
 
-    Id: string;
+    Id?: string;
     Name: String;
     FromYear: Number;
     ToYear: Number;
     Remark: String;
+    SubsidiaryOrganizationId: string;
+    CreatedBy: string;
 
 }
 
@@ -26,6 +28,7 @@ export interface BudgetYear {
     FromDate: Date;
     ToDate: Date;
     Remark: String;
+    CreatedBy?: String
 
 }
 

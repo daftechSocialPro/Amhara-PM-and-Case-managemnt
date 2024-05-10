@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.CaseDto;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Services.CaseMGMT;
+using PM_Case_Managemnt_API.Services.CaseMGMT.Applicants;
 using System.Net.Http.Headers;
 
 namespace PM_Case_Managemnt_API.Controllers.Case
@@ -15,10 +17,13 @@ namespace PM_Case_Managemnt_API.Controllers.Case
     {
         private readonly ICaseProccessingService _caseProcessingService;
         private readonly DBContext _dbContext;
-        public CaseProccessingController(ICaseProccessingService caseProccessingService, DBContext dBContext)
+        private readonly IApplicantService _applicantService;
+
+        public CaseProccessingController(ICaseProccessingService caseProccessingService, DBContext dBContext, IApplicantService applicantService)
         {
             _caseProcessingService = caseProccessingService;
             _dbContext = dBContext;
+            _applicantService = applicantService;
         }
 
 
@@ -67,10 +72,75 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         }
 
         [HttpPost("complete")]
-        public async Task<IActionResult> CompleteCase(CaseCompleteDto caseCompeleteDto)
+        public async Task<IActionResult> CompleteCase()
         {
             try
             {
+
+                CaseCompleteDto caseCompeleteDto = new()
+                {
+                    CaseHistoryId = Guid.Parse(Request.Form["CaseHistoryId"]),
+                    EmployeeId = Guid.Parse(Request.Form["EmployeeId"]),
+                    Remark = Request.Form["Remark"]
+                };
+                var history = await _dbContext.CaseHistories.Where(x => x.Id == caseCompeleteDto.CaseHistoryId).Include(x => x.Case).FirstOrDefaultAsync();
+
+                caseCompeleteDto.CaseAttachments = new List<CaseAttachment>();
+
+                foreach (var file in Request.Form.Files)
+                {
+
+                    if (file.Name.ToLower() == "attachments")
+                    {
+                        string folderName = Path.Combine("Assets", "CaseAttachments");
+                        string applicantName;
+
+                        if (history.Case.ApplicantId != null)
+                        {
+                            var applicant = _applicantService.GetApplicantById(history.Case.ApplicantId);
+                            applicantName = applicant.Result.ApplicantName; // replace with actual applicant name
+
+                        }
+                        else
+                        {
+                            applicantName = $"Inside Case - {history.Case.CaseNumber}";
+
+                        }
+                        string applicantFolder = Path.Combine(folderName, applicantName);
+
+
+
+                        string pathToSave = Path.Combine(Directory.GetCurrentDirectory(), applicantFolder);
+
+                        //Create directory if not exists
+                        if (!Directory.Exists(pathToSave))
+                            Directory.CreateDirectory(pathToSave);
+
+                        if (file.Length > 0)
+                        {
+                            string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                            string fullPath = Path.Combine(pathToSave, fileName);
+                            string dbPath = Path.Combine(applicantFolder, fileName);
+
+                            using (var stream = new FileStream(fullPath, FileMode.Create))
+                            {
+                                file.CopyTo(stream);
+                            }
+                            CaseAttachment attachment = new()
+                            {
+                                Id = Guid.NewGuid(),
+                                CreatedAt = DateTime.Now,
+                                CreatedBy = Guid.Parse(Request.Form["userId"]),
+                                RowStatus = RowStatus.Active,
+                                CaseId = history.CaseId,
+                                FilePath = dbPath
+                            };
+                            caseCompeleteDto.CaseAttachments.Add(attachment);
+                        }
+
+                    }
+                }
+
                 await _caseProcessingService.CompleteTask(caseCompeleteDto);
                 return NoContent();
 
@@ -120,7 +190,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                     ToEmployeeId = Guid.Parse(Request.Form["ToEmployeeId"]),
                     ToStructureId = Guid.Parse(Request.Form["ToStructureId"])
                 };
-                var history = _dbContext.CaseHistories.Find(caseTransferDto.CaseHistoryId);
+                var history = await _dbContext.CaseHistories.Where(x => x.Id == caseTransferDto.CaseHistoryId).Include(x => x.Case).FirstOrDefaultAsync();
 
                 caseTransferDto.CaseAttachments = new List<CaseAttachment>();
 
@@ -130,7 +200,25 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                     if (file.Name.ToLower() == "attachments")
                     {
                         string folderName = Path.Combine("Assets", "CaseAttachments");
-                        string pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                        string applicantName;
+
+                        if (history.Case.ApplicantId != null)
+                        {
+                            var applicant = _applicantService.GetApplicantById(history.Case.ApplicantId);
+                            applicantName = applicant.Result.ApplicantName; // replace with actual applicant name
+                            
+                        }
+                        else
+                        {
+                            applicantName = $"Inside Case - {history.Case.CaseNumber}";
+
+                        }
+                        string applicantFolder = Path.Combine(folderName, applicantName);
+
+
+
+                        string pathToSave = Path.Combine(Directory.GetCurrentDirectory(), applicantFolder);
 
                         //Create directory if not exists
                         if (!Directory.Exists(pathToSave))
@@ -140,7 +228,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                         {
                             string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                             string fullPath = Path.Combine(pathToSave, fileName);
-                            string dbPath = Path.Combine(folderName, fileName);
+                            string dbPath = Path.Combine(applicantFolder, fileName);
 
                             using (var stream = new FileStream(fullPath, FileMode.Create))
                             {
@@ -162,10 +250,6 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                 }
 
 
-
-
-
-               
 
                 await _caseProcessingService.TransferCase(caseTransferDto);
                 return NoContent();

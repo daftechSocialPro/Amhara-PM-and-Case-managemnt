@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SelectList } from '../../common/common';
+import { ResponseMessage, SelectList } from '../../common/common';
 import { TaskView, TaskMembers, Task } from './task';
 
 @Injectable({
@@ -46,6 +46,12 @@ export class TaskService {
 
   getTaskSelectList(planId: string){
     return this.http.get<SelectList[]>(this.BaseURI + "/getByTaskIdSelectList?planId=" + planId)
+  }
+  editTask(task: Task){
+    return this.http.put<ResponseMessage>(this.BaseURI + "/editTask",task)
+  }
+  deleteTask(taskId: string){
+    return this.http.delete<ResponseMessage>(this.BaseURI + "/deleteTask?taskId=" + taskId )
   }
 
 

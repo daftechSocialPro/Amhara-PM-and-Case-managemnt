@@ -10,6 +10,7 @@ export interface ActivityDetailDto {
 }
 
 export interface SubActivityDetailDto {
+    Id?:string
     SubActivityDesctiption:string,
     StartDate:string,
     EndDate :string,

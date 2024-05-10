@@ -64,6 +64,8 @@
                             </th>
                             <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">በጀት
                             </th>
+                            <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">Action
+                            </th>
                             <!-- <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">Source of
                                 Budget</th> -->
                         </tr>
@@ -147,6 +149,13 @@
                                 <!-- <ng-container *ngFor="let item of items; index as i">
                                     <td style="border: 1px solid black; background-color: #eee"></td>
                                 </ng-container> -->
+                                <td style="border: 1px solid black; background-color: #e8ffde ">
+                                    
+                                    <button class="btn btn-outline-warning btn-sm" (click)="editTask(task)"> <i
+                                            class="bi bi-pen me-1"></i> {{exportingToExcel?"":"Update"}} </button> <br/>
+                                    <button class="btn btn-outline-danger btn-sm mt-2" (click)="deleteTask(task.Id)"> <i
+                                            class="bi bi-trash me-1"></i> {{exportingToExcel?"":"Delete"}} </button> 
+                                </td>
 
                             </tr>
                         </tbody>
@@ -250,6 +259,15 @@
 
                                     </td>
                                     <!-- <td style="border: 1px solid black;">asasasasas</td> -->
+                                    <td style="border: 1px solid black;">
+                                        <button class="btn btn-outline-warning btn-sm" (click)="editActivity(task,act)"> <i
+                                        class="bi bi-pen me-1"></i> {{exportingToExcel?"":"Update"}} </button> <br/>
+                                        <button class="btn btn-outline-danger btn-sm mt-1" (click)="deleteActivity(act.Id,task.Id)"> <i
+                                        class="bi bi-trash me-1"></i> {{exportingToExcel?"":"Delete"}} </button> <br/>
+                                        <!-- <button  *ngIf="(act.monthPerformance!.length!=0)" class="btn btn-outline-warning btn-sm mt-1" (click)="AssignTarget(act)"> <i
+                                            class="bi bi-pen me-1"></i> Update Target </button> -->
+                                        
+                                    </td>
 
 
                                 </tr>
@@ -355,6 +373,15 @@
 
                                         </td>
                                         <!-- <td style="border: 1px solid black;">asasasasas</td> -->
+                                        <td style="border: 1px solid black;">
+                                            <button class="btn btn-outline-warning btn-sm" (click)="editActivity(task,act)"> <i
+                                            class="bi bi-pen me-1"></i> {{exportingToExcel?"":"Update"}} </button> <br/>
+                                            <button class="btn btn-outline-danger btn-sm mt-1" (click)="deleteActivity(act.Id,task.Id)"> <i
+                                            class="bi bi-trash me-1"></i> {{exportingToExcel?"":"Delete"}} </button> <br/>
+                                            <!-- <button  *ngIf="(act.monthPerformance!.length!=0)" class="btn btn-outline-warning btn-sm mt-1" (click)="AssignTarget(act)"> <i
+                                                class="bi bi-pen me-1"></i> Update Target </button> -->
+                                            
+                                        </td>
 
 
                                     </tr>

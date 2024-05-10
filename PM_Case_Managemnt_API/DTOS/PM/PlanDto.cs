@@ -43,7 +43,14 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public int NumberOfTaskCompleted { get; set; }
 
         public bool HasTask { get; set; }
-
+        public Guid? BudgetYearId { get; set; }
+        public Guid? ProgramId { get; set; }
+        public string? Remark { get; set; }
+        public Guid? StructureId { get; set; }
+        public Guid? ProjectManagerId { get; set; }
+        public Guid? FinanceId { get; set; }
+        public string? ProjectFunder { get; set; }
+        public Guid? BranchId { get; set; }
     }
 
     public class PlanSingleViewDto
@@ -107,7 +114,7 @@ namespace PM_Case_Managemnt_API.DTOS.PM
     public class TaskDto
     {
 
-
+        public Guid? Id { get; set;}
         public string TaskDescription { get; set; }
 
         public bool HasActvity { get; set; }

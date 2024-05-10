@@ -19,11 +19,57 @@
                     </div>
                 </div>
 
-                <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-                        (click)="closeModal()">Close</button>
-                    <button type="button" type="submit" [disabled]="!completeForm.valid"
-                        class="btn btn-success">Complete</button>
+                
+
+                <div class="col-6">
+                    <label for="inputNumber" class="col-sm-12 col-form-label">Documents</label>
+                    <div class="col-sm-12"> <input (change)="onFileSelected($event)"  class="form-control" multiple type="file" id="formFile"></div>
+                
+                    <app-scanner (imagesScannedUpdated)="onImagesScannedUpdate($event)"></app-scanner>
+                    <label for="inputNumber" class="col-sm-12 col-form-label">{{CaseId}}</label>
+                    <qrcode [qrdata]="qrData" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                    <div *ngIf="mobileUplodedFiles && mobileUplodedFiles.length > 0">
+                        <label for="inputNumber" class="col-sm-12 col-form-label">Mobile Uploded Files</label>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">File</th>
+                                    <th scope="col">Action</th>
+                                    <!-- <th scope="col">Files /Statments</th> -->
+                                    <!-- <th scope="col">Document Checked</th> -->
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr *ngFor="let attachment of mobileUplodedFiles; let i = index">
+                                    <th>File {{i+1}}</th>
+                                    <th>
+
+                                        <a class="btn btn-outline-primary m-2" [href]="viewFile(attachment.filePath)"
+                                            target="_blank">
+                                            View File
+                                        </a>
+
+                                        <!-- <a class="btn btn-outline-danger m-2" (click)="RemoveFile(attachment.Id)">
+                                                        Remove File
+                                                    </a> -->
+                                    </th>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                    (click)="closeModal()">Close</button>
+                <button type="button" type="submit" [disabled]="!completeForm.valid"
+                    class="btn btn-success">Complete</button>
+                </div>
+
+               
 
 
 

@@ -147,5 +147,33 @@ namespace PM_Case_Managemnt_API.Controllers.PM
             }
         }
 
+        [HttpPut("editTask")]
+        public async Task<IActionResult> UpdateTaskl(TaskDto updateTask)
+        {
+
+            if (ModelState.IsValid)
+            {
+                return Ok(await _taskService.UpdateTask(updateTask));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("deleteTask")]
+        public async Task<IActionResult> DeleteTask(Guid taskId)
+        {
+            try
+            {
+
+                return Ok(await _taskService.DeleteTask(taskId));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
     }
 }

@@ -4,6 +4,7 @@ namespace PM_Case_Managemnt_API.DTOS.PM
 {
     public class ActivityDetailDto
     {
+        public Guid? Id {  get; set; }
         public string ActivityDescription { get; set; } = null!;
         public bool HasActivity { get; set; }
         public Guid TaskId { get; set; }
@@ -15,13 +16,14 @@ namespace PM_Case_Managemnt_API.DTOS.PM
      
     public class SubActivityDetailDto
     {
+        public Guid? Id { get; set; }
         public Guid CreatedBy { get; set; }
         public string SubActivityDesctiption { get; set; } = null!;
         public string StartDate { get; set; } = null!;
         public string EndDate { get; set; } = null!;
         public float PlannedBudget { get; set; }
         public float Weight { get; set; }
-        public int ActivityType { get; set; }
+        public int? ActivityType { get; set; }
         public float OfficeWork { get; set; }
         public float FieldWork { get; set; }
         public Guid UnitOfMeasurement { get; set; }

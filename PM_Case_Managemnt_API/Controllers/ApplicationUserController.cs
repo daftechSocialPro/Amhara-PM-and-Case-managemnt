@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.Auth;
 using PM_Case_Managemnt_API.Services.Auth;
 
@@ -188,6 +189,19 @@ namespace PM_Case_Managemnt_API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
 
+        }
+
+        [HttpDelete("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            try
+            {
+                return Ok(await _authenticationService.DeleteUser(userId));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error - {ex}");
+            }
         }
     }
 }

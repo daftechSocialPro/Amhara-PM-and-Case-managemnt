@@ -3,9 +3,11 @@ using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
 using PM_Case_Managemnt_API.Helpers;
+using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Models.PM;
 using System.Numerics;
 using System.Threading.Tasks;
+using static PM_Case_Managemnt_API.Services.Common.Dashoboard.DashboardService;
 
 namespace PM_Case_Managemnt_API.Services.PM.Plan
 {
@@ -81,6 +83,14 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                               NumberOfActivities = _dBContext.Activities.Include(x=>x.ActivityParent.Task.Plan).Where(x=>x.PlanId==p.Id||x.Task.PlanId==p.Id||x.ActivityParent.Task.PlanId==p.Id).Count(),
                               NumberOfTaskCompleted = _dBContext.Activities.Include(x => x.ActivityParent.Task.Plan).Where(x => x.Status ==Status.Finalized && (x.PlanId == p.Id || x.Task.PlanId == p.Id || x.ActivityParent.Task.PlanId == p.Id)).Count(),
                               HasTask = p.HasTask,
+                              BudgetYearId = p.BudgetYearId,
+                              ProgramId = p.ProgramId,
+                              Remark = p.Remark,
+                              StructureId = p.StructureId,
+                              ProjectManagerId = p.ProjectManagerId,
+                              FinanceId = p.FinanceId,
+                              ProjectFunder = p.ProjectFunder,
+                              BranchId = p.Structure.OrganizationBranchId
                           }).ToListAsync();
 
 

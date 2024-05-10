@@ -14,6 +14,7 @@ namespace PM_Case_Managemnt_API.Models.Common
 
         public string PhoneNumber { get; set; } = null!;
 
+
         //public int SmsCode { get; set; }
 
         //public string UserName { get; set; } = null!;

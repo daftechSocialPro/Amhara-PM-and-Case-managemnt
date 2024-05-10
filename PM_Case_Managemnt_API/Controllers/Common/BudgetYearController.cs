@@ -25,12 +25,12 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
         [HttpPost]
 
-        public IActionResult Create([FromBody] ProgramBudgetYear programBudgetYear)
+        public async Task<IActionResult> Create(ProgramBudgetYearDto programBudgetYear)
         {
             try
             {
 
-                var response = _budgetyearService.CreateProgramBudgetYear(programBudgetYear);
+                var response = await _budgetyearService.CreateProgramBudgetYear(programBudgetYear);
                 return Ok(new { response });
 
             }
@@ -39,6 +39,25 @@ namespace PM_Case_Managemnt_API.Controllers.Common
             {
                 return StatusCode(500, $"Internal Server Error : {ex}");
             }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditProgramBudgetYear(ProgramBudgetYearDto programBudgetYear)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(await _budgetyearService.EditProgramBudgetYear(programBudgetYear));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteProgramBudgetYear(Guid programBudgetYeatId)
+        {
+            return Ok(await _budgetyearService.DeleteProgramBudgetYear(programBudgetYeatId));
         }
         [HttpGet]
 
@@ -56,11 +75,11 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
         [HttpPost("budgetyear")]
 
-        public IActionResult Create([FromBody] BudgetYearDto budgetYear)
+        public async Task<IActionResult> Create(BudgetYearDto BudgetYear)
         {
             try
             {
-                var response = _budgetyearService.CreateBudgetYear(budgetYear);
+                var response = await _budgetyearService.CreateBudgetYear(BudgetYear);
                 return Ok(new { response });
 
             }
@@ -70,6 +89,26 @@ namespace PM_Case_Managemnt_API.Controllers.Common
                 return StatusCode(500, $"Internal Server Error : {ex}");
             }
         }
+
+        [HttpPut("editBudgetYear")]
+        public async Task<IActionResult> EditBudgetYear(BudgetYearDto BudgetYear)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(await _budgetyearService.EditBudgetYear(BudgetYear));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("deleteBudgetYear")]
+        public async Task<IActionResult> DeleteBudgetYear(Guid budgetYearId)
+        {
+            return Ok(await _budgetyearService.DeleteBudgetYear(budgetYearId));
+        }
+
         [HttpGet("budgetyear")]
 
         public async Task<List<BudgetYearDto>> GetBudgetYears(Guid programBudgetYearId)

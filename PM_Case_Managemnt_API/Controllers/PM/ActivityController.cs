@@ -240,5 +240,33 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         {
             return await _activityService.AssignEmployees(activityEmployees);
         }
+
+        [HttpPut("editActivity")]
+        public async Task<IActionResult> UpdateActivityDetail(SubActivityDetailDto activityDetail)
+        {
+
+            if (ModelState.IsValid)
+            {
+                return Ok(await _activityService.UpdateActivityDetails(activityDetail));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("deleteActivity")]
+        public async Task<IActionResult> DeleteActivity(Guid activityid, Guid taskId)
+        {
+            try
+            {
+
+                return Ok(await _activityService.DeleteActivity(activityid, taskId));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error - {ex}");
+            }
+        }
     }
 }

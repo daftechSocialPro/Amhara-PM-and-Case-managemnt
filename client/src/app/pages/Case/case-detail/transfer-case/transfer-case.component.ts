@@ -200,6 +200,7 @@ export class TransferCaseComponent implements OnInit {
       formData.set('Remark', this.transferForm.value.Remark)
       formData.set('ToEmployeeId', this.transferForm.value.ToEmployeeId)
       formData.set('ToStructureId', this.transferForm.value.ToStructureId)
+      formData.set('CaseId', this.CaseId)
 
       this.caseService.TransferCase(formData).subscribe({
         next: (res) => {

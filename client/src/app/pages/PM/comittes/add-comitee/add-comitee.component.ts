@@ -57,7 +57,8 @@ export class AddComiteeComponent implements OnInit {
       let comitee: ComiteeAdd = {
         Name: this.comiteeeForm.value.CommitteeName,
         Remark: this.comiteeeForm.value.Remark,
-        CreatedBy: this.user.UserID
+        CreatedBy: this.user.UserID,
+        SubsidiaryOrganizationId: this.user.SubOrgId
       }
 
       this.pmService.createComittee(comitee).subscribe({

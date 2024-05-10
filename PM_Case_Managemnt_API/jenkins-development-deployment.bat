@@ -3,7 +3,7 @@
 echo "Start deploying app to production server"
 
 set source=%cd%\src
-set destination=C:\inetpub\wwwroot\AMHARA_PM_CASE.API
+set destination=D:\inetpub\wwwroot\AMHARA_PM_CASE.API
 
 IF not exist %destination% (
 mkdir %destination%

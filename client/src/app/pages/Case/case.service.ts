@@ -188,7 +188,7 @@ export class CaseService {
 
         return this.http.post(this.BaseURI + "/waiting?caseHistoryId=" + caseHistoryId, {})
     }
-    CompleteCase(completecasedto: any) {
+    CompleteCase(completecasedto: FormData) {
 
         return this.http.post(this.BaseURI + "/complete", completecasedto)
     }

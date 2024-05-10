@@ -37,13 +37,7 @@ export class PagesLoginComponent implements OnInit {
           sessionStorage.setItem('token', res.Value.token);
           this.user = this.userService.getCurrentUser()
           console.log(this.user)
-          if(this.IsInRole(['Monitor'])){
-            this.router.navigateByUrl('/analyticsdashboard');
-
-          }
-          else{
-            this.router.navigateByUrl('/casedashboard');
-          }
+          this.router.navigateByUrl('/orgdetail');
 
           
         },

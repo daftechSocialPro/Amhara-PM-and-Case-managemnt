@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 
 import { environment } from 'src/environments/environment';
-import { SelectList } from '../common/common';
+import { ResponseMessage, SelectList } from '../common/common';
 import { ActivityDetailDto, SubActivityDetailDto } from './activity-parents/add-activities/add-activities';
 import { ComiteeAdd, CommiteeAddEmployeeView, CommitteeView } from './comittes/committee';
 import { IPlanReportByProgramDto } from './progress-report/program-budget-report/program-budget-report';
@@ -33,18 +33,18 @@ export class PMService {
         return this.http.put(this.BaseURI + "/Commite", comiteeAdd)
     }
 
-    getComittee() {
-        return this.http.get<CommitteeView[]>(this.BaseURI + "/Commite")
+    getComittee(subOrgId: string) {
+        return this.http.get<CommitteeView[]>(this.BaseURI + "/Commite?subOrgId="+subOrgId)
     }
 
-    getComitteeSelectList() {
+    getComitteeSelectList(subOrgId: string) {
 
-        return this.http.get<SelectList[]>(this.BaseURI + "/Commite/getSelectListCommittee")
+        return this.http.get<SelectList[]>(this.BaseURI + "/Commite/getSelectListCommittee?subOrgId="+ subOrgId)
     }
 
-    getNotIncludedEmployees(CommiteId: string) {
+    getNotIncludedEmployees(CommiteId: string, subOrgId: string) {
 
-        return this.http.get<SelectList[]>(this.BaseURI + "/Commite/getNotIncludedEmployees?CommiteId=" + CommiteId)
+        return this.http.get<SelectList[]>(this.BaseURI + "/Commite/getNotIncludedEmployees?CommiteId=" + CommiteId + "&subOrgId=" + subOrgId)
     }
 
     addEmployesInCommitee(value: CommiteeAddEmployeeView) {
@@ -106,6 +106,13 @@ export class PMService {
 
     getactivityById(actId:string){
         return this.http.get<ActivityView>(this.BaseURI + "/Activity/byActivityId?actId=" + actId)
+    }
+
+    editActivity(activity: SubActivityDetailDto) {
+        return this.http.put(this.BaseURI + "/Activity/editActivity", activity)
+    }
+    deleteActivity(activityId: string, taskId: string){
+        return this.http.delete<ResponseMessage>(this.BaseURI + "/Activity/deleteActivity?activityId=" + activityId + "&taskId=" + taskId)
     }
 
     //report 

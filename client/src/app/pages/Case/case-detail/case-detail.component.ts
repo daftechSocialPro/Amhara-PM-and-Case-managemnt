@@ -170,10 +170,11 @@ export class CaseDetailComponent implements OnInit {
   }
 
   CompleteCase() {
-    let modalRef = this.modalService.open(CompleteCaseComponent, {
+    let modalRef = this.modalService.open(CompleteCaseComponent, { size:"lg",
       backdrop: 'static',
     });
     modalRef.componentInstance.historyId = this.caseHistoryId;
+    modalRef.componentInstance.CaseId = this.caseDetail.Id
   }
 
   Revert() {
@@ -231,7 +232,7 @@ export class CaseDetailComponent implements OnInit {
     modalRef.componentInstance.historyId = this.caseHistoryId;
     modalRef.componentInstance.CaseTypeName = this.caseDetail.CaseTypeName;
     modalRef.componentInstance.CaseTypeId = this.caseDetail.CaseTypeId
-    modalRef.componentInstance.caseId = this.caseDetail.Id
+    modalRef.componentInstance.CaseId = this.caseDetail.Id
   }
 
   Appointment() {

@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { IndividualConfig } from 'ngx-toastr';
 import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { OrganizationService } from '../organization.service';
+import { UserService } from 'src/app/pages/pages-login/user.service';
+import { UserView } from 'src/app/pages/pages-login/user';
 
 @Component({
   selector: 'app-org-profile',
@@ -16,11 +18,13 @@ export class OrgProfileComponent implements OnInit {
   toast !: toastPayload;
   profileForm !: FormGroup;
   imageURL: string = "";
+  user!: UserView
 
   public message: string = '';
   public progress: number = 0;
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService) {
+  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService,
+    private userService: UserService) {
 
 
     this.profileForm = this.formBuilder.group({
@@ -41,7 +45,8 @@ export class OrgProfileComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.orgService.getOrganizationalProfile().subscribe({
+    this.user = this.userService.getCurrentUser()
+    this.orgService.getOrganizationalProfile(this.user.SubOrgId).subscribe({
       next: (res) => {
 
         if (res != null) {

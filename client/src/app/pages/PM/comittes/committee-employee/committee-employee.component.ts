@@ -32,15 +32,12 @@ export class CommitteeEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.listOfEmployees()
-
     this.user = this.userService.getCurrentUser()
-
+    this.listOfEmployees()
   }
 
   listOfEmployees() {
-    this.pmService.getNotIncludedEmployees(this.committee.Id
+    this.pmService.getNotIncludedEmployees(this.committee.Id, this.user.SubOrgId
     ).subscribe({
       next: (res) => {
         this.employees = res

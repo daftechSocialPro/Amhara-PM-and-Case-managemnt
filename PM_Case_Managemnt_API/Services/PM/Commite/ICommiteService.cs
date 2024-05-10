@@ -8,7 +8,7 @@ namespace PM_Case_Managemnt_API.Services.PM.Commite
         public Task<List<CommiteListDto>> GetCommiteLists(Guid subOrgId);
         public Task<int> AddCommite(AddCommiteDto addCommiteDto);
         public Task<int> UpdateCommite(UpdateCommiteDto updateCommite);
-        public Task<List<SelectListDto>> GetNotIncludedEmployees(Guid CommiteId);
+        public Task<List<SelectListDto>> GetNotIncludedEmployees(Guid CommiteId, Guid subOrgId);
 
         public Task<int> AddEmployeestoCommitte(CommiteEmployeesdto commiteEmployeesdto);
 

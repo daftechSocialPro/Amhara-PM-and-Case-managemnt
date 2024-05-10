@@ -5,6 +5,8 @@ import { AddComiteeComponent } from './add-comitee/add-comitee.component';
 import { CommitteeView } from './committee';
 import { CommitteeEmployeeComponent } from './committee-employee/committee-employee.component';
 import { UpdateCpmmitteeComponent } from './update-cpmmittee/update-cpmmittee.component';
+import { UserView } from '../../pages-login/user';
+import { UserService } from '../../pages-login/user.service';
 
 @Component({
   selector: 'app-comittes',
@@ -14,20 +16,22 @@ import { UpdateCpmmitteeComponent } from './update-cpmmittee/update-cpmmittee.co
 export class ComittesComponent implements OnInit {
   
   committees : CommitteeView[]=[]
+  user!: UserView
   constructor (
     private modalService : NgbModal,
-    private pmService  : PMService
+    private pmService  : PMService,
+    private userService: UserService
     
   ){}
   ngOnInit(): void {
 
-
+    this.user = this.userService.getCurrentUser()
    this.listCommittee()
   }
 
   listCommittee (){
 
-    this.pmService.getComittee().subscribe({
+    this.pmService.getComittee(this.user.SubOrgId).subscribe({
       next:(res)=>{
         this.committees = res 
 

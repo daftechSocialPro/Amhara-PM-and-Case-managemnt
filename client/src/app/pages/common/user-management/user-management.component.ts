@@ -7,6 +7,7 @@ import { AddUsersComponent } from './add-users/add-users.component';
 import { UserView } from '../../pages-login/user';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ManageRolesComponent } from './manage-roles/manage-roles.component';
+import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
 
 @Component({
   selector: 'app-user-management',
@@ -19,7 +20,9 @@ export class UserManagementComponent implements OnInit {
   employees: Employee[] = []
   filterdEmployees : Employee[]=[]
   searchBY!:string 
-  constructor(private modalService: NgbModal, private userService: UserService, private commonService : CommonService) { }
+  constructor(private modalService: NgbModal, private userService: UserService, private commonService : CommonService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
@@ -75,6 +78,48 @@ getUsers(){
 
 
     )
+
+
+  }
+
+  deleteUser(userId: string) {
+
+    this.confirmationService.confirm({
+      message: 'Are You sure you want to delete this USer?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.userService.deleteUser(userId).subscribe({
+          next: (res) => {
+
+            if (res.Success) {
+              this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: res.Message });
+              this.getUsers()
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: res.Message });
+            }
+          }, error: (err) => {
+
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: err });
+
+
+          }
+        })
+
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+            break;
+        }
+      },
+      key: 'positionDialog'
+    });
 
 
   }

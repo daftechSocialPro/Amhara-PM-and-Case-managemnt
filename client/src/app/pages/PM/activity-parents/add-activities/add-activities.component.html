@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add Activity</h5>
+        <h5 class="modal-title">{{activity ?'Update':'Add'}} Activity</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -167,7 +167,8 @@
                         <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                                 (click)="closeModal()">Close</button>
                             <button type="button" type="submit" [disabled]="!activityForm.valid"
-                                class="btn btn-success">Create</button>
+                            [class]="activity?'btn btn-outline-warning':  'btn btn-outline-primary'">
+                            {{activity?'Update':'Create'}}</button>
                         </div>
                     </form>
                 </div>
@@ -190,7 +191,7 @@
                     </div>
                     <div class="modal-content mt-2 " *ngIf="comitteEmployees.length>0">
                         <div class="modal-header bg-secondary text-white">
-                            <h5 class="modal-title">Comittee Employees</h5>
+                            <h5 class="modal-title">Directoret Employees</h5>
                         </div>
                         <div class="modal-body">
                             <ul>

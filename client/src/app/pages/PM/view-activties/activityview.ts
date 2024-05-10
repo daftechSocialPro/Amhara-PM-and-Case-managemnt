@@ -25,6 +25,12 @@ export interface ActivityView {
     UsedBudget: number
     ProjectType?:number
     BranchId?:string
+    IsClassfiedToBranch: boolean
+    OfficeWork?: number
+    FieldWork?: number
+    CommiteeId?: string
+    EndDateEth?: string
+    StartDateEth?: string
 
 
 }

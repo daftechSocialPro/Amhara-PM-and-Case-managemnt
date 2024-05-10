@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
+using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Models.PM;
 
@@ -931,6 +932,415 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
 
 
         }
+
+        public async Task<ResponseMessage> UpdateActivityDetails(SubActivityDetailDto activityDetail)
+        {
+            if (activityDetail.IsClassfiedToBranch)
+            {
+                //PM_Case_Managemnt_API.Models.PM.ActivityParent activity = new PM_Case_Managemnt_API.Models.PM.ActivityParent();
+                var activity = await _dBContext.ActivityParents.FindAsync(activityDetail.Id);
+
+                activity.ActivityParentDescription = activityDetail.SubActivityDesctiption;
+                activity.Goal = activityDetail.Goal;
+                activity.IsClassfiedToBranch = true;
+
+
+
+
+                activity.PlanedBudget = (float)activityDetail.PlannedBudget;
+                activity.UnitOfMeasurmentId = activityDetail.UnitOfMeasurement;
+                activity.Weight = activityDetail.Weight;
+
+
+                if (activityDetail.TaskId != null)
+                {
+                    activity.TaskId = activityDetail.TaskId;
+                }
+
+                if (!string.IsNullOrEmpty(activityDetail.StartDate))
+                {
+                    string[] startDate = activityDetail.StartDate.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                    DateTime ShouldStartPeriod = Convert.ToDateTime(XAPI.EthiopicDateTime.GetGregorianDate(Int32.Parse(startDate[1]), Int32.Parse(startDate[0]), Int32.Parse(startDate[2])));
+                    activity.ShouldStartPeriod = ShouldStartPeriod;
+                }
+
+                if (!string.IsNullOrEmpty(activityDetail.EndDate))
+                {
+                    string[] endDate = activityDetail.EndDate.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                    DateTime ShouldEnd = Convert.ToDateTime(XAPI.EthiopicDateTime.GetGregorianDate(Int32.Parse(endDate[1]), Int32.Parse(endDate[0]), Int32.Parse(endDate[2])));
+                    activity.ShouldEnd = ShouldEnd;
+                }
+                
+                await _dBContext.SaveChangesAsync();
+
+
+
+
+
+                if (activityDetail.TaskId != Guid.Empty)
+                {
+                    var Task = await _dBContext.Tasks.FirstOrDefaultAsync(x => x.Id.Equals(activityDetail.TaskId));
+                    if (Task != null)
+                    {
+                        var plan = await _dBContext.Plans.FirstOrDefaultAsync(x => x.Id.Equals(Task.PlanId));
+
+                        Task.ShouldStartPeriod = activity.ShouldStartPeriod;
+                        Task.ShouldEnd = activity.ShouldEnd;
+                        Task.Weight = activity.Weight;
+                        if (plan != null)
+                        {
+                            var tasks = await _dBContext.Tasks.Where(x => x.PlanId == plan.Id).ToListAsync();
+                            plan.PeriodStartAt = tasks.Min(x => x.ShouldStartPeriod);
+                            plan.PeriodEndAt = tasks.Max(x => x.ShouldEnd);
+                        }
+                    }
+                }
+                _dBContext.SaveChanges();
+            }
+            else
+            {
+                //PM_Case_Managemnt_API.Models.PM.Activity activity = new PM_Case_Managemnt_API.Models.PM.Activity();
+                var activity = await _dBContext.Activities.FindAsync(activityDetail.Id);
+                
+                activity.ActivityDescription = activityDetail.SubActivityDesctiption;
+                activity.ActivityType = (ActivityType)activityDetail.ActivityType;
+                activity.Begining = activityDetail.PreviousPerformance;
+                if (activityDetail.CommiteeId != null)
+                {
+                    activity.CommiteeId = activityDetail.CommiteeId;
+                }
+                activity.FieldWork = activityDetail.FieldWork;
+                activity.Goal = activityDetail.Goal;
+                activity.OfficeWork = activityDetail.OfficeWork;
+                activity.PlanedBudget = activityDetail.PlannedBudget;
+                activity.UnitOfMeasurementId = activityDetail.UnitOfMeasurement;
+                activity.Weight = activityDetail.Weight;
+                if (activityDetail.PlanId != null)
+                {
+                    activity.PlanId = activityDetail.PlanId;
+                }
+                else if (activityDetail.TaskId != null)
+                {
+                    activity.TaskId = activityDetail.TaskId;
+                }
+
+                if (!string.IsNullOrEmpty(activityDetail.StartDate))
+                {
+                    string[] startDate = activityDetail.StartDate.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                    DateTime ShouldStartPeriod = Convert.ToDateTime(XAPI.EthiopicDateTime.GetGregorianDate(Int32.Parse(startDate[1]), Int32.Parse(startDate[0]), Int32.Parse(startDate[2])));
+                    activity.ShouldStat = ShouldStartPeriod;
+                }
+
+                if (!string.IsNullOrEmpty(activityDetail.EndDate))
+                {
+                    string[] endDate = activityDetail.EndDate.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                    DateTime ShouldEnd = Convert.ToDateTime(XAPI.EthiopicDateTime.GetGregorianDate(Int32.Parse(endDate[1]), Int32.Parse(endDate[0]), Int32.Parse(endDate[2])));
+                    activity.ShouldEnd = ShouldEnd;
+                }
+                
+                await _dBContext.SaveChangesAsync();
+                //if (activityDetail.Employees != null)
+                //{
+                //    foreach (var employee in activityDetail.Employees)
+                //    {
+                //        if (!string.IsNullOrEmpty(employee))
+                //        {
+                //            EmployeesAssignedForActivities EAFA = new EmployeesAssignedForActivities
+                //            {
+                //                CreatedAt = DateTime.Now,
+                //                CreatedBy = activityDetail.CreatedBy,
+                //                RowStatus = RowStatus.Active,
+                //                Id = Guid.NewGuid(),
+
+                //                ActivityId = activity.Id,
+                //                EmployeeId = Guid.Parse(employee),
+                //            };
+                //            await _dBContext.EmployeesAssignedForActivities.AddAsync(EAFA);
+                //            await _dBContext.SaveChangesAsync();
+                //        }
+                //    }
+                //}
+                if (activityDetail.Employees != null)
+                {
+
+
+                    var assignmentsToRemove = await _dBContext.EmployeesAssignedForActivities.Where(ea => ea.ActivityId == activity.Id).ToListAsync();
+
+
+                    foreach (var assignmentToRemove in assignmentsToRemove)
+                    {
+                        _dBContext.EmployeesAssignedForActivities.Remove(assignmentToRemove);
+                    }
+
+                    try
+                    {
+                        await _dBContext.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+
+                        Console.WriteLine("Error updating assignments: " + ex.Message);
+                    }
+                    foreach (var employee in activityDetail.Employees)
+                    {
+                        if (!string.IsNullOrEmpty(employee))
+                        {
+
+
+                            EmployeesAssignedForActivities EAFA = new EmployeesAssignedForActivities
+                            {
+                                CreatedAt = DateTime.Now,
+                                CreatedBy = activity.CreatedBy,
+
+                                Id = Guid.NewGuid(),
+
+                                ActivityId = activity.Id,
+                                EmployeeId = Guid.Parse(employee),
+                            };
+
+                            _dBContext.EmployeesAssignedForActivities.Add(EAFA);
+
+
+                            try
+                            {
+                                await _dBContext.SaveChangesAsync();
+                            }
+                            catch (Exception ex)
+                            {
+
+                                Console.WriteLine("Error updating assignments: " + ex.Message);
+                            }
+                        }
+                    }
+
+                    var existingAssignments = await _dBContext.EmployeesAssignedForActivities
+                                                .Where(e => e.ActivityId == activity.Id)
+                                                .ToListAsync();
+
+
+
+                }
+
+
+                if (activityDetail.PlanId != Guid.Empty && activityDetail.PlanId != null)
+                {
+                    var plan = await _dBContext.Plans.FirstOrDefaultAsync(x => x.Id.Equals(activityDetail.PlanId));
+                    if (plan != null)
+                    {
+                        plan.PeriodStartAt = activity.ShouldStat;
+                        plan.PeriodEndAt = activity.ShouldEnd;
+                    }
+                }
+                else if (activityDetail.TaskId != Guid.Empty)
+                {
+                    var Task = await _dBContext.Tasks.FirstOrDefaultAsync(x => x.Id.Equals(activityDetail.TaskId));
+                    if (Task != null)
+                    {
+                        var plan = await _dBContext.Plans.FirstOrDefaultAsync(x => x.Id.Equals(Task.PlanId));
+
+                        Task.ShouldStartPeriod = activity.ShouldStat;
+                        Task.ShouldEnd = activity.ShouldEnd;
+                        Task.Weight = activity.Weight;
+                        if (plan != null)
+                        {
+                            var tasks = await _dBContext.Tasks.Where(x => x.PlanId == plan.Id).ToListAsync();
+                            plan.PeriodStartAt = tasks.Min(x => x.ShouldStartPeriod);
+                            plan.PeriodEndAt = tasks.Max(x => x.ShouldEnd);
+                        }
+                    }
+                }
+                _dBContext.SaveChanges();
+
+            }
+
+
+
+            return new ResponseMessage
+            {
+                Success = true,
+                Message = "Activity Updated Successfully"
+            };
+        }
+
+
+        public async Task<ResponseMessage> DeleteActivity(Guid activityId, Guid taskId)
+        {
+            try
+            {
+
+
+                var activityParents = await _dBContext.ActivityParents.Where(x => x.Id == activityId).ToListAsync();
+
+                if (activityParents.Any())
+                {
+                    foreach (var actP in activityParents)
+                    {
+                        var actvities = await _dBContext.Activities.Where(x => x.ActivityParentId == actP.Id).ToListAsync();
+
+                        foreach (var act in actvities)
+                        {
+                            var actProgress = await _dBContext.ActivityProgresses.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+                            foreach (var actpro in actProgress)
+                            {
+                                var progAttachments = await _dBContext.ProgressAttachments.Where(x => x.ActivityProgressId == actpro.Id).ToListAsync();
+                                if (progAttachments.Any())
+                                {
+                                    _dBContext.ProgressAttachments.RemoveRange(progAttachments);
+                                    await _dBContext.SaveChangesAsync();
+                                }
+
+                            }
+
+                            if (actProgress.Any())
+                            {
+                                _dBContext.ActivityProgresses.RemoveRange(actProgress);
+                                await _dBContext.SaveChangesAsync();
+                            }
+
+                            var activityTargets = await _dBContext.ActivityTargetDivisions.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                            if (activityTargets.Any())
+                            {
+                                _dBContext.ActivityTargetDivisions.RemoveRange(activityTargets);
+                                await _dBContext.SaveChangesAsync();
+                            }
+
+
+                            var employees = await _dBContext.EmployeesAssignedForActivities.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                            if (activityTargets.Any())
+                            {
+                                _dBContext.EmployeesAssignedForActivities.RemoveRange(employees);
+                                await _dBContext.SaveChangesAsync();
+                            }
+
+
+
+
+                        }
+                    }
+
+                    _dBContext.ActivityParents.RemoveRange(activityParents);
+                    await _dBContext.SaveChangesAsync();
+
+                }
+
+                var actvities2 = await _dBContext.Activities.Where(x => x.Id == activityId).ToListAsync();
+
+                if (actvities2.Any())
+                {
+                    foreach (var act in actvities2)
+                    {
+                        var actProgress = await _dBContext.ActivityProgresses.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+                        foreach (var actpro in actProgress)
+                        {
+                            var progAttachments = await _dBContext.ProgressAttachments.Where(x => x.ActivityProgressId == actpro.Id).ToListAsync();
+                            if (progAttachments.Any())
+                            {
+                                _dBContext.ProgressAttachments.RemoveRange(progAttachments);
+                                await _dBContext.SaveChangesAsync();
+                            }
+
+                        }
+
+                        if (actProgress.Any())
+                        {
+                            _dBContext.ActivityProgresses.RemoveRange(actProgress);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+                        var activityTargets = await _dBContext.ActivityTargetDivisions.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                        if (activityTargets.Any())
+                        {
+                            _dBContext.ActivityTargetDivisions.RemoveRange(activityTargets);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+
+                        var employees = await _dBContext.EmployeesAssignedForActivities.Where(x => x.ActivityId == act.Id).ToListAsync();
+
+
+                        if (employees.Any())
+                        {
+                            _dBContext.EmployeesAssignedForActivities.RemoveRange(employees);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+                        if (activityParents.Any())
+                        {
+                            _dBContext.ActivityParents.RemoveRange(activityParents);
+                            await _dBContext.SaveChangesAsync();
+                        }
+
+                        
+
+
+                    }
+
+                    _dBContext.Activities.RemoveRange(actvities2);
+                    await _dBContext.SaveChangesAsync();
+                }
+                else
+                {
+
+                    return new ResponseMessage
+                    {
+                        Success = false,
+                        Message = "Activity Not Found"
+                    };
+
+                }
+                var Task = await _dBContext.Tasks.FirstOrDefaultAsync(x => x.Id.Equals(taskId));
+                if (Task != null)
+                {
+                    var plan = _dBContext.Plans.FirstOrDefaultAsync(x => x.Id.Equals(Task.PlanId)).Result;
+                    if (plan != null)
+                    {
+
+                        var ActParents = _dBContext.ActivityParents.Where(x => x.TaskId == Task.Id).ToList();
+                        if (Task != null && ActParents != null)
+                        {
+                            Task.ShouldStartPeriod = ActParents.Min(x => x.ShouldStartPeriod);
+                            Task.ShouldEnd = ActParents.Max(x => x.ShouldEnd);
+                            Task.Weight = ActParents.Sum(x => x.Weight);
+                            _dBContext.SaveChanges();
+                        }
+                        var tasks = _dBContext.Tasks.Where(x => x.PlanId == plan.Id).ToList();
+                        plan.PeriodStartAt = tasks.Min(x => x.ShouldStartPeriod);
+                        plan.PeriodEndAt = tasks.Max(x => x.ShouldEnd);
+                        _dBContext.SaveChanges();
+                    }
+                }
+
+
+
+
+                return new ResponseMessage
+                {
+                    Message = "Activity Deleted Successfully",
+                    Success = true
+                };
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = ex.Message
+
+                };
+            }
+        }
+
     }
 }
 

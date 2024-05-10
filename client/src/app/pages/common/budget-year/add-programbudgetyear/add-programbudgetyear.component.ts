@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IndividualConfig } from 'ngx-toastr';
@@ -7,6 +7,7 @@ import { AddBudgetyearComponent } from '../add-budgetyear/add-budgetyear.compone
 import { BudgetYearService } from '../budget-year.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { ProgramBudgetYear } from '../../common';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 })
 export class AddProgrambudgetyearComponent implements OnInit {
 
+  @Input() programBudgetYear!: ProgramBudgetYear
   toast !: toastPayload;
   programBudgetForm!: FormGroup;
   user!:UserView
@@ -28,22 +30,37 @@ export class AddProgrambudgetyearComponent implements OnInit {
     private budgetYearService: BudgetYearService,
     private activeModal:NgbActiveModal,
     private userService : UserService
-    ) {
-    this.programBudgetForm = this.formBuilder.group({
-
-      Name: ['', Validators.required],
-      FromYear: [0, Validators.required],
-      ToYear: [0, Validators.required],
-      Remark: [''],
-      CreatedBy: [''],
-      SubsidiaryOrganizationId: ['']
-
-    })
-  }
+    ) {}
 
   ngOnInit(): void {
 
     this.user = this.userService.getCurrentUser()
+
+    if(this.programBudgetYear) {
+      this.programBudgetForm = this.formBuilder.group({
+
+        Name: [this.programBudgetYear.Name, Validators.required],
+        FromYear: [this.programBudgetYear.FromYear, Validators.required],
+        ToYear: [this.programBudgetYear.ToYear, Validators.required],
+        Remark: [this.programBudgetYear.Remark],
+        CreatedBy: [''],
+        SubsidiaryOrganizationId: [''],
+        Id: ['']
+  
+      })
+    }
+    else{
+      this.programBudgetForm = this.formBuilder.group({
+
+        Name: ['', Validators.required],
+        FromYear: [0, Validators.required],
+        ToYear: [0, Validators.required],
+        Remark: [''],
+        CreatedBy: [''],
+        SubsidiaryOrganizationId: ['']
+  
+      })
+    }
 
   }
   submit() {
@@ -54,47 +71,93 @@ export class AddProgrambudgetyearComponent implements OnInit {
     this.programBudgetForm.controls['SubsidiaryOrganizationId'].setValue(this.user.SubOrgId)
 
     if (this.programBudgetForm.valid) {
-      this.budgetYearService.CreateProgramBudgetYear(this.programBudgetForm.value).subscribe({
+      if(this.programBudgetYear){
+        this.programBudgetForm.controls['Id'].setValue(this.programBudgetYear.Id)
+        this.budgetYearService.EditProgramBudgetYear(this.programBudgetForm.value).subscribe({
 
-        next: (res) => {
-
-          this.toast = {
-            message: 'Program Budget Year Successfully Created',
-            title: 'Successfully Created.',
-            type: 'success',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-
-          this.result = true;
-          this.modalClose();
-          this.programBudgetForm = this.formBuilder.group({
-
-            Name: [''],
-            FromYear: [0],
-            ToYear: [0],
-            Remark: ['']
-          })
-
-        }, error: (err) => {
-          this.toast = {
-            message: err,
-            title: 'Network error.',
-            type: 'error',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-
-
+          next: (res) => {
+  
+            this.toast = {
+              message: 'Program Budget Year Successfully Created',
+              title: 'Successfully Created.',
+              type: 'success',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+  
+            this.result = true;
+            this.modalClose();
+            this.programBudgetForm = this.formBuilder.group({
+  
+              Name: [''],
+              FromYear: [0],
+              ToYear: [0],
+              Remark: ['']
+            })
+  
+          }, error: (err) => {
+            this.toast = {
+              message: err,
+              title: 'Network error.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+          }
         }
+        );
+
       }
-      );
+      else{
+        this.budgetYearService.CreateProgramBudgetYear(this.programBudgetForm.value).subscribe({
+
+          next: (res) => {
+  
+            this.toast = {
+              message: 'Program Budget Year Successfully Created',
+              title: 'Successfully Created.',
+              type: 'success',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+  
+            this.result = true;
+            this.modalClose();
+            this.programBudgetForm = this.formBuilder.group({
+  
+              Name: [''],
+              FromYear: [0],
+              ToYear: [0],
+              Remark: ['']
+            })
+  
+          }, error: (err) => {
+            this.toast = {
+              message: err,
+              title: 'Network error.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+
+          }
+        }
+        );
+
+      }
+      
     }
     else {
       this.toast = {

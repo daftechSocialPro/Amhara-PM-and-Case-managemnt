@@ -6,6 +6,6 @@ namespace PM_Case_Managemnt_API.Services.Common
     {
         public Task<int> CreateOrganizationalProfile(OrganizationProfile organizationProfile);
         public Task<int> UpdateOrganizationalProfile(OrganizationProfile organizationProfile);
-        public Task<OrganizationProfile> GetOrganizationProfile();
+        public Task<OrganizationProfile> GetOrganizationProfile(Guid orgProId);
     }
 }

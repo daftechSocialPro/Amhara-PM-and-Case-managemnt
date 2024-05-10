@@ -7,7 +7,7 @@ import { BudgetYearService } from 'src/app/pages/common/budget-year/budget-year.
 import { SelectList } from 'src/app/pages/common/common';
 import { PlanSingleview } from '../../plans/plans';
 import { ProgramService } from '../../programs/programs.services';
-import { Task } from '../task';
+import { Task, TaskView } from '../task';
 import { TaskService } from '../task.service';
 
 @Component({
@@ -17,6 +17,7 @@ import { TaskService } from '../task.service';
 })
 export class AddTasksComponent {
 
+  @Input() task!: TaskView
   toast !: toastPayload;
   taskForm!: FormGroup;
   @Input() plan!: PlanSingleview;  
@@ -31,12 +32,24 @@ export class AddTasksComponent {
 
   ngOnInit(): void {
 
-    this.taskForm = this.formBuilder.group({
-      TaskDescription:['',Validators.required],
-      HasActvity: [false, Validators.required],
-      PlannedBudget:['',[Validators.required,Validators.max(this.plan.RemainingBudget)]]
+    if(this.task){
+      this.taskForm = this.formBuilder.group({
+        TaskDescription:[this.task.TaskName,Validators.required],
+        HasActvity: [this.task.HasActivity, Validators.required],
+        PlannedBudget:[this.task.PlannedBudget,[Validators.required,Validators.max(this.plan.RemainingBudget)]]
+  
+      })
+    }
+    else{
+      this.taskForm = this.formBuilder.group({
+        TaskDescription:['',Validators.required],
+        HasActvity: [false, Validators.required],
+        PlannedBudget:['',[Validators.required,Validators.max(this.plan.RemainingBudget)]]
+  
+      })
+    }
 
-    })
+    
   
 
   }
@@ -44,48 +57,96 @@ export class AddTasksComponent {
   submit() {
 
     if (this.taskForm.valid) {
+      if(this.task){
+        const taskValue :Task ={
+          Id: this.task.Id,
+          TaskDescription: this.taskForm.value.TaskDescription,
+          HasActvity : this.taskForm.value.HasActvity,
+          PlannedBudget:this.taskForm.value.PlannedBudget,
+          PlanId : this.plan.Id
+        } 
+  
+  
+        this.taskService.editTask(taskValue).subscribe({
+          next: (res) => {
+            this.toast = {
+              message: "Task Successfully Updated",
+              title: 'Successfully Updated.',
+              type: 'success',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+            this.closeModal()
+  
+          }, error: (err) => {
+  
+            console.log (err)
+  
+            this.toast = {
+              message: err.message,
+              title: 'Network error.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+  
+            console.log(err)
+          }
+        })
 
-      const taskValue :Task ={
+      }
+      else{
+        const taskValue :Task ={
       
-        TaskDescription: this.taskForm.value.TaskDescription,
-        HasActvity : this.taskForm.value.HasActvity,
-        PlannedBudget:this.taskForm.value.PlannedBudget,
-        PlanId : this.plan.Id
-      } 
+          TaskDescription: this.taskForm.value.TaskDescription,
+          HasActvity : this.taskForm.value.HasActvity,
+          PlannedBudget:this.taskForm.value.PlannedBudget,
+          PlanId : this.plan.Id
+        } 
+  
+  
+        this.taskService.createTask(taskValue).subscribe({
+          next: (res) => {
+            this.toast = {
+              message: "Task Successfully Creted",
+              title: 'Successfully Created.',
+              type: 'success',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+            this.closeModal()
+  
+          }, error: (err) => {
+  
+            console.log (err)
+  
+            this.toast = {
+              message: err.message,
+              title: 'Network error.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+  
+            console.log(err)
+          }
+        })
 
+      }
 
-      this.taskService.createTask(taskValue).subscribe({
-        next: (res) => {
-          this.toast = {
-            message: "Task Successfully Creted",
-            title: 'Successfully Created.',
-            type: 'success',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-          this.closeModal()
-
-        }, error: (err) => {
-
-          console.log (err)
-
-          this.toast = {
-            message: err.message,
-            title: 'Network error.',
-            type: 'error',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-
-          console.log(err)
-        }
-      })
+     
     }
 
   }
