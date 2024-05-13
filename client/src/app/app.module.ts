@@ -190,6 +190,7 @@ import { PickListModule } from 'primeng/picklist';
 import { InsideCaseComponent } from './pages/case/inside-case/inside-case.component';
 import { AddInsideCaseComponent } from './pages/case/inside-case/add-inside-case/add-inside-case.component';
 import { OrganizationProfileDetailComponent } from './pages/common/organization/org-profile/organization-profile-detail/organization-profile-detail.component';
+import { KpiComponent } from './pages/pm/kpi/kpi.component';
 
 @NgModule({
   declarations: [
@@ -344,7 +345,8 @@ import { OrganizationProfileDetailComponent } from './pages/common/organization/
     ManageRolesComponent,
     InsideCaseComponent,
     AddInsideCaseComponent,
-    OrganizationProfileDetailComponent
+    OrganizationProfileDetailComponent,
+    KpiComponent
    
    
   ],
