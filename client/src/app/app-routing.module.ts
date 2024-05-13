@@ -88,6 +88,7 @@ import { UpdateCaseFilesComponent } from './pages/case/encode-case/update-case/u
 import { SmsTemplateComponent } from './pages/common/sms-template/sms-template.component';
 import { InsideCaseComponent } from './pages/Case/inside-case/inside-case.component';
 import { OrganizationProfileDetailComponent } from './pages/common/organization/org-profile/organization-profile-detail/organization-profile-detail.component';
+import { KpiComponent } from './pages/pm/kpi/kpi.component';
 
 
 
@@ -113,10 +114,10 @@ const routes: Routes = [
   //
   { path: 'activityDetail/:actId', canActivate:[AuthGuard],component:ActivityDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'planDetail/:planId', canActivate:[AuthGuard],component:PlanDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
-  { path: 'task',canActivate:[AuthGuard],component:TasksComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},  
+  { path: 'task',canActivate:[AuthGuard],component:TasksComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'activityparent', canActivate:[AuthGuard],component:ActivityParentsComponent ,data:{permittedRoles:['Super Admin','Director','Employee Manager','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']}},
   { path: 'encodecase' ,canActivate:[AuthGuard],component : EncodeCaseComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
-  
+
   {path: 'casedetails' ,canActivate:[AuthGuard],component : CaseDetailsComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
   {path: 'casefiles' ,canActivate:[AuthGuard],component : CaseFilesComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
   ///
@@ -125,12 +126,13 @@ const routes: Routes = [
 
   { path :'insidecase',canActivate:[AuthGuard],component:InsideCaseComponent,data:{permittedRoles : ['Super Admin','Director','Employee Manager','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']}},
   { path: 'searchcase' ,canActivate:[AuthGuard],component : SearchCasesComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder']}},
- 
- 
- 
+
+
+
   { path: 'issuedcase' ,canActivate:[AuthGuard],component : IssuedCaseComponent ,data:{permittedRoles : ['Super Admin','Case Admin','Encoder','Director']}},
-  
+
   { path: 'comittee' ,canActivate : [AuthGuard],component: ComittesComponent,data:{permittedRoles : ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
+  { path: 'kpi' ,canActivate : [AuthGuard],component: KpiComponent,data:{permittedRoles : ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'assignedactivities' , canActivate:[AuthGuard], component: AssignedActivitiesComponent ,data:{permittedRoles:['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']} },
   { path: 'casetype' ,canActivate:[AuthGuard],component : CaseTypeComponent,data:{permittedRoles : ['Super Admin','Case Admin']}},
   { path: 'filesetting' ,canActivate:[AuthGuard],component : FileSettingComponent,data:{permittedRoles : ['Super Admin','Case Admin']}},
@@ -138,7 +140,7 @@ const routes: Routes = [
   { path: 'mycaselist', canActivate:[AuthGuard], component:MyCaseListComponent,data:{permittedRoles:['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager']}},
   { path: 'casedetail',canActivate:[AuthGuard],component:CaseDetailComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager']}},
   { path: 'caseHistory',canActivate:[AuthGuard],component:CaseHistoryComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager']}},
-  
+
   { path: 'caseappointments',canActivate:[AuthGuard],component:CaseAppointmentsComponent,data:{permittedRoles : ['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager']}},
   { path: 'listmessages',canActivate:[AuthGuard],component:ListOfMessagesComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin']}},
   { path: 'completedCases', canActivate:[AuthGuard],component: CompletedCasesComponent,data:{permittedRoles : ['Super Admin','Case Admin','Director']}},
@@ -148,8 +150,8 @@ const routes: Routes = [
   { path: 'analyticsdashboard', canActivate: [AuthGuard], component: AnalyticsDashboardComponent ,data:{permittedRoles : ['Monitor']}  },
 
 
-  
-//report 
+
+//report
 { path: 'casereport', canActivate:[AuthGuard],component: CaseReportComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin','Monitor']}},
 { path: 'empperformance', canActivate:[AuthGuard], component: EmployeePerformanceComponent,data:{permittedROels : ['Super Admin','Director','Case Admin','Member','Secretery','Employee Manager','Encoder','Monitor']} },
 { path: 'smsreport', canActivate:[AuthGuard], component : SmsReportComponent,data : {permittedRoles:['Super Admin','Director','Case Admin','Secretery','Monitor']}},
@@ -158,7 +160,7 @@ const routes: Routes = [
 { path: 'casedashboard',canActivate:[AuthGuard], component: CasedashboardComponent,data:{permittedRoles:['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager','PM Admin','Planner','Plan Reporting','Monitor']} },
 
 
-//Pm report 
+//Pm report
 { path: 'directorlevelperformance',canActivate:[AuthGuard], component: DirectorLevelPerformanceComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 { path: 'programbudgetreport',canActivate:[AuthGuard], component: ProgramBudgetReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 { path: 'planreportdetail',canActivate:[AuthGuard], component: PlanReportTodayComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
@@ -204,7 +206,7 @@ const routes: Routes = [
   { path: 'pages-faemploye', component: PagesFaqComponent },
   { path: 'pages-login', component: PagesLoginComponent },
   { path: 'pages-register', component: PagesRegisterComponent }
-  
+
 ];
 
 @NgModule({
