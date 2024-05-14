@@ -69,7 +69,7 @@ namespace PM_Case_Managemnt_API.Services.KPI
 
                 foreach (var item in kpiDetailsPost.GoalGrouping)
                 {
-                    foreach( var k in item.Titles)
+                    foreach (var k in item.Titles)
                     {
                         kpiDetails.Add(new KPIDetails
                         {
@@ -112,7 +112,7 @@ namespace PM_Case_Managemnt_API.Services.KPI
 
                 var kpiData = new List<KPIData>();
 
-                
+
                 foreach (var k in kpiDataPost.Datas)
                 {
                     kpiData.Add(new KPIData
@@ -124,7 +124,7 @@ namespace PM_Case_Managemnt_API.Services.KPI
                         Data = k.Data
                     });
                 }
-                
+
 
                 await _dbContext.KPIDatas.AddRangeAsync(kpiData);
                 await _dbContext.SaveChangesAsync();
@@ -155,11 +155,11 @@ namespace PM_Case_Managemnt_API.Services.KPI
                 Id = x.Id,
                 KpiDetails = _dbContext.KPIDetails.Where(x => x.KPIId == x.Id).Select(y => new KPIDetailsGetDto
                 {
-                    Id  = y.Id,
+                    Id = y.Id,
                     Title = y.Title,
                     MainGoal = y.MainGoal,
-                    KPIDatas = _dbContext.KPIDatas.Where(x => x.KPIDetailId == y.Id).Select(z => new KPIDataGetDto 
-                    { 
+                    KPIDatas = _dbContext.KPIDatas.Where(x => x.KPIDetailId == y.Id).Select(z => new KPIDataGetDto
+                    {
                         Id = z.Id,
                         Year = z.Year,
                         Data = z.Data,
@@ -172,5 +172,101 @@ namespace PM_Case_Managemnt_API.Services.KPI
             return kpis;
         }
 
+        public async Task<KPIGetDto> GetKPIById(Guid id)
+        {
+            var kpis = await _dbContext.KPIs.Where(x => x.Id == id).Select(x => new KPIGetDto
+            {
+                Title = x.Title,
+                StartYear = x.StartYear,
+                ActiveYears = x.ActiveYears,
+                EncoderOrganizationName = x.EncoderOrganizationName,
+                EvaluatorOrganizationName = x.EvaluatorOrganizationName,
+                CreatedBy = x.CreatedBy,
+                Url = x.Url,
+                Id = x.Id,
+                KpiDetails = _dbContext.KPIDetails.Where(x => x.KPIId == x.Id).Select(y => new KPIDetailsGetDto
+                {
+                    Id = y.Id,
+                    Title = y.Title,
+                    MainGoal = y.MainGoal,
+                    KPIDatas = _dbContext.KPIDatas.Where(x => x.KPIDetailId == y.Id).Select(z => new KPIDataGetDto
+                    {
+                        Id = z.Id,
+                        Year = z.Year,
+                        Data = z.Data,
+                    }).ToList(),
+
+                }).ToList(),
+
+            }).FirstOrDefaultAsync();
+
+            return kpis;
+        }
+        public async Task<ResponseMessage> UpdateKPI(KPIGetDto kpiGet)
+        {
+            try
+            {
+                var kpi = await _dbContext.KPIs.FindAsync(kpiGet.Id);
+
+                if (kpi == null)
+                {
+                    return new ResponseMessage { Success = false, Message = "KPI Not Found" };
+                }
+                kpi.StartYear = kpiGet.StartYear;
+                kpi.Title = kpiGet.Title;
+                kpi.EncoderOrganizationName = kpiGet.EncoderOrganizationName;
+                kpi.EvaluatorOrganizationName = kpiGet.EvaluatorOrganizationName;
+                kpi.Url = kpiGet.Url;
+                if (kpiGet.ActiveYears.Count > 0)
+                {
+                    kpi.SetActiveYearsFromList(kpiGet.ActiveYears);
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "KPI Updated Successfully"
+                };
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage { Success = false, Message = ex.Message };
+            }
+
+        }
+
+        public async Task<ResponseMessage> UpdateKPIDetail(KPIDetailsGetDto kpiDetailsGet)
+        {
+            try
+            {
+                var kpiDetail = await _dbContext.KPIDetails.FindAsync(kpiDetailsGet.Id);
+
+                if (kpiDetail == null)
+                {
+                    return new ResponseMessage { Success = false, Message = "KPI Detail Not Found" };
+                }
+
+                kpiDetail.Title = kpiDetailsGet.Title;
+                kpiDetail.MainGoal = kpiDetailsGet.MainGoal;
+
+                await _dbContext.SaveChangesAsync();
+
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "KPI Detail Updated Successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage { Success = false, Message = ex.Message };
+            }
+        }
     }
 }

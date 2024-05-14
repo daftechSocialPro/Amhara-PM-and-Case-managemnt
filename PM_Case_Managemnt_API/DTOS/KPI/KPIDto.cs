@@ -19,6 +19,6 @@ namespace PM_Case_Managemnt_API.DTOS.KPI
     public class KPIGetDto : KPIPostDto
     {
         public Guid Id { get; set; }
-        public List<KPIDetailsGetDto> KpiDetails { get; set; }
+        public List<KPIDetailsGetDto>? KpiDetails { get; set; }
     }
 }

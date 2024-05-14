@@ -21,6 +21,6 @@ namespace PM_Case_Managemnt_API.DTOS.KPI
         public string Title { get; set; }
         public string MainGoal { get; set; }
         public Guid? CreatedBy { get; set; }
-        public List<KPIDataGetDto> KPIDatas { get; set; }
+        public List<KPIDataGetDto>? KPIDatas { get; set; }
     }
 }
