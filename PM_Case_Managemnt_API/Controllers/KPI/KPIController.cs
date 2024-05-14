@@ -21,7 +21,7 @@ namespace PM_Case_Managemnt_API.Controllers.KPI
             return Ok(await _kpiService.GetKPIs());
         }
 
-        [HttpGet]
+       
         
     }
 }
