@@ -6,7 +6,7 @@ using PM_Case_Managemnt_API.Models.KPI;
 
 namespace PM_Case_Managemnt_API.Services.KPI
 {
-    public class KPIService
+    public class KPIService : IKPIService
     {
         private readonly DBContext _dbContext;
 
