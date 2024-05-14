@@ -14,16 +14,6 @@
     <div class="card-body p-2">
       <div class="row">
         <div class="col-9">
-
-        </div>
-
-        <div class="col-3 text-end">
-          <label class="form-label">Filter By</label>
-          <select class="form-control " [(ngModel)]="filterBy" (change)="onFilterByChange()">
-
-            <option value=0>Monthly</option>
-            <option value=1>Quarterly</option>
-          </select>
         </div>
       </div>
       <h6 class="mt-2">Organization: <b> </b> </h6>
@@ -32,78 +22,132 @@
         <b> </b>
       </h6>
       <div class="text-end col-lg-12">
-        <button class="btn btn-outline-primary text-end mb-3" (click)="addTask()"><i class="bi bi-plus me-1"></i> Task
+        <button class="btn btn-outline-primary text-end mb-3" (click)="addKpi()"><i class="bi bi-plus me-1"></i> KPI
         </button> |
         <button class="btn btn-outline-success text-end mb-3" (click)="exportAsExcel()"><i class="bi bi-file-excel"></i>
           Export Excel </button>
       </div>
       <div class="table-responsive">
         <table class="table table-bordered mt-2 " id="myTable">
+
           <thead>
             <tr>
-              <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">
-                ከዘላቂ ልማት ግቦች ጋር ያለው ትስስር በአፈጻጸም አመልካች ደረጃ</th>
-              <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black">ዋና ዋና የሚጠበቁ ስኬቶች
-              </th>
-              <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">የአፈጻጸም አመልካቾች
-              </th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">መነሻ ዓመት
-              </th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:10" style="border: 1px solid black;">ዒላማዎች
-              </th>
-              <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">የመረጃ ምንጭ
-              </th>
-              <th scope="col" [attr.rowspan]="filterBy==0?3:2" style="border: 1px solid black;">የክትትልና ግምገማ ተግባሩን
-                የሚያስተባብረው የዘርፉ መ/ቤት ስም
-              </th>
-
+              <th scope="col" rowspan="2" style="border: 1px solid black;">ዋና ዋና የሚጠበቁ ስኬቶች</th>
+              <th scope="col" rowspan="2" style="border: 1px solid black;">የአፈጻጸም አመልካቾች</th>
+              <th scope="col" colspan="1" style="border: 1px solid black;">መነሻ ዓመት</th>
+              <th scope="col" colspan="10" style="border: 1px solid black;">ዒላማዎች</th>
+              <th scope="col" rowspan="2" style="border: 1px solid black;">የመረጃ ምንጭ</th>
+              <th scope="col" rowspan="2" style="border: 1px solid black;">የክትትልና ግምገማ ተግባሩን የሚያስተባብረው የዘርፉ መ/ቤት ስም</th>
             </tr>
             <tr>
-              <th scope="col" [attr.colspan]="filterBy==0?1:01" style="border: 1px solid black;">2012</th>
-
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2012</th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2013</th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2014</th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2015</th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2016</th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2017</th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2018</th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2019</th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2020</th>
-              <th scope="col" [attr.colspan]="filterBy==0?1:1" style="border: 1px solid black;">2021</th>
-
+              <th scope="col" style="border: 1px solid black;">2012</th>
+              <th scope="col" style="border: 1px solid black;">2012</th>
+              <th scope="col" style="border: 1px solid black;">2013</th>
+              <th scope="col" style="border: 1px solid black;">2014</th>
+              <th scope="col" style="border: 1px solid black;">2015</th>
+              <th scope="col" style="border: 1px solid black;">2016</th>
+              <th scope="col" style="border: 1px solid black;">2017</th>
+              <th scope="col" style="border: 1px solid black;">2018</th>
+              <th scope="col" style="border: 1px solid black;">2019</th>
+              <th scope="col" style="border: 1px solid black;">2020</th>
+              <th scope="col" style="border: 1px solid black;">2021</th>
             </tr>
-
           </thead>
-          <!-- <tbody class="labels">
-            <tr>
 
-              <td [attr.colspan]="filterBy==0?23:11" style="border: 1px solid black; background-color: #D5FFFF"> </td>
-            </tr>
-          </tbody> -->
           <ng-template #staticContent>
-
             <tbody class="labels">
+              <!-- <tr>
+                <td style="border: 1px solid black; background-color: #e8ffde">Dummy Data 1</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">Dummy Data 2</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">2012</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">10</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">20</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">30</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">40</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">50</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">60</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">70</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">80</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">90</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">100</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">Dummy Data 3</td>
+                <td style="border: 1px solid black; background-color: #e8ffde">Dummy Data 4</td>
+              </tr> -->
               <tr>
-                <td style="border: 1px solid black; background-color: #e8ffde ">
-                  ተግባር
-                </td>
-                <td [attr.colspan]="filterBy==0?14:10"
-                  style="border: 1px solid black;  background-color: #e8ffde;width: 200px; cursor: pointer;">
-                  ክብደት
-                </td>
-                <td style="border: 1px solid black; background-color: #e8ffde ">
-                </td>
-                <td style="border: 1px solid black; background-color: #e8ffde ">
-                </td>
-                <td style="border: 1px solid black; background-color: #e8ffde ">
-                </td>
-                <td style="border: 1px solid black; background-color: #e8ffde ">
-                </td>
-                <td style="border: 1px solid black; background-color: #e8ffde ">
-                </td>
-                
+                <tr>
+                  <td rowspan="5" style="border: 1px solid black; background-color: #e8ffde">ተከላካይ ደህንነት እና ጉዳይ</td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;">የሰብአዊ ማኅበረሰብ ሰላም እሴቶችን ማቀነባበርን የሞግባረ አጀንዳ እሳካ ጥር/ 2016 ግንባታ</td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td rowspan="5" style="border: 1px solid black; background-color: #e8ffde;">ከፌደራል ጉዳይ አስትዋት ጠንካራ ተደራሽነት</td>
+                  <td rowspan="5" style="border: 1px solid black; background-color: #e8ffde;">ወ/ተቀሠቀስ ክፍል</td>
+                </tr>
+                <tr>
+                  <td style="border: 1px solid black; background-color: #e8ffde;">MURAP የጥንቃቄ የጉዳይችበ እነታዎ ስእተ</td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                </tr>
+                <tr>
+                  <td style="border: 1px solid black; background-color: #e8ffde;">የኪራይ ሰራተኞች ከጉዝቦም የተስተካከለ ደንብ ድርሻ (%)</td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                </tr>
+                <tr>
+                  <td style="border: 1px solid black; background-color: #e8ffde;">በስላሱ የአገር ድህረገፅ ፈጠራና ስራ አመቺ የመሥሪያ ቤትን አዋጅ</td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                </tr>
+                <tr>
+                  <td style="border: 1px solid black; background-color: #e8ffde;">የምናገርበት ስራበጀት</td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
+                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
               </tr>
+
             </tbody>
           </ng-template>
           <ng-container *ngTemplateOutlet="staticContent">
