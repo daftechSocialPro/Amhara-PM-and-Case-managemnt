@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddKpiComponent } from './add-kpi/add-kpi.component';
 
 @Component({
   selector: 'app-kpi',
@@ -6,6 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./kpi.component.css']
 })
 export class KpiComponent {
+
+  constructor(private modalService : NgbModal) { }
+
+
   filterBy:number=1
   items: number[] = Array(13).fill(0);
   items2: number[] = Array(4).fill(0);
@@ -18,6 +24,8 @@ export class KpiComponent {
       this.items2= Array(4).fill(0);
     }
   }
-  addTask(){}
+  addKpi(){
+    let modalRef = this.modalService.open(AddKpiComponent, { size: 'xl', backdrop: 'static' })
+  }
   exportAsExcel(){}
 }

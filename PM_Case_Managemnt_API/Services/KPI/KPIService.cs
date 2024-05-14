@@ -153,12 +153,12 @@ namespace PM_Case_Managemnt_API.Services.KPI
                 CreatedBy = x.CreatedBy,
                 Url = x.Url,
                 Id = x.Id,
-                KpiDetails = _dbContext.KPIDetails.Where(x => x.KPIId == x.Id).Select(y => new KPIDetailsGetDto
+                KpiDetails = _dbContext.KPIDetails.Where(a => a.KPIId == x.Id).Select(y => new KPIDetailsGetDto
                 {
                     Id = y.Id,
                     Title = y.Title,
                     MainGoal = y.MainGoal,
-                    KPIDatas = _dbContext.KPIDatas.Where(x => x.KPIDetailId == y.Id).Select(z => new KPIDataGetDto
+                    KPIDatas = _dbContext.KPIDatas.Where(b => b.KPIDetailId == y.Id).Select(z => new KPIDataGetDto
                     {
                         Id = z.Id,
                         Year = z.Year,
