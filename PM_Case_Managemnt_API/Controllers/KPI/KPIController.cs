@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PM_Case_Managemnt_API.DTOS.KPI;
 using PM_Case_Managemnt_API.Services.KPI;
 
 namespace PM_Case_Managemnt_API.Controllers.KPI
@@ -21,7 +22,76 @@ namespace PM_Case_Managemnt_API.Controllers.KPI
             return Ok(await _kpiService.GetKPIs());
         }
 
-       
-        
+        [HttpGet]
+        public async Task<IActionResult> GetKPIById(Guid id)
+        {
+            return Ok(await _kpiService.GetKPIById(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddKPI(KPIPostDto kpiPost)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(await _kpiService.AddKPI(kpiPost));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddKPIDetail(KPIDetailsPostDto kpiDetailsPost)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(await _kpiService.AddKPIDetail(kpiDetailsPost));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddKPIData(KPIDataPostDto kpiDataPost)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(await _kpiService.AddKPIData(kpiDataPost));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateKPI(KPIGetDto kpiGet)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(await _kpiService.UpdateKPI(kpiGet));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateKPIDetail(KPIDetailsGetDto kpiDetailsGet)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(await _kpiService.UpdateKPIDetail(kpiDetailsGet));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

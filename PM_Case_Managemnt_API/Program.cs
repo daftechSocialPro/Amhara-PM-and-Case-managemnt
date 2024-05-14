@@ -33,6 +33,7 @@ using PM_Case_Managemnt_API.Services.Common.ShelfService;
 using PM_Case_Managemnt_API.Services.Common.SmsTemplate;
 using PM_Case_Managemnt_API.Services.Common.SubOrganization;
 using PM_Case_Managemnt_API.Services.Common.SubsidiaryOrganization;
+using PM_Case_Managemnt_API.Services.KPI;
 using PM_Case_Managemnt_API.Services.PM;
 using PM_Case_Managemnt_API.Services.PM.Activity;
 using PM_Case_Managemnt_API.Services.PM.Commite;
@@ -128,6 +129,7 @@ builder.Services.AddScoped<ISubsidiaryOrganizationService, SubsidiaryOrganizatio
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<ISmsTemplateService, SmsTemplateService>();
+builder.Services.AddScoped<IKPIService, KPIService>();
 
 //Jwt Authentication
 
