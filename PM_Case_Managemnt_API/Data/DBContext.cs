@@ -3,6 +3,7 @@ using PM_Case_Managemnt_API.Models.Case;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Models.Common.Organization;
+using PM_Case_Managemnt_API.Models.KPI;
 using PM_Case_Managemnt_API.Models.PM;
 using Task = PM_Case_Managemnt_API.Models.PM.Task;
 
@@ -90,6 +91,10 @@ namespace PM_Case_Managemnt_API.Data
         //Sms Template
         public DbSet<SmsTemplate> SmsTemplates { get; set; }
 
+        //KPI
+        public DbSet<KPIList> KPIs { get; set; }
+        public DbSet<KPIDetails> KPIDetails { get; set; }
+        public DbSet<KPIData> KPIDatas { get; set; }
 
 
     }
