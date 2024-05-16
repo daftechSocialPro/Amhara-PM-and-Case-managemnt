@@ -12,7 +12,7 @@
         public int Year { get; set; }
         public string Data { get; set; }
     }
-    public class KPIDataGetDto : KPIDataPostDto
+    public class KPIDataGetDto 
     {
         public Guid Id { get; set; }
         public Guid? KPIDetailId { get; set; }

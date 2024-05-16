@@ -116,7 +116,7 @@ export class UpdateEmployeeComponent implements OnInit {
 
 
     if (this.EmployeeForm.valid) {
-
+      
       var value = this.EmployeeForm.value;
       var file = value.avatar
 
@@ -127,7 +127,7 @@ export class UpdateEmployeeComponent implements OnInit {
       // let fileToUpload = <File>files[0];
       const formData = new FormData();
       file ? formData.append('file', file, file.name) : "";
-
+      
       formData.set('Id', this.emp.Id)
       formData.set('Photo',this.emp.Photo)
       formData.set('Title', value.Title);
@@ -137,8 +137,8 @@ export class UpdateEmployeeComponent implements OnInit {
       formData.set('Position', value.Position);
       formData.set('StructureId', value.StructureId);
       formData.set('Remark', value.Remark);
-      formData.set('RowStatus', value.RowStatus)
-
+      formData.set('RowStatus', value.RowStatus);
+      
       this.orgService.employeeUpdate(formData).subscribe({
         next: (res) => {
           this.toast = {

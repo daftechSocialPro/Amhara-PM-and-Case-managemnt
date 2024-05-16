@@ -1,1 +1,79 @@
-<p>add-kpi works!</p>
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Add KPI</h5>
+        <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
+    </div>
+    
+    <div class="card">
+        
+        <div class="card-body">
+            <form class="" [formGroup]="kpiForm" (ngSubmit)="Submit()">
+                <div class="modal-body">
+                    <div class="row g-3">
+    
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="Title" placeholder="Title"
+                                    formControlName="Title">
+                                <label for="Title">Title</label>
+                            </div>
+                        </div>
+                        
+                        
+
+    
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="EncoderOrganizationName" placeholder="EncoderOrganizationName"
+                                    formControlName="EncoderOrganizationName">
+                                <label for="EncoderOrganizationName">Encoder Organization Name</label>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="EvaluatorOrganizationName" placeholder="EvaluatorOrganizationName"
+                                    formControlName="EvaluatorOrganizationName">
+                                <label for="EvaluatorOrganizationName">Evaluator Organization Name</label>
+                            </div>
+                        </div>  
+                    
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="StartYear" placeholder="StartYear"
+                                    formControlName="StartYear">
+                                <label for="StartYear">Start Year</label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label>You Can Insert Multiple Years Separated by Comma</label>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="ActiveYears" placeholder="ActiveYears"
+                                    formControlName="ActiveYears">
+                                <label for="ActiveYears">Active Years</label>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-floating"><textarea class="form-control" formControlName="Remark"
+                                    placeholder="Address" id="Remark" style="height: 120px;"></textarea><label
+                                    for="Remark">Remark</label>
+                            </div>
+                        </div>
+                </div>
+    
+                </div>
+                <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                        (click)="closeModal()">Close</button>
+                    <button type="button" type="submit"
+                        [disabled]="!(kpiForm.valid)"
+                        class="btn btn-success">Create</button>
+                </div>
+            </form>
+        
+        </div>
+    </div>
+    
+</div>

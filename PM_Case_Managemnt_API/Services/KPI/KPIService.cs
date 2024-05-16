@@ -29,10 +29,11 @@ namespace PM_Case_Managemnt_API.Services.KPI
                     EncoderOrganizationName = kpiPost.EncoderOrganizationName,
                     EvaluatorOrganizationName = kpiPost.EvaluatorOrganizationName,
                     Url = kpiPost.Url,
+                    ActiveYearsString = kpiPost.ActiveYearsString
 
                 };
 
-                kpi.SetActiveYearsFromList(kpiPost.ActiveYears);
+                //kpi.SetActiveYearsFromList(kpiPost.ActiveYears);
 
                 await _dbContext.KPIs.AddAsync(kpi);
                 await _dbContext.SaveChangesAsync();
@@ -151,58 +152,58 @@ namespace PM_Case_Managemnt_API.Services.KPI
             {
                 Title = x.Title,
                 StartYear = x.StartYear,
-                ActiveYears = x.ActiveYears,
+                ActiveYearsString = x.ActiveYearsString,
                 EncoderOrganizationName = x.EncoderOrganizationName,
                 EvaluatorOrganizationName = x.EvaluatorOrganizationName,
                 CreatedBy = x.CreatedBy,
                 Url = x.Url,
-                Id = x.Id,
-                KpiDetails = _dbContext.KPIDetails.Where(a => a.KPIId == x.Id).Select(y => new KPIDetailsGetDto
-                {
-                    Id = y.Id,
-                    Title = y.Title,
-                    MainGoal = y.MainGoal,
-                    KPIDatas = _dbContext.KPIDatas.Where(b => b.KPIDetailId == y.Id).Select(z => new KPIDataGetDto
-                    {
-                        Id = z.Id,
-                        Year = z.Year,
-                        Data = z.Data,
-                    }).ToList(),
-
-                }).ToList(),
-
+                Id = x.Id
+                
             }).ToListAsync();
 
+            
             return kpis;
         }
 
         public async Task<KPIGetDto> GetKPIById(Guid id)
         {
-            var kpis = await _dbContext.KPIs.Where(x => x.Id == id).Select(x => new KPIGetDto
-            {
-                Title = x.Title,
-                StartYear = x.StartYear,
-                ActiveYears = x.ActiveYears,
-                EncoderOrganizationName = x.EncoderOrganizationName,
-                EvaluatorOrganizationName = x.EvaluatorOrganizationName,
-                CreatedBy = x.CreatedBy,
-                Url = x.Url,
-                Id = x.Id,
-                KpiDetails = _dbContext.KPIDetails.Where(x => x.KPIId == x.Id).Select(y => new KPIDetailsGetDto
-                {
-                    Id = y.Id,
-                    Title = y.Title,
-                    MainGoal = y.MainGoal,
-                    KPIDatas = _dbContext.KPIDatas.Where(x => x.KPIDetailId == y.Id).Select(z => new KPIDataGetDto
-                    {
-                        Id = z.Id,
-                        Year = z.Year,
-                        Data = z.Data,
-                    }).ToList(),
+            var kpis = await _dbContext.KPIs
+                        .Where(x => x.Id == id)
+                        .Select(x => new KPIGetDto
+                        {
+                            Id = x.Id,
+                            Title = x.Title,
+                            StartYear = x.StartYear,
+                            ActiveYearsString = x.ActiveYearsString,
+                            EncoderOrganizationName = x.EncoderOrganizationName,
+                            EvaluatorOrganizationName = x.EvaluatorOrganizationName,
+                            CreatedBy = x.CreatedBy,
+                            Url = x.Url,
+                            KpiDetails = _dbContext.KPIDetails
+                                .Where(d => d.KPIId == x.Id) 
+                                .GroupBy(d => d.MainGoal)
+                                .Select(group => new GroupedKPIDetailsGetDto
+                                {
+                                    MainGoal = group.Key,
+                                    Details = group.Select(d => new KPIDetailsGetDto
+                                    {
+                                        Id = d.Id,
+                                        Title = d.Title,
+                                        MainGoal = d.MainGoal,
+                                        KPIDatas = _dbContext.KPIDatas
+                                            .Where(z => z.KPIDetailId == d.Id)
+                                            .Select(z => new KPIDataGetDto
+                                            {
+                                                Id = z.Id,
+                                                Year = z.Year,
+                                                Data = z.Data,
+                                            }).ToList()
+                                    }).ToList()
+                                }).ToList()
+                        })
+                        .FirstOrDefaultAsync();
 
-                }).ToList(),
-
-            }).FirstOrDefaultAsync();
+            kpis.ActiveYears = kpis.ActiveYearsString?.Split(',').Select(int.Parse).ToList() ?? new List<int>();
 
             return kpis;
         }
@@ -221,10 +222,11 @@ namespace PM_Case_Managemnt_API.Services.KPI
                 kpi.EncoderOrganizationName = kpiGet.EncoderOrganizationName;
                 kpi.EvaluatorOrganizationName = kpiGet.EvaluatorOrganizationName;
                 kpi.Url = kpiGet.Url;
-                if (kpiGet.ActiveYears.Count > 0)
-                {
-                    kpi.SetActiveYearsFromList(kpiGet.ActiveYears);
-                }
+                //if (kpiGet.ActiveYears.Count > 0)
+                //{
+                //    kpi.SetActiveYearsFromList(kpiGet.ActiveYears);
+                //}
+                kpi.ActiveYearsString = kpiGet.ActiveYearsString;
 
                 await _dbContext.SaveChangesAsync();
 

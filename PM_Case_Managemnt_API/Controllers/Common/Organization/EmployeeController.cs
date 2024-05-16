@@ -136,7 +136,7 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
                 var employee = new EmployeeDto
                 {
 
-                    Id = Guid.Parse(Request.Form["id"]),
+                    Id = Guid.Parse(Request.Form["Id"]),
                     Photo = dbpath != "" ? dbpath : Request.Form["Photo"],
                     Title = Request.Form["Title"],
                     FullName = Request.Form["FullName"],

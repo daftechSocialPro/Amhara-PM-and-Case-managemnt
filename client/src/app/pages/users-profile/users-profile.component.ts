@@ -121,8 +121,11 @@ export class UsersProfileComponent implements OnInit {
       formData.set('Photo', this.Employee.Photo)
       formData.set('Title', value.Title);
       formData.set('FullName', value.FullName);
-      formData.set('Gender', value.Gender);
+      formData.set('Gender', this.Employee.Gender);
       formData.set('PhoneNumber', value.PhoneNumber);
+      formData.set('StructureId', this.Employee.StructureId);
+      formData.set('RowStatus', this.Employee.RowStatus.toString());
+      formData.set('Position', this.Employee.Position);
       formData.set('Remark', value.Remark);
 
 

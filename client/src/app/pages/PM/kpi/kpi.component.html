@@ -1,10 +1,10 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Program</h1>
+    <h1>KPI List</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item">Programs</li>
+        <li class="breadcrumb-item">KPI</li>
         <li class="breadcrumb-item active">List</li>
       </ol>
     </nav>
@@ -16,145 +16,77 @@
         <div class="col-9">
         </div>
       </div>
-      <h6 class="mt-2">Organization: <b> </b> </h6>
-      <h6 class="mt-2">Project: <b> </b> </h6>
-      <h6>Period of Performance:
-        <b> </b>
-      </h6>
+      
       <div class="text-end col-lg-12">
         <button class="btn btn-outline-primary text-end mb-3" (click)="addKpi()"><i class="bi bi-plus me-1"></i> KPI
-        </button> |
-        <button class="btn btn-outline-success text-end mb-3" (click)="exportAsExcel()"><i class="bi bi-file-excel"></i>
-          Export Excel </button>
+        </button> 
       </div>
-      <div class="table-responsive">
-        <table class="table table-bordered mt-2 " id="myTable">
+      <div class="col-lg-6" *ngFor="let kpi of KPIList" style="cursor: pointer;">
 
-          <thead>
-            <tr>
-              <th scope="col" rowspan="2" style="border: 1px solid black;">ዋና ዋና የሚጠበቁ ስኬቶች</th>
-              <th scope="col" rowspan="2" style="border: 1px solid black;">የአፈጻጸም አመልካቾች</th>
-              <th scope="col" colspan="1" style="border: 1px solid black;">መነሻ ዓመት</th>
-              <th scope="col" colspan="10" style="border: 1px solid black;">ዒላማዎች</th>
-              <th scope="col" rowspan="2" style="border: 1px solid black;">የመረጃ ምንጭ</th>
-              <th scope="col" rowspan="2" style="border: 1px solid black;">የክትትልና ግምገማ ተግባሩን የሚያስተባብረው የዘርፉ መ/ቤት ስም</th>
-            </tr>
-            <tr>
-              <th scope="col" style="border: 1px solid black;">2012</th>
-              <th scope="col" style="border: 1px solid black;">2012</th>
-              <th scope="col" style="border: 1px solid black;">2013</th>
-              <th scope="col" style="border: 1px solid black;">2014</th>
-              <th scope="col" style="border: 1px solid black;">2015</th>
-              <th scope="col" style="border: 1px solid black;">2016</th>
-              <th scope="col" style="border: 1px solid black;">2017</th>
-              <th scope="col" style="border: 1px solid black;">2018</th>
-              <th scope="col" style="border: 1px solid black;">2019</th>
-              <th scope="col" style="border: 1px solid black;">2020</th>
-              <th scope="col" style="border: 1px solid black;">2021</th>
-            </tr>
-          </thead>
+        <div class="card">
+           <div class="card-header">
 
-          <ng-template #staticContent>
-            <tbody class="labels">
-              <!-- <tr>
-                <td style="border: 1px solid black; background-color: #e8ffde">Dummy Data 1</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">Dummy Data 2</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">2012</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">10</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">20</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">30</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">40</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">50</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">60</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">70</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">80</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">90</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">100</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">Dummy Data 3</td>
-                <td style="border: 1px solid black; background-color: #e8ffde">Dummy Data 4</td>
-              </tr> -->
-              <tr>
-                <tr>
-                  <td rowspan="5" style="border: 1px solid black; background-color: #e8ffde">ተከላካይ ደህንነት እና ጉዳይ</td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;">የሰብአዊ ማኅበረሰብ ሰላም እሴቶችን ማቀነባበርን የሞግባረ አጀንዳ እሳካ ጥር/ 2016 ግንባታ</td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td rowspan="5" style="border: 1px solid black; background-color: #e8ffde;">ከፌደራል ጉዳይ አስትዋት ጠንካራ ተደራሽነት</td>
-                  <td rowspan="5" style="border: 1px solid black; background-color: #e8ffde;">ወ/ተቀሠቀስ ክፍል</td>
-                </tr>
-                <tr>
-                  <td style="border: 1px solid black; background-color: #e8ffde;">MURAP የጥንቃቄ የጉዳይችበ እነታዎ ስእተ</td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                </tr>
-                <tr>
-                  <td style="border: 1px solid black; background-color: #e8ffde;">የኪራይ ሰራተኞች ከጉዝቦም የተስተካከለ ደንብ ድርሻ (%)</td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                </tr>
-                <tr>
-                  <td style="border: 1px solid black; background-color: #e8ffde;">በስላሱ የአገር ድህረገፅ ፈጠራና ስራ አመቺ የመሥሪያ ቤትን አዋጅ</td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                </tr>
-                <tr>
-                  <td style="border: 1px solid black; background-color: #e8ffde;">የምናገርበት ስራበጀት</td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                  <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-              </tr>
+              <div>
+                 <div>
+                    {{kpi.Title}}
+                 </div>
+                 <div style="text-align: right!important;">
+                    <span *ngIf="kpi.Url !== null" class="badge bg-success">Has URL</span> <span *ngIf="kpi.Url === null"
+                       class="badge bg-danger">Has No URL</span>
+                 </div>
+              </div>
+           </div>
+           <div class="card-body" style="background-color: #f6f9ff !important;">
+              <!-- (click)="tasks(plan)" -->
+              <h5 class="card-title ">
+                 <div class="row">
+                    <div class="col-md-10">
+                      {{kpi.Title}}
 
-            </tbody>
-          </ng-template>
-          <ng-container *ngTemplateOutlet="staticContent">
+                    </div>
+                    
+                 </div>
+              </h5>
 
-          </ng-container>
-        </table>
-      </div>
+              <div class="text-center" style="color: #798eb3;">
+                 <span class="card-title"> Encoder Organization Name :</span>
+                 {{kpi.EncoderOrganizationName}} &nbsp;<br/>
+                 <span class="card-title"> Evaluator Organization Name : </span>
+                 {{kpi.EvaluatorOrganizationName}} <br />
+                 
+              </div>
+           </div>
+           <div class="card-footer">
+
+              <div class="row">
+                 <div class="col-lg-4">
+                    Start Year : {{kpi.StartYear}}
+
+                 </div>
+                 
+                 <div  style="text-align: right!important;">
+                    <button class="btn btn-primary text-end" (click)="routeToKPIDetail(kpi.Id)"> KPI Detail
+                    </button>
+                 </div>
+              </div>
+
+              <!-- <div style="text-align: right; ">
+                 {{plan.PlanWeight}} %
+              </div> -->
+
+
+              <div class="progress mt-3">
+                 
+              </div>
+           </div>
+        </div>
+
+        <!-- mmm -->
+
+
+        <!-- mmmmm -->
+
+     </div>
     </div>
   </div>
 </main>

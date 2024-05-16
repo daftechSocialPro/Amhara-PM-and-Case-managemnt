@@ -89,6 +89,7 @@ import { SmsTemplateComponent } from './pages/common/sms-template/sms-template.c
 import { InsideCaseComponent } from './pages/Case/inside-case/inside-case.component';
 import { OrganizationProfileDetailComponent } from './pages/common/organization/org-profile/organization-profile-detail/organization-profile-detail.component';
 import { KpiComponent } from './pages/pm/kpi/kpi.component';
+import { KpiDetailComponent } from './pages/pm/kpi/kpi-detail/kpi-detail.component';
 
 
 
@@ -133,6 +134,8 @@ const routes: Routes = [
 
   { path: 'comittee' ,canActivate : [AuthGuard],component: ComittesComponent,data:{permittedRoles : ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'kpi' ,canActivate : [AuthGuard],component: KpiComponent,data:{permittedRoles : ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
+  { path: 'kpiDetail/:kpiId', canActivate:[AuthGuard],component:KpiDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
+
   { path: 'assignedactivities' , canActivate:[AuthGuard], component: AssignedActivitiesComponent ,data:{permittedRoles:['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder']} },
   { path: 'casetype' ,canActivate:[AuthGuard],component : CaseTypeComponent,data:{permittedRoles : ['Super Admin','Case Admin']}},
   { path: 'filesetting' ,canActivate:[AuthGuard],component : FileSettingComponent,data:{permittedRoles : ['Super Admin','Case Admin']}},
