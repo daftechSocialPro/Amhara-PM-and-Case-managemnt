@@ -14,6 +14,7 @@ namespace PM_Case_Managemnt_API.DTOS.KPI
         public string Goal { get; set; }
         public List<string> Titles { get; set; }
     }
+
     public class KPIDetailsGetDto 
     {
         public Guid Id { get; set; }
@@ -22,5 +23,10 @@ namespace PM_Case_Managemnt_API.DTOS.KPI
         public string MainGoal { get; set; }
         public Guid? CreatedBy { get; set; }
         public List<KPIDataGetDto>? KPIDatas { get; set; }
+    }
+    public class GroupedKPIDetailsGetDto
+    {
+        public string MainGoal { get; set; }
+        public List<KPIDetailsGetDto> Details { get; set; }
     }
 }

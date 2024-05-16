@@ -7,10 +7,10 @@ namespace PM_Case_Managemnt_API.DTOS.KPI
     {
         public string Title { get; set; }
         public int StartYear { get; set; }
-        public List<int> ActiveYears { get; set; }
+        public string ActiveYearsString { get; set; }
         public string EncoderOrganizationName { get; set; }
         public string EvaluatorOrganizationName { get; set; }
-        public string Url { get; set; }
+        public string? Url { get; set; }
         public Guid CreatedBy { get; set; }
         
 
@@ -19,6 +19,7 @@ namespace PM_Case_Managemnt_API.DTOS.KPI
     public class KPIGetDto : KPIPostDto
     {
         public Guid Id { get; set; }
-        public List<KPIDetailsGetDto>? KpiDetails { get; set; }
+        public List<int> ActiveYears { get; set; }
+        public List<GroupedKPIDetailsGetDto>? KpiDetails { get; set; }
     }
 }

@@ -192,6 +192,7 @@ import { AddInsideCaseComponent } from './pages/case/inside-case/add-inside-case
 import { OrganizationProfileDetailComponent } from './pages/common/organization/org-profile/organization-profile-detail/organization-profile-detail.component';
 import { KpiComponent } from './pages/pm/kpi/kpi.component';
 import { AddKpiComponent } from './pages/pm/kpi/add-kpi/add-kpi.component';
+import { KpiDetailComponent } from './pages/pm/kpi/kpi-detail/kpi-detail.component';
 
 @NgModule({
   declarations: [
@@ -348,7 +349,8 @@ import { AddKpiComponent } from './pages/pm/kpi/add-kpi/add-kpi.component';
     AddInsideCaseComponent,
     OrganizationProfileDetailComponent,
     KpiComponent,
-    AddKpiComponent
+    AddKpiComponent,
+    KpiDetailComponent
    
    
   ],
