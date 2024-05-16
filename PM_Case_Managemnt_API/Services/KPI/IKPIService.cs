@@ -7,7 +7,7 @@ namespace PM_Case_Managemnt_API.Services.KPI
     {
         Task<ResponseMessage> AddKPI(KPIPostDto kpiPost);
         Task<ResponseMessage> AddKPIDetail(KPIDetailsPostDto kpiDetailsPost);
-        Task<ResponseMessage> AddKPIData(KPIDataPostDto kpiDataPost);
+        Task<ResponseMessage> AddKPIData(List<KPIDataPostDto> kpiDataPost);
         Task<List<KPIGetDto>> GetKPIs();
         Task<KPIGetDto> GetKPIById(Guid id);
         Task<ResponseMessage> UpdateKPI(KPIGetDto kpiGet);

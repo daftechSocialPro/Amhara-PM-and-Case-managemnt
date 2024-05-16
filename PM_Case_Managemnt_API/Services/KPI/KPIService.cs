@@ -99,31 +99,35 @@ namespace PM_Case_Managemnt_API.Services.KPI
             }
         }
 
-        public async Task<ResponseMessage> AddKPIData(KPIDataPostDto kpiDataPost)
+        public async Task<ResponseMessage> AddKPIData(List<KPIDataPostDto> kpiDataPost)
         {
             try
             {
-                var KpiDetail = await _dbContext.KPIDetails.FindAsync(kpiDataPost.KPIDetailId);
-
-                if (KpiDetail == null)
-                {
-                    return new ResponseMessage { Success = false, Message = "KPI Detail Not Found" };
-                }
-
                 var kpiData = new List<KPIData>();
-
-
-                foreach (var k in kpiDataPost.Datas)
+                foreach (var item in kpiDataPost)
                 {
-                    kpiData.Add(new KPIData
+                    var KpiDetail = await _dbContext.KPIDetails.FindAsync(item.KPIDetailId);
+
+                    if (KpiDetail == null)
                     {
-                        Id = Guid.NewGuid(),
-                        CreatedAt = DateTime.Now,
-                        CreatedBy = kpiDataPost.CreatedBy,
-                        Year = k.Year,
-                        Data = k.Data
-                    });
+                        return new ResponseMessage { Success = false, Message = "KPI Detail Not Found" };
+                    }
+
+                   
+                    foreach (var k in item.Datas)
+                    {
+                        kpiData.Add(new KPIData
+                        {
+                            Id = Guid.NewGuid(),
+                            CreatedAt = DateTime.Now,
+                            CreatedBy = item.CreatedBy,
+                            Year = k.Year,
+                            Data = k.Data,
+                            KPIDetailId = item.KPIDetailId
+                        });
+                    }
                 }
+                
 
 
                 await _dbContext.KPIDatas.AddRangeAsync(kpiData);

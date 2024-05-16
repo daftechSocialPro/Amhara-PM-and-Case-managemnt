@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PM_Case_Managemnt_API.DTOS.KPI;
 using PM_Case_Managemnt_API.Services.KPI;
+using System.Collections.Generic;
 
 namespace PM_Case_Managemnt_API.Controllers.KPI
 {
@@ -55,7 +56,7 @@ namespace PM_Case_Managemnt_API.Controllers.KPI
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddKPIData(KPIDataPostDto kpiDataPost)
+        public async Task<IActionResult> AddKPIData(List<KPIDataPostDto> kpiDataPost)
         {
             if (ModelState.IsValid)
             {
