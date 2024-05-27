@@ -12,5 +12,6 @@ namespace PM_Case_Managemnt_API.Services.KPI
         Task<KPIGetDto> GetKPIById(Guid id);
         Task<ResponseMessage> UpdateKPI(KPIGetDto kpiGet);
         Task<ResponseMessage> UpdateKPIDetail(KPIDetailsGetDto kpiDetailsGet);
+        Task<ResponseMessage> LoginKpiDataEncoding(string accessCode);
     }
 }

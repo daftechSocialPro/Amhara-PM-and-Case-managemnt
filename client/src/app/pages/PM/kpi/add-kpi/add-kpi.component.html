@@ -19,11 +19,30 @@
                                 <label for="Title">Title</label>
                             </div>
                         </div>
-                        
+
+                        <div class="col-md-6">
+                            <div class="form-check" style="font-size: 30px;"> <input class="form-check-input" formControlName="HasSubsidiaryOrganization"
+                                    type="checkbox" id="gridCheck"> <label class="form-check-label" style="font-size: 28px;font-weight: bold;"
+                                    for="gridCheck">Has Subsidiary Organization </label></div>
+                        </div>
+
+
+
+
+                        <div class="col-md-6" *ngIf="kpiForm.value.HasSubsidiaryOrganization">
+                              
+                            <div class="form-floating ">
+                              <select class="form-control"  id="ReportBy"
+                                  placeholder="ReportBy" formControlName="SubsidiaryOrganizationId" >
+                                  <option value="">--Select Subsidiary Organization--</option>
+                                  <option *ngFor="let bl of subsidiaryOrganizationSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
+                              </select>
+                              <label for="ReportBy">Subsidiary Organization</label>
+                            </div>
+                        </div>
                         
 
-    
-                        <div class="col-md-6">
+                        <div class="col-md-6" *ngIf="!kpiForm.value.HasSubsidiaryOrganization">
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="EncoderOrganizationName" placeholder="EncoderOrganizationName"
                                     formControlName="EncoderOrganizationName">
@@ -31,7 +50,7 @@
                             </div>
                         </div>
     
-                        <div class="col-md-6">
+                        <div class="col-md-6" *ngIf="!kpiForm.value.HasSubsidiaryOrganization">
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="EvaluatorOrganizationName" placeholder="EvaluatorOrganizationName"
                                     formControlName="EvaluatorOrganizationName">
@@ -48,11 +67,11 @@
                         </div>
                         
                         <div class="col-md-6">
-                            <label>You Can Insert Multiple Years Separated by Comma</label>
+                            
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="ActiveYears" placeholder="ActiveYears"
                                     formControlName="ActiveYears">
-                                <label for="ActiveYears">Active Years</label>
+                                <label for="ActiveYears">Active Years( You Can Insert Multiple Years Separated by Comma )</label>
                             </div>
                         </div>
 

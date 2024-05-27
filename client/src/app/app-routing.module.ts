@@ -90,6 +90,8 @@ import { InsideCaseComponent } from './pages/Case/inside-case/inside-case.compon
 import { OrganizationProfileDetailComponent } from './pages/common/organization/org-profile/organization-profile-detail/organization-profile-detail.component';
 import { KpiComponent } from './pages/pm/kpi/kpi.component';
 import { KpiDetailComponent } from './pages/pm/kpi/kpi-detail/kpi-detail.component';
+import { AddKpiDataComponent } from './pages/pm/kpi/kpi-detail/login-kpi-data/add-kpi-data/add-kpi-data.component';
+import { KpiAuthGuard, LoginKpiDataComponent } from './pages/PM/kpi/kpi-detail/login-kpi-data/login-kpi-data.component';
 
 
 
@@ -154,29 +156,36 @@ const routes: Routes = [
 
 
 
-//report
-{ path: 'casereport', canActivate:[AuthGuard],component: CaseReportComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin','Monitor']}},
-{ path: 'empperformance', canActivate:[AuthGuard], component: EmployeePerformanceComponent,data:{permittedROels : ['Super Admin','Director','Case Admin','Member','Secretery','Employee Manager','Encoder','Monitor']} },
-{ path: 'smsreport', canActivate:[AuthGuard], component : SmsReportComponent,data : {permittedRoles:['Super Admin','Director','Case Admin','Secretery','Monitor']}},
-{ path: 'casedetailreport', canActivate:[AuthGuard],component: CaseDetailReportComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin','Monitor']}},
-{ path: 'user-profile',canActivate:[AuthGuard], component: UsersProfileComponent },
-{ path: 'casedashboard',canActivate:[AuthGuard], component: CasedashboardComponent,data:{permittedRoles:['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager','PM Admin','Planner','Plan Reporting','Monitor']} },
+  //report
+  { path: 'casereport', canActivate:[AuthGuard],component: CaseReportComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin','Monitor']}},
+  { path: 'empperformance', canActivate:[AuthGuard], component: EmployeePerformanceComponent,data:{permittedROels : ['Super Admin','Director','Case Admin','Member','Secretery','Employee Manager','Encoder','Monitor']} },
+  { path: 'smsreport', canActivate:[AuthGuard], component : SmsReportComponent,data : {permittedRoles:['Super Admin','Director','Case Admin','Secretery','Monitor']}},
+  { path: 'casedetailreport', canActivate:[AuthGuard],component: CaseDetailReportComponent,data:{permittedRoles : ['Super Admin','Director','Case Admin','Monitor']}},
+  { path: 'user-profile',canActivate:[AuthGuard], component: UsersProfileComponent },
+  { path: 'casedashboard',canActivate:[AuthGuard], component: CasedashboardComponent,data:{permittedRoles:['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager','PM Admin','Planner','Plan Reporting','Monitor']} },
 
 
-//Pm report
-{ path: 'directorlevelperformance',canActivate:[AuthGuard], component: DirectorLevelPerformanceComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
-{ path: 'programbudgetreport',canActivate:[AuthGuard], component: ProgramBudgetReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
-{ path: 'planreportdetail',canActivate:[AuthGuard], component: PlanReportTodayComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
-{ path: 'plannedreport',canActivate:[AuthGuard], component: PlannedReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
-{ path: 'progressreport',canActivate:[AuthGuard], component: ProgressReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
-{ path: 'taskreport',canActivate:[AuthGuard], component: TaskReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+  //Pm report
+  { path: 'directorlevelperformance',canActivate:[AuthGuard], component: DirectorLevelPerformanceComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+  { path: 'programbudgetreport',canActivate:[AuthGuard], component: ProgramBudgetReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+  { path: 'planreportdetail',canActivate:[AuthGuard], component: PlanReportTodayComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+  { path: 'plannedreport',canActivate:[AuthGuard], component: PlannedReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+  { path: 'progressreport',canActivate:[AuthGuard], component: ProgressReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+  { path: 'taskreport',canActivate:[AuthGuard], component: TaskReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 
 
-{ path: 'progressreportbystructure',canActivate:[AuthGuard], component: ProgressReportBystructureComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+  { path: 'progressreportbystructure',canActivate:[AuthGuard], component: ProgressReportBystructureComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 
-{ path: 'performancereport',canActivate:[AuthGuard], component: PerformanceReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+  { path: 'performancereport',canActivate:[AuthGuard], component: PerformanceReportComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 
-{ path: 'estimatedcoast',canActivate:[AuthGuard], component: EstimatedCoastComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+  { path: 'estimatedcoast',canActivate:[AuthGuard], component: EstimatedCoastComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
+
+  { path: 'kpi' ,canActivate : [AuthGuard],component: KpiComponent,data:{permittedRoles : ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
+  { path: 'kpiDetail/:kpiId', canActivate:[AuthGuard],component:KpiDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
+
+
+  { path: 'loginKpi',component:LoginKpiDataComponent},
+  { path: 'addkpidata/:kpiId', canActivate: [KpiAuthGuard],component: AddKpiDataComponent},
 
 
   { path: 'alerts', component: AlertsComponent },

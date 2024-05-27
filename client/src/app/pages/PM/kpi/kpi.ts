@@ -29,6 +29,22 @@ export interface KpiData{
   Data: string
 }
 
+export class KpiDetailPost{
+  KPIId!: string
+  Titles!: SimilarGoals[]
+  Goal!: string
+  CreatedBy!: string
+}
+
+
+
+export class SimilarGoals
+{
+    //Goal!: string 
+    Title!: string
+}
+
+
 
 export interface KpiPostDto {
   Title : string;
@@ -39,5 +55,7 @@ export interface KpiPostDto {
   Url? : string;
   CreatedBy : string
   Remark?: string
+  SubsidiaryOrganizationId: string
+  HasSubsidiaryOrganization: boolean
 }
        

@@ -13,7 +13,7 @@ import { IPlanReportDetailDto } from './progress-report/plan-report-today/IplanR
 import { IPlannedReport } from './progress-report/planned-report/planned-report';
 import { FilterationCriteria } from './progress-report/progress-report/Iprogress-report';
 import { Observable } from 'rxjs';
-import { KpiPostDto } from './kpi/kpi';
+import { KpiDetailPost, KpiPostDto } from './kpi/kpi';
 
 
 @Injectable({
@@ -217,5 +217,13 @@ export class PMService {
        return this.http.post<any>(this.BaseURI2 + "/KPI/AddKPI",KpiData)
     }
 
+    AddKPIDetail(kpiDetaildata: KpiDetailPost){
+        return this.http.post<any>(this.BaseURI2 + "/KPI/AddKPI",kpiDetaildata)
+
+    }
+
+    LoginToKpi(accessCode: string){
+        return this.http.get<any>(this.BaseURI2 + "/KPI/LoginToKpi?accessCode="+ accessCode)
+    }
 
 }

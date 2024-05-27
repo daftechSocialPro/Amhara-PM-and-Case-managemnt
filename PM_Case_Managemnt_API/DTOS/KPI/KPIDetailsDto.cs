@@ -6,12 +6,13 @@ namespace PM_Case_Managemnt_API.DTOS.KPI
     {
         public Guid KPIId { get; set; }
         public List<SimilarGoals> GoalGrouping { get; set; }
+        public string Goal { get; set; }
         public Guid CreatedBy { get; set; }
     }
 
     public class SimilarGoals
     {
-        public string Goal { get; set; }
+        //public string Goal { get; set; }
         public List<string> Titles { get; set; }
     }
 

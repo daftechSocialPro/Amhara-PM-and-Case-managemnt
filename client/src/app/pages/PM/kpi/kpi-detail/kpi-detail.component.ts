@@ -3,7 +3,9 @@ import { PMService } from '../../pm.services';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { ActivatedRoute } from '@angular/router';
-import { KpiGetDto } from '../kpi';
+import { KpiDetailPost, KpiGetDto } from '../kpi';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddKpiDetailComponent } from './add-kpi-detail/add-kpi-detail.component';
 
 @Component({
   selector: 'app-kpi-detail',
@@ -16,10 +18,12 @@ export class KpiDetailComponent implements OnInit {
   kpiId!: string
   user!: UserView
   yearLength!: number
+  
   constructor(
     private userService: UserService,
     private pmService: PMService,
     private activatedROute: ActivatedRoute,
+    private modalService: NgbModal
 
   ){}
 
@@ -40,6 +44,42 @@ export class KpiDetailComponent implements OnInit {
       }
     })
   }
+
+  addKpi(KpiId: string){
+    let modalRef = this.modalService.open(AddKpiDetailComponent, { size: 'xl', backdrop: 'static' })
+    modalRef.componentInstance.KpiId = KpiId
+    modalRef.result.then(()=>{
+      this.getKpiData(this.kpiId)
+    })
+  }
+
+
+ 
+  // copyToClipboard(): void {
+  
+  //   const url=`${this.baseUrl}/trainee-form/${this.trainingId}`
+  //   const inputElement = this.myInput.nativeElement;
+  //   inputElement.value = url;
+  //   inputElement.select();
+    
+  // navigator.clipboard.writeText(url)
+  // .then(() => {
+  //   this.messageService.add({severity:'info',summary:'Copied to Clipboard',detail:'Training Report form Url Copied'});
+  // })
+  // .catch((error) => {
+  //   console.error('Failed to copy to clipboard:', error);
+  // });
+  
+  // navigator.clipboard.writeText(url)
+  //   .then(() => {
+  //     this.messageService.add({severity:'info',summary:'Copied to Clipboard',detail:'Training List Url Copied'});
+  //   })
+  //   .catch((error) => {
+  //     console.error('Failed to copy to clipboard:', error);
+  //   });
+   
+  // }
+
 
   exportAsExcel(){}
 }

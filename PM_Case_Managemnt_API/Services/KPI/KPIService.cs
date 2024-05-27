@@ -26,12 +26,32 @@ namespace PM_Case_Managemnt_API.Services.KPI
                     CreatedBy = kpiPost.CreatedBy,
                     Title = kpiPost.Title,
                     StartYear = kpiPost.StartYear,
-                    EncoderOrganizationName = kpiPost.EncoderOrganizationName,
-                    EvaluatorOrganizationName = kpiPost.EvaluatorOrganizationName,
-                    Url = kpiPost.Url,
+                                        
                     ActiveYearsString = kpiPost.ActiveYearsString
 
                 };
+
+                if (!kpiPost.HasSubsidiaryOrganization)
+                {
+
+                    string output = string.Concat(kpiPost.EncoderOrganizationName.Split(' ')
+                                              .Where(w => !string.IsNullOrWhiteSpace(w))
+                                              .Select(w => char.ToUpper(w[0])));
+                    string uniqueIdentifier = Guid.NewGuid().ToString("N").Substring(0, 5);
+
+
+                    kpi.AccessCode = $"{output}-{uniqueIdentifier}";
+                    kpi.EncoderOrganizationName = kpiPost.EncoderOrganizationName;
+                    kpi.EvaluatorOrganizationName = kpiPost.EvaluatorOrganizationName;
+                    //kpi.Url = kpiPost.Url;
+                }
+                else
+                {
+
+                   kpi.SubsidiaryOrganizationId = kpiPost.SubsidiaryOrganizationId;
+                }
+
+                
 
                 //kpi.SetActiveYearsFromList(kpiPost.ActiveYears);
 
@@ -54,6 +74,7 @@ namespace PM_Case_Managemnt_API.Services.KPI
                 };
             }
         }
+
 
         public async Task<ResponseMessage> AddKPIDetail(KPIDetailsPostDto kpiDetailsPost)
         {
@@ -78,7 +99,7 @@ namespace PM_Case_Managemnt_API.Services.KPI
                             CreatedAt = DateTime.Now,
                             CreatedBy = kpiDetailsPost.CreatedBy,
                             KPIId = kpiDetailsPost.KPIId,
-                            MainGoal = item.Goal,
+                            MainGoal = kpiDetailsPost.Goal,
                             Title = k,
                         });
                     }
@@ -179,6 +200,9 @@ namespace PM_Case_Managemnt_API.Services.KPI
                             EvaluatorOrganizationName = x.EvaluatorOrganizationName,
                             CreatedBy = x.CreatedBy,
                             Url = x.Url,
+                            SubsidiaryOrganizationId = x.SubsidiaryOrganizationId,
+                            AccessCode = x.AccessCode,
+                            HasSubsidiaryOrganization = x.HasSubsidiaryOrganization,
                             KpiDetails = _dbContext.KPIDetails
                                 .Where(d => d.KPIId == x.Id) 
                                 .GroupBy(d => d.MainGoal)
@@ -273,6 +297,30 @@ namespace PM_Case_Managemnt_API.Services.KPI
             {
                 return new ResponseMessage { Success = false, Message = ex.Message };
             }
+        }
+
+        public async Task<ResponseMessage> LoginKpiDataEncoding(string accessCode)
+        {
+
+            var kpiId = await _dbContext.KPIs.AsNoTracking().Where(x => x.AccessCode == accessCode).Select(x => x.Id).FirstOrDefaultAsync();
+            
+            if(kpiId == null)
+            {
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = "Access Code Is Invalid"
+                };
+            }
+
+            return new ResponseMessage
+            {
+                Success = true,
+                Message = "Log In Successfull",
+                Data = kpiId.ToString()
+
+            };
+
         }
     }
 }

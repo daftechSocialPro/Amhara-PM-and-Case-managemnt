@@ -94,5 +94,18 @@ namespace PM_Case_Managemnt_API.Controllers.KPI
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult>  LoginToKpi(string accessCode)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(await _kpiService.LoginKpiDataEncoding(accessCode));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

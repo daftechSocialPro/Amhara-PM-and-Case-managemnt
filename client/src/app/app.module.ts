@@ -193,6 +193,9 @@ import { OrganizationProfileDetailComponent } from './pages/common/organization/
 import { KpiComponent } from './pages/pm/kpi/kpi.component';
 import { AddKpiComponent } from './pages/pm/kpi/add-kpi/add-kpi.component';
 import { KpiDetailComponent } from './pages/pm/kpi/kpi-detail/kpi-detail.component';
+import { AddKpiDetailComponent } from './pages/pm/kpi/kpi-detail/add-kpi-detail/add-kpi-detail.component';
+import { AddKpiDataComponent } from './pages/pm/kpi/kpi-detail/login-kpi-data/add-kpi-data/add-kpi-data.component';
+import { LoginKpiDataComponent } from './pages/PM/kpi/kpi-detail/login-kpi-data/login-kpi-data.component';
 
 @NgModule({
   declarations: [
@@ -350,7 +353,10 @@ import { KpiDetailComponent } from './pages/pm/kpi/kpi-detail/kpi-detail.compone
     OrganizationProfileDetailComponent,
     KpiComponent,
     AddKpiComponent,
-    KpiDetailComponent
+    KpiDetailComponent,
+    AddKpiDetailComponent,
+    AddKpiDataComponent,
+    LoginKpiDataComponent
    
    
   ],
