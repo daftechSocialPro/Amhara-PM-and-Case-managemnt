@@ -5,7 +5,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentService
 {
     public interface IAppointmentService
     {
-        public Task Add(AppointmentPostDto appointmentPostDto);
-        public Task<List<Appointement>> GetAll();
+        public Task<ResponseMessage<Guid>> Add(AppointmentPostDto appointmentPostDto);
+        public Task<ResponseMessage<List<Appointement>>> GetAll();
     }
 }

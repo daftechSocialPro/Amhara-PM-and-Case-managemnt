@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
+﻿using System.Net;
+using Azure;
+using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.CaseDto;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
-
 
 namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
 {
@@ -18,8 +18,9 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
             _dbContext = dbContext;
         }
 
-        public async Task<Guid> Add(ApplicantPostDto applicantPost)
+        public async Task<ResponseMessage<Guid>> Add(ApplicantPostDto applicantPost)
         {
+            var response = new ResponseMessage<Guid>();
             try
             {
                 Applicant applicant = new()
@@ -39,20 +40,35 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
 
                 await _dbContext.Applicants.AddAsync(applicant);
                 await _dbContext.SaveChangesAsync();
-                return applicant.Id;
+
+                response.Success = true;
+                response.Message = "Applicant added Successfully";
+                response.Data = applicant.Id;
+                return response;
             } catch (Exception ex)
             {
-                throw new Exception("Error adding applicant");
+                response.Success = false;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                response.Message = "Error adding applicant";
+                response.Data = default(Guid);
+                return response;
             }
         }
 
-        public async Task<Guid> Update(ApplicantPostDto applicantPost)
+        public async Task<ResponseMessage<Guid>> Update(ApplicantPostDto applicantPost)
         {
+            var response  = new ResponseMessage<Guid>();
             try
             {
                 var applicant = await _dbContext.Applicants.FindAsync(applicantPost.ApplicantId);
 
-
+                if (applicant == null){
+                    response.Success = false;
+                    response.Message = "Can't find applicant with that ID";
+                    response.ErrorCode = HttpStatusCode.NotFound.ToString();
+                    response.Data = default(Guid);
+                    return response;
+                }
                 applicant.ApplicantName = applicantPost.ApplicantName;
                 applicant.ApplicantType = Enum.Parse<ApplicantType>(applicantPost.ApplicantType);
                 applicant.CustomerIdentityNumber = applicantPost.CustomerIdentityNumber;
@@ -60,23 +76,38 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
                 applicant.PhoneNumber = applicantPost.PhoneNumber;
 
                 await _dbContext.SaveChangesAsync();
-
-                return applicant.Id;
+                response.Success = true;
+                response.Message = "Updated Successfully";
+                response.Data = applicant.Id;
+                return response;
 
             }
             catch (Exception ex)
             {
-                throw new Exception("Error adding applicant");
-            }
+                response.Success = false;
+                response.Message = "Error while updating";
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                response.Data = default(Guid);
+
+                return response;
+                }
         }
 
-        public async Task<List<ApplicantGetDto>> GetAll(Guid subOrgId)
+        public async Task<ResponseMessage<List<ApplicantGetDto>>> GetAll(Guid subOrgId)
         {
+            var response = new ResponseMessage<List<ApplicantGetDto>>();
             try
             {
                 List<Applicant> applicants = await _dbContext.Applicants.Where(x => x.SubsidiaryOrganizationId == subOrgId).ToListAsync();
                 List<ApplicantGetDto> result = new();
 
+                if (applicants == null || !applicants.Any()){
+                    response.Success = false;
+                    response.Message = "No applicants with the given requirments";
+                    response.ErrorCode = HttpStatusCode.NotFound.ToString();
+                    response.Data = null;
+                    return response;
+                }
                 foreach(Applicant applicant in applicants)
                 {
                     result.Add(new ApplicantGetDto()
@@ -92,29 +123,46 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
                         RowStatus = applicant.RowStatus
                     });
                 }
-
-                return result;
+                response.Success = true;
+                response.Message = "Applicants fetched";
+                response.Data = result;
+                return response;
 
             } catch(Exception ex)
             {
-                throw new Exception(ex.Message);
+                response.Success = false;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                response.Message = $"Faced some kind of error: {ex.Message}";
+                response.Data = null;
+                return response;
             }
         }
 
 
-        public async Task<Applicant> GetApplicantById(Guid? applicantId)
+        public async Task<ResponseMessage<Applicant>> GetApplicantById(Guid? applicantId)
         {
 
+            var response = new ResponseMessage<Applicant>();
             var applicant = await _dbContext.Applicants.FindAsync(applicantId);
-
-            return applicant; 
+            if (applicant == null){
+                response.Success = false;
+                response.Message = "Applicant Not found";
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                response.Data = null;
+                return response;
+            }
+            response.Success = true;
+            response.Message = "Applicant found successfully";
+            response.Data = applicant;
+            return response;
         }
-        public async Task<List<SelectListDto>> GetSelectList(Guid subOrgId)
+        public async Task<ResponseMessage<List<SelectListDto>>> GetSelectList(Guid subOrgId)
         {
+            var response = new ResponseMessage<List<SelectListDto>>();
             try
             {
                 List<Applicant> applicants = await _dbContext.Applicants.Where(x => x.SubsidiaryOrganizationId == subOrgId).OrderBy(x => x.ApplicantName).ToListAsync();
-                List<SelectListDto> result = new();
+                List<SelectListDto> result = new List<SelectListDto>();
 
                 foreach (Applicant applicant in applicants)
                 {
@@ -125,14 +173,22 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
 
                     });
                 }
+                response.Success = true;
+                response.Message = "Select list retrived Successfully";
+                response.Data = result;
 
-                return result;
+                return response;
 
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                response.Success = false;
+                response.Message = "faced error while retriving";
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                response.Data = null;
+                return response;
             }
         }
+
     }
 }

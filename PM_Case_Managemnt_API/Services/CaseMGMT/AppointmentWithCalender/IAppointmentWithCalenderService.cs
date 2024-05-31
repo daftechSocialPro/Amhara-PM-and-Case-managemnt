@@ -5,7 +5,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
 {
     public interface IAppointmentWithCalenderService
     {
-        public Task<AppointmentGetDto> Add(AppointmentWithCalenderPostDto appointmentWithCalender);
-        public Task<List<AppointmentGetDto>> GetAll(Guid employeeId);
+        public Task<ResponseMessage<AppointmentGetDto>> Add(AppointmentWithCalenderPostDto appointmentWithCalender);
+        public Task<ResponseMessage<List<AppointmentGetDto>>> GetAll(Guid employeeId);
     }
 }

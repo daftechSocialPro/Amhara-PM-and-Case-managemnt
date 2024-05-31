@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Net;
+using Azure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PM_Case_Managemnt_API.Data;
@@ -20,8 +22,9 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
             _smsService = sMSHelper;
         }
 
-        public async Task<AppointmentGetDto> Add(AppointmentWithCalenderPostDto appointmentWithCalender)
+        public async Task<ResponseMessage<AppointmentGetDto>> Add(AppointmentWithCalenderPostDto appointmentWithCalender)
         {
+            var response  = new ResponseMessage<AppointmentGetDto>();
             try
             {
                 //DateTime dateTime= DateTime.Now;
@@ -72,19 +75,26 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
                 ev.name = "Appointment " ;
 
 
+                response.Success = true;
+                response.Message = "Operation Successfull";
+                response.Data = ev;
 
 
-
-                return ev;
+                return response;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                response.Message = "Error faced !!";
+                response.Data = null;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                response.Success = false;
+                return response;
             }
         }
 
-        public async Task<List<AppointmentGetDto>> GetAll(Guid employeeId)
+        public async Task<ResponseMessage<List<AppointmentGetDto>>> GetAll(Guid employeeId)
         {
+            var response = new ResponseMessage<List<AppointmentGetDto>>();
             try
             {
 
@@ -102,8 +112,18 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
                     ev.name = string.IsNullOrEmpty(a.Remark) ? "Appointment " : a.Remark;
                     Events.Add(ev);
                 });
-             
-                return Events;
+
+                if (Events == null){
+                    response.Message = "No available Event";
+                    response.Success = false;
+                    response.ErrorCode = HttpStatusCode.NotFound.ToString();
+                    response.Data = null;
+                    return response;
+                }
+                response.Message = "Events fetched Succesfully";
+                response.Success = true;
+                response.Data = Events;
+                return response;
 
 
 
@@ -111,7 +131,11 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
 
                
             } catch(Exception ex) {
-                throw new Exception(ex.Message);
+                response.Message = "Faced Error";
+                response.Success = false;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                response.Data = null;
+                return response;
             }
         }
 
