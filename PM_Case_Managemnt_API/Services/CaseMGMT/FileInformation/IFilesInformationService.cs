@@ -5,6 +5,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.FileInformationService
 {
     public interface IFilesInformationService
     {
-        public Task AddMany(List<FilesInformation> fileInformations);
+        public Task<ResponseMessage<int>> AddMany(List<FilesInformation> fileInformations);
     }
 }

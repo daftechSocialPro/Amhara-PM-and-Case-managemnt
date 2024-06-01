@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Net;
+using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.CaseDto;
 using PM_Case_Managemnt_API.Helpers;
@@ -16,8 +17,10 @@ namespace PM_Case_Managemnt_API.Services.CaseService.FileSettings
             _dbContext = dbContext;
         }
 
-        public async Task Add(FileSettingPostDto fileSettingPost)
+        public async Task<ResponseMessage<int>> Add(FileSettingPostDto fileSettingPost)
         {
+            var response = new ResponseMessage<int>();
+
             try
             {
                 FileSetting fileSetting = new()
@@ -32,9 +35,21 @@ namespace PM_Case_Managemnt_API.Services.CaseService.FileSettings
 
                 await _dbContext.AddAsync(fileSetting);
                 await _dbContext.SaveChangesAsync();
+
+                response.Message = "file setting created succesfully.";
+                response.Success = true;
+                response.Data = 1;
+
+                return response;
+
             } catch (Exception ex)
             {
-                throw new Exception("Error creating file setting");
+                response.Message = $"Error creating file setting, {ex.Message}";
+                response.Success = false;
+                response.Data = 0;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+
+                return response;
             }
         }
 
@@ -86,8 +101,11 @@ namespace PM_Case_Managemnt_API.Services.CaseService.FileSettings
             return new ResponseMessage { Success = true, Message = "File Setting Deleted Successfully" };
 
         }
-        public async Task<List<FileSettingGetDto>> GetAll(Guid subOrgId)
+        public async Task<ResponseMessage<List<FileSettingGetDto>>> GetAll(Guid subOrgId)
         {
+            var response = new ResponseMessage<List<FileSettingGetDto>>();
+
+
             try
             {
                 List<FileSetting> fileSettings = await _dbContext.FileSettings.Where(x => x.CaseType.SubsidiaryOrganizationId == subOrgId).Include(x=>x.CaseType).ToListAsync();
@@ -106,12 +124,20 @@ namespace PM_Case_Managemnt_API.Services.CaseService.FileSettings
                         RowStatus = fileSetting.RowStatus.ToString(),
                     });
                 }
+                response.Message = "retived file setting successfully.";
+                response.Success = true;
+                response.Data = result;
 
-                return result;
+                return response;
 
             } catch (Exception ex)
             {
-                throw new Exception("Error Retrieving File settings");
+                response.Message = $"Error retrieving file settings, {ex.Message}";
+                response.Success = false;
+                response.Data = null;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+
+                return response;
             }
         }
     }

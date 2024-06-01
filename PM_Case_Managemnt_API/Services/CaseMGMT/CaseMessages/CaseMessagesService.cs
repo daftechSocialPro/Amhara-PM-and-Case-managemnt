@@ -1,8 +1,10 @@
-﻿using GsmComm.PduConverter;
+﻿using Azure;
+using GsmComm.PduConverter;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Case;
 using PM_Case_Managemnt_API.Helpers;
@@ -27,8 +29,9 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseMessagesService
             _configuration = configuration;
         }
 
-        public async Task Add(CaseMessagesPostDto caseMessagePost)
+        public async Task<ResponseMessage<string>> Add(CaseMessagesPostDto caseMessagePost)
         {
+            var response = new ResponseMessage<string>();
             try
             {
                 CaseMessages caseMessage = new()
@@ -45,19 +48,29 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseMessagesService
 
                 await _dbContext.CaseMessages.AddAsync(caseMessage);
                 await _dbContext.SaveChangesAsync();
+
+                response.Message = "Added Successfully";
+                response.Data = "ok";
+                response.Success = true;
+                return response;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                response.Message = $"{ex.Message}";
+                response.Data = null;
+                response.Success = false;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                return response;
             }
         }
 
-        public async Task<List<CaseUnsentMessagesGetDto>> GetMany(Guid subOrgId, bool messageStatus = false)
+        public async Task<ResponseMessage<List<CaseUnsentMessagesGetDto>>> GetMany(Guid subOrgId, bool messageStatus = false)
         {
+            var response = new ResponseMessage<List<CaseUnsentMessagesGetDto>>();
             try
             {
 
-                return await (from m in _dbContext.CaseMessages.Include(x => x.Case.Applicant).Include(x => x.Case.CaseType).Where(el => el.Messagestatus.Equals(messageStatus) && el.Case.SubsidiaryOrganizationId == subOrgId)
+                List<CaseUnsentMessagesGetDto> unsent =  await (from m in _dbContext.CaseMessages.Include(x => x.Case.Applicant).Include(x => x.Case.CaseType).Where(el => el.Messagestatus.Equals(messageStatus) && el.Case.SubsidiaryOrganizationId == subOrgId)
                               select new CaseUnsentMessagesGetDto
                               {
                                   Id = m.Id,
@@ -73,13 +86,28 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseMessagesService
                                   IsSmsSent = m.Messagestatus
 
                               }).ToListAsync();
-
-
+                if (unsent == null){
+                    response.Message = "No unsent";
+                    response.Success = false;
+                    response.Data = null;
+                    response.ErrorCode = HttpStatusCode.NotFound.ToString();
+                    return response;
+                }
+                
+                response.Message = "Unsent fetched succesfully";
+                response.Success = true;
+                response.Data = unsent;
+                return response;
+                
 
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                response.Message = $"{ex.Message}";
+                response.Success = false;
+                response.Data = null;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                return response;
             }
         }
 
@@ -87,13 +115,23 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseMessagesService
 
 
 
-        public async Task SemdMessages(List<CaseUnsentMessagesGetDto> Messages)
+        public async Task<ResponseMessage<string>> SemdMessages(List<CaseUnsentMessagesGetDto> Messages)
         {
+            var response = new ResponseMessage<string>();
             try
             {
 
-                string ipAddress = _configuration["ApplicationSettings:SMS_IP"];
-                string coder = _configuration["ApplicationSettings:ORG_CODE"];
+                string? ipAddress = _configuration["ApplicationSettings:SMS_IP"];
+                string? coder = _configuration["ApplicationSettings:ORG_CODE"];
+
+                if (ipAddress == null || coder == null){
+                    response.Message = "Error while trying to send either Ip or coder is null";
+                    response.Data = null;
+                    response.ErrorCode = HttpStatusCode.NotFound.ToString();
+                    response.Success = false;
+
+                    return response;
+                }
 
                 foreach (var message in Messages)
                 {
@@ -114,6 +152,13 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseMessagesService
                         if (result.StatusCode == HttpStatusCode.OK)
                         {
                             var messa = _dbContext.CaseMessages.Find(message.Id);
+                            if (messa == null){
+                                response.Message = "Erro when sending.";
+                                response.Success = false;
+                                response.ErrorCode = HttpStatusCode.NotFound.ToString();
+                                response.Data = null;
+                                return response;
+                            }
                             messa.Messagestatus = true;
                             _dbContext.Entry(messa).State = EntityState.Modified;
                             await _dbContext.SaveChangesAsync();
@@ -121,13 +166,25 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseMessagesService
                         }
                     }
 
+                    
+
                 }
+                response.Message = "Succesfull.";
+                response.Success = true;
+                response.Data = "ok";
+                return response;
 
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                response.Message = $"{ex.Message}";
+                response.Success = false;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                response.Data = null;
+                return response;
             }
         }
+
+        
     }
 }
