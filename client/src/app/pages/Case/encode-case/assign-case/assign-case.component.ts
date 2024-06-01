@@ -8,6 +8,7 @@ import { OrganizationService } from 'src/app/pages/common/organization/organizat
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-assign-case',
@@ -32,7 +33,8 @@ export class AssignCaseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private caseService: CaseService,
     private commonService: CommonService,
-    private userService : UserService) {
+    private userService : UserService,
+  public translate: TranslateService) {
 
     this.caseForm = this.formBuilder.group({
       selectwho: [0, Validators.required],

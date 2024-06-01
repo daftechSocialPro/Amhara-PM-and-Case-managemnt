@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-case-list-page',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./case-list-page.component.css']
 })
 export class CaseListPageComponent {
-
+constructor (
+  public  translate: TranslateService
+){}
 }

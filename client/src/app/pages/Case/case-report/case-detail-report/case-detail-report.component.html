@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Cases</h1>
+        <h1> {{ 'Cases' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item">Case </li>
-                <li class="breadcrumb-item active">Detail Report</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{ 'Home' | translate }}</a></li>
+                <li class="breadcrumb-item"> {{ 'Case' | translate }} </li>
+                <li class="breadcrumb-item active"> {{ 'Detail Report' | translate }}</li>
             </ol>
         </nav>
     </div>
@@ -17,12 +17,12 @@
     <section class="section dashboard">
 
         <button *ngIf="detailReports"  (click)="dt.exportCSV()"  type="button" class="btn btn-secondary m-2">
-            <i class="bi bi-file-earmark-excel me-1"></i> Export Report to Excel</button>  
+            <i class="bi bi-file-earmark-excel me-1"></i>  {{ 'Export Report to Excel' | translate }}</button>  
            
         <div class="card">
             <div class="row">
                 <div class="card-body">
-                    <h5 class="card-title">Case Detail Report</h5>
+                    <h5 class="card-title"> {{ 'Case Detail Report' | translate }}</h5>
                     
                           
                             
@@ -31,10 +31,10 @@
                               <div class="form-floating col-3 me-2">
                                 <select class="form-control"  id="ReportBy"
                                     placeholder="ReportBy" (change)="onSubChange($event)" >
-                                    <option value="">--Select Subsidiary Organization--</option>
+                                    <option value="">-- {{ 'Select Subsidiary Organization' | translate }}--</option>
                                     <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
                                 </select>
-                                <label for="ReportBy">Subsidiary Organization</label>
+                                <label for="ReportBy"> {{ 'Subsidiary Organization' | translate }}</label>
                               </div>
                             </div>
                           
@@ -62,23 +62,23 @@
                             <tr>
 
 
-                                <th pSortableColumn="CaseNumber">Case Number<p-sortIcon field="CaseNumber"></p-sortIcon>
+                                <th pSortableColumn="CaseNumber"> {{ 'Case Number' | translate }}<p-sortIcon field="CaseNumber"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="ApplicantName">Applicant Name<p-sortIcon field="ApplicantName"></p-sortIcon>
+                                <th pSortableColumn="ApplicantName"> {{ 'Applicant Name' | translate }}<p-sortIcon field="ApplicantName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="LetterNumber">Letter Number<p-sortIcon field="LetterNumber">
+                                <th pSortableColumn="LetterNumber"> {{ 'Letter Number' | translate }}<p-sortIcon field="LetterNumber">
                                     </p-sortIcon>
                                 </th>
-                                <th pSortableColumn="Subject">Subject Case<p-sortIcon field="Subject">
+                                <th pSortableColumn="Subject"> {{ 'Subject Case' | translate }}<p-sortIcon field="Subject">
                                     </p-sortIcon>
                                 </th>
-                                <th pSortableColumn="CaseTypeTitle">Type Tittle<p-sortIcon field="CaseTypeTitle"></p-sortIcon>
+                                <th pSortableColumn="CaseTypeTitle"> {{ 'Type Tittle' | translate }}<p-sortIcon field="CaseTypeTitle"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="PhoneNumber">Phone Number<p-sortIcon field="PhoneNumber"></p-sortIcon>
+                                <th pSortableColumn="PhoneNumber"> {{ 'Phone Number' | translate }}<p-sortIcon field="PhoneNumber"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="CaseTypeStatus">Case Status<p-sortIcon field="CaseTypeStatus"></p-sortIcon>
+                                <th pSortableColumn="CaseTypeStatus"> {{ 'Case Status' | translate }}<p-sortIcon field="CaseTypeStatus"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="">Action</th>
+                                <th pSortableColumn=""> {{ 'Action' | translate }}</th>
                             </tr>
 
 
@@ -88,34 +88,34 @@
                         <ng-template pTemplate="body" let-caseD>
                             <tr>
                                 <td>
-                                    <span class="p-column-title">Case Number</span>
+                                    <span class="p-column-title"> {{ 'Case Number' | translate }}</span>
 
                                     <span>{{caseD.CaseNumber}}</span>
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Applicant</span>
+                                    <span class="p-column-title"> {{ 'Applicant' | translate }}</span>
                                     <span>{{caseD.ApplicantName}}</span>
                                 </td>
 
 
                                 <td>
-                                    <span class="p-column-title">Letter Number</span>
+                                    <span class="p-column-title"> {{ 'Letter Number' | translate }}</span>
                                     <span>{{caseD.LetterNumber}}</span>
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Subject Case</span>
+                                    <span class="p-column-title"> {{ 'Subject Case' | translate }}</span>
                                     <span>{{caseD.Subject}}</span>
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Type Tittle</span>
+                                    <span class="p-column-title"> {{ 'Type Tittle' | translate }}</span>
                                     <span>{{caseD.CaseTypeTitle}}</span>
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Phone Number</span>
+                                    <span class="p-column-title"> {{ 'Phone Number' | translate }}</span>
                                     <span>{{caseD.PhoneNumber}}</span>
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Case Type Status</span>
+                                    <span class="p-column-title"> {{ 'Case Type Status' | translate }}</span>
                                     <span *ngIf="caseD.CaseTypeStatus=='Completed'" class="badge bg-success"
                                     style="font-size: 12px">{{ caseD.CaseTypeStatus}}
                                     {{getChange2(caseD.Createdat)}} </span>
@@ -127,7 +127,7 @@
                                     {{getChange2(caseD.Createdat)}}</span>
                                 </td>
                                 <td>
-                                    <span class="p-column-title">Action</span>
+                                    <span class="p-column-title"> {{ 'Action' | translate }}</span>
                                     <button pButton pRipple class="p-button p-button-sm p-button-info mr-2 "  icon="pi pi-ellipsis-h" (click)="detail(caseD.Id)"></button>
 
                                 </td>
@@ -135,7 +135,7 @@
                         </ng-template>
                         <ng-template pTemplate="emptymessage">
                             <tr>
-                                <td colspan="4">No Case Detail Report Found.</td>
+                                <td colspan="4"> {{ 'No Case Detail Report Found.' | translate }}</td>
                             </tr>
                         </ng-template>
                     </p-table>

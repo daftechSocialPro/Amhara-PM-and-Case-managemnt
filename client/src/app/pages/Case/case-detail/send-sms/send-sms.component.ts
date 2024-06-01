@@ -8,6 +8,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 import { SelectList } from 'src/app/pages/common/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-send-sms',
@@ -27,7 +28,8 @@ export class SendSmsComponent implements OnInit {
     private caseService: CaseService,
     private formBuilder: FormBuilder,
     private commonService : CommonService,
-    private orgService: OrganizationService) {
+    private orgService: OrganizationService,
+    public  translate: TranslateService) {
 
     this.smsForm = this.formBuilder.group({
       SmsTemplate:[null, Validators.required],

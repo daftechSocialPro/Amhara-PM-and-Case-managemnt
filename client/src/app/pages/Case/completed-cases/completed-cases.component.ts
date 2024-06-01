@@ -5,6 +5,7 @@ import { CaseService } from '../case.service';
 import { ICaseView } from '../encode-case/Icase';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-completed-cases',
@@ -15,7 +16,10 @@ export class CompletedCasesComponent implements OnInit {
   completedCases!: ICaseView[]
   user! : UserView
 
-  constructor(private caseService: CaseService,private modalService:NgbModal, private userService: UserService) { }
+  constructor(private caseService: CaseService,
+    private modalService:NgbModal, 
+    private userService: UserService,
+    public  translate: TranslateService) { }
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.getCompletedCases()

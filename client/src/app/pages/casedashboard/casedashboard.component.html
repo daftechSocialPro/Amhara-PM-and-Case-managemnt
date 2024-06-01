@@ -1,10 +1,10 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Case Dashboard</h1>
+        <h1>{{ 'Case Dashboard' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item active">Case Dashboard</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{ 'Home' | translate }}</a></li>
+                <li class="breadcrumb-item active"> {{ 'Case Dashboard' | translate }} </li>
             </ol>
         </nav>
     </div>
@@ -22,12 +22,12 @@
                             <div class="form-floating me-2">
                                 <input type="text" class="form-control startDate" formControlName="startDate"
                                     id="startDate" placeholder="startDate">
-                                <label for="startDate">Start Date</label>
+                                <label for="startDate"> {{ 'Start Date' | translate }}</label>
                             </div>
                             <div class="form-floating me-2">
                                 <input type="text" class="form-control endDate" formControlName="endDate" id="endDate"
                                     placeholder="endDate">
-                                <label for="endDate">End Date</label>
+                                <label for="endDate"> {{ 'End Date' | translate }}</label>
                             </div>
 
 
@@ -44,7 +44,7 @@
         <div class="d-flex justify-content-center ">
 
             <div class="card col-8 me-2 p-2">
-                <h5>Case Types to month Ratio</h5>
+                <h5> {{ 'Case Types to month Ratio' | translate }}</h5>
                 <div class="col-md-4 text-end" >
                     <select class="form-control" [(ngModel)]="selectedYear" (change)="getBarChart()">
 
@@ -68,7 +68,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Pending Report</h5>
+                        <h5 class="card-title"> {{ 'Pending Report' | translate }}</h5>
                         <p-table #dt [value]="dashboardDtos.pendingReports" [rows]="5" [paginator]="true"
                             [globalFilterFields]="['CaseNumber','AffairNumber','Subject','Subject','Structure','Employee','Elapstime','Level','CreatedDateTime']"
                             [tableStyle]="{'min-width': '75rem'}" [rowHover]="true" dataKey="Id"
@@ -91,30 +91,30 @@
                                 <tr >
 
 
-                                    <th pSortableColumn="ApplicantName">Case Number <p-sortIcon field="ApplicantName">
+                                    <th pSortableColumn="ApplicantName"> {{ 'Case Number' | translate }} <p-sortIcon field="ApplicantName">
                                         </p-sortIcon>
                                     </th>
                                  
 
                                     
-                                    <th pSortableColumn="AffairNumber">Applicant Name<p-sortIcon field="AffairNumber">
+                                    <th pSortableColumn="AffairNumber"> {{ 'Applicant Name' | translate }}<p-sortIcon field="AffairNumber">
                                         </p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="CaseTypeTitle">Case Type Title<p-sortIcon
+                                    <th pSortableColumn="CaseTypeTitle"> {{ 'Case Type Title' | translate }}<p-sortIcon
                                         field="CaseTypeTitle">
                                     </p-sortIcon>
                                 </th>
-                                    <th pSortableColumn="Subject">Subject <p-sortIcon field="Subject"></p-sortIcon>
+                                    <th pSortableColumn="Subject"> {{ 'Subject' | translate }} <p-sortIcon field="Subject"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="Structure">Structure<p-sortIcon field="Structure"></p-sortIcon>
+                                    <th pSortableColumn="Structure"> {{ 'Structure' | translate }}<p-sortIcon field="Structure"></p-sortIcon>
                                     </th>
 
-                                    <th pSortableColumn="Employee">Employee <p-sortIcon field="Employee"></p-sortIcon>
+                                    <th pSortableColumn="Employee"> {{ 'Employee' | translate }} <p-sortIcon field="Employee"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="Elapstime">Elapstime<p-sortIcon field="Elapstime"></p-sortIcon>
+                                    <th pSortableColumn="Elapstime"> {{ 'Elapstime' | translate }}<p-sortIcon field="Elapstime"></p-sortIcon>
                                     </th>
                                     
-                                    <th pSortableColumn="CreatedDateTime">Created Date Time <p-sortIcon
+                                    <th pSortableColumn="CreatedDateTime"> {{ 'Created Date Time' | translate }}<p-sortIcon
                                             field="CreatedDateTime"></p-sortIcon>
                                     </th>
 
@@ -129,32 +129,32 @@
                             <ng-template pTemplate="body" let-dash>
                                 <tr [pSelectableRow]="dash" class="text-danger" (click)="detail(dash.Id)">
                                     <td>
-                                        <span class="p-column-title">Case Number</span>
+                                        <span class="p-column-title"> {{ 'Case Number' | translate }}</span>
                                         {{dash.AffairNumber}}
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Applicant Name</span>
+                                        <span class="p-column-title"> {{ 'Applicant Name' | translate }}</span>
                                         <span>{{dash.ApplicantName}}</span>
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Case Type Title</span>
+                                        <span class="p-column-title"> {{ 'Case Type Title' | translate }}</span>
                                         <span>{{dash.CaseTypeTitle}}</span>
                                     </td>
 
                                     <td>
-                                        <span class="p-column-title">Subject</span>
+                                        <span class="p-column-title"> {{ 'Subject' | translate }}</span>
                                         <span>{{dash.Subject}}</span>
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Structure</span>
+                                        <span class="p-column-title"> {{ 'Structure' | translate }}</span>
                                         <span>{{dash.Structure}}</span>
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Employee</span>
+                                        <span class="p-column-title"> {{ 'Employee' | translate }}</span>
                                         <span>{{dash.Employee}}</span>
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Elapstime</span>
+                                        <span class="p-column-title"> {{ 'Elapstime' | translate }}</span>
                                         <span class="bg-danger text-white p-1" style="border-radius: 2px;">{{dash.Elapstime}}</span>
                                         <span class="bg-danger text-white p-1"
                                             style="border-radius: 2px;">{{dash.Elapstime}}</span>
@@ -164,7 +164,7 @@
                                         <span>{{dash.Message}}</span>
                                     </td> -->
                                     <td>
-                                        <span class="p-column-title">CreatedDateTime</span>
+                                        <span class="p-column-title"> {{ 'CreatedDateTime' | translate }}</span>
                                         <span>{{dash.CreatedDateTime|date:"fullDate"}}</span>
                                     </td>
 
@@ -176,7 +176,7 @@
                             </ng-template>
                             <ng-template pTemplate="emptymessage">
                                 <tr>
-                                    <td colspan="4">No Pending Report found.</td>
+                                    <td colspan="4"> {{ 'No Pending Report found.' | translate }}</td>
                                 </tr>
                             </ng-template>
                         </p-table>
@@ -189,7 +189,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Completed Reports</h5>
+                        <h5 class="card-title"> {{ 'Completed Reports' | translate }}</h5>
                         <p-table #dt2 [value]="dashboardDtos.completedReports" [rows]="5" [paginator]="true"
                             [globalFilterFields]="['CaseNumber','AffairNumber','Subject','Subject','Structure','Employee','Elapstime','Level','CreatedDateTime']"
                             [tableStyle]="{'min-width': '75rem'}" [rowHover]="true" dataKey="Id"
@@ -212,26 +212,26 @@
                                 <tr>
 
 
-                                    <th pSortableColumn="ApplicantName">Case Number <p-sortIcon field="ApplicantName">
+                                    <th pSortableColumn="ApplicantName">{{ 'Case Number' | translate }} <p-sortIcon field="ApplicantName">
                                         </p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="AffairNumber">Applicant Name<p-sortIcon field="AffairNumber">
+                                    <th pSortableColumn="AffairNumber"> {{ 'Applicant Name' | translate }}<p-sortIcon field="AffairNumber">
                                         </p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="CaseTypeTitle">Case Type Title<p-sortIcon field="CaseTypeTitle">
+                                    <th pSortableColumn="CaseTypeTitle"> {{ 'Case Type Title' | translate }} <p-sortIcon field="CaseTypeTitle">
                                     </p-sortIcon>
                                 </th>
-                                    <th pSortableColumn="Subject">Subject <p-sortIcon field="Subject"></p-sortIcon>
+                                    <th pSortableColumn="Subject"> {{ 'Subject' | translate }} <p-sortIcon field="Subject"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="Structure">Structure<p-sortIcon field="Structure"></p-sortIcon>
+                                    <th pSortableColumn="Structure"> {{ 'Structure' | translate }}<p-sortIcon field="Structure"></p-sortIcon>
                                     </th>
 
-                                    <th pSortableColumn="Employee">Employee <p-sortIcon field="Employee"></p-sortIcon>
+                                    <th pSortableColumn="Employee"> {{ 'Employee' | translate }} <p-sortIcon field="Employee"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="Elapstime">Elapstime<p-sortIcon field="Elapstime"></p-sortIcon>
+                                    <th pSortableColumn="Elapstime"> {{ 'Elapstime' | translate }}<p-sortIcon field="Elapstime"></p-sortIcon>
                                     </th>
                                     
-                                    <th pSortableColumn="CreatedDateTime">Created Date Time <p-sortIcon
+                                    <th pSortableColumn="CreatedDateTime"> {{ 'Created Date Time' | translate }} <p-sortIcon
                                             field="CreatedDateTime"></p-sortIcon>
                                     </th>
 
@@ -246,33 +246,33 @@
                             <ng-template pTemplate="body" let-dash>
                                 <tr [pSelectableRow]="dash" (click)="detail(dash.Id)">
                                     <td>
-                                        <span class="p-column-title">Case Number</span>
+                                        <span class="p-column-title"> {{ 'Case Number' | translate }}</span>
                                         {{dash.AffairNumber}}
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Applicant Name</span>
+                                        <span class="p-column-title"> {{ 'Applicant Name' | translate }}</span>
                                         <span>{{dash.ApplicantName}}</span>
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Case Type Title</span>
+                                        <span class="p-column-title"> {{ 'Case Type Title' | translate }}</span>
                                         <span>{{dash.CaseTypeTitle}}</span>
                                     </td>
 
                                     
                                     <td>
-                                        <span class="p-column-title">Subject</span>
+                                        <span class="p-column-title"> {{ 'Subject' | translate }}</span>
                                         <span>{{dash.Subject}}</span>
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Structure</span>
+                                        <span class="p-column-title"> {{ 'Structure' | translate }}</span>
                                         <span>{{dash.Structure}}</span>
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Employee</span>
+                                        <span class="p-column-title"> {{ 'Employee' | translate }}</span>
                                         <span>{{dash.Employee}}</span>
                                     </td>
                                     <td>
-                                        <span class="p-column-title">Elapstime</span>
+                                        <span class="p-column-title"> {{ 'Elapstime' | translate }}</span>
                                         <span class="bg-success text-white p-1" style="border-radius: 2px;">{{dash.Elapstime}}</span>
                                     </td>
                                     <!-- <td>
@@ -280,7 +280,7 @@
                                         <span>{{dash.Message}}</span>
                                     </td> -->
                                     <td>
-                                        <span class="p-column-title">CreatedDateTime</span>
+                                        <span class="p-column-title"> {{ 'CreatedDateTime' | translate }}</span>
                                         <span>{{dash.CreatedDateTime|date:"fullDate"}}</span>
                                     </td>
 
@@ -292,7 +292,7 @@
                             </ng-template>
                             <ng-template pTemplate="emptymessage">
                                 <tr>
-                                    <td colspan="4">No Completed Report found.</td>
+                                    <td colspan="4"> {{ 'No Completed Report found.' | translate }}</td>
                                 </tr>
                             </ng-template>
                         </p-table>

@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Cases</h1>
+        <h1> {{ 'Cases' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item">SMS </li>
-                <li class="breadcrumb-item active">Report</li>
+                <li class="breadcrumb-item"><a routerLink="/">{{ 'Home' | translate }}</a></li>
+                <li class="breadcrumb-item"> {{ 'SMS' | translate }} </li>
+                <li class="breadcrumb-item active"> {{ 'Report' | translate }}</li>
             </ol>
         </nav>
     </div>
@@ -27,21 +27,21 @@
                             <div class="form-floating col-3 me-2">
                                 <select class="form-control"  id="ReportBy"
                                 placeholder="ReportBy" (change)="onSubChange($event)" >
-                                <option value="">--Select Subsidiary Organization--</option>
+                                <option value="">--{{ 'Select Subsidiary Organization' | translate }}--</option>
                                 <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
                               </select>
-                              <label for="ReportBy">Subsidiary Organization</label>
+                              <label for="ReportBy">{{ 'Subsidiary Organization' | translate }}</label>
                             </div>
 
                             <div class="form-floating me-2">
                                 <input type="text" class="form-control startDate" formControlName="startDate"
                                     id="startDate" placeholder="startDate">
-                                <label for="startDate">Start Date</label>
+                                <label for="startDate"> {{ 'Start Date' | translate }}</label>
                             </div>
                             <div class="form-floating me-2">
                                 <input type="text" class="form-control endDate" formControlName="endDate" id="endDate"
                                     placeholder="endDate">
-                                <label for="endDate">End Date</label>
+                                <label for="endDate">{{ 'End Date' | translate }}</label>
                             </div>
 
 
@@ -60,7 +60,7 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">SMS Report</h5>
+                <h5 class="card-title"> {{ 'SMS Report' | translate }}</h5>
                 <p-table #dt [value]="smsReports" [rows]="5" [paginator]="true"
                     [globalFilterFields]="['CaseNumber','ApplicantName','LetterNumber','Subject','CaseTypeTitle','PhoneNumber','PhoneNumber2','Message','MessageGroup','IsSMSSent']"
                     [tableStyle]="{'min-width': '75rem'}" [(selection)]="selectedSmsReport" [rowHover]="true"
@@ -83,28 +83,28 @@
                         <tr>
 
 
-                            <th pSortableColumn="CaseNumber">Case Number <p-sortIcon field="CaseNumber"></p-sortIcon>
+                            <th pSortableColumn="CaseNumber"> {{ 'Case Number' | translate }} <p-sortIcon field="CaseNumber"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="ApplicantName">Applicant Name<p-sortIcon field="ApplicantName"></p-sortIcon>
+                            <th pSortableColumn="ApplicantName"> {{ 'Applicant Name' | translate }}<p-sortIcon field="ApplicantName"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="LetterNumber">Letter Number <p-sortIcon field="LetterNumber"></p-sortIcon>
+                            <th pSortableColumn="LetterNumber"> {{ 'Letter Number' | translate }} <p-sortIcon field="LetterNumber"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="Subject">Subject<p-sortIcon field="Subject"></p-sortIcon>
-                            </th>
-
-                            <th pSortableColumn="CaseTypeTitle">Case Type Title <p-sortIcon field="CaseTypeTitle"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="PhoneNumber">Phone Number <p-sortIcon field="PhoneNumber"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="PhoneNumber2">Phone Number2 <p-sortIcon field="PhoneNumber2"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="Message">Message <p-sortIcon field="Message"></p-sortIcon>
+                            <th pSortableColumn="Subject"> {{ 'Subject' | translate }}<p-sortIcon field="Subject"></p-sortIcon>
                             </th>
 
-                            <th pSortableColumn="MessageGroup">Message Group <p-sortIcon field="MessageGroup"></p-sortIcon>
+                            <th pSortableColumn="CaseTypeTitle"> {{ 'Case Type Title' | translate }} <p-sortIcon field="CaseTypeTitle"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="PhoneNumber">{{ 'Phone Number ' | translate }} <p-sortIcon field="PhoneNumber"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="PhoneNumber2"> {{ 'Phone Number2' | translate }} <p-sortIcon field="PhoneNumber2"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="Message"> {{ 'Message' | translate }} <p-sortIcon field="Message"></p-sortIcon>
                             </th>
 
-                            <th pSortableColumn="IsSMSSent">Is SMS Sent <p-sortIcon field="IsSMSSent"></p-sortIcon>
+                            <th pSortableColumn="MessageGroup"> {{ 'Message Group' | translate }} <p-sortIcon field="MessageGroup"></p-sortIcon>
+                            </th>
+
+                            <th pSortableColumn="IsSMSSent"> {{ 'Is SMS Sent' | translate }} <p-sortIcon field="IsSMSSent"></p-sortIcon>
                             </th>
 
 
@@ -116,45 +116,45 @@
                     <ng-template pTemplate="body" let-smsrep>
                         <tr [pSelectableRow]="smsrep">
                             <td>
-                                <span class="p-column-title">Case Number</span>
+                                <span class="p-column-title"> {{ 'Case Number' | translate }}</span>
                                 {{smsrep.CaseNumber}}
                             </td>
                             <td>
-                                <span class="p-column-title">Applicant Name</span>
+                                <span class="p-column-title"> {{ 'Applicant Name' | translate }}</span>
                                 <span>{{smsrep.ApplicantName}}</span>
                             </td>
                             <td>
-                                <span class="p-column-title">Letter Number</span>
+                                <span class="p-column-title">Letter Number {{ 'Letter Number' | translate }}</span>
                                 <span>{{smsrep.LetterNumber}}</span>
                             </td>
                             <td>
-                                <span class="p-column-title">Subject</span>
+                                <span class="p-column-title"> {{ 'Subject' | translate }}</span>
                                 <span>{{smsrep.Subject}}</span>
                             </td>
                             <td>
-                                <span class="p-column-title">Case Type Title</span>
+                                <span class="p-column-title"> {{ 'Case Type Title' | translate }}</span>
                                 <span>{{smsrep.CaseTypeTitle}}</span>
                             </td>
                             <td>
-                                <span class="p-column-title">Phone Number</span>
+                                <span class="p-column-title"> {{ 'Phone Number' | translate }}</span>
                                 <span>{{smsrep.PhoneNumber}}</span>
                             </td>
                             <td>
-                                <span class="p-column-title">Phone Number 2</span>
+                                <span class="p-column-title"> {{ 'Phone Number 2' | translate }}</span>
                                 <span>{{smsrep.PhoneNumber2}}</span>
                             </td>
                             <td>
-                                <span class="p-column-title">Message</span>
+                                <span class="p-column-title"> {{ 'Message' | translate }}</span>
                                 <span>{{smsrep.Message}}</span>
                             </td>
                             <td>
-                                <span class="p-column-title">Message Group</span>
+                                <span class="p-column-title"> {{ 'Message Group' | translate }}</span>
                                 <span>{{smsrep.MessageGroup}}</span>
                             </td>
 
 
                              <td>
-                                <span class="p-column-title">Is SMS Sent</span>
+                                <span class="p-column-title"> {{ 'Is SMS Sent' | translate }}</span>
                                 <span [class]="smsrep.IsSMSSent?'badge bg-success':'badge bg-danger'" style="font-size: 20px;">{{smsrep.IsSMSSent?"Sent":"UnSent"}}</span>
                             </td>
 
@@ -164,7 +164,7 @@
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                         <tr>
-                            <td colspan="4">No Case Report found.</td>
+                            <td colspan="4"> {{ 'No Case Report found.' | translate }}</td>
                         </tr>
                     </ng-template>
                 </p-table>

@@ -9,6 +9,7 @@ import { AssignCaseComponent } from './assign-case/assign-case.component';
 import { RaiseIssueComponent } from './raise-issue/raise-issue.component';
 import { UpdateCaseComponent } from './update-case/update-case.component';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-encode-case',
@@ -20,7 +21,11 @@ export class EncodeCaseComponent implements OnInit {
   encodedCases!: ICaseView[]
   user!: UserView
   p: number = 1; 
-  constructor(private modalService: NgbModal, private caseService: CaseService, private userService: UserService, private router: Router) { }
+  constructor(private modalService: NgbModal,
+     private caseService: CaseService,
+      private userService: UserService, 
+      private router: Router,
+    public translate: TranslateService) { }
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.getEnocdedCases()

@@ -12,6 +12,11 @@ import { CommonService } from 'src/app/common/common.service';
 import { NotificationService } from './notification.service';
 import * as signalR from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
+// Language
+import { CookieService } from 'ngx-cookie-service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/service/language.service';
+
 
 @Component({
   selector: 'app-header',
@@ -27,6 +32,10 @@ export class HeaderComponent implements OnInit {
   user!: UserView
   assignedCases !: ICaseView[]
   issuedCases ! : ICaseView[]
+  flagvalue: any;
+  valueset: any;
+  countryName: any;
+  cookieValue: any;
   public connection!: signalR.HubConnection;
   urlHub : string = environment.assetUrl+"/ws/Encoder"
 
@@ -38,16 +47,29 @@ export class HeaderComponent implements OnInit {
    private caseService : CaseService,
    private router : Router,
    private commonService: CommonService,
+   public languageService: LanguageService,
+   public _cookiesService: CookieService, 
+   public translate: TranslateService, 
   ) { }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
+    this.flagvalue = "assets/images/us.svg"
     // this.notificationService.getNotifications().subscribe((notification) => {
     //   this.notifications.push(notification);
     // });
     this.getActivityForApproval()
     this.getAssignedCases()
     this.getIssuedCases()
+    // Cookies wise Language set
+    this.cookieValue = this._cookiesService.get('lang');
+    const val = this.listLang.filter(x => x.lang === this.cookieValue);
+    this.countryName = val.map(element => element.text);
+    if (val.length === 0) {
+      if (this.flagvalue === undefined) { this.valueset = 'assets/images/flags/us.svg'; }
+    } else {
+      this.flagvalue = val.map(element => element.flag);
+    }
 
    
     this.connection = new signalR.HubConnectionBuilder()
@@ -75,6 +97,26 @@ export class HeaderComponent implements OnInit {
   });
 }
   
+  }
+
+
+   /***
+   * Language Listing
+   */
+  listLang = [
+    { text: 'English', flag: 'assets/images/us.svg', lang: 'en' },
+    { text: 'አማረኛ', flag: 'assets/images/et.svg', lang: 'am' },
+  ];
+
+  /***
+   * Language Value Set
+   */
+  setLanguage(text: string, lang: string, flag: string) {
+    console.log("hi",flag)
+    this.countryName = text;
+    this.flagvalue = flag;
+    this.cookieValue = lang;
+    this.languageService.setLanguage(lang);
   }
 
   getIssuedCases (){

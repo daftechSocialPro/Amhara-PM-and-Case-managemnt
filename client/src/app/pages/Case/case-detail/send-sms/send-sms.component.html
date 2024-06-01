@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Send SMS</h5>
+        <h5 class="modal-title"> {{ 'Send SMS' | translate }}</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -15,14 +15,14 @@
                         <div class="col-12 mt-2">
                             <div class="form-floating"><textarea class="form-control" formControlName="Remark"
                                     placeholder="Address" id="Remark" style="height: 120px;"></textarea><label
-                                    for="Remark">Message</label>
+                                    for="Remark"> {{ 'Message' | translate }}</label>
                             </div>
                         </div>
         
                         <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-                                (click)="closeModal()">Close</button>
+                                (click)="closeModal()"> {{ 'Close' | translate }}</button>
                             <button type="button" type="submit" [disabled]="!smsForm.valid"
-                                class="btn btn-success">Send</button>
+                                class="btn btn-success"> {{ 'Send' | translate }}</button>
                         </div>
         
         

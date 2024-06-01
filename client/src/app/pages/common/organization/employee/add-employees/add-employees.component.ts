@@ -8,6 +8,7 @@ import { SelectList } from '../../../common';
 import { OrganizationService } from '../../organization.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -27,7 +28,12 @@ export class AddEmployeesComponent implements OnInit {
   imageURL: string = "";
   user!: UserView
 
-  constructor(private orgService: OrganizationService, private formBuilder: FormBuilder, private commonService: CommonService, private activeModal: NgbActiveModal, private userService: UserService) {
+  constructor(private orgService: OrganizationService,
+     private formBuilder: FormBuilder, 
+     private commonService: CommonService, 
+     private activeModal: NgbActiveModal,
+      private userService: UserService,
+    public translate: TranslateService) {
 
     this.EmployeeForm = this.formBuilder.group({
       avatar: [null],

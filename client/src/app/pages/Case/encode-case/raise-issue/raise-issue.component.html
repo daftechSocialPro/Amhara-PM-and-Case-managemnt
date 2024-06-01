@@ -1,6 +1,6 @@
 <div class="modal-content"  >
     <div class="modal-header">
-        <h5 class="modal-title">Raise Issue</h5>
+        <h5 class="modal-title"> {{ 'Raise Issue' | translate }}</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -16,11 +16,11 @@
                                     <option value=""></option>
                                     <option *ngFor="let case of caseList" [value]="case.Id"  > {{case.CaseNumber}}  </option>   
                                     </select>
-                                    <label for="selectwho">Cases List</label>
+                                    <label for="selectwho"> {{ 'Cases List' | translate }}</label>
                                 </div>
                                 <div class="modal-content mt-2 " *ngIf="selectedCase" >
                                     <div class="modal-header bg-secondary text-white">
-                                       <h5 class="modal-title">Tips</h5>
+                                       <h5 class="modal-title"> {{ 'Tips' | translate }}</h5>
                                     </div>
                      
                                     <div class="modal-body" >
@@ -31,9 +31,9 @@
                                         <span class="">{{selectedCase.CreatedAt|date:"MMMM d, YYYY"}}</span> 
                                      </div>
                                        <div class="text-left">
-                                          <span class=""> Applicant : {{selectedCase.ApplicantName!}}</span> <br />
-                                          <span class=""> Responsible : {{selectedCase.ToEmployeeId!}}</span> <br />
-                                          <span class=""> CaseTypeName : {{selectedCase.CaseTypeName!}} </span>
+                                          <span class="">  {{ 'Applicant' | translate }} : {{selectedCase.ApplicantName!}}</span> <br />
+                                          <span class="">  {{ 'Responsible' | translate }} : {{selectedCase.ToEmployeeId!}}</span> <br />
+                                          <span class="">  {{ 'CaseTypeName' | translate }} : {{selectedCase.CaseTypeName!}} </span>
                                        </div>
                                     </div>
                                  </div>
@@ -43,10 +43,10 @@
                                 <div class="form-floating">
                                     <select class="form-select" id="selectwho" 
                                     formControlName="selectwho" #who >
-                                    <option value="0">To Structure</option>
-                                    <option value="1">To Employee</option>
+                                    <option value="0"> {{ 'To Structure' | translate }}</option>
+                                    <option value="1"> {{ 'To Employee' | translate }}</option>
                                 </select>
-                                    <label for="selectwho">Select Whom You Want To Assign </label>
+                                    <label for="selectwho"> {{ 'Select Whom You Want To Assign' | translate }} </label>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -57,7 +57,7 @@
                                    <option value=""></option>
                                     <option *ngFor="let branch of Branches" [value]="branch.Id"  > {{branch.Name}}  </option>   
                                 </select>
-                                    <label for="branch">Brnaches</label>
+                                    <label for="branch"> {{ 'Brnaches' | translate }}</label>
                                 </div>
                                 <div class="form-floating mb-3" >
                                     <select class="form-select" id="Structure" #structure  (change)="getEmployees(structure.value)"
@@ -65,7 +65,7 @@
                                     <option value=""></option>
                                     <option *ngFor="let structure of Structures" [value]="structure.Id"> {{structure.Name}}</option>   
                                 </select>
-                                    <label for="Structure">Structure</label>
+                                    <label for="Structure"> {{ 'Structure' | translate }}</label>
                                 </div>
                                 <div class="form-floating " *ngIf="who.value=='1'">
                                     <select class="form-select" id="ForEmployee" 
@@ -73,7 +73,7 @@
                                     <option value=""></option>
                                     <option *ngFor="let employee of Employees" [value]="employee.Id"> {{employee.Name}}</option>   
                                   </select>
-                                    <label for="ForEmployee">For Employee</label>
+                                    <label for="ForEmployee"> {{ 'For Employee' | translate }}</label>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -83,12 +83,12 @@
                                     <option value=""></option>
                                     <option *ngFor="let structure of Structures" [value]="structure.Id"> {{structure.Name}}</option>   
                                    </select>
-                                  <label for="CCto">CC to</label>
+                                  <label for="CCto"> {{ 'CC to' | translate }}</label>
 
                                   <div class="col-12 mt-2">
                                     <div class="form-floating"><textarea class="form-control" formControlName="Remark"
                                             placeholder="Address" id="Remark" style="height: 120px;"></textarea><label
-                                            for="Remark">Remark</label>
+                                            for="Remark"> {{ 'Remark' | translate }}</label>
                                     </div>
                                 </div>
                                     
@@ -103,9 +103,9 @@
 
                     </div>
                     <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-                            (click)="closeModal()">Close</button>
+                            (click)="closeModal()"> {{ 'Close' | translate }}</button>
                         <button type="button" type="submit" [disabled]="!caseForm.valid"
-                            class="btn btn-danger">Raise</button>
+                            class="btn btn-danger"> {{ 'Raise' | translate }}</button>
                     </div>
                 </form>
 

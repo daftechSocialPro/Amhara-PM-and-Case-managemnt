@@ -8,6 +8,7 @@ import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { CaseService } from '../case.service';
 import { ICaseView } from '../encode-case/Icase';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-case-list',
@@ -26,7 +27,8 @@ export class MyCaseListComponent implements OnInit {
     private confirmationDialogService:ConfirmationDialogService, 
     private caseService: CaseService, 
     private userService: UserService,
-    private commonService: CommonService) { }
+    private commonService: CommonService,
+  public translate: TranslateService) { }
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.getMyCaseList()

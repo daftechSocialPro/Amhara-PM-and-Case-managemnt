@@ -8,6 +8,7 @@ import { BudgetYearService } from '../budget-year.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { ProgramBudgetYear } from '../../common';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class AddProgrambudgetyearComponent implements OnInit {
     private commonService: CommonService,
     private budgetYearService: BudgetYearService,
     private activeModal:NgbActiveModal,
-    private userService : UserService
+    private userService : UserService,
+    public translate: TranslateService
     ) {}
 
   ngOnInit(): void {

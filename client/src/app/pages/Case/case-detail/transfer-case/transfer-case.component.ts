@@ -12,6 +12,7 @@ import { CaseService } from '../../case.service';
 import { ICaseState } from './IcaseState';
 import * as signalR from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-transfer-case',
@@ -44,7 +45,8 @@ export class TransferCaseComponent implements OnInit {
     private caseService: CaseService,
     private formBuilder: FormBuilder,
     private commonService: CommonService,
-    private organizationService: OrganizationService) {
+    private organizationService: OrganizationService,
+    public  translate: TranslateService) {
 
     this.transferForm = this.formBuilder.group({
       ToEmployeeId: [''],

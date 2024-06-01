@@ -4,6 +4,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IndividualConfig } from 'ngx-toastr';
 import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { OrganizationService } from '../../organization.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-branch',
@@ -18,7 +19,11 @@ export class AddBranchComponent implements OnInit {
   toast !: toastPayload;
   branchForm!:FormGroup
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal) { }
+  constructor(private formBuilder: FormBuilder, 
+    private orgService: OrganizationService, 
+    private commonService: CommonService,
+     private activeModal: NgbActiveModal,
+    public translate: TranslateService) { }
 
   ngOnInit(): void {
 

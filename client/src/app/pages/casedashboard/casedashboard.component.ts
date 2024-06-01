@@ -6,6 +6,7 @@ import { UserView } from '../pages-login/user';
 import { UserService } from '../pages-login/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DetailReportComponent } from '../Case/case-report/case-detail-report/detail-report/detail-report.component';
+import { TranslateService } from '@ngx-translate/core';
 declare const $: any
 
 @Component({
@@ -23,7 +24,11 @@ export class CasedashboardComponent implements OnInit {
 
   selectedYear : number= 2016
 
-  constructor(private modalService : NgbModal, private orgService: OrganizationService, private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private modalService : NgbModal, 
+    private orgService: OrganizationService, 
+    private formBuilder: FormBuilder, 
+    private userService: UserService,
+    public  translate: TranslateService) {
     this.serachForm = this.formBuilder.group({
       startDate: [''],
       endDate: ['']

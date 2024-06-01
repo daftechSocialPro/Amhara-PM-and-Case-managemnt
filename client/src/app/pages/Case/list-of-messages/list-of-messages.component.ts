@@ -3,6 +3,7 @@ import { CaseService } from '../case.service';
 import { IUnsentMessage } from './Imessage';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-of-messages',
@@ -13,7 +14,9 @@ export class ListOfMessagesComponent implements OnInit {
   user!: UserView
   selectedmessages: IUnsentMessage[]=[];
   messages!: IUnsentMessage[] 
-  constructor(private caseService : CaseService, private userService: UserService){}
+  constructor(private caseService : CaseService,
+     private userService: UserService,
+    public translate: TranslateService){}
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.getMessages()

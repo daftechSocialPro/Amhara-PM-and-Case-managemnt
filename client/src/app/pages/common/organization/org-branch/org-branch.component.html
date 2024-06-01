@@ -1,11 +1,11 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Organization Branches</h1>
+    <h1> {{ 'Organization Branches' | translate }}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item">Organization</li>
-        <li class="breadcrumb-item active">Branches</li>
+        <li class="breadcrumb-item"><a routerLink="/"> {{ 'Home' | translate }}</a></li>
+        <li class="breadcrumb-item"> {{ 'Organization' | translate }}</li>
+        <li class="breadcrumb-item active"> {{ 'Branches' | translate }}</li>
       </ol>
     </nav>
   </div>
@@ -19,7 +19,7 @@
     </div>
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">List of Oraganization Branches</h5>
+        <h5 class="card-title"> {{ 'List of Oraganization Branches' | translate }}</h5>
         <p-table #dt [value]="branches" [rows]="5" [paginator]="true" [globalFilterFields]="['Name','Address','PhoneNumber','Remark','Status']" [tableStyle]="{'min-width': '75rem'}"
         [(selection)]="selectedOrgBranch" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
@@ -38,11 +38,11 @@
                 <tr>
 
 
-                    <th pSortableColumn="Name"> Name <p-sortIcon field="Name"></p-sortIcon></th>
-                    <th pSortableColumn="Address">Weight <p-sortIcon field="Address"></p-sortIcon></th>
-                    <th pSortableColumn="PhoneNumber">PhoneNumber <p-sortIcon field="PhoneNumber"></p-sortIcon></th>
-                    <th pSortableColumn="Remark">Remark<p-sortIcon field="Remark"></p-sortIcon></th>
-                    <th pSortableColumn="Status">Status <p-sortIcon field="Status"></p-sortIcon></th>
+                    <th pSortableColumn="Name">  {{ 'Name' | translate }} <p-sortIcon field="Name"></p-sortIcon></th>
+                    <th pSortableColumn="Address"> {{ 'Weight' | translate }} <p-sortIcon field="Address"></p-sortIcon></th>
+                    <th pSortableColumn="PhoneNumber"> {{ 'PhoneNumber' | translate }} <p-sortIcon field="PhoneNumber"></p-sortIcon></th>
+                    <th pSortableColumn="Remark"> {{ 'Remark' | translate }}<p-sortIcon field="Remark"></p-sortIcon></th>
+                    <th pSortableColumn="Status"> {{ 'Status' | translate }} <p-sortIcon field="Status"></p-sortIcon></th>
                    
                 </tr>
       
@@ -53,23 +53,23 @@
             <ng-template pTemplate="body" let-branch>
                 <tr [pSelectableRow]="branch">
                     <td>
-                        <span class="p-column-title">Name</span>
+                        <span class="p-column-title"> {{ 'Name' | translate }}</span>
                         {{branch.StructureName}}
                     </td>
                     <td>
-                        <span class="p-column-title">Address</span>
+                        <span class="p-column-title"> {{ 'Address' | translate }}</span>
                         <span >{{branch.Weight}}</span>
                     </td>
                     <td>
-                        <span class="p-column-title">OfficeNumber</span>
+                        <span class="p-column-title"> {{ 'OfficeNumber' | translate }}</span>
                         <span >{{branch.OfficeNumber}}</span>
                     </td>
                     <td>
-                      <span class="p-column-title">Remark</span>
+                      <span class="p-column-title"> {{ 'Remark' | translate }}</span>
                       <span >{{branch.Remark}}</span>
                   </td>
                     <td>
-                        <span class="p-column-title">Status</span>
+                        <span class="p-column-title"> {{ 'Status' | translate }}</span>
                         <span  >{{ branch.RowStatus == 0 ? "Active" : "Inactive" }}</span>
                     </td>
                     <!-- <td>
@@ -83,7 +83,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="4">No Branchs found.</td>
+                    <td colspan="4"> {{ 'No Branchs found.' | translate }}</td>
                 </tr>
             </ng-template>
         </p-table>

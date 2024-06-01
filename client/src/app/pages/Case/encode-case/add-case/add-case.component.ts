@@ -12,6 +12,7 @@ import { ConfirmationDialogComponent } from 'src/app/components/confirmation-dia
 import { NotificationService } from 'src/app/layouts/header/notification.service';
 import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var Dynamsoft: any;
 
@@ -28,7 +29,8 @@ export class AddCaseComponent implements OnInit {
 
   constructor(
     private activeModal: NgbActiveModal,
-    private router: Router
+    private router: Router,
+    public  translate: TranslateService
 
   ) {
     

@@ -8,6 +8,7 @@ import { AddShelfComponent } from './add-shelf/add-shelf.component';
 import { IFolder, IRow, IShelf } from './Iarchive';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-archive-management',
@@ -23,7 +24,10 @@ export class ArchiveManagementComponent implements OnInit {
   shelf !: IShelf;
   row!: IRow;
 
-  constructor(private modalService: NgbModal, private commonService: CommonService, private userService: UserService) { }
+  constructor(private modalService: NgbModal,
+     private commonService: CommonService, 
+     private userService: UserService,
+    public translate: TranslateService) { }
 
 
   ngOnInit(): void {

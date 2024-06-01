@@ -1,13 +1,13 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Archive Configuration</h1>
+        <h1> {{ 'Archive Configuration' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a routerLink="/" >Home</a>
+                    <a routerLink="/" > {{ 'Home' | translate }}</a>
                 </li>
-                <li class="breadcrumb-item">Common</li>
-                <li class="breadcrumb-item active">Archive Configuration</li>
+                <li class="breadcrumb-item"> {{ 'Common' | translate }}</li>
+                <li class="breadcrumb-item active"> {{ 'Archive Configuration' | translate }}</li>
             </ol>
         </nav>
     </div>
@@ -17,9 +17,9 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"> Shelf</h5>
+                        <h5 class="card-title">  {{ 'Shelf' | translate }}</h5>
                         <div class="text-end col-lg-12">
-                            <button class="btn btn-primary text-end mb-3" (click)="addShelf()"> Add Shelf </button>
+                            <button class="btn btn-primary text-end mb-3" (click)="addShelf()">  {{ 'Add Shelf' | translate }} </button>
                         </div>
     
                         <table class="table  table-hover">
@@ -27,8 +27,8 @@
                                 <tr>
     
                                     <th scope="col">#</th>
-                                    <th scope="col">Shelf ID</th>
-                                    <th scope="col">Remark</th>
+                                    <th scope="col"> {{ 'Shelf ID' | translate }}</th>
+                                    <th scope="col"> {{ 'Remark' | translate }}</th>
                                     <!-- <th scope="col">Action</th> -->
                                     
     
@@ -66,9 +66,9 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"> Row of ({{shelf?.ShelfNumber}})</h5>
+                        <h5 class="card-title">  {{ 'Row of' | translate }} ({{shelf?.ShelfNumber}})</h5>
                         <div class="text-end col-lg-12">
-                            <button class="btn btn-primary text-end mb-3" [disabled]="!shelf" (click)="addRow()"> Add Row </button>
+                            <button class="btn btn-primary text-end mb-3" [disabled]="!shelf" (click)="addRow()">  {{ 'Add Row' | translate }} </button>
                         </div>
     
                         <table class="table  table-hover">
@@ -76,9 +76,9 @@
                                 <tr>
     
                                     <th scope="col">#</th>
-                                    <th scope="col">Row ID</th>
+                                    <th scope="col"> {{ 'Row ID' | translate }}</th>
                                   
-                                    <th scope="col">Remark</th>
+                                    <th scope="col"> {{ 'Remark' | translate }}</th>
                                     <!-- <th scope="col">Action</th>
                                      -->
     
@@ -116,9 +116,9 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"> Folder of ({{row?.RowNumber}})</h5>
+                        <h5 class="card-title">  {{ 'Folder of' | translate }} ({{row?.RowNumber}})</h5>
                         <div class="text-end col-lg-12">
-                            <button class="btn btn-primary text-end mb-3" [disabled]="!row" (click)="addFolder()"> Add Folder </button>
+                            <button class="btn btn-primary text-end mb-3" [disabled]="!row" (click)="addFolder()">  {{ 'Add Folder' | translate }} </button>
                         </div>
     
                         <table class="table  table-hover">
@@ -126,8 +126,8 @@
                                 <tr>
     
                                     <th scope="col">#</th>
-                                    <th scope="col">Folder ID</th>
-                                    <th scope="col">Remark</th>
+                                    <th scope="col"> {{ 'Folder ID' | translate }}</th>
+                                    <th scope="col"> {{ 'Remark' | translate }}</th>
 <!--                                  
                                     <th scope="col">Action</th> -->
                                     

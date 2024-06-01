@@ -7,6 +7,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
 import { CaseType, CaseTypeView } from '../casetype';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-case-type',
@@ -27,7 +28,9 @@ export class AddCaseTypeComponent {
     private formBuilder: FormBuilder,
     private commonService: CommonService,
      private userService: UserService,
-    private caseService: CaseService) {
+    private caseService: CaseService,
+    public  translate: TranslateService
+  ) {
 
 
   }

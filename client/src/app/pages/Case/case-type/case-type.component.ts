@@ -8,6 +8,7 @@ import { CaseTypeView } from './casetype';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-case-type',
   templateUrl: './case-type.component.html',
@@ -23,7 +24,8 @@ export class CaseTypeComponent implements OnInit {
     private caseService: CaseService,
     private messageService:MessageService,
     private confirmationService:ConfirmationService,
-    private userService: UserService) { }
+    private userService: UserService,
+    public  translate: TranslateService) { }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()

@@ -1,17 +1,17 @@
 <main id="main" class="main">
     <div class="pagetitle">
-       <h1>Cases</h1>
+       <h1> {{ 'Cases' | translate }}</h1>
        <nav>  
           <ol class="breadcrumb">
-             <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-             <li class="breadcrumb-item">Raised Issue </li>
-             <li class="breadcrumb-item active">Case</li>
+             <li class="breadcrumb-item"><a routerLink="/"> {{ 'Home' | translate }}</a></li>
+             <li class="breadcrumb-item">Raised Issue {{ 'Raised Issue' | translate }} </li>
+             <li class="breadcrumb-item active"> {{ 'Case' | translate }}</li>
           </ol>
        </nav>
     </div>
     <div class="text-end col-lg-12">
       
-       <button class="btn btn-danger text-end mb-3" (click)="raiseIssue()"> Raise Issue </button>
+       <button class="btn btn-danger text-end mb-3" (click)="raiseIssue()">  {{ 'Raise Issue' | translate }} </button>
     </div>
     <section class="section profile">
  
@@ -22,17 +22,17 @@
                    <div style="text-align: right!important;" *ngIf="issuedCase.IssueAction">
                       <li style="list-style: none; text-align: right;">
                          <a class="nav-link nav-profile  pe-0" href="#" data-bs-toggle="dropdown"> <span style="color: #204382;"
-                               class="d-none d-md-block dropdown-toggle ps-2">Action </span> </a>
+                               class="d-none d-md-block dropdown-toggle ps-2"> {{ 'Action' | translate }} </span> </a>
                          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                             <li> <a class="dropdown-item d-flex align-items-center"
                                   style="cursor: pointer;"  (click)="takeActionIssueCase(issuedCase.Id,'Completed')"
-                                > <i class="bi bi-bookmark-check bg-success text-white"></i> <span>Resolved</span> </a></li>
+                                > <i class="bi bi-bookmark-check bg-success text-white"></i> <span> {{ 'Resolved' | translate }}</span> </a></li>
                             <li>
                                <hr class="dropdown-divider">
                             </li>
                             <li> <a class="dropdown-item d-flex align-items-center"
                                 style="cursor: pointer;" (click)="takeActionIssueCase(issuedCase.Id,'Rejected')"
-                              > <i class="bi bi-bookmark-x bg-danger text-white"></i> <span>Rejected</span> </a></li>
+                              > <i class="bi bi-bookmark-x bg-danger text-white"></i> <span> {{ 'Rejected' | translate }}</span> </a></li>
                               <li>
                                 <hr class="dropdown-divider">
                              </li>
@@ -72,8 +72,8 @@
                 </div>
              </div>
              <div class="card-footer">
-               Assinged By :  {{issuedCase.AssignedBy}}<br/>
-               Assinged To :  {{issuedCase.AssignedTo}}
+                {{ 'Assinged By' | translate }} :  {{issuedCase.AssignedBy}}<br/>
+                {{ 'Assinged To' | translate }}:  {{issuedCase.AssignedTo}}
              </div>
           </div>
        </div>

@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Organization Profile</h1>
+        <h1> {{ 'Organization Profile' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item">Organization</li>
-                <li class="breadcrumb-item active">Profile</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{ 'Home' | translate }}</a></li>
+                <li class="breadcrumb-item"> {{ 'Organization' | translate }}</li>
+                <li class="breadcrumb-item active"> {{ 'Profile' | translate }}</li>
             </ol>
         </nav>
     </div>
@@ -13,7 +13,7 @@
         <div class="row">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Oraganization Profile</h5>
+                    <h5 class="card-title"> {{ 'Oraganization Profile' | translate }}</h5>
 
 
                     <form [formGroup]="profileForm" (ngSubmit)=" profileForm.value.id!=null ?update():submit()">

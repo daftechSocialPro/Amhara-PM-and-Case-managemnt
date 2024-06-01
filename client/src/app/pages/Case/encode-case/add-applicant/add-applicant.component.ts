@@ -6,6 +6,7 @@ import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-applicant',
@@ -25,7 +26,8 @@ export class AddApplicantComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private caseService: CaseService,
     private userService: UserService,
-    private commonService: CommonService) {
+    private commonService: CommonService,
+    public  translate: TranslateService ) {
 
     this.applicantForm = this.formBuilder.group({
 

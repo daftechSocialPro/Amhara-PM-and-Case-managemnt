@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CaseService } from '../../../case.service';
 import { ICaseProgressReport } from '../Icasedetail';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -17,7 +18,9 @@ export class DetailReportComponent implements OnInit {
   chartOptions2: any;
   CaseDetialReport !: ICaseProgressReport
   loading2:boolean=true
-  constructor(private activeModal: NgbActiveModal, private caseService: CaseService) {
+  constructor(private activeModal: NgbActiveModal,
+     private caseService: CaseService,
+     public  translate: TranslateService) {
 
   }
   ngOnInit(): void {

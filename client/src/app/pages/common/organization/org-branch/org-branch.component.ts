@@ -10,6 +10,7 @@ import { UpdateBranchComponent } from './update-branch/update-branch.component';
 import { OrganizationalStructure } from '../org-structure/org-structure';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-org-branch',
@@ -32,7 +33,8 @@ export class OrgBranchComponent implements OnInit {
     private commonService: CommonService,
     private modalService: NgbModal,
     private http : HttpClient,
-    private userService: UserService
+    private userService: UserService,
+    public translate: TranslateService
   ) {
     var s = document.createElement('script');
     s.type = 'text/javascript';

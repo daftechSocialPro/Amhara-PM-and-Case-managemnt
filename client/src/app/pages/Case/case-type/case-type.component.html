@@ -1,16 +1,16 @@
 <main id="main" class="main">
     <div class="pagetitle">
-       <h1>Cases</h1>
+       <h1> {{ 'Cases' | translate }}</h1>
        <nav>
           <ol class="breadcrumb">
-             <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-             <li class="breadcrumb-item">Case</li>
-             <li class="breadcrumb-item active">Type</li>
+             <li class="breadcrumb-item"><a routerLink="/">{{ 'Home' | translate }}</a></li>
+             <li class="breadcrumb-item"> {{ 'Case' | translate }}</li>
+             <li class="breadcrumb-item active"> {{ 'Type' | translate }}</li>
           </ol>
        </nav>
     </div>
     <div class="text-end col-lg-12">
-       <button class="btn btn-primary text-end mb-3" (click)="addCaseType()"> Add Case Type </button>
+       <button class="btn btn-primary text-end mb-3" (click)="addCaseType()">  {{ 'Add Case Type' | translate }} </button>
     </div>
     <section class="section profile">
 
@@ -19,13 +19,13 @@
          <ng-template pTemplate="header">
              <tr>
                  <th style="width: 5rem"></th>
-                 <th pSortableColumn="CaseTypeTitle">CaseTypeTitle <p-sortIcon field="CaseTypeTitle"></p-sortIcon></th>
-                 <th pSortableColumn="Remark">Remark <p-sortIcon field="Remark"></p-sortIcon></th>
-                 <th pSortableColumn="TotalPayment">TotalPayment <p-sortIcon field="TotalPayment"></p-sortIcon></th>
-                 <th pSortableColumn="MeasurementUnit">MeasurementUnit <p-sortIcon field="MeasurementUnit"></p-sortIcon></th>
-                 <th pSortableColumn="RowStatus">RowStatus <p-sortIcon field="RowStatus"></p-sortIcon></th>
+                 <th pSortableColumn="CaseTypeTitle">{{ 'CaseTypeTitle' | translate }} <p-sortIcon field="CaseTypeTitle"></p-sortIcon></th>
+                 <th pSortableColumn="Remark"> {{ 'Remark' | translate }}<p-sortIcon field="Remark"></p-sortIcon></th>
+                 <th pSortableColumn="TotalPayment"> {{ 'TotalPayment' | translate }} <p-sortIcon field="TotalPayment"></p-sortIcon></th>
+                 <th pSortableColumn="MeasurementUnit"> {{ 'MeasurementUnit' | translate }} <p-sortIcon field="MeasurementUnit"></p-sortIcon></th>
+                 <th pSortableColumn="RowStatus"> {{ 'RowStatus' | translate }} <p-sortIcon field="RowStatus"></p-sortIcon></th>
                  <!-- <th pSortableColumn="Code">Code <p-sortIcon field="Code"></p-sortIcon></th> -->
-                 <th>Action</th>
+                 <th> {{ 'Action' | translate }}</th>
              </tr>
 
 
@@ -59,11 +59,11 @@
                          <p-table [value]="caset.Children" dataKey="Id">
                              <ng-template pTemplate="header">
                                  <tr>
-                                    <th pSortableColumn="CaseTypeTitle">CaseTypeTitle <p-sortIcon field="CaseTypeTitle"></p-sortIcon></th>
-                                    <th pSortableColumn="Remark">Remark <p-sortIcon field="Remark"></p-sortIcon></th>
-                                    <th pSortableColumn="TotalPayment">TotalPayment <p-sortIcon field="TotalPayment"></p-sortIcon></th>
-                                    <th pSortableColumn="MeasurementUnit">MeasurementUnit <p-sortIcon field="MeasurementUnit"></p-sortIcon></th>
-                                    <th pSortableColumn="RowStatus">RowStatus <p-sortIcon field="RowStatus"></p-sortIcon></th>
+                                    <th pSortableColumn="CaseTypeTitle"> {{ 'CaseTypeTitle' | translate }} <p-sortIcon field="CaseTypeTitle"></p-sortIcon></th>
+                                    <th pSortableColumn="Remark">{{ 'Remark' | translate }} <p-sortIcon field="Remark"></p-sortIcon></th>
+                                    <th pSortableColumn="TotalPayment">TotalPayment {{ 'TotalPayement' | translate }} <p-sortIcon field="TotalPayment"></p-sortIcon></th>
+                                    <th pSortableColumn="MeasurementUnit">{{ 'MeasurementUnit' | translate }} <p-sortIcon field="MeasurementUnit"></p-sortIcon></th>
+                                    <th pSortableColumn="RowStatus"> {{ 'RowStatus' | translate }} <p-sortIcon field="RowStatus"></p-sortIcon></th>
                                     <!-- <th pSortableColumn="Code">Code <p-sortIcon field="Code"></p-sortIcon></th> -->
                                     <th>Action</th>
                                  </tr>
@@ -88,7 +88,7 @@
                              </ng-template>
                              <ng-template pTemplate="emptymessage">
                                  <tr>
-                                     <td colspan="6">There are no Childs for this Case Type yet.</td>
+                                     <td colspan="6"> {{ 'There are no Childs for this Case Type yet.' | translate }}</td>
                                  </tr>
                              </ng-template>
                          </p-table>

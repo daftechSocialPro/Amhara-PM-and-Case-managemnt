@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { IndividualConfig } from 'ngx-toastr';
 import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { UserView } from 'src/app/pages/pages-login/user';
@@ -21,7 +22,8 @@ export class AddShelfComponent implements OnInit {
     private commonService: CommonService,
     private userService: UserService,
     private activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+  public translate: TranslateService) {
 
     this.shelfForm = this.formBuilder.group({
       ShelfNumber: ['', Validators.required],

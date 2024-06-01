@@ -1,16 +1,16 @@
 <main id="main" class="main">
    <div class="pagetitle">
-      <h1>Cases</h1>
+      <h1>  {{ 'Cases' | translate }}</h1>
       <nav>
          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-            <li class="breadcrumb-item">File</li>
-            <li class="breadcrumb-item active">Setting</li>
+            <li class="breadcrumb-item"><a routerLink="/">  {{ 'Home' | translate }}</a></li>
+            <li class="breadcrumb-item">  {{ 'File' | translate }}</li>
+            <li class="breadcrumb-item active">  {{ 'Setting' | translate }}</li>
          </ol>
       </nav>
    </div>
    <div class="text-end col-lg-12">
-      <button class="btn btn-primary text-end mb-3" (click)="addfilesetting()"> Add File Setting </button>
+      <button class="btn btn-primary text-end mb-3" (click)="addfilesetting()">   {{ 'Add File Setting' | translate }} </button>
    </div>
    <section class="section profile">
       <div class="card p-3">
@@ -18,11 +18,11 @@
             <thead>
                <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Case Type Tittle</th>
-                  <th scope="col">File Name </th>
-                  <th scope="col">File Type </th>
-                  <th scope="col">Row status </th>
-                  <th scope="col">Action </th>
+                  <th scope="col"> {{ 'Case Type Tittle' | translate }}</th>
+                  <th scope="col"> {{ 'File Name' | translate }} </th>
+                  <th scope="col"> {{ 'File Type' | translate }} </th>
+                  <th scope="col"> {{ 'Row status' | translate }} </th>
+                  <th scope="col"> {{ 'Action' | translate }}</th>
 
 
                </tr>

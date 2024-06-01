@@ -1,12 +1,12 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add Employee</h5>
+        <h5 class="modal-title"> {{ 'Add Employee' | translate }}</h5>
         <button type="button" class="btn-close" id="ModalClose" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Employee Detail</h5>
+            <h5 class="card-title"> {{ 'Employee Detail' | translate }}</h5>
             <form [formGroup]="EmployeeForm" (submit)="submit()">
                 <div class="row mb-3">
 
@@ -16,7 +16,7 @@
                             accept="image/*" />
 
                         <div class="pt-2"> <a (click)="file.click()" style="width: 100%;" class="btn btn-primary btn-sm"
-                                title="Upload new profile image"><i class="bi bi-upload"></i> Upload Image</a> </div>
+                                title="Upload new profile image"><i class="bi bi-upload"></i>  {{ 'Upload Image' | translate }}</a> </div>
 
                     </div>
 
@@ -26,13 +26,13 @@
                             <div class="col-md-3">
                                 <div class="form-floating"> <input type="text" class="form-control" id="Title"
                                         placeholder="Title" required formControlName="Title">
-                                    <label for="Title">Title</label>
+                                    <label for="Title"> {{ 'Title' | translate }}</label>
                                 </div>
                             </div>
                             <div class="col-md-9">
                                 <div class="form-floating"> <input type="text" class="form-control" id="FullName"
                                         placeholder="FullName" required formControlName="FullName">
-                                    <label for="FullName"> Full Name</label>
+                                    <label for="FullName">  {{ 'Full Name' | translate }}</label>
                                 </div>
                             </div>
 
@@ -45,7 +45,7 @@
                                         </option>
 
                                     </select>
-                                    <label for="branchList">Branch List</label>
+                                    <label for="branchList"> {{ 'Branch List' | translate }}</label>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -60,7 +60,7 @@
 
 
                                     </select>
-                                    <label for="StructureId">Structure</label>
+                                    <label for="StructureId"> {{ 'Structure' | translate }}</label>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -68,17 +68,17 @@
                                     <select class="form-select" formControlName="Position" id="Position"
                                         aria-label="Position">
                                         <option></option>
-                                        <option value="Director">Director</option>
-                                        <option value="Secertary">Secertary</option>
-                                        <option value="Member">Expert</option>
+                                        <option value="Director"> {{ 'Director' | translate }}</option>
+                                        <option value="Secertary"> {{ 'Secertary' | translate }}</option>
+                                        <option value="Member"> {{ 'Expert' | translate }}</option>
                                     </select>
-                                    <label for="Position">Position</label>
+                                    <label for="Position"> {{ 'Position' | translate }}</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating"> <input type="text" class="form-control" id="PhoneNumber"
                                         placeholder="PhoneNumber" required formControlName="PhoneNumber">
-                                    <label for="PhoneNumber"> Phone Number</label>
+                                    <label for="PhoneNumber">  {{ 'Phone Number' | translate }}</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -87,19 +87,19 @@
                                         aria-label="State">
 
                                         <option></option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
+                                        <option value="Male"> {{ 'Male' | translate }}</option>
+                                        <option value="Female"> {{ 'Female' | translate }}</option>
 
 
                                     </select>
-                                    <label for="ParentStructureId">Gender</label>
+                                    <label for="ParentStructureId"> {{ 'Gender' | translate }}</label>
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-floating"><textarea required class="form-control"
                                         formControlName="Remark" placeholder="Remark" id="Remark"
-                                        style="height: 100px;"></textarea><label for="Remark">Remark</label>
+                                        style="height: 100px;"></textarea><label for="Remark">{{ 'Remark' | translate }}</label>
                                 </div>
                             </div>
                         </div>
@@ -109,8 +109,8 @@
 
                 <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                         (click)="closeModal()">Close</button> <button type="button" type="submit"
-                        [disabled]="!EmployeeForm.valid" class="btn btn-success">Save
-                        changes</button></div>
+                        [disabled]="!EmployeeForm.valid" class="btn btn-success"> {{ 'Save changes' | translate }}
+                        </button></div>
             </form>
 
         </div>

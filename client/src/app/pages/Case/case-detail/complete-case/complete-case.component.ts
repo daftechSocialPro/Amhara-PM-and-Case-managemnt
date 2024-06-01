@@ -9,6 +9,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
 import * as signalR from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class CompleteCaseComponent implements OnInit {
     private userService : UserService,
     private caseService: CaseService,
     private formBuilder: FormBuilder,
-    private commonService : CommonService) {
+    private commonService : CommonService,
+    public  translate: TranslateService) {
 
     this.completeForm = this.formBuilder.group({
       Remark: ['']

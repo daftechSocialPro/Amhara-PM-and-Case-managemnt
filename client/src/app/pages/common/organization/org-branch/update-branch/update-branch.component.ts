@@ -6,6 +6,7 @@ import { IndividualConfig } from 'ngx-toastr';
 import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { OrganizationService } from '../../organization.service';
 import { OrganizationBranch } from '../org-branch';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-update-branch',
@@ -18,7 +19,11 @@ export class UpdateBranchComponent {
   @Input() branch ! :OrganizationBranch;
   @Output() result :boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal) { }
+  constructor(private formBuilder: FormBuilder,
+     private orgService: OrganizationService,
+      private commonService: CommonService, 
+      private activeModal: NgbActiveModal,
+    public translate: TranslateService) { }
 
   ngOnInit(): void {
     console.log('branch',this.branch)

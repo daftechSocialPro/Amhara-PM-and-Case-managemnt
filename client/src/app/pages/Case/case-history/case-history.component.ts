@@ -4,6 +4,7 @@ import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { CaseService } from '../case.service';
 import { ICaseView } from '../encode-case/Icase';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-case-history',
@@ -18,7 +19,10 @@ export class CaseHistoryComponent implements OnInit {
   caseTypeTitle : string = ""
   CaseNumber:string=""
 
-  constructor(private caseService: CaseService, private userService: UserService,private router : ActivatedRoute) { }
+  constructor(private caseService: CaseService, 
+    private userService: UserService,
+    private router : ActivatedRoute,
+    public  translate: TranslateService) { }
   ngOnInit(): void {
 
     this.user = this.userService.getCurrentUser()
