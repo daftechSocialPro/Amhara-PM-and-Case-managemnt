@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Azure;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
@@ -92,14 +93,23 @@ namespace PM_Case_Managemnt_API.Services.Common
             };
         }
 
-        public async Task<List<ProgramBudgetYear>> GetProgramBudgetYears(Guid subOrgId)
+        public async Task<ResponseMessage<List<ProgramBudgetYear>>> GetProgramBudgetYears(Guid subOrgId)
         {
-            return await _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId == subOrgId).Include(x => x.BudgetYears).ToListAsync();
+            var response = new ResponseMessage<List<ProgramBudgetYear>>();
+
+            List<ProgramBudgetYear> result = await _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId == subOrgId).Include(x => x.BudgetYears).ToListAsync();
+            
+            response.Message = "Operation Successfull";
+            response.Data = result;
+            response.Success = true;
+
+            return response;
         }
 
-        public async Task<List<SelectListDto>> getProgramBudgetSelectList(Guid subOrgId)
+        public async Task<ResponseMessage<List<SelectListDto>>> getProgramBudgetSelectList(Guid subOrgId)
         {
-
+            
+            var response = new ResponseMessage<List<SelectListDto>>();
             List<SelectListDto> list = await (from x in _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId.Equals(subOrgId))
                                               select new SelectListDto
                                               {
@@ -108,8 +118,11 @@ namespace PM_Case_Managemnt_API.Services.Common
 
                                               }).ToListAsync();
 
+            response.Message = "Operation Successfull";
+            response.Data = list;
+            response.Success = true;
 
-            return list;
+            return response;
         }
 
 
@@ -156,7 +169,7 @@ namespace PM_Case_Managemnt_API.Services.Common
 
         public async Task<ResponseMessage> EditBudgetYear(BudgetYearDto BudgetYear)
         {
-            BudgetYear budgetYear = await _dBContext.BudgetYears.FindAsync(BudgetYear.Id);
+            BudgetYear? budgetYear = await _dBContext.BudgetYears.FindAsync(BudgetYear.Id);
 
 
             if(budgetYear == null)
@@ -223,8 +236,10 @@ namespace PM_Case_Managemnt_API.Services.Common
 
 
 
-        public async Task<List<BudgetYearDto>> GetBudgetYears(Guid programBudgetYearId)
+        public async Task<ResponseMessage<List<BudgetYearDto>>> GetBudgetYears(Guid programBudgetYearId)
         {
+
+            var response = new ResponseMessage<List<BudgetYearDto>>();
 
 
             var budgetYears = await _dBContext.BudgetYears.Where(x => x.ProgramBudgetYearId == programBudgetYearId)
@@ -240,13 +255,18 @@ namespace PM_Case_Managemnt_API.Services.Common
 
                                 }).ToListAsync();
 
+            response.Message = "Operation Successfull";
+            response.Data = budgetYears;
+            response.Success = true;
 
-
-            return budgetYears;
+            return response;
         }
 
-        public async Task<List<SelectListDto>> getBudgetSelectList()
+        public async Task<ResponseMessage<List<SelectListDto>>> getBudgetSelectList()
         {
+
+            var response = new ResponseMessage<List<SelectListDto>>();
+
 
             List<SelectListDto> list = await (from x in _dBContext.BudgetYears
                                               select new SelectListDto
@@ -256,17 +276,21 @@ namespace PM_Case_Managemnt_API.Services.Common
 
                                               }).ToListAsync();
 
+            response.Message = "Operation Successfull";
+            response.Data = list;
+            response.Success = true;
 
-            return list;
+            return response;
         }
 
-        public async Task<List<SelectListDto>> GetBudgetYearsFromProgramId(Guid ProgramId)
+        public async Task<ResponseMessage<List<SelectListDto>>> GetBudgetYearsFromProgramId(Guid ProgramId)
         {
 
+            var response = new ResponseMessage<List<SelectListDto>>();
 
             var program = _dBContext.Programs.Find(ProgramId);
 
-            return await (from x in _dBContext.BudgetYears.Where(x=>x.ProgramBudgetYearId==program.ProgramBudgetYearId)
+            List<SelectListDto> result =  await (from x in _dBContext.BudgetYears.Where(x=>x.ProgramBudgetYearId==program.ProgramBudgetYearId)
                           select new SelectListDto
                           {
                               Id = x.Id,
@@ -274,7 +298,11 @@ namespace PM_Case_Managemnt_API.Services.Common
 
                           }).ToListAsync();
 
+            response.Message = "Operation Successfull.";
+            response.Success = true;
+            response.Data = result;
 
+            return response;
         }
 
 

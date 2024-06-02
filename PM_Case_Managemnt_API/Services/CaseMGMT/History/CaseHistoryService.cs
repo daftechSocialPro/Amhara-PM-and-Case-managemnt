@@ -305,7 +305,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.History
             response.Message = "Operation Successfull.";
             response.Data = affairHistories;
             response.Success = true;
-
+            
             return response;
         }
     }

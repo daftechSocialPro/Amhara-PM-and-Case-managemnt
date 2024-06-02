@@ -7,6 +7,7 @@ using PM_Case_Managemnt_API.Models.Common;
 using System.Reflection.Metadata.Ecma335;
 using PM_Case_Managemnt_API.Controllers.PM;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 {
@@ -26,8 +27,10 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
         {
             _dBContext = context;
         }
-        public async Task<DashboardDto> GetPendingCase(Guid subOrgId, string startat, string endat)
+        public async Task<ResponseMessage<DashboardDto>> GetPendingCase(Guid subOrgId, string startat, string endat)
         {
+
+            var response = new ResponseMessage<DashboardDto>();
 
             var allAffairps = _dBContext.Cases
                  .Include(a => a.CaseType)
@@ -114,6 +117,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
                 eachReport.Subject = affair.LetterSubject;
                 var firstOrDefault = _dBContext.CaseHistories.Include(x => x.ToStructure).Where(x => x.CaseId == affair.Id).OrderByDescending(x => x.CreatedAt)
                     .FirstOrDefault();
+
                 if (firstOrDefault != null)
                     eachReport.Structure = _dBContext.OrganizationalStructures.Find(firstOrDefault
                             .ToStructureId).StructureName;
@@ -168,17 +172,21 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
             dashboard.chart = Chart;
 
 
+            response.Message = "Dashboard setup successfully";
+            response.Success = true;
+            response.Data = dashboard;
 
 
-
-            return dashboard;
+            return response;
 
         }
 
 
 
-        public async Task<barChartDto> GetMonthlyReport(Guid subOrgId, int year)
+        public async Task<ResponseMessage<barChartDto>> GetMonthlyReport(Guid subOrgId, int year)
         {
+
+            var response = new ResponseMessage<barChartDto>();
 
             var gerYear = XAPI.EthiopicDateTime.GetGregorianDate(7, 7, year).Year;
 
@@ -222,13 +230,18 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
             }
 
-            return barChart;
+            response.Message = "Operation Successfull";
+            response.Data = barChart;
+            response.Success = true;
+
+            return response;
 
         }
 
 
-        public async Task<PMDashboardDto> GetPMDashboardDto(Guid empID, Guid subOrgId)
+        public async Task<ResponseMessage<PMDashboardDto>> GetPMDashboardDto(Guid empID, Guid subOrgId)
         {
+            var response = new ResponseMessage<PMDashboardDto>();
            
             var Employee =   _dBContext.Employees.Find(empID);
             var Structure_Hierarchy = _dBContext.OrganizationalStructures.Single(x => x.Id == Employee.OrganizationalStructureId);
@@ -266,17 +279,26 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
             };
 
-            return pMDashboard; 
+            response.Message = "Operation Successful";
+            response.Data = pMDashboard;
+            response.Success = true;
+
+            return response; 
 
 
         }
         public float CommisionerPerformanceThisYear(Guid subOrgId)
         {
+
+
+
             float totalContribution = 0;
             ps = new List<progress_Strucure>();
             if (structureId == Guid.Empty)
             {
                 var structu = _dBContext.OrganizationalStructures.Include(x=>x.SubTask).Where(x => x.ParentStructureId == null).FirstOrDefault();
+                
+
                 var structures = structu.SubTask;
                 foreach (var structureRow in structures)
                 {
@@ -479,6 +501,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
                 ps.Add(pp);
 
             }
+
 
             return totalContribution;
 
@@ -686,10 +709,22 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
 
 
-        public async Task<PmDashboardBarchartDto> BudgetYearVsContribution(Guid empID, Guid subOrgId)
+        public async Task<ResponseMessage<PmDashboardBarchartDto>> BudgetYearVsContribution(Guid empID, Guid subOrgId)
         {
 
+            var response = new ResponseMessage<PmDashboardBarchartDto>();
+
             var Employee = _dBContext.Employees.Find(empID);
+
+            if (Employee == null)
+            {
+                response.Message = "Employee Not found";
+                response.ErrorCode = HttpStatusCode.NotFound.ToString();
+                response.Data = null;
+                response.Success = false;
+
+                return response;
+            }
             var Structure_Hierarchy = _dBContext.OrganizationalStructures.Single(x => x.Id == Employee.OrganizationalStructureId);
             if (Structure_Hierarchy.ParentStructureId != null)
             {
@@ -798,9 +833,12 @@ namespace PM_Case_Managemnt_API.Services.Common.Dashoboard
 
             }
 
-          
 
-            return bugetYears;
+            response.Message = "Operation Successful.";
+            response.Success = true;
+            response.Data = bugetYears;
+
+            return response;
         }
         public class Structure
         {

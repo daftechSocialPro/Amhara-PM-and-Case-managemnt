@@ -5,7 +5,7 @@ namespace PM_Case_Managemnt_API.Services.Common.Analytics
 {
     public interface IAnalyticsService
     {
-        public Task<SubOrgsPlannedandusedBudgetDtos> GetOverallBudget();
+        public Task<ResponseMessage<SubOrgsPlannedandusedBudgetDtos>> GetOverallBudget();
 
     }
 }

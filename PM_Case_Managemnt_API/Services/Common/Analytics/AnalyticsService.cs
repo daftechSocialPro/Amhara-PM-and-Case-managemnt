@@ -17,8 +17,11 @@ namespace PM_Case_Managemnt_API.Services.Common.Analytics
             _dBContext = context;
         }
 
-        public async Task<SubOrgsPlannedandusedBudgetDtos> GetOverallBudget()
+        public async Task<ResponseMessage<SubOrgsPlannedandusedBudgetDtos>> GetOverallBudget()
         {
+
+            var response = new ResponseMessage<SubOrgsPlannedandusedBudgetDtos>();
+
             List<OverallBudgetDto> overallPlannedBudgetDtos = new List<OverallBudgetDto>();
 
             List<OverallBudgetDto> overallUsedBudgetDtos = new List<OverallBudgetDto>();
@@ -77,11 +80,13 @@ namespace PM_Case_Managemnt_API.Services.Common.Analytics
                 });
             }
 
-            return new SubOrgsPlannedandusedBudgetDtos
-            {
-                PlannedBudget = overallPlannedBudgetDtos,
-                Usedbudget = overallUsedBudgetDtos
-            };
+            SubOrgsPlannedandusedBudgetDtos result = new SubOrgsPlannedandusedBudgetDtos{ PlannedBudget = overallPlannedBudgetDtos, Usedbudget = overallPlannedBudgetDtos};
+
+            response.Message = "Operation Successfull.";
+            response.Data = result;
+            response.Success = true;
+
+            return response;
 
         }
 

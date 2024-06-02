@@ -12,15 +12,15 @@ namespace PM_Case_Managemnt_API.Services.Common
         Task<ResponseMessage> EditProgramBudgetYear(ProgramBudgetYearDto programBudgetYear);
 
         Task<ResponseMessage> DeleteProgramBudgetYear(Guid programBudgetYeatId);
-        Task<List<ProgramBudgetYear>> GetProgramBudgetYears(Guid subOrgId);
-        Task<List<SelectListDto>> getProgramBudgetSelectList(Guid subOrgId);
+        Task<ResponseMessage<List<ProgramBudgetYear>>> GetProgramBudgetYears(Guid subOrgId);
+        Task<ResponseMessage<List<SelectListDto>>> getProgramBudgetSelectList(Guid subOrgId);
 
 
         // Budget Year
         Task<ResponseMessage> CreateBudgetYear(BudgetYearDto BudgetYear);
         Task<ResponseMessage> EditBudgetYear(BudgetYearDto BudgetYear);
         Task<ResponseMessage> DeleteBudgetYear(Guid budgetYearId);
-        Task<List<BudgetYearDto>> GetBudgetYears(Guid programBudgetYearId);
-        Task<List<SelectListDto>> GetBudgetYearsFromProgramId(Guid ProgramId);
+        Task<ResponseMessage<List<BudgetYearDto>>> GetBudgetYears(Guid programBudgetYearId);
+        Task<ResponseMessage<List<SelectListDto>>> GetBudgetYearsFromProgramId(Guid ProgramId);
     }
 }
