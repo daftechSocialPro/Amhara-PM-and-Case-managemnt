@@ -5,6 +5,7 @@ using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.Models.Common;
 using System.Dynamic;
+using System.Net;
 
 namespace PM_Case_Managemnt_API.Services.Common
 {
@@ -16,12 +17,14 @@ namespace PM_Case_Managemnt_API.Services.Common
             _dBContext = context;
         }
 
-        public async Task<int> CreateOrganizationalStructure(OrgStructureDto orgStructure)
+        public async Task<ResponseMessage<int>> CreateOrganizationalStructure(OrgStructureDto orgStructure)
         {
 
 
             //var orgainzationProfile = _dBContext.OrganizationProfile.FirstOrDefault();
             //var id = Guid.NewGuid();
+            var response = new ResponseMessage<int>();
+            
             if (orgStructure.Id == Guid.Empty || orgStructure.Id == null)
             {
                 orgStructure.Id = Guid.NewGuid();
@@ -53,12 +56,18 @@ namespace PM_Case_Managemnt_API.Services.Common
             await _dBContext.AddAsync(orgStructure2);
             await _dBContext.SaveChangesAsync();
 
-            return 1;
+            response.Message = "Operation Successful.";
+            response.Data = 1;
+            response.Success = true;
+
+            return response;
 
         }
-        public async Task<List<OrgStructureDto>> GetOrganizationStructures(Guid SubOrgId, Guid? BranchId)
+        public async Task<ResponseMessage<List<OrgStructureDto>>> GetOrganizationStructures(Guid SubOrgId, Guid? BranchId)
         {
 
+            var response = new ResponseMessage<List<OrgStructureDto>>();
+            
             List<OrgStructureDto> structures = await (from x in _dBContext.OrganizationalStructures.Include(x => x.ParentStructure).Where(x=>x.SubsidiaryOrganizationId == SubOrgId && x.OrganizationBranchId == BranchId)
                                                       
                                                       select new OrgStructureDto
@@ -81,17 +90,34 @@ namespace PM_Case_Managemnt_API.Services.Common
             {
 
                 var orgBranch = await _dBContext.OrganizationalStructures.FindAsync(structure.OrganizationBranchId);
+
+                if (orgBranch == null)
+                {
+                    
+                    response.Message = "Branch Not found.";
+                    response.Data = null;
+                    response.Success = false;
+                    response.ErrorCode = HttpStatusCode.NotFound.ToString();
+
+                    return response;
+                }
+                
                 structure.BranchName = orgBranch.StructureName;
             }
-            
 
 
-            return structures;
+            response.Message = "Operation Successful.";
+            response.Success = true;
+            response.Data = structures;
+
+            return response;
         }
 
-        public async Task<List<SelectListDto>> getParentStrucctureSelectList(Guid branchId)
+        public async Task<ResponseMessage<List<SelectListDto>>> getParentStrucctureSelectList(Guid branchId)
         {
 
+            var response = new ResponseMessage<List<SelectListDto>>();
+            
             List<SelectListDto> list = await (from x in _dBContext.OrganizationalStructures.Where(y => y.OrganizationBranchId == branchId  && (!y.IsBranch || y.Id == branchId))
                                               select new SelectListDto
                                               {
@@ -112,16 +138,31 @@ namespace PM_Case_Managemnt_API.Services.Common
                        }).ToListAsync();
             }
 
-            return list;
+            response.Message = "Operation Successful.";
+            response.Data = list;
+            response.Success = true;
+
+            return response;
         }
 
 
 
-        public async Task<int> UpdateOrganizationalStructure(OrgStructureDto orgStructure)
+        public async Task<ResponseMessage<int>> UpdateOrganizationalStructure(OrgStructureDto orgStructure)
         {
+            var response = new ResponseMessage<int>();
 
             var orgStructure2 = _dBContext.OrganizationalStructures.Find(orgStructure.Id);
 
+            if (orgStructure2 == null)
+            {
+                
+                response.Message = "Structure Not found.";
+                response.Data = -1;
+                response.Success = false;
+                response.ErrorCode = HttpStatusCode.NotFound.ToString();
+
+                return response;
+            }
             orgStructure2.OrganizationBranchId = orgStructure.OrganizationBranchId;
             orgStructure2.ParentStructureId = orgStructure.ParentStructureId;
             orgStructure2.StructureName = orgStructure.StructureName;
@@ -135,13 +176,19 @@ namespace PM_Case_Managemnt_API.Services.Common
 
             _dBContext.Entry(orgStructure2).State = EntityState.Modified;
             await _dBContext.SaveChangesAsync();
-            return 1;
+
+            response.Message = "Operation Successful.";
+            response.Success = true;
+            response.Data = 1;
+            
+            return response;
 
         }
 
 
-        public async Task<List<DiagramDto>> getDIagram(Guid? BranchId)
+        public async Task<ResponseMessage<List<DiagramDto>>> getDIagram(Guid? BranchId)
         {
+            var response = new ResponseMessage<List<DiagramDto>>();
 
             var orgStructures = _dBContext.OrganizationalStructures.Include(x => x.ParentStructure).Where(x=>x.OrganizationBranchId==BranchId)
                                                  .ToList();//Where(x=>x.ParentStructureId==BranchId)
@@ -224,7 +271,12 @@ namespace PM_Case_Managemnt_API.Services.Common
             {
                 result.Add(childs[0]);
             }
-            return result;           
+
+            response.Message = "Operation Successful.";
+            response.Data = result;
+            response.Success = true;
+            
+            return response;           
 
         }
 

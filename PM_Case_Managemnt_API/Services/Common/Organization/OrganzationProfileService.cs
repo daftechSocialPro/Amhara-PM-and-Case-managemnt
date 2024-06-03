@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.Models.Common;
 using System.ComponentModel;
+using System.Net;
 
 namespace PM_Case_Managemnt_API.Services.Common
 {
@@ -15,8 +16,10 @@ namespace PM_Case_Managemnt_API.Services.Common
             _dBContext = context;
         }
 
-        public async Task<int> CreateOrganizationalProfile(OrganizationProfile organizationProfile)
+        public async Task<ResponseMessage<int>> CreateOrganizationalProfile(OrganizationProfile organizationProfile)
         {
+            var response = new ResponseMessage<int>();
+            
             try
             {
                 await _dBContext.AddAsync(organizationProfile);
@@ -38,28 +41,52 @@ namespace PM_Case_Managemnt_API.Services.Common
 
 
                 await _dBContext.SaveChangesAsync();
-                return 1;
+                response.Message = "Operation Successful";
+                response.Data = 1;
+                response.Success = true;
+                
+                return response;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                return -1;
+                response.Message = $"{ex.Message}";
+                response.Data = -1;
+                response.Success = false;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+
+                return response;
             }
 
         }
-        public async Task<OrganizationProfile> GetOrganizationProfile(Guid orgProId)
+        public async Task<ResponseMessage<OrganizationProfile>> GetOrganizationProfile(Guid orgProId)
         {
+            var response = new ResponseMessage<OrganizationProfile>();
+            
             var subOrg = await _dBContext.SubsidiaryOrganizations.Where(x => x.Id == orgProId).FirstOrDefaultAsync();
-            return await _dBContext.OrganizationProfile.Where(x => x.Id == subOrg.OrganizationProfileId).FirstOrDefaultAsync();
+            OrganizationProfile result =  await _dBContext.OrganizationProfile.Where(x => x.Id == subOrg.OrganizationProfileId).FirstOrDefaultAsync();
+
+            response.Message = "Operation Successful";
+            response.Data = result;
+            response.Success = true;
+
+            return response;
         }
 
-        public async Task<int> UpdateOrganizationalProfile(OrganizationProfile organizationProfile)
+        public async Task<ResponseMessage<int>> UpdateOrganizationalProfile(OrganizationProfile organizationProfile)
         {
 
-
+            var response = new ResponseMessage<int>();
             var orgBranch = _dBContext.OrganizationProfile.Where(x => x.Id == organizationProfile.Id).FirstOrDefault();
 
-            
+            if (orgBranch == null)
+            {
+                response.Message = "Branch not found";
+                response.Data = -1;
+                response.Success = false;
+                response.ErrorCode = HttpStatusCode.NotFound.ToString();
+
+                return response;
+            }
             orgBranch.OrganizationNameEnglish = organizationProfile.OrganizationNameEnglish;
             orgBranch.OrganizationNameInLocalLanguage = organizationProfile.OrganizationNameInLocalLanguage;
             orgBranch.Address = organizationProfile.Address;
@@ -74,7 +101,12 @@ namespace PM_Case_Managemnt_API.Services.Common
 
             //_dBContext.Entry(organizationProfile).State = EntityState.Modified;
             //await _dBContext.SaveChangesAsync();
-            return 1;
+
+            response.Message = "Operation Successful.";
+            response.Data = 1;
+            response.Success = true;
+            
+            return response;
 
         }
 

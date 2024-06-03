@@ -1,4 +1,5 @@
-﻿using Azure.Core;
+﻿using System.Net;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
@@ -20,8 +21,11 @@ namespace PM_Case_Managemnt_API.Services.Common
             _authentication = authentication;
         }
 
-        public async Task<int> CreateEmployee(EmployeeDto employee)
+        public async Task<ResponseMessage<int>> CreateEmployee(EmployeeDto employee)
         {
+
+            var response = new ResponseMessage<int>();
+            
             try
             {
                 if (employee.Id == null || employee.Id == Guid.Empty)
@@ -50,17 +54,26 @@ namespace PM_Case_Managemnt_API.Services.Common
 
                 await _dBContext.Employees.AddAsync(employee1);
                 await _dBContext.SaveChangesAsync();
-                return 1;
+
+                response.Message = "OPeration Successfull";
+                response.Success = true;
+                response.Data = 1;
+                return response;
             }
             catch (Exception ex)
             {
-                return -1;
+                response.Message = $"{ex.Message}";
+                response.Success = false;
+                response.Data = -1;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+                return response;
             }
 
         }
 
-        public async Task<List<SelectListDto>> GetEmployeesNoUserSelectList(Guid subOrgId)
+        public async Task<ResponseMessage<List<SelectListDto>>> GetEmployeesNoUserSelectList(Guid subOrgId)
         {
+            var response = new ResponseMessage<List<SelectListDto>>();
             var emp = _authentication.ApplicationUsers.Where(j => j.SubsidiaryOrganizationId == subOrgId).Select(x => x.EmployeesId).ToList();
 
 
@@ -81,14 +94,21 @@ namespace PM_Case_Managemnt_API.Services.Common
                                             })
                                             .ToListAsync();
 
-            return EmployeeSelectList;
+            response.Message = "Operation Successful.";
+            response.Data = EmployeeSelectList;
+            response.Success = true;
+
+            return response;
 
         }
 
 
      
-        public async Task<List<EmployeeDto>> GetEmployees(Guid subOrgId)
+        public async Task<ResponseMessage<List<EmployeeDto>>> GetEmployees(Guid subOrgId)
         {
+
+            var response = new ResponseMessage<List<EmployeeDto>>();
+            
            var k=  await (from e in _dBContext.Employees.Include(x=>x.OrganizationalStructure).Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId)
                           join x in _dBContext.OrganizationalStructures on e.OrganizationalStructure.OrganizationBranchId equals x.Id
                          
@@ -109,16 +129,19 @@ namespace PM_Case_Managemnt_API.Services.Common
                               RowStatus = x.RowStatus == RowStatus.Active? 0 : 1
 
                           }).ToListAsync();
-
-            return k;
+           response.Message = "Operation Successful";
+           response.Data = k;
+           response.Success = true;
+            return response;
         }
 
-        public async Task<EmployeeDto> GetEmployeesById(Guid employeeId)
+        public async Task<ResponseMessage<EmployeeDto>> GetEmployeesById(Guid employeeId)
         {
-
+            var response = new ResponseMessage<EmployeeDto>();
+            
             try
             {
-                var k = await (from e in _dBContext.Employees.Include(x => x.OrganizationalStructure.ParentStructure).Where(x => x.Id == employeeId)
+                EmployeeDto? k = await (from e in _dBContext.Employees.Include(x => x.OrganizationalStructure.ParentStructure).Where(x => x.Id == employeeId)
 
                                select new EmployeeDto
                                {
@@ -136,20 +159,43 @@ namespace PM_Case_Managemnt_API.Services.Common
 
                                }).FirstOrDefaultAsync();
 
+                if (k == null)
+                {
+                    response.Message = "Could not get Employee.";
+                    response.Success = false;
+                    response.Data = null;
+                    response.ErrorCode = HttpStatusCode.NotFound.ToString();
+
+                    return response;
+                }
+
                 k.BranchId = _dBContext.OrganizationalStructures.Find(Guid.Parse(k.BranchId))!=null? _dBContext.OrganizationalStructures.Find(Guid.Parse(k.BranchId)).StructureName:"";
-                return k;
+
+                response.Message = "Operation Successful";
+                response.Success = true;
+                response.Data = k;
+                
+                return response;
             }
             catch(Exception e)
             {
-                throw (e);
+                
+                response.Message = $"{e.Message}";
+                response.Success = false;
+                response.Data = null;
+                response.ErrorCode = HttpStatusCode.InternalServerError.ToString();
+
+                return response;
             }
 
             
         }
 
-        public async Task<List<SelectListDto>> GetEmployeesSelectList(Guid subOrgId)
+        public async Task<ResponseMessage<List<SelectListDto>>> GetEmployeesSelectList(Guid subOrgId)
         {
-            var EmployeeSelectList = await (from e in _dBContext.Employees.Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId && x.RowStatus == RowStatus.Active)
+            var response = new ResponseMessage<List<SelectListDto>>();
+            
+            List<SelectListDto> EmployeeSelectList = await (from e in _dBContext.Employees.Where(x => x.OrganizationalStructure.SubsidiaryOrganizationId == subOrgId && x.RowStatus == RowStatus.Active)
                                           
                                             select new SelectListDto
                                             {
@@ -158,7 +204,11 @@ namespace PM_Case_Managemnt_API.Services.Common
 
                                             }).ToListAsync();
 
-            return EmployeeSelectList;
+            response.Message = "Operation Successful";
+            response.Data = EmployeeSelectList;
+            response.Success = true;
+            
+            return response;
 
 
 
@@ -168,12 +218,22 @@ namespace PM_Case_Managemnt_API.Services.Common
 
 
 
-        public async Task<int> UpdateEmployee(EmployeeDto employeeDto)
+        public async Task<ResponseMessage<int>> UpdateEmployee(EmployeeDto employeeDto)
         {
 
-
+            var response = new ResponseMessage<int>();
             var orgEmployee = _dBContext.Employees.Find(employeeDto.Id);
-         
+
+            if (orgEmployee == null)
+            {
+                
+                response.Message = "Could not get Employee.";
+                response.Success = false;
+                response.Data = -1;
+                response.ErrorCode = HttpStatusCode.NotFound.ToString();
+
+                return response;
+            }
 
             orgEmployee.Photo = employeeDto.Photo;
             orgEmployee.Title = employeeDto.Title;
@@ -188,13 +248,19 @@ namespace PM_Case_Managemnt_API.Services.Common
 
             _dBContext.Entry(orgEmployee).State = EntityState.Modified;
             await _dBContext.SaveChangesAsync();
-            return 1;
+
+            response.Message = "Operation Successful.";
+            response.Data = 1;
+            response.Success = true;
+            
+            return response;
 
         }
 
-        public async Task<List<SelectListDto>> GetEmployeeByStrucutreSelectList(Guid StructureId)
+        public async Task<ResponseMessage<List<SelectListDto>>> GetEmployeeByStrucutreSelectList(Guid StructureId)
         {
 
+            var response = new ResponseMessage<List<SelectListDto>>();
             var affairs = _dBContext.Cases.Where(x=>x.AffairStatus!= AffairStatus.Completed && x.AffairStatus!=AffairStatus.Encoded ).ToList();
             
 
@@ -222,9 +288,11 @@ namespace PM_Case_Managemnt_API.Services.Common
 
 
 
+            response.Message = "Operation Successdul.";
+            response.Data = employees;
+            response.Success = true;
 
-
-            return employees;
+            return response;
 
 
         }

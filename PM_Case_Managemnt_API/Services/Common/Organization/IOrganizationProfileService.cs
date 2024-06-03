@@ -4,8 +4,8 @@ namespace PM_Case_Managemnt_API.Services.Common
 {
     public interface IOrganizationProfileService
     {
-        public Task<int> CreateOrganizationalProfile(OrganizationProfile organizationProfile);
-        public Task<int> UpdateOrganizationalProfile(OrganizationProfile organizationProfile);
-        public Task<OrganizationProfile> GetOrganizationProfile(Guid orgProId);
+        public Task<ResponseMessage<int>> CreateOrganizationalProfile(OrganizationProfile organizationProfile);
+        public Task<ResponseMessage<int>> UpdateOrganizationalProfile(OrganizationProfile organizationProfile);
+        public Task<ResponseMessage<OrganizationProfile>> GetOrganizationProfile(Guid orgProId);
     }
 }
