@@ -39,11 +39,37 @@ export class LoginKpiDataComponent implements OnInit{
     if (this.loginForm.valid) {
       this.pmService.LoginToKpi(this.loginForm.value.password.toString()).subscribe({
         next: (res) => {
-          console.log('res: ', res);
+          if(res.Success){
+            console.log('res: ', res);
           sessionStorage.setItem('Kpi_token', res.Data);
-          //this.router.navigateByUrl('/addkpidata/:kpiId');
-          this.router.navigate(['/addkpidata', res.Data]);
+                    //this.router.navigateByUrl('/addkpidata/:kpiId');
+          const kpiId = res.Data
+          this.router.navigate(['/addkpidata', kpiId]);
+          this.toast = {
+            message: res.Message,
+            title: 'LogIn Successfull',
+            type: 'success',
+            ic: {
+              timeOut: 2500,
+              closeButton: true,
+            } as IndividualConfig,
+          };
+          this.toastr.showToast(this.toast);
        
+          }
+          else{
+            this.toast = {
+              message: res.Message,
+              title: 'Authentication failed.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.toastr.showToast(this.toast);
+          }
+          
         },
         error: (err) => {
           if (err.status == 400){
@@ -69,26 +95,3 @@ export class LoginKpiDataComponent implements OnInit{
 }
 
 
-export class KpiAuthGuard implements CanActivate {
-
-  constructor(private router: Router, private service: UserService) {
-  }
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
-    if (sessionStorage.getItem('Kpi_token') != null && sessionStorage.getItem('Kpi_token') != "") {
-      
-      return true;
-    }
-    else {
-      this.router.navigate(['loginKpi/:kpiId']);
-      return false;
-    }
-
-  }
-  kpiLogout() {
-    sessionStorage.setItem('Kpi_token', "")
-    window.location.reload()
-  }
-
-}

@@ -36,6 +36,8 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public Guid? TaskId { get; set; }
         public Guid? BranchId { get; set; }
         public bool IsClassfiedToBranch { get; set; }
+        public Guid? KpiGoalId { get; set; }
+        public bool HasKpiGoal { get; set; }
         public string[]? Employees { get; set; } 
     }
 

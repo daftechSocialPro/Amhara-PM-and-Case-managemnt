@@ -39,6 +39,8 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public Guid? CommiteeId { get; set; }
         public string? StartDateEth { get; set; }
         public string? EndDateEth { get; set; }
+        public Guid? KpiGoalId { get; set; }
+        public bool HasKpiGoal { get; set; }
     }
 
     public class MonthPerformanceViewDto

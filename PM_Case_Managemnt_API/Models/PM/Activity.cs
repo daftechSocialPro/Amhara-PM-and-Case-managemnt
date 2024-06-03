@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using PM_Case_Managemnt_API.Models.Common;
 using System.ComponentModel.DataAnnotations.Schema;
 using PM_Case_Managemnt_API.Models.CaseModel;
+using PM_Case_Managemnt_API.Models.KPI;
 
 namespace PM_Case_Managemnt_API.Models.PM
 {
@@ -73,6 +74,9 @@ namespace PM_Case_Managemnt_API.Models.PM
         public Guid? OrganizationalStructureId { get; set; }
         public virtual OrganizationalStructure OrganizationalStructure { get; set; }
 
+        public Guid? KpiGoalId { get; set; }
+        public virtual KPIDetails KpiGoal { get; set; }
+        public bool HasKpiGoal { get; set; }
 
         public ICollection<ActivityProgress> ActProgress { get; set; }
         public ICollection<EmployeesAssignedForActivities> AssignedEmploye { get; set; }
