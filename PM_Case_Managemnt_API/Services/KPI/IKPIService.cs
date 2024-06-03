@@ -8,8 +8,8 @@ namespace PM_Case_Managemnt_API.Services.KPI
         Task<ResponseMessage> AddKPI(KPIPostDto kpiPost);
         Task<ResponseMessage> AddKPIDetail(KPIDetailsPostDto kpiDetailsPost);
         Task<ResponseMessage> AddKPIData(List<KPIDataPostDto> kpiDataPost);
-        Task<List<KPIGetDto>> GetKPIs();
-        Task<KPIGetDto> GetKPIById(Guid id);
+        Task<ResponseMessage<List<KPIGetDto>>> GetKPIs();
+        Task<ResponseMessage<KPIGetDto>> GetKPIById(Guid id);
         Task<ResponseMessage> UpdateKPI(KPIGetDto kpiGet);
         Task<ResponseMessage> UpdateKPIDetail(KPIDetailsGetDto kpiDetailsGet);
         Task<ResponseMessage> LoginKpiDataEncoding(string accessCode);

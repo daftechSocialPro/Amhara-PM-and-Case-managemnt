@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Net;
+using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.KPI;
 using PM_Case_Managemnt_API.Helpers;
@@ -167,8 +168,9 @@ namespace PM_Case_Managemnt_API.Services.KPI
             }
         }
 
-        public async Task<List<KPIGetDto>> GetKPIs()
+        public async Task<ResponseMessage<List<KPIGetDto>>> GetKPIs()
         {
+            var response = new ResponseMessage<List<KPIGetDto>>();
             var kpis = await _dbContext.KPIs.Select(x => new KPIGetDto
             {
                 Title = x.Title,
@@ -182,12 +184,16 @@ namespace PM_Case_Managemnt_API.Services.KPI
                 
             }).ToListAsync();
 
+            response.Message = "Operation Successful.";
+            response.Data = kpis;
+            response.Success = true;
             
-            return kpis;
+            return response;
         }
 
-        public async Task<KPIGetDto> GetKPIById(Guid id)
+        public async Task<ResponseMessage<KPIGetDto>> GetKPIById(Guid id)
         {
+            var response = new ResponseMessage<KPIGetDto>();
             var kpis = await _dbContext.KPIs
                         .Where(x => x.Id == id)
                         .Select(x => new KPIGetDto
@@ -226,10 +232,21 @@ namespace PM_Case_Managemnt_API.Services.KPI
                                 }).ToList()
                         })
                         .FirstOrDefaultAsync();
-
+            if (kpis == null)
+            {
+                response.Message = "Error";
+                response.Data = null;
+                response.Success = false;
+                response.ErrorCode = HttpStatusCode.NotFound.ToString();
+                return response;
+            }
             kpis.ActiveYears = kpis.ActiveYearsString?.Split(',').Select(int.Parse).ToList() ?? new List<int>();
 
-            return kpis;
+            response.Message = "Operation Successful.";
+            response.Data = kpis;
+            response.Success = true;
+            
+            return response;
         }
         public async Task<ResponseMessage> UpdateKPI(KPIGetDto kpiGet)
         {

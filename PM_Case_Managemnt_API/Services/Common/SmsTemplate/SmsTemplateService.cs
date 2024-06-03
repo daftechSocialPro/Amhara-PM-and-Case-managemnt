@@ -16,8 +16,10 @@ namespace PM_Case_Managemnt_API.Services.Common.SmsTemplate
             _dBContext = dBContext;
         }
 
-        public async Task<List<SmsTemplateGetDto>> GetSmsTemplates(Guid subOrgId)
+        public async Task<ResponseMessage<List<SmsTemplateGetDto>>> GetSmsTemplates(Guid subOrgId)
         {
+            var response = new ResponseMessage<List<SmsTemplateGetDto>>();
+            
             var templates = await _dBContext.SmsTemplates.Where(x => x.SubsidiaryOrganizationId == subOrgId).Select(x => new SmsTemplateGetDto
             {
                 Id = x.Id,
@@ -29,11 +31,17 @@ namespace PM_Case_Managemnt_API.Services.Common.SmsTemplate
 
             }).ToListAsync();
 
-            return templates;
+            response.Message = "Operation Successful.";
+            response.Data = templates;
+            response.Success = true;
+            
+            return response;
         }
 
-        public async Task<SmsTemplateGetDto> GetSmsTemplatebyId(Guid id)
+        public async Task<ResponseMessage<SmsTemplateGetDto>> GetSmsTemplatebyId(Guid id)
         {
+            var response = new ResponseMessage<SmsTemplateGetDto>();
+            
             var template = await _dBContext.SmsTemplates.Where(x => x.Id == id).Select(x => new SmsTemplateGetDto
             {
                 Id = x.Id,
@@ -45,11 +53,17 @@ namespace PM_Case_Managemnt_API.Services.Common.SmsTemplate
 
             }).FirstOrDefaultAsync();
 
-            return template;
+            
+            response.Message = "Operation Successful.";
+            response.Data = template;
+            response.Success = true;
+            
+            return response;
         }
 
-        public async Task<List<SelectListDto>> GetSmsTemplateSelectList(Guid subOrgId)
+        public async Task<ResponseMessage<List<SelectListDto>>> GetSmsTemplateSelectList(Guid subOrgId)
         {
+            var response = new ResponseMessage<List<SelectListDto>>();
             var templates = await _dBContext.SmsTemplates.Where(x => x.RowStatus == RowStatus.Active && x.SubsidiaryOrganizationId == subOrgId).Select(x => new SelectListDto
             {
                 Id = x.Id,
@@ -58,7 +72,11 @@ namespace PM_Case_Managemnt_API.Services.Common.SmsTemplate
 
             }).ToListAsync();
 
-            return templates;
+            response.Message = "Operation Successful.";
+            response.Data = templates;
+            response.Success = true;
+            
+            return response;
         }
 
         public async Task<ResponseMessage> CreateSmsTemplate(SmsTemplatePostDto smsTemplate)
