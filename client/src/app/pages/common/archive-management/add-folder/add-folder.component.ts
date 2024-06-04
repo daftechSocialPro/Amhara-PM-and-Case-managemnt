@@ -6,6 +6,7 @@ import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { IRow, IShelf } from '../Iarchive';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-folder',
@@ -24,7 +25,8 @@ export class AddFolderComponent implements OnInit {
     private commonService: CommonService,
     private userService: UserService,
     private activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+  public translate: TranslateService) {
   
     this.folderForm = this.formBuilder.group({
       FolderName: ['', Validators.required],

@@ -17,6 +17,7 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import { SelectList } from '../../common/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ViewPdfComponent } from './view-pdf/view-pdf.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-case-detail',
@@ -52,7 +53,8 @@ export class CaseDetailComponent implements OnInit {
     private commonService: CommonService,
     private modalService: NgbModal,
     private confirmationDialogService: ConfirmationDialogService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public  translate: TranslateService
   ) { }
   ngOnInit(): void {
 

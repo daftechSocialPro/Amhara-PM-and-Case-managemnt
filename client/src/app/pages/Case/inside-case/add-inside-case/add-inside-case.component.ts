@@ -11,6 +11,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
 import { AddApplicantComponent } from '../../encode-case/add-applicant/add-applicant.component';
 import { fileSettingSender } from '../../encode-case/add-case/add-case.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-inside-case',
@@ -39,7 +40,8 @@ export class AddInsideCaseComponent implements OnInit {
     private modalService: NgbModal,
     private caseService: CaseService,
     private userService: UserService,
-    private notificationService: NotificationService  // private caseService :
+    private notificationService: NotificationService,
+    public translate: TranslateService  // private caseService :
   ) {
     this.caseForm = this.formBuilder.group({
       LetterNumber: ['', Validators.required],

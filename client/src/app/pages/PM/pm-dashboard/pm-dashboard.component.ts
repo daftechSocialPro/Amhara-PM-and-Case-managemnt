@@ -4,6 +4,7 @@ import { OrganizationService } from '../../common/organization/organization.serv
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { IPMDashboard } from '../pm.dashboard';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pm-dashboard',
@@ -17,6 +18,14 @@ export class PmDashboardComponent implements OnInit {
   user!: UserView
   basicData: any
   basicOptions: any
+
+  constructor(
+    private orgService: OrganizationService,
+     private userService: UserService,
+     public translate: TranslateService
+
+) { }
+
 
   ngOnInit(): void {
     const documentStyle = getComputedStyle(document.documentElement);
@@ -69,7 +78,6 @@ export class PmDashboardComponent implements OnInit {
 
     this.getPMDashboardDto()
   }
-  constructor(private orgService: OrganizationService, private userService: UserService) { }
 
   getPMDashboardDto() {
     this.orgService.getPmDashboardReport(this.user.EmployeeId, this.user.SubOrgId).subscribe({

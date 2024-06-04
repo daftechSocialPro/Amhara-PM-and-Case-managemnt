@@ -7,6 +7,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { PMService } from '../../pm.services';
 import { ActivityView, AddProgressActivityDto } from '../activityview';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-progress',
@@ -47,7 +48,8 @@ export class AddProgressComponent implements OnInit {
     private commonService : CommonService,
     private userService : UserService,
     private formBuilder : FormBuilder,
-    private pmService : PMService){
+    private pmService : PMService,
+    public translate: TranslateService){
       
       this.progressForm = this.formBuilder.group({    
         QuarterId:['',Validators.required],      

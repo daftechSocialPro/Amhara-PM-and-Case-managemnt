@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Cases</h1>
+        <h1>{{ 'Cases' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{ 'Home' | translate }}</a></li>
                 <li class="breadcrumb-item">Case </li>
-                <li class="breadcrumb-item active">List of Unsent Messages</li>
+                <li class="breadcrumb-item active"> {{ 'List of Unsent Messages' | translate }}</li>
             </ol>
         </nav>
     </div>
@@ -14,7 +14,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Unsent Messages</h5>
+            <h5 class="card-title"> {{ 'Unsent Messages' | translate }}</h5>
 
 
 
@@ -35,7 +35,7 @@
            >
                <ng-template pTemplate="caption">
                    <div class="flex">
-                       <button type="button" pButton pRipple [disabled]="selectedmessages.length<=0" (click)="sendMessage()" class="p-button-primary mr-2"  pTooltip="Send Message" tooltipPosition="bottom"> Send Message </button> 
+                       <button type="button" pButton pRipple [disabled]="selectedmessages.length<=0" (click)="sendMessage()" class="p-button-primary mr-2"  pTooltip="Send Message" tooltipPosition="bottom">  {{ 'Send Message' | translate }} </button> 
                                           
                    </div>
                </ng-template>
@@ -45,16 +45,16 @@
                    
                        </th>
 
-                       <th pSortableColumn="CaseNumber" >Case Number</th>                       
-                       <th pSortableColumn="ApplicantName">Applicant Name  </th>
-                       <th pSortableColumn="LetterNumber">Letter Number  </th>
-                       <th pSortableColumn="Subject">Subject </th>
-                       <th pSortableColumn="CaseTypeTitle">Case Type Title </th>
-                       <th pSortableColumn="PhoneNumber">Phone Number  </th>
-                       <th pSortableColumn="PhoneNumber2">Phone Number2 </th>
-                       <th pSortableColumn="Message">Message </th>
-                       <th pSortableColumn="MessageGroup">Message Group </th>
-                       <th >Is SMS Sent </th>
+                       <th pSortableColumn="CaseNumber" > {{ 'Case Number' | translate }}</th>                       
+                       <th pSortableColumn="ApplicantName"> {{ 'Applicant Name' | translate }}  </th>
+                       <th pSortableColumn="LetterNumber"> {{ 'Letter Number' | translate }}  </th>
+                       <th pSortableColumn="Subject"> {{ 'Subject' | translate }} </th>
+                       <th pSortableColumn="CaseTypeTitle"> {{ 'Case Type Title' | translate }} </th>
+                       <th pSortableColumn="PhoneNumber"> {{ 'Phone Number' | translate }} </th>
+                       <th pSortableColumn="PhoneNumber2">{{ 'Phone Number2' | translate }}</th>
+                       <th pSortableColumn="Message"> {{ 'Message' | translate }} </th>
+                       <th pSortableColumn="MessageGroup"> {{ 'Message Group' | translate }} </th>
+                       <th > {{ 'Is SMS Sent' | translate }} </th>
   
                   
                    </tr>

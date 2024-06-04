@@ -9,6 +9,7 @@ import { PlanView } from './plans';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-plans',
@@ -26,7 +27,8 @@ export class PlansComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private userService: UserService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    public translate: TranslateService
     ) { }
 
 

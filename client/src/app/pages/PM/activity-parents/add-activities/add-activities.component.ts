@@ -11,6 +11,7 @@ import { PMService } from '../../pm.services';
 import { TaskView } from '../../tasks/task';
 import {  ActivityDetailDto, SubActivityDetailDto } from './add-activities';
 import { ActivityView } from '../../view-activties/activityview';
+import { TranslateService } from '@ngx-translate/core';
 declare const $: any
 
 @Component({
@@ -43,7 +44,8 @@ export class AddActivitiesComponent implements OnInit {
     private userService: UserService,
     private pmService: PMService,
     private orgService: OrganizationService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public translate: TranslateService
   ) {}
 
 

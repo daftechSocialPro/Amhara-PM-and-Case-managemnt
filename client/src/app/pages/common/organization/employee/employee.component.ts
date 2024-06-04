@@ -9,6 +9,7 @@ import { Employee } from './employee';
 import { UpdateEmployeeComponent } from './update-employee/update-employee.component';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -24,7 +25,11 @@ export class EmployeeComponent implements OnInit {
   employees: Employee[] = []
   filterdEmployees:Employee[]=[]
 
-  constructor(private orgService: OrganizationService, private commonServcie: CommonService, private modalService: NgbModal, private userService: UserService) { }
+  constructor(private orgService: OrganizationService,
+     private commonServcie: CommonService, 
+     private modalService: NgbModal, 
+     private userService: UserService,
+    public translate : TranslateService) { }
 
   ngOnInit(): void {
 

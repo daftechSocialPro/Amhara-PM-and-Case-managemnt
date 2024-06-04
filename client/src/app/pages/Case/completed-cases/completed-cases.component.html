@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Cases</h1>
+        <h1> {{ 'Cases' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item">Case </li>
-                <li class="breadcrumb-item active">Completed cases</li>
+                <li class="breadcrumb-item"><a routerLink="/">{{ 'Home' | translate }}</a></li>
+                <li class="breadcrumb-item"> {{ 'Case' | translate }} </li>
+                <li class="breadcrumb-item active"> {{ 'Completed cases' | translate }}</li>
             </ol>
         </nav>
     </div>
@@ -22,12 +22,12 @@
                              <div style="text-align: right!important;">
                                 <li style="list-style: none; text-align: right;">
                                    <a class="nav-link nav-profile  pe-0" href="#" data-bs-toggle="dropdown"> <span style="color: #204382;"
-                                         class="d-none d-md-block dropdown-toggle ps-2">Action </span> </a>
+                                         class="d-none d-md-block dropdown-toggle ps-2"> {{ 'Action' | translate }} </span> </a>
                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                                       <li> <a class="dropdown-item d-flex align-items-center"
                                             style="cursor: pointer;"  (click)="archiveCase(encodedCase)"
-                                          > <i class="bi bi-bookmark-check text-primary"></i> <span>Archive
-                                               Case</span> </a></li>
+                                          > <i class="bi bi-bookmark-check text-primary"></i> <span>
+                                                {{ 'Archive Case' | translate }}</span> </a></li>
                                       <li>
                                          <hr class="dropdown-divider">
                                       </li>

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AnalyticService } from './analytics.service';
 import { EChartsOption } from 'echarts';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-analytics-dashboard',
@@ -17,7 +18,8 @@ export class AnalyticsDashboardComponent implements OnInit{
   barChartOption2!: EChartsOption
   chartData!: any[]
   constructor(
-    private analyticService: AnalyticService
+    private analyticService: AnalyticService,
+    public  translate: TranslateService
   ){}
 
   ngOnInit(): void {

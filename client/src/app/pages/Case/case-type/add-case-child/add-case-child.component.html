@@ -16,7 +16,7 @@
                                     
                                     <input type="number"  class="form-control" id="OrderNumber" 
                                         formControlName="OrderNumber">
-                                        <label for="OrderNumber">Order Number</label>
+                                        <label for="OrderNumber">{{ 'Order Number' | translate }}</label>
                                 </div>
                             </div>  
 
@@ -25,7 +25,7 @@
                                     
                                     <input type="text" class="form-control" id="CaseTypeTittle" 
                                         formControlName="CaseTypeTitle">
-                                        <label for="CaseTypeTittle">Case Type Title</label>
+                                        <label for="CaseTypeTittle"> {{ 'Case Type Title' | translate }}</label>
                                 </div>
                             </div>
 
@@ -33,14 +33,14 @@
                                 <div class="form-floating">
                                     <input type="number" class="form-control" id="TotalPayment"  placeholder="Enter only numbers"
                                         formControlName="TotalPayment">
-                                    <label for="TotalPayment">Total Payment</label>
+                                    <label for="TotalPayment"> {{ 'Total Payment' | translate }}</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="number" class="form-control" id="TotaLength" placeholder="Enter only numbers"
                                         formControlName="Counter">
-                                    <label for="TotaLength">Total Length</label>
+                                    <label for="TotaLength"> {{ 'Total Length' | translate }}</label>
                                 </div>
                             </div>
 
@@ -48,12 +48,12 @@
                                 <div class="form-floating">
                                     <select class="form-select" id="MesurementUnit" 
                                         formControlName="MeasurementUnit">
-                                        <option value="Minutes">Minutes</option>
-                                        <option value="Hour">Hours</option>
-                                        <option value="Day">Days</option>
+                                        <option value="Minutes"> {{ 'Minutes' | translate }}</option>
+                                        <option value="Hour"> {{ 'Hours' | translate }}</option>
+                                        <option value="Day"> {{ 'Days' | translate }}</option>
 
                                     </select>
-                                    <label for="MesurementUnit">Mesurement Unit</label>
+                                    <label for="MesurementUnit"> {{ 'Mesurement Unit' | translate }}</label>
                                 </div>
                             </div>
                             <!-- <div class="col-md-6">
@@ -67,7 +67,7 @@
                             <div class="col-12">
                                 <div class="form-floating"><textarea class="form-control" formControlName="Remark"
                                         placeholder="Remark" id="Remark" style="height: 100px;"></textarea><label
-                                        for="Remark">Remark</label>
+                                        for="Remark"> {{ 'Remark' | translate }}</label>
                                 </div>
                             </div>
 
@@ -78,7 +78,7 @@
 
                     </div>
                     <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-                            (click)="closeModal()">Close</button>
+                            (click)="closeModal()"> {{ 'Close' | translate }}</button>
                         <button type="button" type="submit" [disabled]="!caseForm.valid"
                          [class]="caseChild?'btn btn-warning':'btn btn-success'">{{caseChild?'Update':'Create'}}</button>
                     </div>

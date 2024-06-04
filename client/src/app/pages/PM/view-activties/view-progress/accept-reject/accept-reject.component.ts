@@ -7,6 +7,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { PMService } from '../../../pm.services';
 import { ApprovalProgressDto } from '../../activityview'
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-accept-reject',
   templateUrl: './accept-reject.component.html',
@@ -28,7 +29,8 @@ this.user=this.userService.getCurrentUser()
     private activeModal: NgbActiveModal,
     private pmService:PMService ,
     private userService:UserService,
-    private commonService :CommonService) {
+    private commonService :CommonService,
+    public translate: TranslateService) {
 
     this.acceptForm = this.formBuilder.group({
 

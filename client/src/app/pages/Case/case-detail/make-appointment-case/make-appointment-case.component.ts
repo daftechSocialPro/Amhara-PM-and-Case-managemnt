@@ -7,6 +7,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
 import { IAppointmentGet, IAppointmentWithCalander } from './Iappointmentwithcalander';
+import { TranslateService } from '@ngx-translate/core';
 declare const $: any
 
 @Component({
@@ -30,7 +31,8 @@ export class MakeAppointmentCaseComponent implements OnInit {
     private commonService: CommonService,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private caseService: CaseService
+    private caseService: CaseService,
+    public  translate: TranslateService
   ) {
 
     this.appointmentForm = this.formBuilder.group({

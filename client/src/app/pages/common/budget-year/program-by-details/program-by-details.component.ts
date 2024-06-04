@@ -4,6 +4,7 @@ import { BudgetYear, ProgramBudgetYear } from '../../common';
 import { AddBudgetyearComponent } from '../add-budgetyear/add-budgetyear.component';
 import { BudgetYearService } from '../budget-year.service';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-program-by-details',
@@ -20,7 +21,8 @@ export class ProgramByDetailsComponent implements OnInit {
     private budgetYearService: BudgetYearService,
     private activeModal: NgbActiveModal,
     private messageService:MessageService,
-    private confirmationService:ConfirmationService) {
+    private confirmationService:ConfirmationService,
+  public translate: TranslateService) {
 
 
   }

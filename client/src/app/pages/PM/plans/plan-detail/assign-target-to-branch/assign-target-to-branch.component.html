@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Assign {{activity.Name}} to Branch target</h5>
+        <h5 class="modal-title"> {{'Assign' | translate}} {{activity.Name}} to Branch target</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -9,7 +9,7 @@
 
 
         <div class="card-body">
-            <h3  class="card-title">Start Date : {{activity.StartDate|date:"dd MMM yyyy"}} - End Date : {{activity.EndDate|date:"dd MMM yyyy"}}  </h3>
+            <h3  class="card-title"> {{'Start Date' | translate}} : {{activity.StartDate|date:"dd MMM yyyy"}} - End Date : {{activity.EndDate|date:"dd MMM yyyy"}}  </h3>
 
 
 
@@ -24,15 +24,15 @@
 
 
                     </select>
-                    <label for="caseType">Case Types  </label>
+                    <label for="caseType"> {{'Case Types' | translate}}  </label>
                 </div>
             </div>
 
 
             <h5  style="text-align: right;">
-                Overall Target : <b>{{activity.Target }} {{activity.UnitOfMeasurment}}</b><br/>
-                Overall Budget : <b> {{activity.PlannedBudget}} ETB</b>
-                Overall Weight : <b> {{activity.Weight}} %</b>
+                 {{'Overall Target' | translate}} : <b>{{activity.Target }} {{activity.UnitOfMeasurment}}</b><br/>
+                 {{'Overall Budget' | translate}} : <b> {{activity.PlannedBudget}} ETB</b>
+                 {{'Overall Weight' | translate}} : <b> {{activity.Weight}} %</b>
 
 
             <br/>
@@ -62,21 +62,21 @@
                             <div class="form-floating">
                                 <input type="number"  formControlName="Target" class="form-control" id="Target" placeholder="Target"
                                     >
-                                <label for="Target">Target</label>
+                                <label for="Target"> {{'Target' | translate}}</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
                                 <input type="number" class="form-control" id="Budget" placeholder="Budget"
                                  formControlName = "Budget"  >
-                                <label for="Budget">Budget</label>
+                                <label for="Budget"> {{'Budget' | translate}}</label>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
                                 <input type="number" class="form-control" id="weight" placeholder="weight"
                                  formControlName = "Weight"  >
-                                <label for="weight">Weight</label>
+                                <label for="weight"> {{'Weight' | translate}}</label>
                             </div>
                         </div>
 
@@ -99,9 +99,9 @@
 
         </div>
         <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-            (click)="closeModal()">Close</button>
+            (click)="closeModal()"> {{'Close' | translate}}</button>
         <button type="button" type="submit" (click)="submitTarget()"
-            class="btn btn-success">Assign Target  </button>
+            class="btn btn-success"> {{'Assign Target' | translate}}  </button>
     </div>
     </div>
 </div>

@@ -12,6 +12,7 @@ import { PlanService } from '../plan.service';
 import { Plan, PlanView } from '../plans';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { UserView } from 'src/app/pages/pages-login/user';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-plans',
@@ -44,7 +45,8 @@ export class AddPlansComponent implements OnInit {
     private planService: PlanService,
     private commonService: CommonService,
     private orgService: OrganizationService,
-    private userService: UserService) { }
+    private userService: UserService,
+  public translate: TranslateService) { }
 
   ngOnInit(): void {
 

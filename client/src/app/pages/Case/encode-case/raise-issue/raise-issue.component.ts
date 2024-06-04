@@ -9,6 +9,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../case.service';
 import { ICaseView } from '../Icase';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-raise-issue',
@@ -34,7 +35,8 @@ export class RaiseIssueComponent implements OnInit {
     private formBuilder: FormBuilder,
     private caseService: CaseService,
     private commonService: CommonService,
-    private userService: UserService) {
+    private userService: UserService,
+  public translate: TranslateService) {
 
     this.caseForm = this.formBuilder.group({
       caseId: ['', Validators.required],

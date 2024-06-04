@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Cases</h1>
+        <h1> {{ 'Cases' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item">Case </li>
-                <li class="breadcrumb-item active">Archived case</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{ 'Home' | translate }}</a></li>
+                <li class="breadcrumb-item"> {{ 'Case' | translate }} </li>
+                <li class="breadcrumb-item active"> {{ 'Archived case' | translate }}</li>
             </ol>
         </nav>
     </div>
@@ -18,19 +18,18 @@
 
         
         <div class="card-body">
-            <h5 class="card-title">Archived  <span>| Cases</span></h5>
+            <h5 class="card-title"> {{ 'Archived' | translate }}  <span>|  {{ 'Cases' | translate }}</span></h5>
             <table class="table table-bordered ">
                <thead>
                   <tr>
                      <th scope="col">#</th>
-                     <th scope="col">Case Number</th>
-                     <th scope="col">Case Type</th>
-                     <th scope="col">Applicant / Employee</th>
-                     <th scope="col">Applicant Phone no</th>
-                     <th scope="col">Letter Number</th>
-                     <th scope="col">Letter Subject</th>
-                     <th scope="col">Shelf - Row - Folder</th>
-                     <th scope="col">Files</th>
+                     <th scope="col"> {{ 'Case Number' | translate }}</th>
+                     <th scope="col"> {{ 'Case Type' | translate }}</th>
+                     <th scope="col"> {{ 'Applicant / Employee' | translate }}</th>
+                     <th scope="col"> {{ 'Applicant Phone no' | translate }}</th>
+                     <th scope="col"> {{ 'Letter Number' | translate }}</th>
+                     <th scope="col"> {{ 'Letter Subject' | translate }}</th>
+                     <th scope="col"> {{ 'Shelf - Row - Folder' | translate }}</th>
                   </tr>
                </thead>
                <tbody>

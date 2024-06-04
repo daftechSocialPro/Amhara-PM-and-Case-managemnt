@@ -6,6 +6,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { PMService } from '../../../pm.services';
 import { ActivityEmployees, ActivityView } from '../../../view-activties/activityview';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-assign-employees-activity',
@@ -26,7 +27,8 @@ constructor(
   private activeModal:NgbActiveModal,
   private userService : UserService,
   private messageService : MessageService,
-  private pmService : PMService){}
+  private pmService : PMService,
+public translate: TranslateService){}
   ngOnInit(): void {
     this.userView = this.userService.getCurrentUser()
     this.getEmployees()

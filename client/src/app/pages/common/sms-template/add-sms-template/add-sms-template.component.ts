@@ -7,6 +7,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { OrganizationService } from '../../organization/organization.service';
 import { SmsTemplateGetDto, SmsTemplatePostDto } from '../sms-template';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-sms-template',
@@ -25,7 +26,8 @@ constructor(
   private orgService: OrganizationService, 
   private commonService: CommonService, 
   private activeModal: NgbActiveModal,
-  private userService:UserService
+  private userService:UserService,
+  public translate: TranslateService
 ){}
 
 ngOnInit(): void {

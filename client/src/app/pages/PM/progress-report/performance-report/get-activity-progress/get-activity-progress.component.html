@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">View Activity Progress for</h5>
+        <h5 class="modal-title"> {{'View Activity Progress for' | translate}}</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -14,12 +14,12 @@
                 <thead class="thead-light">
                     <tr>
                         <th>#</th>
-                        <th>Remark</th>
-                        <th>Worked</th>
-                        <th>Used Budjet</th>
-                        <th>Report Date</th>
-                        <th>Doc</th>
-                        <th>Action</th>
+                        <th> {{'Remark' | translate}}</th>
+                        <th> {{'Worked' | translate}}</th>
+                        <th> {{'Used Budjet' | translate}}</th>
+                        <th> {{'Report Date' | translate}}</th>
+                        <th> {{'Doc' | translate}}</th>
+                        <th> {{'Action' | translate}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,9 +35,9 @@
                             <td>{{actRow.CreatedDateTime | date:'MMM dd yyyy'}}</td>
                             <td>
 
-                              Finance :  <a target="_blank"   [href]="getFile(actRow.DocumentPath)" class="btn btn-dark"><i class="bi bi-eye"></i> View </a>
+                               {{'Finance' | translate}} :  <a target="_blank"   [href]="getFile(actRow.DocumentPath)" class="btn btn-dark"><i class="bi bi-eye"></i> View </a>
                               <br/>
-                              Attachment :
+                               {{'Attachment' | translate}} :
 
                               <a   *ngFor="let item of actRow.ProgressAttachments;let i =index " target="_blank"   [href]="getFile(item.FilePath)" class="btn btn-dark mt-2"><i class="bi bi-eye"></i> View {{i+1}} </a>
 
@@ -47,8 +47,8 @@
                             </td>
                             <td>
                                 <button type="button" class="btn btn-primary"
-                                    (click)="initialize(actRow.Lat, actRow.Lng)">Show On
-                                    Map</button>
+                                    (click)="initialize(actRow.Lat, actRow.Lng)">
+                                     {{'Show On Map' | translate}}</button>
 
 
 

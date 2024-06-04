@@ -8,6 +8,7 @@ import { ProgramByDetailsComponent } from './program-by-details/program-by-detai
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-budget-year',
@@ -27,7 +28,8 @@ export class BudgetYearComponent implements OnInit {
     private modalService: NgbModal, 
     private userService: UserService,
     private messageService:MessageService,
-    private confirmationService:ConfirmationService
+    private confirmationService:ConfirmationService,
+    public translate: TranslateService
   ){}
 
 

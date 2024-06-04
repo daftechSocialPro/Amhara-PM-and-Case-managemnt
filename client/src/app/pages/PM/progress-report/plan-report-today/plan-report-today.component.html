@@ -1,10 +1,10 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Plan Report Detail</h1>
+        <h1> {{'Plan Report Detail' | translate}}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item active">Plan Report Today</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+                <li class="breadcrumb-item active"> {{'Plan Report Today' | translate}}</li>
             </ol>
         </nav>
     </div>
@@ -22,15 +22,15 @@
                             <div *ngIf="roleMatch(['Regulator'])" class="form-floating col-3 me-2">
                                 <select class="form-control"  id="ReportBy"
                                 placeholder="ReportBy" formControlName="SubOrg" (change)="onSubOrgChange($event)">
-                                <option value="">--Select Subsidiary Organization--</option>
+                                <option value="">-- {{'Select Subsidiary Organization' | translate}}--</option>
                                 <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
                                 </select>
-                                  <label for="ReportBy">Subsidiary Organization</label>
+                                  <label for="ReportBy"> {{'Subsidiary Organization' | translate}}</label>
                             </div>
                             <div class="form-floating col-2 me-2">
                                 <input type="number" class="form-control" id="budgetYear" formControlName="BudgetYear"
                                     placeholder="Budget Year (yyyy)">
-                                <label for="budgetYear">Budget Year (yyyy)</label>
+                                <label for="budgetYear"> {{'Budget Year' | translate}} (yyyy)</label>
                             </div>
                             <div class="form-floating col-3 me-2">
                                 <select class="form-control" formControlName="ProgramId" id="ProgramId"
@@ -41,19 +41,19 @@
 
                                 </select>
 
-                                <label for="ProgramId">Programs</label>
+                                <label for="ProgramId"> {{'Programs' | translate}}</label>
                             </div>
 
                             <div class="form-floating col-2 me-2">
                                 <select class="form-control" formControlName="ReportBy" id="ReportBy"
                                     placeholder="ReportBy">
 
-                                    <option value="Quarter">Quarterly</option>
-                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarter"> {{'Quarterly' | translate}}</option>
+                                    <option value="Monthly"> {{'Monthly' | translate}}</option>
 
                                 </select>
 
-                                <label for="ReportBy">View Report By</label>
+                                <label for="ReportBy"> {{'View Report By' | translate}}</label>
                             </div>
 
 
@@ -70,18 +70,18 @@
 
 
         <button *ngIf="planReportDetail?.ProgramWithStructure" (click)="exportTableToExcel(tableElement, 'Plan Report Detail')"  type="button" class="btn btn-secondary m-2">
-            <i class="bi bi-file-earmark-excel me-1"></i> Export Report to Excel</button> 
+            <i class="bi bi-file-earmark-excel me-1"></i>  {{'Export Report to Excel' | translate}}</button> 
         <div class="card">
             <table #tableElement class="table table-bordered table-responsive">
 
                 <thead class="thead-light">
                     <tr>
-                        <th rowspan="2">No</th>
-                        <th rowspan="2">Description</th>
-                        <th rowspan="2">Weight</th>
-                        <th rowspan="2">Unit Measurment</th>
-                        <th rowspan="2">Target</th>
-                        <th [attr.colspan]='cnt'>Physical Work Schedule</th>
+                        <th rowspan="2"> {{'No' | translate }}</th>
+                        <th rowspan="2"> {{'Description' | translate }}</th>
+                        <th rowspan="2"> {{'Weight' | translate }}</th>
+                        <th rowspan="2"> {{'Unit Measurment' | translate }}</th>
+                        <th rowspan="2"> {{'Target' | translate }}</th>
+                        <th [attr.colspan]='cnt'> {{'Physical Work Schedule' | translate }}</th>
                     </tr>
                     <tr>
                         <th *ngFor="let items of planReportDetail?.MonthCounts">{{items.MonthName}}</th>

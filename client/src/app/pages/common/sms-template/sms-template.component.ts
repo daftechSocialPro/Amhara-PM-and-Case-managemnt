@@ -9,6 +9,7 @@ import { SmsTemplateGetDto } from './sms-template';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { AddSmsTemplateComponent } from './add-sms-template/add-sms-template.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sms-template',
@@ -28,7 +29,8 @@ export class SmsTemplateComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     private route: Router,
     private commonService: CommonService,
-    private userService:UserService
+    private userService:UserService,
+    public translate: TranslateService
   ){}
 
   ngOnInit(): void {

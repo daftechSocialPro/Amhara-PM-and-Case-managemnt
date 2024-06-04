@@ -58,7 +58,7 @@ import { EmployeeComponent } from './pages/common/organization/employee/employee
 import { EmployeeDetailsComponent } from './pages/common/organization/employee/employee-details/employee-details.component';
 import { AddEmployeesComponent } from './pages/common/organization/employee/add-employees/add-employees.component';
 import { UpdateEmployeeComponent } from './pages/common/organization/employee/update-employee/update-employee.component';
-import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UnitMeasurementComponent } from './pages/common/unit-measurement/unit-measurement.component';
 
 import { ProgramByDetailsComponent } from './pages/common/budget-year/program-by-details/program-by-details.component';
@@ -196,7 +196,15 @@ import { KpiDetailComponent } from './pages/pm/kpi/kpi-detail/kpi-detail.compone
 import { AddKpiDetailComponent } from './pages/pm/kpi/kpi-detail/add-kpi-detail/add-kpi-detail.component';
 import { AddKpiDataComponent } from './pages/pm/kpi/kpi-detail/login-kpi-data/add-kpi-data/add-kpi-data.component';
 import { LoginKpiDataComponent } from './pages/PM/kpi/kpi-detail/login-kpi-data/login-kpi-data.component';
+import { HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FileViewComponent } from './pages/Case/archivecase/file-view/file-view.component';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
 
 @NgModule({
   declarations: [
@@ -375,6 +383,7 @@ import { FileViewComponent } from './pages/Case/archivecase/file-view/file-view.
     ToastrModule.forRoot({
       preventDuplicates: true,
     }),
+    NgbDropdownModule,
     NgbModule,
     LightgalleryModule,
     GojsAngularModule,
@@ -395,7 +404,15 @@ import { FileViewComponent } from './pages/Case/archivecase/file-view/file-view.
     StepsModule,
     ConfirmDialogModule,
     ToastModule,
-    PickListModule
+    PickListModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
     
   
   ],

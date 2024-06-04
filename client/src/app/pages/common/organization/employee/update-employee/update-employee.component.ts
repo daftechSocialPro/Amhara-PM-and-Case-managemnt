@@ -9,6 +9,7 @@ import { OrganizationService } from '../../organization.service';
 import { Employee } from '../employee';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-update-employee',
@@ -29,7 +30,12 @@ export class UpdateEmployeeComponent implements OnInit {
   user!: UserView
 
 
-  constructor(private orgService: OrganizationService, private formBuilder: FormBuilder, private commonService: CommonService, private actvieModal: NgbActiveModal, private userService: UserService) {
+  constructor(private orgService: OrganizationService,
+     private formBuilder: FormBuilder, 
+     private commonService: CommonService,
+      private actvieModal: NgbActiveModal,
+       private userService: UserService,
+      public translate: TranslateService) {
 
 
   }

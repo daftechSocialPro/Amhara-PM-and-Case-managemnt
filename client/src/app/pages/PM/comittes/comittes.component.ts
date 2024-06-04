@@ -7,6 +7,7 @@ import { CommitteeEmployeeComponent } from './committee-employee/committee-emplo
 import { UpdateCpmmitteeComponent } from './update-cpmmittee/update-cpmmittee.component';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-comittes',
@@ -20,7 +21,8 @@ export class ComittesComponent implements OnInit {
   constructor (
     private modalService : NgbModal,
     private pmService  : PMService,
-    private userService: UserService
+    private userService: UserService,
+    public translate: TranslateService
     
   ){}
   ngOnInit(): void {

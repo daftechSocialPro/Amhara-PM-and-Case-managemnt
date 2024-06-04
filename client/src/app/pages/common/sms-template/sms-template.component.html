@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>SMS Template</h1>
+        <h1> {{'SMS Template' | translate}}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item">Commmon</li>
-                <li class="breadcrumb-item active">SMS Template</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+                <li class="breadcrumb-item"> {{'Commmon' | translate}} </li>
+                <li class="breadcrumb-item active"> {{'SMS Template' | translate}}</li>
             </ol>
         </nav>
     </div>
@@ -13,9 +13,9 @@
         <div class="row">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">SMS Template</h5>
+                    <h5 class="card-title"> {{'SMS Template' | translate}}</h5>
                     <div class="text-end col-lg-12">
-                        <button class="btn btn-primary text-end mb-3" (click)="addSmsTemplate()"> Add SMS Template
+                        <button class="btn btn-primary text-end mb-3" (click)="addSmsTemplate()">  {{'Add SMS Template' | translate}}
                             </button>
                     </div>
 
@@ -24,11 +24,11 @@
                             <tr>
 
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Content</th>
+                                <th scope="col"> {{'Name' | translate}}</th>
+                                <th scope="col"> {{'Content' | translate}}</th>
                                 <!-- <th scope="col">Status</th> -->
-                                <th scope="col">Remark</th>
-                                <th scope="col">Action</th>
+                                <th scope="col"> {{'Remark' | translate}}</th>
+                                <th scope="col"> {{'Action' | translate}}</th>
 
                             </tr>
                         </thead>
@@ -47,7 +47,7 @@
                                         Update</a> |
                                 <a (click)="deleteSmsTemplate(template.Id)" 
                                     class="btn btn-outline-danger"><i class=" bi bi-trash"></i> 
-                                        Delete</a> 
+                                         {{'Delete' | translate}}</a> 
 
                                 </td>
 

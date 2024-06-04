@@ -7,6 +7,7 @@ import { AddTasksComponent } from './add-tasks/add-tasks.component';
 import { IActivityAttachment } from './Iactivity';
 import { TaskView } from './task';
 import { TaskService } from './task.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tasks',
@@ -25,7 +26,8 @@ export class TasksComponent implements OnInit {
     private planService: PlanService, 
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private router: Router ,
+    private router: Router,
+    public translate: TranslateService
    
      ) { }
   ngOnInit(): void {

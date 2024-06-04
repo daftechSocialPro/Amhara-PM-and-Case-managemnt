@@ -11,6 +11,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CaseService } from '../../../case.service';
 import { AddApplicantComponent } from '../../add-applicant/add-applicant.component';
 import { CaseTypeView } from '../../../case-type/casetype';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-case-details',
@@ -39,7 +40,8 @@ export class CaseDetailsComponent implements OnInit{
     private caseService: CaseService,
     private userService: UserService,
     private router: Router,
-    private notificationService: NotificationService  // private caseService :
+    private notificationService: NotificationService,
+    public  translate: TranslateService  // private caseService :
   ) {
     this.caseForm = this.formBuilder.group({
       LetterNumber: ['', Validators.required],

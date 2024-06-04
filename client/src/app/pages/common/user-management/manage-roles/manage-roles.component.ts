@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { IndividualConfig } from 'ngx-toastr';
 import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { UserService } from 'src/app/pages/pages-login/user.service';
@@ -23,7 +24,8 @@ export class ManageRolesComponent implements OnInit{
     
     private userService: UserService,
     private activeModal: NgbActiveModal,
-    private toastr:CommonService
+    private toastr:CommonService,
+    public translate: TranslateService
     ) { }
     
     ngOnInit(): void {

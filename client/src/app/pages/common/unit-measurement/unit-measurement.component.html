@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Unit of Measurement</h1>
+        <h1> {{'Unit of Measurement' | translate}}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item">Commmo</li>
-                <li class="breadcrumb-item active">Unit of Measurment</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+                <li class="breadcrumb-item"> {{'Common' | translate}}</li>
+                <li class="breadcrumb-item active"> {{'Unit of Measurment' | translate}}</li>
             </ol>
         </nav>
     </div>
@@ -13,10 +13,10 @@
         <div class="row">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Unit of Measurment</h5>
+                    <h5 class="card-title"> {{'Unit of Measurment' | translate}}</h5>
                     <div class="text-end col-lg-12">
-                        <button class="btn btn-primary text-end mb-3" (click)="addUnitOfMeasurment()"> Add Unit
-                            Measurment</button>
+                        <button class="btn btn-primary text-end mb-3" (click)="addUnitOfMeasurment()"> Add Unit {{'Add Unit Measurement' | translate}}
+                            </button>
                     </div>
 
                     <table class="table table-hover">
@@ -24,12 +24,12 @@
                             <tr>
 
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Local Name</th>
-                                <th scope="col">Measurment Type </th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Remark</th>
-                                <th scope="col">Action</th>
+                                <th scope="col"> {{'Name' | translate}}</th>
+                                <th scope="col"> {{'Local Name' | translate}}</th>
+                                <th scope="col"> {{'Measurment Type' | translate}} </th>
+                                <th scope="col"> {{'Status' | translate}}</th>
+                                <th scope="col"> {{'Remark' | translate}}</th>
+                                <th scope="col"> {{'Action' | translate}}</th>
 
                             </tr>
                         </thead>
@@ -46,7 +46,7 @@
                                 <td>
                                 <a (click)="updateUnitOfMeasurment(measurmentParamter)" 
                                     class="btn btn-outline-warning"><i class=" bi bi-pen"></i> 
-                                        Update</a>
+                                         {{'Update' | translate}}</a>
 
                                 </td>
 

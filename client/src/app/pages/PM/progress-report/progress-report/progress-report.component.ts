@@ -10,6 +10,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { CommonService } from 'src/app/common/common.service';
 import * as XLSX from 'xlsx';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-progress-report',
@@ -36,7 +37,8 @@ export class ProgressReportComponent implements OnInit {
     private pmService: PMService,
     private commonService: CommonService,
     private userService : UserService,
-    private orgService: OrganizationService) {
+    private orgService: OrganizationService,
+    public translate: TranslateService) {
 
   }
 

@@ -11,6 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddActivitiesComponent } from './add-activities/add-activities.component';
 import { IActivityAttachment } from '../tasks/Iactivity';
 import { PMService } from '../pm.services';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -39,7 +40,8 @@ export class ActivityParentsComponent implements OnInit {
     private userService: UserService,
     private commonService: CommonService,
     private modalService: NgbModal,
-    private pmService: PMService
+    private pmService: PMService,
+    public translate: TranslateService
 
   ) { }
 

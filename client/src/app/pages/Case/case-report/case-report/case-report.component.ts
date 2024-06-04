@@ -7,6 +7,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { SelectList } from 'src/app/pages/common/common';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 declare const $: any
@@ -28,7 +29,11 @@ export class CaseReportComponent implements OnInit {
 
   caseReports!: ICaseReport[]
   selectedCaseReport !: ICaseReport
-  constructor(private caseService: CaseService, private formBuilder: FormBuilder, private userService: UserService, private orgService: OrganizationService) {
+  constructor(private caseService: CaseService,
+     private formBuilder: FormBuilder, 
+     private userService: UserService, 
+     private orgService: OrganizationService,
+     public  translate: TranslateService) {
     this.serachForm = this.formBuilder.group({
       startDate: [''],
       endDate: [''],

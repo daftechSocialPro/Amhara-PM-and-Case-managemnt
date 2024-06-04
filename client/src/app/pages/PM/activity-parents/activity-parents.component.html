@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Task Details</h1>
+        <h1> {{'Task Details' | translate}} </h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item">Task</li>
-                <li class="breadcrumb-item active">Details</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+                <li class="breadcrumb-item"> {{'Task' | translate}}</li>
+                <li class="breadcrumb-item active"> {{'Details' | translate}}</li>
             </ol>
         </nav>
     </div>
@@ -25,12 +25,12 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-8">
-                        <h5 class="card-title">Members</h5>
+                        <h5 class="card-title"> {{'Members' | translate}}</h5>
                         <img style="width: 40px;margin:10px; cursor: pointer;" data-bs-toggle="tooltip"
                             data-bs-placement="top" title={{emp.Name}} *ngFor="let emp of task.TaskMembers"
                             [src]="getImage(emp.Photo!)" alt="Profile" class="rounded-circle">
                         <hr/>
-                        <h5 class="card-title">Description</h5>
+                        <h5 class="card-title"> {{'Description' | translate}}</h5>
                         <textarea class="form-control" rows="3" #taskMemoDesc (change)="taskMemo(taskMemoDesc.value)"
                             [disabled]="!isUserTaskMember">{{!isUserTaskMember? "You are not a member to this task":"" }}</textarea>
                         <div style="text-align: right !important;">

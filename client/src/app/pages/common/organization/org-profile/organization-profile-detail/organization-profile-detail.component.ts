@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-organization-profile-detail',
   templateUrl: './organization-profile-detail.component.html',
@@ -12,7 +13,8 @@ export class OrganizationProfileDetailComponent implements OnInit{
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    public translate: TranslateService
   ){}
 
   ngOnInit(): void {

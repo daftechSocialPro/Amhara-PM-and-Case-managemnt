@@ -1,6 +1,6 @@
 <div class="modal-content">
    <div class="modal-header">
-      <h5 class="modal-title">Case Detail Report</h5>
+      <h5 class="modal-title"> {{ 'Case Detail Report' | translate }}</h5>
       <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
    </div>
 
@@ -14,7 +14,7 @@
 
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                            <li> <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;"> <i
-                                    class="bi bi-bookmark-check text-primary"></i> <span>Case Detail Report</span> </a>
+                                    class="bi bi-bookmark-check text-primary"></i> <span> {{ 'Case Detail Report' | translate }}</span> </a>
                            </li>
                            <li>
                               <hr class="dropdown-divider">
@@ -64,15 +64,15 @@
       <thead>
           <tr>
 
-              <th scope="col">From Employee</th>
-              <th scope="col">To Employee</th>
-              <th scope="col">Created At</th>
-              <th scope="col">Seen At</th>
-              <th scope="col">Status</th>
-              <th scope="col">  Action Take </th>       
-              <th scope="col"> Elapsed Time</th>
-              <th scope="col"> Elapsetime Based on Seen Time</th>
-              <th scope="col"> Employee Status</th>
+              <th scope="col"> {{ 'From Employee' | translate }}</th>
+              <th scope="col"> {{ 'To Employee' | translate }}</th>
+              <th scope="col"> {{ 'Created At' | translate }}</th>
+              <th scope="col"> {{ 'Seen At' | translate }}</th>
+              <th scope="col"> {{ 'Status' | translate }}</th>
+              <th scope="col">  {{ 'Action Take' | translate }}</th>       
+              <th scope="col"> {{ 'Elapsed Time' | translate }}</th>
+              <th scope="col">  {{ 'Elapsetime Based on Seen Time' | translate }} </th>
+              <th scope="col">  {{ 'Employee Status' | translate }}</th>
 
               
 

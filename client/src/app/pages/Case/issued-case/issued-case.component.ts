@@ -9,6 +9,7 @@ import { RaiseIssueComponent } from '../encode-case/raise-issue/raise-issue.comp
 import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { IndividualConfig } from 'ngx-toastr';
 import { ConfirmationDialogService } from 'src/app/components/confirmation-dialog/confirmation-dialog.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-issued-case',
@@ -25,7 +26,8 @@ export class IssuedCaseComponent implements OnInit {
      private caseService: CaseService,
       private userService: UserService,
       private commonService : CommonService,
-      private confirmationDialogService : ConfirmationDialogService) { }
+      private confirmationDialogService : ConfirmationDialogService,
+    public translate : TranslateService) { }
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.getEnocdedCases()

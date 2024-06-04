@@ -8,6 +8,7 @@ import { PlanService } from '../../plans/plan.service';
 import { TaskService } from '../../tasks/task.service';
 import { TaskView } from '../../tasks/task';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class TaskReportComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private planService: PlanService,
     private taskService: TaskService,
-    private orgService: OrganizationService
+    private orgService: OrganizationService,
+    public translate: TranslateService
     ){}
   ngOnInit(): void {
 

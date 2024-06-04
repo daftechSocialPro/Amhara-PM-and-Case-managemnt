@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { KpiDetailItem, KpiDetailPost, KpiGetDto } from '../kpi';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddKpiDetailComponent } from './add-kpi-detail/add-kpi-detail.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-kpi-detail',
@@ -23,7 +24,8 @@ export class KpiDetailComponent implements OnInit {
     private userService: UserService,
     private pmService: PMService,
     private activatedROute: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public translate: TranslateService
 
   ){}
 

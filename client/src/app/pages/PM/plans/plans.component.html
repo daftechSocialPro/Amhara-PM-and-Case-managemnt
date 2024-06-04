@@ -1,16 +1,16 @@
 <main id="main" class="main">
    <div class="pagetitle">
-      <h1>Projects</h1>
+      <h1> {{'Projects' | translate}}</h1>
       <nav>
          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-            <li class="breadcrumb-item">Projects</li>
-            <li class="breadcrumb-item active">List</li>
+            <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+            <li class="breadcrumb-item"> {{'Projects' | translate}}</li>
+            <li class="breadcrumb-item active"> {{'List' | translate}}</li>
          </ol>
       </nav>
    </div>
    <div class="text-end col-lg-12">
-      <button class="btn btn-primary text-end mb-3" (click)="addPlan()"> Add Project </button>
+      <button class="btn btn-primary text-end mb-3" (click)="addPlan()">  {{'Add Project' | translate}} </button>
    </div>
    <section class="section profile">
       <div class="row">
@@ -25,8 +25,8 @@
                         {{plan.PlanName}}
                      </div>
                      <div style="text-align: right!important;">
-                        <span *ngIf="plan.HasTask" class="badge bg-success">Has Task</span> <span *ngIf="!plan.HasTask"
-                           class="badge bg-danger">Has No Task</span>
+                        <span *ngIf="plan.HasTask" class="badge bg-success"> {{'Has Task' | translate}}</span> <span *ngIf="!plan.HasTask"
+                           class="badge bg-danger"> {{'Has No Task' | translate}}</span>
                      </div>
                   </div>
                </div>
@@ -45,28 +45,28 @@
                   </h5>
 
                   <div class="text-center" style="color: #798eb3;">
-                     <span class="card-title"> Planned Budegt :</span>
+                     <span class="card-title">  {{'Planned Budegt' | translate}} :</span>
                      {{plan.PlandBudget}} ETB &nbsp;
-                     <span class="card-title"> Remaining Budegt : </span>
+                     <span class="card-title">  {{'Remaining Budegt' | translate}} : </span>
                      {{plan.RemainingBudget}} ETB <br />
                      <div class="mt-2">
 
                      </div>
-                     {{plan.ProjectManager}} - Project Manager <br />
-                     {{plan.Director}} - Director <br />
-                     {{plan.FinanceManager }} - Finance
+                     {{plan.ProjectManager}} -  {{'Project Manager' | translate}} <br />
+                     {{plan.Director}} -  {{'Director' | translate}} <br />
+                     {{plan.FinanceManager }} -  {{'Finance' | translate}}
                   </div>
                </div>
                <div class="card-footer">
 
                   <div class="row">
                      <div class="col-lg-4">
-                        Tasks: {{plan.NumberOfTask}} &nbsp;&nbsp;
-                        Actvities : {{plan.NumberOfActivities}}
+                         {{'Tasks' | translate}}: {{plan.NumberOfTask}} &nbsp;&nbsp;
+                         {{'Actvities' | translate}}  : {{plan.NumberOfActivities}}
 
                      </div>
                      <div class="col-lg-4" style="text-align: right!important;">
-                        Weight : {{plan.PlanWeight}} %
+                         {{'Weight' | translate}} : {{plan.PlanWeight}} %
                      </div>
                      <div class="col-lg-4" style="text-align: right!important;">
                         <button class="btn btn-primary text-end" (click)="routeToPlanDetail(plan.Id)"> Plan Detail

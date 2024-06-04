@@ -5,28 +5,28 @@
         <div class="card-title">
             <li style="list-style: none; text-align: right;">
                 <a class="nav-link nav-profile  pe-0" href="#" data-bs-toggle="dropdown"> <span
-                        class="d-none d-md-block dropdown-toggle ps-2">Action </span> </a>
+                        class="d-none d-md-block dropdown-toggle ps-2"> {{'Action' | translate}} </span> </a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li> <a class="dropdown-item d-flex align-items-center"
                             *ngIf="(actView.MonthPerformance!.length===0)" style="cursor: pointer;"
-                            (click)="AssignTarget()"> <i class="bi bi-calendar-date text-primary"></i> <span>Assign
-                                Target</span> </a></li>
+                            (click)="AssignTarget()"> <i class="bi bi-calendar-date text-primary"></i> <span> {{'Assign Target' | translate}}
+                                </span> </a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
                     <li> <a class="dropdown-item d-flex align-items-center" *ngIf="(isMember)" style="cursor: pointer;"
-                            (click)="AddProgress()"> <i class="bi bi-plus text-primary"></i> <span>Add Progress</span>
+                            (click)="AddProgress()"> <i class="bi bi-plus text-primary"></i> <span> {{'Add Progress' | translate}}</span>
                         </a></li>
                     <hr class="dropdown-divider">
 
                     <li> <a class="dropdown-item d-flex align-items-center" *ngIf="(isMember)" style="cursor: pointer;"
-                            (click)="FinalizeProgress()"> <i class="bi bi-list-check text-primary"></i> <span>Finalize
-                                Progress</span> </a></li>
+                            (click)="FinalizeProgress()"> <i class="bi bi-list-check text-primary"></i> <span> {{'Finalize Progress' | translate}}
+                                </span> </a></li>
                     <hr class="dropdown-divider">
                     <li> <a class="dropdown-item d-flex align-items-center"
                             *ngIf="(isMember||actView.IsDirector || actView.IsFinance ||actView.IsProjectManager)"
                             style="cursor: pointer;" (click)="ViewProgress()"> <i class="bi bi-eye text-primary"></i>
-                            <span>View Progress</span>
+                            <span> {{'View Progress' | translate}}</span>
                         </a></li>
 
 
@@ -40,14 +40,14 @@
     <div class="card-body">
         <div class="d-flex justify-content-between col-6 p-2 m-2">
             <div>
-                <span> Planned Budget : </span> {{actView.PlannedBudget}} ETB <br />
-                <span> Activity Type : </span> {{actView.ActivityType}} <br />
-                <span> Weight :</span> {{actView.Weight}} % <br />
+                <span>  {{'Planned Budget' | translate}} : </span> {{actView.PlannedBudget}} ETB <br />
+                <span>  {{'Activity Type' | translate}} : </span> {{actView.ActivityType}} <br />
+                <span>  {{'Weight' | translate}} :</span> {{actView.Weight}} % <br />
             </div>
             <div>
-                <span>Begining :</span> {{actView.Begining}} <br />
-                <span>Target :</span> {{actView.Target}} <br />
-                <span>Unit Measurment: </span> {{actView.UnitOfMeasurment}}
+                <span> {{'Begining' | translate}} :</span> {{actView.Begining}} <br />
+                <span> {{'Target' | translate}} :</span> {{actView.Target}} <br />
+                <span> {{'Unit Measurment' | translate}}: </span> {{actView.UnitOfMeasurment}}
             </div>
         </div>
 
@@ -121,7 +121,7 @@
 
     <div class="card-footer">
         <span>
-            Activity Overall Performance
+             {{'Activity Overall Performance' | translate}}
         </span>
         : {{getUpTo(12,actView.MonthPerformance!) | number:'1.2-2'}} %
         <div class="progress mt-3">
@@ -131,9 +131,9 @@
         </div>
         <br />
         <i class="bi bi-calendar-check"></i>
-        Start Date: {{actView.StartDate | date:'fullDate'}}
+         {{'Start Date' | translate}}: {{actView.StartDate | date:'fullDate'}}
         <span style="font-size: 25px;font-weight:bold;"> - </span>
-        <i class="bi bi-calendar-check"></i> End Date:
+        <i class="bi bi-calendar-check"></i>  {{'End Date' | translate}}:
         {{actView.EndDate | date:'fullDate'}}
 
         <div style="text-align: right!important;">

@@ -5,6 +5,7 @@ import { PMService } from '../../pm.services';
 import { ActivityView, ViewProgressDto } from '../activityview';
 import { AcceptRejectComponent } from './accept-reject/accept-reject.component';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-progress',
@@ -17,8 +18,12 @@ export class ViewProgressComponent implements OnInit {
   progress!:ViewProgressDto[];
   userType :string[]=["Director","Project Manager","Finance"]
   actionType : string []=["Accept","Reject"]
-  constructor(private activeModal: NgbActiveModal,private modalService : NgbModal,private pmService : PMService,private commonService : CommonService,
-    private route : Router) { }
+  constructor(private activeModal: NgbActiveModal,
+    private modalService : NgbModal,
+    private pmService : PMService,
+    private commonService : CommonService,
+    private route : Router,
+    public translate: TranslateService) { }
   ngOnInit(): void { 
     
 

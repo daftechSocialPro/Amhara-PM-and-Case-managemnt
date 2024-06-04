@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Complete Case</h5>
+        <h5 class="modal-title"> {{ 'Complete Case' | translate }}</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -15,26 +15,26 @@
                 <div class="col-12 mt-2">
                     <div class="form-floating"><textarea class="form-control" formControlName="Remark"
                             placeholder="Address" id="Remark" style="height: 120px;"></textarea><label
-                            for="Remark">Remark</label>
+                            for="Remark"> {{ 'Remark' | translate }}</label>
                     </div>
                 </div>
 
                 
 
                 <div class="col-6">
-                    <label for="inputNumber" class="col-sm-12 col-form-label">Documents</label>
+                    <label for="inputNumber" class="col-sm-12 col-form-label"> {{ 'Documents' | translate }}</label>
                     <div class="col-sm-12"> <input (change)="onFileSelected($event)"  class="form-control" multiple type="file" id="formFile"></div>
                 
                     <app-scanner (imagesScannedUpdated)="onImagesScannedUpdate($event)"></app-scanner>
                     <label for="inputNumber" class="col-sm-12 col-form-label">{{CaseId}}</label>
                     <qrcode [qrdata]="qrData" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
                     <div *ngIf="mobileUplodedFiles && mobileUplodedFiles.length > 0">
-                        <label for="inputNumber" class="col-sm-12 col-form-label">Mobile Uploded Files</label>
+                        <label for="inputNumber" class="col-sm-12 col-form-label"> {{ 'Mobile Uploded Files' | translate }}</label>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col">File</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col"> {{ 'File' | translate }}</th>
+                                    <th scope="col"> {{ 'Action' | translate }}</th>
                                     <!-- <th scope="col">Files /Statments</th> -->
                                     <!-- <th scope="col">Document Checked</th> -->
 
@@ -48,7 +48,7 @@
 
                                         <a class="btn btn-outline-primary m-2" [href]="viewFile(attachment.filePath)"
                                             target="_blank">
-                                            View File
+                                             {{ 'View File' | translate }}
                                         </a>
 
                                         <!-- <a class="btn btn-outline-danger m-2" (click)="RemoveFile(attachment.Id)">
@@ -64,9 +64,9 @@
                 </div>
 
                 <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-                    (click)="closeModal()">Close</button>
+                    (click)="closeModal()"> {{ 'Close' | translate }}</button>
                 <button type="button" type="submit" [disabled]="!completeForm.valid"
-                    class="btn btn-success">Complete</button>
+                    class="btn btn-success"> {{ 'Complete' | translate }}</button>
                 </div>
 
                

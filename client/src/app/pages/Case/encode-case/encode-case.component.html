@@ -1,16 +1,16 @@
 <main id="main" class="main">
    <div class="pagetitle">
-      <h1>Cases</h1>
+      <h1> {{ 'Cases' | translate }}</h1>
       <nav>
          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-            <li class="breadcrumb-item">Encode </li>
-            <li class="breadcrumb-item active">Case</li>
+            <li class="breadcrumb-item"><a routerLink="/">  {{ 'Home' | translate }}</a></li>
+            <li class="breadcrumb-item">  {{ 'Encode' | translate }} </li>
+            <li class="breadcrumb-item active">  {{ 'Case' | translate }}</li>
          </ol>
       </nav>
    </div>
    <div class="text-end col-lg-12">
-      <button class="btn btn-primary text-end mb-3" (click)="addCase()"> Add Case </button>
+      <button class="btn btn-primary text-end mb-3" (click)="addCase()">   {{ 'Add Case' | translate }} </button>
 
    </div>
    <section class="section profile">
@@ -29,15 +29,14 @@
                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                               <li> <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;"
                                     (click)="assignCase(encodedCase.Id)"> <i
-                                       class="bi bi-bookmark-check text-primary"></i> <span>Assign
-                                       Case</span> </a></li>
+                                       class="bi bi-bookmark-check text-primary"></i> <span>
+                                        {{ 'Assign Case' | translate }}</span> </a></li>
                               <li>
                                  <hr class="dropdown-divider">
                               </li>
                               <li> <a class="dropdown-item d-flex align-items-center" style="cursor: pointer;"
                                     (click)="updateCase(encodedCase.Id)"> <i class="bi bi-pencil text-primary"></i>
-                                    <span>Update
-                                       Case</span> </a></li>
+                                    <span>  {{ 'Update Case' | translate }}</span> </a></li>
                            </ul>
                         </li>
                      </div>

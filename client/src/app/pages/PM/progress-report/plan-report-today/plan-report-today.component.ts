@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-plan-report-today',
@@ -21,7 +22,11 @@ export class PlanReportTodayComponent implements OnInit {
   planReportDetail  !: IPlanReportDetailDto
   cnt: number = 0
   programs !: SelectList[]
-  constructor(private formBuilder: FormBuilder, private pmService: PMService, private userService: UserService, private orgService: OrganizationService) {
+  constructor(private formBuilder: FormBuilder,
+     private pmService: PMService, 
+     private userService: UserService,
+      private orgService: OrganizationService,
+      public translate: TranslateService) {
 
   }
 

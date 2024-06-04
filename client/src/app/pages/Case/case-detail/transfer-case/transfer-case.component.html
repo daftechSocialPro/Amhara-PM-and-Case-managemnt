@@ -1,13 +1,13 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Add Projects</h5>
+        <h5 class="modal-title"> {{ 'Add Projects' | translate }}</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
     <div class="card">
 
         <div class="card-body">
-            <h5 class="card-title">Project Detail</h5>
+            <h5 class="card-title"> {{ 'Project Detail' | translate }}</h5>
 
             <div class="row">
                 <div class="col-lg-9">
@@ -23,7 +23,7 @@
                                        <option value=""></option>
                                         <option *ngFor="let branch of Branches" [value]="branch.Id"  > {{branch.Name}}  </option>   
                                     </select>
-                                        <label for="branch">Brnaches</label>
+                                        <label for="branch"> {{ 'Brnaches' | translate }}</label>
                                     </div>
                                     <div class="form-floating mb-3" >
                                         <select class="form-select" id="Structure" #structure  (change)="getEmployees(structure.value)"
@@ -31,7 +31,7 @@
                                         <option value=""></option>
                                         <option *ngFor="let structure of Structures" [value]="structure.Id"> {{structure.Name}}</option>   
                                     </select>
-                                        <label for="Structure">Structure</label>
+                                        <label for="Structure"> {{ 'Structure' | translate }}</label>
                                     </div>
                                     <div class="form-floating " >
                                         <select class="form-select" id="ForEmployee" 
@@ -39,7 +39,7 @@
                                         <option value=""></option>
                                         <option *ngFor="let employee of Employees" [value]="employee.Id"> {{employee.Name}}</option>   
                                       </select>
-                                        <label for="ForEmployee">For Employee</label>
+                                        <label for="ForEmployee"> {{ 'For Employee' | translate }}</label>
                                     </div>
 
                                     <div class="col-12">
@@ -50,19 +50,19 @@
                                     </div>
 
                                     <div class="col-6">
-                                        <label for="inputNumber" class="col-sm-12 col-form-label">Documents</label>
+                                        <label for="inputNumber" class="col-sm-12 col-form-label"> {{ 'Documents' | translate }}</label>
                                         <div class="col-sm-12"> <input (change)="onFileSelected($event)"  class="form-control" multiple type="file" id="formFile"></div>
                                     
                                         <app-scanner (imagesScannedUpdated)="onImagesScannedUpdate($event)"></app-scanner>
                                         <label for="inputNumber" class="col-sm-12 col-form-label">{{CaseId}}</label>
                                         <qrcode [qrdata]="qrData" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
                                         <div *ngIf="mobileUplodedFiles && mobileUplodedFiles.length > 0">
-                                            <label for="inputNumber" class="col-sm-12 col-form-label">Mobile Uploded Files</label>
+                                            <label for="inputNumber" class="col-sm-12 col-form-label"> {{ 'Mobile Uploded Files' | translate }}</label>
                                             <table class="table table-bordered">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">File</th>
-                                                        <th scope="col">Action</th>
+                                                        <th scope="col"> {{ 'File' | translate }}</th>
+                                                        <th scope="col"> {{ 'Action' | translate }}</th>
                                                         <!-- <th scope="col">Files /Statments</th> -->
                                                         <!-- <th scope="col">Document Checked</th> -->
 
@@ -76,7 +76,7 @@
 
                                                             <a class="btn btn-outline-primary m-2" [href]="viewFile(attachment.filePath)"
                                                                 target="_blank">
-                                                                View File
+                                                                 {{ 'View File' | translate }}
                                                             </a>
 
                                                             <!-- <a class="btn btn-outline-danger m-2" (click)="RemoveFile(attachment.Id)">
@@ -94,9 +94,9 @@
 
                         </div>
                         <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-                                (click)="closeModal()">Close</button>
+                                (click)="closeModal()"> {{ 'Close' | translate }}</button>
                             <button type="button" type="submit" [disabled]="!transferForm.valid"
-                                class="btn btn-success">Transfer</button>
+                                class="btn btn-success"> {{ 'Transfer' | translate }}</button>
                         </div>
                     </form>
                 </div>
@@ -109,10 +109,10 @@
 
                          <div class="modal-body" *ngIf="caseState">
                              
-                           <div class="card-title text-center">Current State :</div>
+                           <div class="card-title text-center"> {{ 'Current State' | translate }} :</div>
                            <div class="text-center">{{caseState.CurrentState!}}</div> 
 
-                           <div class="card-title text-center">Needed Documents :</div>
+                           <div class="card-title text-center"> {{ 'Needed Documents' | translate }} :</div>
                            <div class="text-center">
                             
                             <span *ngFor="let doc of caseState.NeededDocuments">{{doc}}</span>
@@ -124,7 +124,7 @@
                         </div> 
 
 
-                           <div class="card-title text-center">Next State :</div>
+                           <div class="card-title text-center"> {{ 'Next State' | translate }} :</div>
                            <div class="text-center">{{caseState.NextState!}}</div> 
                          
                             

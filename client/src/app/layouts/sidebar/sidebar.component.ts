@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { PMService } from 'src/app/pages/pm/pm.services';
@@ -18,6 +19,7 @@ export class SidebarComponent implements OnInit {
   constructor(private router : Router
     ,private pmService: PMService,
     private userService: UserService,
+    public translate: TranslateService
     
 ) {
     

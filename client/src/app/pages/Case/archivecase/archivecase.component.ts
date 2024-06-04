@@ -4,6 +4,7 @@ import { CaseService } from '../case.service';
 import { ICaseView } from '../encode-case/Icase';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 import { FileViewComponent } from './file-view/file-view.component';
 
 @Component({
@@ -16,6 +17,9 @@ export class ArchivecaseComponent implements OnInit {
   user!:UserView
   ArchivedCases!: ICaseView[]
 
+  constructor(private caseService : CaseService,
+     private userService:UserService,
+     public  translate: TranslateService) { }
   constructor(
     private caseService : CaseService, 
     private userService:UserService,

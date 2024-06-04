@@ -17,6 +17,7 @@ import { AssignTargetToBranchComponent } from './assign-target-to-branch/assign-
 import { AssignEmployeesActivityComponent } from './assign-employees-activity/assign-employees-activity.component';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
 import { PMService } from '../../pm.services';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-plan-detail',
@@ -53,6 +54,7 @@ export class PlanDetailComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private pmService: PMService,
+    public translate: TranslateService
     
   ) { }
 

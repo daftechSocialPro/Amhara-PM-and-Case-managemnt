@@ -1,11 +1,11 @@
 <p>planned-report works!</p>
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Progress Report</h1>
+        <h1> {{'Progress Report' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item active">Progress Report</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate }}</a></li>
+                <li class="breadcrumb-item active"> {{'Progress Report' | translate }}</li>
             </ol>
         </nav>
     </div>
@@ -24,16 +24,16 @@
                             <div *ngIf="roleMatch(['Regulator'])" class="form-floating col-2 me-2">
                                 <select class="form-control"  id="ReportBy"
                                 placeholder="ReportBy" formControlName="SubOrg" (change)="onSubOrgChange($event)">
-                                <option value="">--Select Subsidiary Organization--</option>
+                                <option value="">-- {{'Select Subsidiary Organization' | translate }}--</option>
                                 <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
                                 </select>
-                                  <label for="ReportBy">Subsidiary Organization</label>
+                                  <label for="ReportBy"> {{'Subsidiary Organization' | translate }}</label>
                             </div>
 
                             <div class="form-floating col-2 me-2">
                                 <input type="number" class="form-control" id="budgetYear" formControlName="BudgetYear"
                                     placeholder="Budget Year (yyyy)">
-                                <label for="budgetYear">Budget Year (yyyy)</label>
+                                <label for="budgetYear"> {{'Budget Year' | translate }} (yyyy)</label>
                             </div>
 
                             <div class="form-floating col-2 me-2">
@@ -43,7 +43,7 @@
                                     <option *ngFor="let item of programs" value={{item.Id}}>{{item.Name}}</option>
                                 </select>
 
-                                <label for="programId">Program</label>
+                                <label for="programId"> {{'Program' | translate }}</label>
                             </div>
 
                             <div class="form-floating col-2 me-2">
@@ -56,7 +56,7 @@
 
                                 </select>
 
-                                <label for="planId">Plan</label>
+                                <label for="planId"> {{'Plan' | translate }}</label>
                             </div>
 
                             <div class="form-floating col-2 me-2">
@@ -68,7 +68,7 @@
 
                                 </select>
 
-                                <label for="taskId">Task</label>
+                                <label for="taskId"> {{'Task' | translate}}</label>
                             </div>
 
 
@@ -88,7 +88,7 @@
 
                                 </select>
 
-                                <label for="actParentId">Activity Parent</label>
+                                <label for="actParentId"> {{'Activity Parent' | translate}}</label>
                             </div>
                             <div class="form-floating col-2 me-2">
                                 <select class="form-control" id="activityId" formControlName="activityId"
@@ -99,19 +99,19 @@
 
                                 </select>
 
-                                <label for="activityId">Activity</label>
+                                <label for="activityId"> {{'Activity' | translate}}</label>
                             </div>
 
                             <div class="form-floating col-2 me-2">
                                 <select class="form-control" formControlName="ReportBy" id="ReportBy"
                                     placeholder="ReportBy">
 
-                                    <option value="Quarter">Quarterly</option>
-                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarter"> {{'Quarterly' | translate}}</option>
+                                    <option value="Monthly"> {{'Monthly' | translate}}</option>
 
                                 </select>
 
-                                <label for="ReportBy">View Report By</label>
+                                <label for="ReportBy"> {{'View Report By' | translate}}</label>
                             </div>
 
                             <button pButton type="submit" icon="pi pi-search" [disabled]="!serachForm.valid"
@@ -129,31 +129,31 @@
 
      
         <button *ngIf="progressReport?.AllActivities" (click)="exportTableToExcel(tableElement, 'Progress Report')"  type="button" class="btn btn-secondary m-2">
-            <i class="bi bi-file-earmark-excel me-1"></i> Export Report to Excel</button> 
+            <i class="bi bi-file-earmark-excel me-1"></i>  {{'Export Report to Excel' | translate}}</button> 
         <div class="card">
             <table #tableElement class="table table-bordered table-responsive">
                 <thead class="thead-light  ">
                     <tr>
                         <th rowspan="2">#</th>
-                        <th rowspan="2">Employees </th>
-                        <th rowspan="2">Description</th>
-                        <th rowspan="2">Weight</th>
-                        <th rowspan="2">Begining</th>
-                        <th rowspan="2">Target</th>
+                        <th rowspan="2"> {{'Employees' | translate}} </th>
+                        <th rowspan="2"> {{'Description' | translate}}</th>
+                        <th rowspan="2"> {{'Weight' | translate}}</th>
+                        <th rowspan="2"> {{'Begining' | translate}}</th>
+                        <th rowspan="2"> {{'Target' | translate}}</th>
 
                         <th colspan="3" *ngFor="let items of progressReport?.planDuration2">{{items.MonthName}}</th>
 
-                        <th rowspan="2">Executed</th>
-                        <th rowspan="2">Activity Status</th>
-                        <th rowspan="2">Progress</th>
+                        <th rowspan="2"> {{'Executed' | translate}}</th>
+                        <th rowspan="2"> {{'Activity Status' | translate}}</th>
+                        <th rowspan="2"> {{'Progress' | translate}}</th>
                     </tr>
                     <tr>
 
 
 
                         <ng-container *ngFor="let i of range(cnt); index as idx">
-                            <th style="background-color:#c2ccc2">Planned</th>
-                            <th style="background-color:#e0e062">Achivement</th>
+                            <th style="background-color:#c2ccc2"> {{'Planned' | translate}}</th>
+                            <th style="background-color:#e0e062"> {{'Achivement' | translate}}</th>
                             <th style="background-color:#E2EFDA">%</th>
 
                         </ng-container>

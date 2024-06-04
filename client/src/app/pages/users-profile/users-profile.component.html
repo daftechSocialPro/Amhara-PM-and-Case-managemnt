@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-       <h1>Profile</h1>
+       <h1> {{'Profile' | translate}}</h1>
        <nav>
           <ol class="breadcrumb">
-             <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-             <li class="breadcrumb-item">Users</li>
-             <li class="breadcrumb-item active">Profile</li>
+             <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+             <li class="breadcrumb-item"> {{'Users' | translate}}</li>
+             <li class="breadcrumb-item active"> {{'Profile' | translate}}</li>
           </ol>
        </nav>
     </div>
@@ -34,33 +34,33 @@
                    </ul>
                    <div class="tab-content pt-2">
                       <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                         <h5 class="card-title">About</h5>
+                         <h5 class="card-title"> {{'About' | translate}}</h5>
                          <p class="small fst-italic">
                            
                            {{Employee?.Remark}}</p>
-                         <h5 class="card-title">Profile Details</h5>
+                         <h5 class="card-title"> {{'Profile Details' | translate}}</h5>
                          <div class="row">
-                            <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                            <div class="col-lg-3 col-md-4 label "> {{'Full Name' | translate}}</div>
                             <div class="col-lg-9 col-md-8">{{Employee?.Title}} {{user?.FullName}}</div>
                          </div>
                          <div class="row">
-                            <div class="col-lg-3 col-md-4 label">Branch</div>
+                            <div class="col-lg-3 col-md-4 label"> {{'Branch' | translate}}</div>
                             <div class="col-lg-9 col-md-8">{{Employee?.BranchId}}</div>
                          </div>
                          <div class="row">
-                            <div class="col-lg-3 col-md-4 label">Structure</div>
+                            <div class="col-lg-3 col-md-4 label"> {{'Structure' | translate}}</div>
                             <div class="col-lg-9 col-md-8">{{Employee?.StructureName}}</div>
                          </div>
                          <div class="row">
-                            <div class="col-lg-3 col-md-4 label">Position</div>
+                            <div class="col-lg-3 col-md-4 label"> {{'Position' | translate}}</div>
                             <div class="col-lg-9 col-md-8">{{Employee?.Position}}</div>
                          </div>
                          <div class="row">
-                            <div class="col-lg-3 col-md-4 label">Gender</div>
+                            <div class="col-lg-3 col-md-4 label"> {{'Gender' | translate}}</div>
                             <div class="col-lg-9 col-md-8">{{Employee?.Gender}}</div>
                          </div>
                          <div class="row">
-                            <div class="col-lg-3 col-md-4 label">Phone</div>
+                            <div class="col-lg-3 col-md-4 label"> {{'Phone' | translate}} </div>
                             <div class="col-lg-9 col-md-8">{{Employee?.PhoneNumber}}</div>
                          </div>
                        
@@ -68,7 +68,7 @@
                       <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                         <form [formGroup]="EmployeeForm" (submit)="submit()">
                             <div class="row mb-3">
-                               <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                               <label for="profileImage" class="col-md-4 col-lg-3 col-form-label"> {{'Profile Image' | translate}}</label>
                                <div class="col-md-8 col-lg-9">
                                   <img [src]="imageURL?imageURL:'assets/img/profile.jpg'" alt="Profile">
                                   <input #file (change)="showPreview($event)" type="file" style="display: none;"
@@ -80,28 +80,28 @@
                                </div>
                             </div>
                             <div class="row mb-3">
-                              <label for="Title" class="col-md-4 col-lg-3 col-form-label">Title</label>
+                              <label for="Title" class="col-md-4 col-lg-3 col-form-label"> {{'Title' | translate}}</label>
                               <div class="col-md-8 col-lg-9"> 
                                 <input type="text" class="form-control" id="title" formControlName="Title">
                              </div>
                            </div>
                             <div class="row mb-3">
-                               <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                               <label for="fullName" class="col-md-4 col-lg-3 col-form-label"> {{'Full Name' | translate}}</label>
                                <div class="col-md-8 col-lg-9"> 
                                  <input type="text" class="form-control" id="fullName" formControlName="FullName">
                               </div>
                             </div>
                             <div class="row mb-3">
-                               <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                               <label for="about" class="col-md-4 col-lg-3 col-form-label"> {{'About' | translate}}</label>
                                <div class="col-md-8 col-lg-9"><textarea class="form-control" id="about" formControlName="Remark" style="height: 100px"></textarea></div>
                             </div>
                           
                             <div class="row mb-3">
-                               <label for="PhoneNumber" class="col-md-4 col-lg-3 col-form-label">PhoneNumber</label>
+                               <label for="PhoneNumber" class="col-md-4 col-lg-3 col-form-label"> {{'PhoneNumber' | translate}}</label>
                                <div class="col-md-8 col-lg-9"> <input type="text" formControlName="PhoneNumber" class="form-control" id="PhoneNumber" ></div>
                             </div>
                          
-                            <div class="text-center"> <button type="submit" class="btn btn-secondary">Update Changes</button></div>
+                            <div class="text-center"> <button type="submit" class="btn btn-secondary"> {{'Update Changes' | translate}}</button></div>
                          </form>
                       </div>
                    
@@ -111,18 +111,18 @@
                         
                          <form [formGroup]="passwordForm" (submit)="submit2()">
                             <div class="row mb-3">
-                               <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                               <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label"> {{'Current Password' | translate}}</label>
                                <div class="col-md-8 col-lg-9"> <input name="password" type="password" formControlName="OldPassowrd" class="form-control" id="currentPassword"></div>
                             </div>
                             <div class="row mb-3">
-                               <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                               <label for="newPassword" class="col-md-4 col-lg-3 col-form-label"> {{'New Password' | translate}}</label>
                                <div class="col-md-8 col-lg-9"> <input name="newpassword" type="password" formControlName="NewPassword" class="form-control" id="newPassword"></div>
                             </div>
                             <div class="row mb-3">
-                               <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                               <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label"> {{'Re-enter New Password' | translate}}</label>
                                <div class="col-md-8 col-lg-9"> <input name="renewpassword" type="password" formControlName="ConfirmPassword" class="form-control" id="renewPassword"></div>
                             </div>
-                            <div class="text-center"> <button type="submit" [disabled]="!passwordForm.valid" class="btn btn-primary">Change Password</button></div>
+                            <div class="text-center"> <button type="submit" [disabled]="!passwordForm.valid" class="btn btn-primary"> {{'Change Password' | translate}}</button></div>
                          </form>
                         
                       </div> 

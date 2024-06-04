@@ -1,11 +1,11 @@
 <main id="main" class="main">
    <div class="pagetitle">
-      <h1>Employee</h1>
+      <h1> {{ 'Employee' | translate }}</h1>
       <nav>
          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-            <li class="breadcrumb-item">Employee</li>
-            <li class="breadcrumb-item active">List</li>
+            <li class="breadcrumb-item"><a routerLink="/"> {{ 'Home' | translate }}</a></li>
+            <li class="breadcrumb-item"> {{ 'Employee' | translate }}</li>
+            <li class="breadcrumb-item active"> {{ 'List' | translate }}</li>
          </ol>
    </nav>
    </div>
@@ -13,8 +13,8 @@
       <input class="form-control" #filterBy  (change)="Filter(filterBy.value)"/>
     </div>
    <div class="text-end col-lg-12">
-      <button class="btn btn-primary text-end mb-3" (click)="addModal()"> Add
-         Employee</button>
+      <button class="btn btn-primary text-end mb-3" (click)="addModal()"> 
+          {{ 'Add Employee' | translate }}</button>
    </div>
    <section class="section profile">
       <div class="row">
@@ -33,7 +33,7 @@
                   <h4>{{emp.PhoneNumber}}</h4>
                   <div class="social-links mt-2">
                      <a id="updateButton" (click)="updateEmp(emp)" class="btn btn-warning text-white"><i
-                           class="bi bi-pencil"></i> Update
+                           class="bi bi-pencil"></i> {{ 'Update' | translate }}
                      </a>
                   </div>
                   

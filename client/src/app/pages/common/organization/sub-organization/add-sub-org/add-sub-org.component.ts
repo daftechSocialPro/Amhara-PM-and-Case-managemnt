@@ -6,6 +6,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { OrganizationService } from '../../organization.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { IndividualConfig } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-sub-org',
@@ -26,7 +27,8 @@ export class AddSubOrgComponent implements OnInit {
     private orgService: OrganizationService, 
     private commonService: CommonService, 
     private activeModal: NgbActiveModal, 
-    private userService: UserService
+    private userService: UserService,
+    public translate: TranslateService
   ){}
 
   ngOnInit(): void {

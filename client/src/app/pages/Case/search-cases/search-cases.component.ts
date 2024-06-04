@@ -6,6 +6,7 @@ import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DetailReportComponent } from '../case-report/case-detail-report/detail-report/detail-report.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-cases',
@@ -21,7 +22,9 @@ export class SearchCasesComponent implements OnInit {
     private modalService : NgbModal,
     private caseService : CaseService,
     private formBuilder: FormBuilder,
-    private userService: UserService){}
+    private userService: UserService,
+    public  translate: TranslateService
+  ){}
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.searchForm = this.formBuilder.group({

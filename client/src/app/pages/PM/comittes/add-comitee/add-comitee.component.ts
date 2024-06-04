@@ -7,6 +7,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { PMService } from '../../pm.services';
 import { ComiteeAdd } from '../committee';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-comitee',
@@ -26,6 +27,7 @@ export class AddComiteeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private pmService: PMService,
+    public translate: TranslateService,
     
     private commonService: CommonService
   ) {

@@ -9,6 +9,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { environment } from 'src/environments/environment';
 import { CaseService } from '../../../case.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-case-files',
@@ -35,7 +36,8 @@ export class CaseFilesComponent implements OnInit{
     private router: Router,
     private caseService: CaseService,
     private commonService: CommonService,
-    private userService: UserService
+    private userService: UserService,
+    public translate: TranslateService
   ){
     this.case = this.router.getCurrentNavigation()?.extras.state?.['response'];
   }

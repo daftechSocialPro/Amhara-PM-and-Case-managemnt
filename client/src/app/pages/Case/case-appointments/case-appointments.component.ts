@@ -3,6 +3,7 @@ import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { IAppointmentGet } from '../case-detail/make-appointment-case/Iappointmentwithcalander';
 import { CaseService } from '../case.service';
+import { TranslateService } from '@ngx-translate/core';
 declare const $: any
 
 @Component({
@@ -15,7 +16,10 @@ export class CaseAppointmentsComponent implements OnInit {
   appointments !: IAppointmentGet[]
 
 
-  constructor(private userService: UserService,private caseService : CaseService ){}
+  constructor(private userService: UserService,
+    private caseService : CaseService,
+    public  translate: TranslateService
+   ){}
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.getAppointments()

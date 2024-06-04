@@ -9,6 +9,7 @@ import { PlanSingleview } from '../../plans/plans';
 import { ProgramService } from '../../programs/programs.services';
 import { Task, TaskView } from '../task';
 import { TaskService } from '../task.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-tasks',
@@ -28,7 +29,8 @@ export class AddTasksComponent {
     private formBuilder: FormBuilder,
     
     private taskService:TaskService,
-    private commonService: CommonService) { }
+    private commonService: CommonService,
+    public translate: TranslateService) { }
 
   ngOnInit(): void {
 
