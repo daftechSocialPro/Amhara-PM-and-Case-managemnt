@@ -266,8 +266,8 @@ namespace PM_Case_Managemnt_API.Controllers.Case
         {
             try
             {
-                await _caseProcessingService.AddToWaiting(caseHistoryId);
-                return NoContent();
+                
+                return Ok(await _caseProcessingService.AddToWaiting(caseHistoryId));
 
             }
             catch (Exception ex)

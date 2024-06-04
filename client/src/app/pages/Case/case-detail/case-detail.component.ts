@@ -128,17 +128,34 @@ export class CaseDetailComponent implements OnInit {
         if (confirmed) {
           this.caseService.AddtoWaiting(this.caseHistoryId).subscribe({
             next: (res) => {
-              this.toast = {
-                message: 'Successfully added to waiting list!!',
-                title: 'Successfull.',
-                type: 'success',
-                ic: {
-                  timeOut: 2500,
-                  closeButton: true,
-                } as IndividualConfig,
-              };
-              this.commonService.showToast(this.toast);
-              this.route.navigate(['mycaselist']);
+              if(res.Success){
+                this.toast = {
+                
+                  message: res.Message,
+                  title: 'Successfull.',
+                  type: 'success',
+                  ic: {
+                    timeOut: 2500,
+                    closeButton: true,
+                  } as IndividualConfig,
+                };
+                this.commonService.showToast(this.toast);
+                this.route.navigate(['mycaselist']);
+              }
+              else{
+                this.toast = {
+                
+                  message: res.Message,
+                  title: 'Error.',
+                  type: 'error',
+                  ic: {
+                    timeOut: 2500,
+                    closeButton: true,
+                  } as IndividualConfig,
+                };
+                this.commonService.showToast(this.toast);
+                this.route.navigate(['mycaselist']);
+              }
             },
             error: (err) => {
               this.toast = {

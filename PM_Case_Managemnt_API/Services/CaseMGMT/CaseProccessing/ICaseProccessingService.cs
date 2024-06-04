@@ -1,4 +1,5 @@
 ﻿using PM_Case_Managemnt_API.DTOS.CaseDto;
+using PM_Case_Managemnt_API.Helpers;
 
 namespace PM_Case_Managemnt_API.Services.CaseMGMT
 {
@@ -10,7 +11,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         public Task<int> CompleteTask(CaseCompleteDto caseCompleteDto);
         public Task<int> RevertTask(CaseRevertDto revertAffair);
         public Task<int> TransferCase(CaseTransferDto caseTransferDto);
-        public Task<int> AddToWaiting(Guid caseHistoryId);
+        public Task<ResponseMessage> AddToWaiting(Guid caseHistoryId);
         public Task<CaseEncodeGetDto> GetCaseDetial(Guid historyId, Guid employeeId);
 
         public Task<int> SendSMS(CaseCompleteDto smsdetail);

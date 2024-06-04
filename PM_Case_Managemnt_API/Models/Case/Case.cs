@@ -12,7 +12,7 @@ namespace PM_Case_Managemnt_API.Models.CaseModel
         public Case()
         {
             CaseHistories = new HashSet<CaseHistory>();
-            CaseAttachments = new HashSet<CaseHistoryAttachment>();
+            CaseAttachments = new HashSet<CaseAttachment>();
         }
 
         public string CaseNumber { get; set; }
@@ -49,7 +49,7 @@ namespace PM_Case_Managemnt_API.Models.CaseModel
         public virtual ICollection<CaseHistory> CaseHistories { get; set; }
 
      
-        public virtual ICollection<CaseHistoryAttachment> CaseAttachments { get; set; }
+        public virtual ICollection<CaseAttachment> CaseAttachments { get; set; }
 
         /////
         ///

@@ -27,6 +27,7 @@ namespace PM_Case_Managemnt_API.Models.CaseModel
         public Guid? ToStructureId { get; set; }
         public virtual OrganizationalStructure ToStructure { get; set; }
         public AffairHistoryStatus AffairHistoryStatus { get; set; }
+        public int WaitingPeriod { get; set; }
         public DateTime? SeenDateTime { get; set; }
         public DateTime? TransferedDateTime { get; set; }
         public DateTime? CompletedDateTime { get; set; }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SelectList } from '../common/common';
+import { ResponseMessage, SelectList } from '../common/common';
 import { IAppointmentGet, IAppointmentWithCalander } from './case-detail/make-appointment-case/Iappointmentwithcalander';
 import { ICaseState } from './case-detail/transfer-case/IcaseState';
 import { ICaseDetailReport, ICaseProgressReport } from './case-report/case-detail-report/Icasedetail';
@@ -186,7 +186,7 @@ export class CaseService {
     //actions
     AddtoWaiting(caseHistoryId: string) {
 
-        return this.http.post(this.BaseURI + "/waiting?caseHistoryId=" + caseHistoryId, {})
+        return this.http.post<ResponseMessage>(this.BaseURI + "/waiting?caseHistoryId=" + caseHistoryId, {})
     }
     CompleteCase(completecasedto: FormData) {
 

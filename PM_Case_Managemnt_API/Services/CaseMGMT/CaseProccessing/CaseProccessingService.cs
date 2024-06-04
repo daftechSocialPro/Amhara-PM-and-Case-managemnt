@@ -380,31 +380,49 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
 
 
-        public async Task<int> AddToWaiting(Guid caseHistoryId)
+        public async Task<ResponseMessage> AddToWaiting(Guid caseHistoryId)
         {
             try
             {
 
 
                 var history = _dbContext.CaseHistories.Find(caseHistoryId);
+                if (history.WaitingPeriod > 3)
+                {
+                    return new ResponseMessage
+                    {
+                        Success = false,
+                        Message = "Case Has Reached Maximum Waiting"
+                    };
+                }
+
                 history.AffairHistoryStatus = AffairHistoryStatus.Waiting;
                 history.SeenDateTime = null;
+                history.WaitingPeriod++;
                 _dbContext.CaseHistories.Attach(history);
                 _dbContext.Entry(history).Property(c => c.AffairHistoryStatus).IsModified = true;
                 _dbContext.Entry(history).Property(c => c.SeenDateTime).IsModified = true;
-
+                _dbContext.Entry(history).Property(c => c.WaitingPeriod).IsModified = true;
 
 
                 await _dbContext.SaveChangesAsync();
 
-                return 1;
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "Case Added To Waiting Successfully!!!"
+                };
 
 
 
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
             }
         }
 

@@ -30,6 +30,7 @@
                      <th scope="col">Letter Number</th>
                      <th scope="col">Letter Subject</th>
                      <th scope="col">Shelf - Row - Folder</th>
+                     <th scope="col">Files</th>
                   </tr>
                </thead>
                <tbody>
@@ -42,6 +43,7 @@
                      <td>{{ac.LetterNumber}}</td>
                      <td>{{ac.LetterSubject}}</td>
                      <td>{{ac.ShelfNumber}} - {{ac.RowNumber}} - {{ac.FolderName}}  </td>
+                     <td><button class="btn btn-primary text-end mb-3" [disabled]="ac.Attachments.length < 1" (click)="viewFiles(ac.Id)">View</button></td>
                   </tr>
                  
                </tbody>

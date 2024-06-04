@@ -11,6 +11,7 @@ using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Services.CaseMGMT.CaseForwardService;
 using PM_Case_Managemnt_API.Services.CaseMGMT.History;
+using System.Net.Mail;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -572,7 +573,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
         {
 
 
-            List<CaseEncodeGetDto> cases = await _dbContext.Cases.Where(ca => ca.SubsidiaryOrganizationId == subOrgId && ca.IsArchived).Include(p => p.Employee).Include(p => p.CaseType).Include(p => p.Applicant).Include(x => x.Folder.Row.Shelf).Select(st => new CaseEncodeGetDto
+            List<CaseEncodeGetDto> cases = await _dbContext.Cases.Where(ca => ca.SubsidiaryOrganizationId == subOrgId && ca.IsArchived).Include(p => p.Employee).Include(p => p.CaseType).Include(p => p.Applicant).Include(x => x.Folder.Row.Shelf).Include(x => x.CaseAttachments).Select(st => new CaseEncodeGetDto
             {
 
                 Id = st.Id,
@@ -588,7 +589,12 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                 AffairHistoryStatus = st.AffairStatus.ToString(),
                 FolderName = st.Folder.FolderName,
                 RowNumber = st.Folder.Row.RowNumber,
-                ShelfNumber = st.Folder.Row.Shelf.ShelfNumber
+                ShelfNumber = st.Folder.Row.Shelf.ShelfNumber,
+                Attachments = st.CaseAttachments.Select(x => new SelectListDto
+                {
+                    Id = x.Id,
+                    Name = x.FilePath
+                }).ToList()
 
             }).ToListAsync();
 

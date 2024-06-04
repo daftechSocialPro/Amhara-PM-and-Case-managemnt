@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PM_Case_Managemnt_API.Data;
 
 #nullable disable
 
-namespace PMCaseManagemntAPI.Migrations
+namespace PMCaseManagemntAPI.Migrations.DB
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20240604113333_WaitingPeriod")]
+    partial class WaitingPeriod
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -426,6 +429,9 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<Guid>("CaseHistoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CaseId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -445,6 +451,8 @@ namespace PMCaseManagemntAPI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CaseHistoryId");
+
+                    b.HasIndex("CaseId");
 
                     b.ToTable("CaseHistoryAttachments");
                 });
@@ -2268,7 +2276,7 @@ namespace PMCaseManagemntAPI.Migrations
             modelBuilder.Entity("PM_Case_Managemnt_API.Models.CaseModel.CaseAttachment", b =>
                 {
                     b.HasOne("PM_Case_Managemnt_API.Models.CaseModel.Case", "Case")
-                        .WithMany("CaseAttachments")
+                        .WithMany()
                         .HasForeignKey("CaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2336,6 +2344,10 @@ namespace PMCaseManagemntAPI.Migrations
                         .HasForeignKey("CaseHistoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("PM_Case_Managemnt_API.Models.CaseModel.Case", null)
+                        .WithMany("CaseAttachments")
+                        .HasForeignKey("CaseId");
 
                     b.Navigation("CaseHistory");
                 });

@@ -117,6 +117,7 @@ export class AssignTargetToBranchComponent implements OnInit{
           PreviousPerformance: this.activity.Begining,
           Goal: formValue.Target!,
           BranchId :formValue.BranchId!
+          
 
         }
 

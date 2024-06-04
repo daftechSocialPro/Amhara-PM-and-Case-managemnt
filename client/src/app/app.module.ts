@@ -196,6 +196,7 @@ import { KpiDetailComponent } from './pages/pm/kpi/kpi-detail/kpi-detail.compone
 import { AddKpiDetailComponent } from './pages/pm/kpi/kpi-detail/add-kpi-detail/add-kpi-detail.component';
 import { AddKpiDataComponent } from './pages/pm/kpi/kpi-detail/login-kpi-data/add-kpi-data/add-kpi-data.component';
 import { LoginKpiDataComponent } from './pages/PM/kpi/kpi-detail/login-kpi-data/login-kpi-data.component';
+import { FileViewComponent } from './pages/Case/archivecase/file-view/file-view.component';
 
 @NgModule({
   declarations: [
@@ -356,7 +357,8 @@ import { LoginKpiDataComponent } from './pages/PM/kpi/kpi-detail/login-kpi-data/
     KpiDetailComponent,
     AddKpiDetailComponent,
     AddKpiDataComponent,
-    LoginKpiDataComponent
+    LoginKpiDataComponent,
+    FileViewComponent
    
    
   ],

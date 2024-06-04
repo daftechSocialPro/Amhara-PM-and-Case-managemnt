@@ -4,6 +4,7 @@ import { CaseService } from '../case.service';
 import { ICaseView } from '../encode-case/Icase';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
+import { FileViewComponent } from './file-view/file-view.component';
 
 @Component({
   selector: 'app-archivecase',
@@ -15,7 +16,11 @@ export class ArchivecaseComponent implements OnInit {
   user!:UserView
   ArchivedCases!: ICaseView[]
 
-  constructor(private caseService : CaseService, private userService:UserService) { }
+  constructor(
+    private caseService : CaseService, 
+    private userService:UserService,
+    private modalService:NgbModal,
+  ) { }
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.getArchivedCases()
@@ -35,6 +40,13 @@ export class ArchivecaseComponent implements OnInit {
     })
   }
 
+  viewFiles(id: string){
+    let modalRef = this.modalService.open(FileViewComponent, {backdrop: "static", size: "lg"})
+    modalRef.componentInstance.files = this.ArchivedCases.find(x => x.Id === id)?.Attachments
+    modalRef.result.then((res) => {
+      this.getArchivedCases()
+    })
+  }
 
 
 }
