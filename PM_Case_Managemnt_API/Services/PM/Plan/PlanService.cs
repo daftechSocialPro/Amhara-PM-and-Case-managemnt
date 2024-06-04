@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Net;
+using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
@@ -20,8 +21,9 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
             _dBContext = context;
         }
 
-        public async Task<int> CreatePlan(PlanDto plan)
+        public async Task<ResponseMessage<int>> CreatePlan(PlanDto plan)
         {
+            var response = new ResponseMessage<int>();
             var budgetYear = await _dBContext.BudgetYears.FindAsync(plan.BudgetYearId);
 
             var Plans = new PM_Case_Managemnt_API.Models.PM.Plan
@@ -54,18 +56,23 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
             }
             await _dBContext.AddAsync(Plans);
             await _dBContext.SaveChangesAsync();
-            return 1;
+            
+            response.Message = "Operation Successful.";
+            response.Success = true;
+            response.Data = 1;
+
+            return response;
 
         }
 
-        public async Task<List<PlanViewDto>> GetPlans(Guid? programId, Guid SubOrgId) 
+        public async Task<ResponseMessage<List<PlanViewDto>>> GetPlans(Guid? programId, Guid SubOrgId)
         {
-
+            var response = new ResponseMessage<List<PlanViewDto>>();
             var plans =programId!=null? _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(x => x.ProgramId == programId):
                 _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(z => z.Structure.SubsidiaryOrganizationId == SubOrgId);
 
 
-            return await (from p in plans             
+            List<PlanViewDto> result =  await (from p in plans             
                           
                           select new PlanViewDto
                           {
@@ -92,16 +99,21 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                               ProjectFunder = p.ProjectFunder,
                               BranchId = p.Structure.OrganizationBranchId
                           }).ToListAsync();
+            response.Message = "Operation Successful.";
+            response.Success = true;
+            response.Data = result;
 
+            return response;
 
 
 
         }
 
 
-        public async Task<PlanSingleViewDto> GetSinglePlan(Guid planId)
+        public async Task<ResponseMessage<PlanSingleViewDto>> GetSinglePlan(Guid planId)
         {
 
+            var response = new ResponseMessage<PlanSingleViewDto>();
             var plan = await (from p in _dBContext.Plans.Where(x => x.Id == planId)
                               select new PlanSingleViewDto
                               {
@@ -163,26 +175,45 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
             float taskBudgetsum = tasks.Sum(x => x.PlannedBudget);
             float taskweightSum = tasks.Sum(x => x.TaskWeight ?? 0);
 
+            if (plan == null)
+            {
+                response.Message = "Plan not found.";
+                response.Success = false;
+                response.Data = null;
+                response.ErrorCode = HttpStatusCode.NotFound.ToString();
+
+                return response;
+            }
             plan.RemainingBudget = plan.RemainingBudget - taskBudgetsum;
             plan.RemainingWeight = float.Parse((plan.PlanWeight - taskweightSum).ToString());
             plan.Tasks = tasks;
 
 
+            
+            response.Message = "Operation Successful.";
+            response.Success = true;
+            response.Data = plan;
 
-            return plan;
+            return response;
         }
 
 
-        public async Task<List<SelectListDto>> GetPlansSelectList(Guid ProgramId)
+        public async Task<ResponseMessage<List<SelectListDto>>> GetPlansSelectList(Guid ProgramId)
         {
 
+            var response = new ResponseMessage<List<SelectListDto>>();
 
-            return await _dBContext.Plans.Where(x => x.ProgramId == ProgramId).Select(x => new SelectListDto
+            List<SelectListDto> result =  await _dBContext.Plans.Where(x => x.ProgramId == ProgramId).Select(x => new SelectListDto
             {
                 Name = x.PlanName,
                 Id = x.Id
             }).ToListAsync();
+            
+            response.Message = "Operation Successful.";
+            response.Success = true;
+            response.Data = result;
 
+            return response;
 
         }
 

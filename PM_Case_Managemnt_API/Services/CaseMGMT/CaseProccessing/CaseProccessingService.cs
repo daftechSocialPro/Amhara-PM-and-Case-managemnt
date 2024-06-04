@@ -216,7 +216,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 var assigndCase = await _caseEncodeService.GetAllTransfred(toEmployeeId.Value);
 
 
-                await _encoderHub.Clients.Group(toEmployeeId.Value.ToString()).getNotification(assigndCase,toEmployeeId.Value.ToString());
+                await _encoderHub.Clients.Group(toEmployeeId.Value.ToString()).getNotification(assigndCase.Data,toEmployeeId.Value.ToString());
 
                 //await _encoderHub.Clients.All.getNotification(assigndCase);
 
@@ -569,7 +569,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
 
                 var assigndCase = await _caseEncodeService.GetAllTransfred(toEmployee);
-                await _encoderHub.Clients.Group(toEmployee.ToString()).getNotification(assigndCase, toEmployee.ToString());
+                await _encoderHub.Clients.Group(toEmployee.ToString()).getNotification(assigndCase.Data, toEmployee.ToString());
 
                 string message = name + "\nበጉዳይ ቁጥር፡" + currentCase.CaseNumber + "\nየተመዘገበ ጉዳዮ ለ " + toStructure + " ተላልፏል\nየቢሮ ቁጥር:";
 
