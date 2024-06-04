@@ -9,8 +9,8 @@ namespace PM_Case_Managemnt_API.Models.KPI
         public string Title { get; set; }
         public int StartYear { get; set; }
         public string ActiveYearsString { get; set; }    
-        public string EncoderOrganizationName { get; set; }
-        public string EvaluatorOrganizationName { get; set; }
+        public string? EncoderOrganizationName { get; set; }
+        public string? EvaluatorOrganizationName { get; set; }
         public string? Url { get; set; }
         public bool HasSubsidiaryOrganization { get; set; }
         public Guid? SubsidiaryOrganizationId { get; set; }

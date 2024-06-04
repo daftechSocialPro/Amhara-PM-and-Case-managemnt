@@ -56,7 +56,7 @@ namespace PM_Case_Managemnt_API.Controllers.KPI
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddKPIData(List<KPIDataPostDto> kpiDataPost)
+        public async Task<IActionResult> AddKPIData(KPIDataPostDto kpiDataPost)
         {
             if (ModelState.IsValid)
             {
@@ -107,5 +107,23 @@ namespace PM_Case_Managemnt_API.Controllers.KPI
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetKpiGoalSelectList(Guid subOrgId)
+        {
+            return Ok(await _kpiService.GetKpiGoalSelectList(subOrgId));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddKpiGoal(KPIGoalPostDto kpiGoalPost)
+        {
+            if(ModelState.IsValid)
+            {
+                return Ok(await _kpiService.AddKpiGoal(kpiGoalPost));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

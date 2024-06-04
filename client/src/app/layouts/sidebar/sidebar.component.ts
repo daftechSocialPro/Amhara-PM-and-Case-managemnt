@@ -14,6 +14,8 @@ import { ActivityView } from 'src/app/pages/PM/view-activties/activityview';
 export class SidebarComponent implements OnInit {
   user !: UserView
   Activties!: number
+  kpiId!: any
+
   constructor(private router : Router
     ,private pmService: PMService,
     private userService: UserService,
@@ -26,6 +28,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
 
     this.user = this.userService.getCurrentUser();
+    this.kpiId = this.user.SubOrgId
     this.getAssignedActivites()
 
   }

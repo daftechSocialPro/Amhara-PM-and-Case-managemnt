@@ -29,7 +29,9 @@ export interface SubActivityDetailDto {
     TaskId?:string,
     IsClassfiedToBranch?:Boolean,
     Employees? :string[],
-    BranchId?:string
+    BranchId?:string,
+    KpiGoalId?:string,
+    hasKpiGoal?: boolean
 }
 
     

@@ -251,6 +251,11 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
                 {
                     activity.TaskId = activityDetail.TaskId;
                 }
+                if (activityDetail.HasKpiGoal)
+                {
+                    activity.HasKpiGoal = activityDetail.HasKpiGoal;
+                    activity.KpiGoalId = activityDetail.KpiGoalId;
+                }
 
                 if (!string.IsNullOrEmpty(activityDetail.StartDate))
                 {
@@ -556,6 +561,8 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
                            Target = e.Goal,
                            UnitOfMeasurment = e.UnitOfMeasurement.Name,
                            OverAllPerformance = 0,
+                           HasKpiGoal = e.HasKpiGoal,
+                           KpiGoalId = e.KpiGoalId,
                            StartDate = e.ShouldStat.ToString(),
                            EndDate = e.ShouldEnd.ToString(),
                             Members = _dBContext.EmployeesAssignedForActivities
@@ -1022,6 +1029,12 @@ namespace PM_Case_Managemnt_API.Services.PM.Activity
                 else if (activityDetail.TaskId != null)
                 {
                     activity.TaskId = activityDetail.TaskId;
+                }
+
+                if (activityDetail.HasKpiGoal)
+                {
+                    activity.HasKpiGoal = activityDetail.HasKpiGoal;
+                    activity.KpiGoalId = activityDetail.KpiGoalId;
                 }
 
                 if (!string.IsNullOrEmpty(activityDetail.StartDate))

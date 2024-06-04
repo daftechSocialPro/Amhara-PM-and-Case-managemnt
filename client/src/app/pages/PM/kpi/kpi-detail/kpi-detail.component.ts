@@ -3,7 +3,7 @@ import { PMService } from '../../pm.services';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { ActivatedRoute } from '@angular/router';
-import { KpiDetailPost, KpiGetDto } from '../kpi';
+import { KpiDetailItem, KpiDetailPost, KpiGetDto } from '../kpi';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddKpiDetailComponent } from './add-kpi-detail/add-kpi-detail.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -50,9 +50,17 @@ export class KpiDetailComponent implements OnInit {
   addKpi(KpiId: string){
     let modalRef = this.modalService.open(AddKpiDetailComponent, { size: 'xl', backdrop: 'static' })
     modalRef.componentInstance.KpiId = KpiId
+    modalRef.componentInstance.HasSubsidiaryOrganization = this.kpiData.HasSubsidiaryOrganization
     modalRef.result.then(()=>{
       this.getKpiData(this.kpiId)
     })
+  }
+  getKpiYearData(itemYear: number,item: KpiDetailItem){
+    if (item.KPIDatas.length == 0 || !item.KPIDatas) {
+      return 0;
+    }
+    const data = item.KPIDatas.find(x => x.Year == itemYear);
+    return data?.Data
   }
 
 

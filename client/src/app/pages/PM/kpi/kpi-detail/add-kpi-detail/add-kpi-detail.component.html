@@ -27,7 +27,7 @@
                             </div>
                         </div>
 
-                        <div class="card">
+                        <div *ngIf="!HasSubsidiaryOrganization" class="card">
 
                             <div class="card-body">
                                 <h5 class="card-title"> {{'Add KPI Goal Details' | translate}}</h5>

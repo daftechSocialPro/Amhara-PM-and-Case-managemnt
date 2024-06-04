@@ -91,7 +91,8 @@ import { OrganizationProfileDetailComponent } from './pages/common/organization/
 import { KpiComponent } from './pages/pm/kpi/kpi.component';
 import { KpiDetailComponent } from './pages/pm/kpi/kpi-detail/kpi-detail.component';
 import { AddKpiDataComponent } from './pages/pm/kpi/kpi-detail/login-kpi-data/add-kpi-data/add-kpi-data.component';
-import { KpiAuthGuard, LoginKpiDataComponent } from './pages/PM/kpi/kpi-detail/login-kpi-data/login-kpi-data.component';
+import { LoginKpiDataComponent } from './pages/PM/kpi/kpi-detail/login-kpi-data/login-kpi-data.component';
+import { KpiAuthGuard } from './pages/PM/kpi/kpi-detail/login-kpi-data/kpi-auth-guard';
 
 
 
@@ -180,7 +181,7 @@ const routes: Routes = [
 
   { path: 'estimatedcoast',canActivate:[AuthGuard], component: EstimatedCoastComponent ,data:{permittedRoles:['Super Admin','PM Admin','Director','Monitor']} },
 
-  { path: 'kpi' ,canActivate : [AuthGuard],component: KpiComponent,data:{permittedRoles : ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
+  { path: 'kpis' ,canActivate : [AuthGuard],component: KpiComponent,data:{permittedRoles : ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'kpiDetail/:kpiId', canActivate:[AuthGuard],component:KpiDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
 
 

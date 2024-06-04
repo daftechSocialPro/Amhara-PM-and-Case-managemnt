@@ -34,7 +34,7 @@ export class AddActivitiesComponent implements OnInit {
   comitteEmployees : SelectList[]=[];
   employeeId!: string[]
   isClassfiedtoBranch!:boolean
-
+  kpiGoalSelectList: SelectList[] = [];
 
 
 
@@ -54,9 +54,12 @@ export class AddActivitiesComponent implements OnInit {
     this.isClassfiedtoBranch = this.activityForm.value.IsClassfiedToBranch
 
   }
+
+  
   ngOnInit(): void {
 
     this.user = this.userService.getCurrentUser()
+    this.getKpiGoalSelectList(this.user.SubOrgId)
     console.log("this.activity",this.activity)
     $('#StartDate').calendarsPicker({
       calendar: $.calendars.instance('ethiopian', 'am'),
@@ -101,7 +104,10 @@ export class AddActivitiesComponent implements OnInit {
         WhomToAssign: [''],
         CommiteeId: [this.activity.CommiteeId],
         AssignedEmployee: [this.activity.Members?.map(member => member.EmployeeId!) || []],
-        IsClassfiedToBranch:[this.activity.IsClassfiedToBranch,Validators.required]
+        IsClassfiedToBranch:[this.activity.IsClassfiedToBranch,Validators.required],
+        hasKpiGoal:[this.activity.HasKpiGoal,Validators.required],
+        KpiGoalId:[this.activity.KpiGoalId,Validators.required]
+
   
       })
     }
@@ -122,7 +128,9 @@ export class AddActivitiesComponent implements OnInit {
         TeamId: [null],
         CommiteeId: [null],
         AssignedEmployee: [],
-        IsClassfiedToBranch:[false,Validators.required]
+        IsClassfiedToBranch:[false,Validators.required],
+        hasKpiGoal:[false,Validators.required],
+        KpiGoalId:['',Validators.required]
   
       })
     }
@@ -153,6 +161,16 @@ export class AddActivitiesComponent implements OnInit {
     }
 
   }
+
+  getKpiGoalSelectList(subOrgId: string){
+    this.pmService.GetKpiGoalSelectList(subOrgId).subscribe({
+      next: (res) => {
+        this.kpiGoalSelectList = res
+      }
+    })
+  }
+
+
 
   checkActivityType(){
     
@@ -219,7 +237,9 @@ export class AddActivitiesComponent implements OnInit {
           TaskId : this.task.Id,
           CommiteeId: this.activityForm.value.CommiteeId,
           IsClassfiedToBranch:this.activityForm.value.IsClassfiedToBranch,
-          Employees: this.activityForm.value.AssignedEmployee
+          Employees: this.activityForm.value.AssignedEmployee,
+          hasKpiGoal: this.activityForm.value.hasKpiGoal,
+          KpiGoalId: this.activityForm.value.KpiGoalId
         }
         // if(this.requestFrom == "PLAN"){
         //   actvityP.PlanId = this.requestFromId;
@@ -277,14 +297,11 @@ export class AddActivitiesComponent implements OnInit {
           TaskId : this.task.Id,
           CommiteeId: this.activityForm.value.CommiteeId,
           IsClassfiedToBranch:this.activityForm.value.IsClassfiedToBranch,
-          Employees: this.activityForm.value.AssignedEmployee
+          Employees: this.activityForm.value.AssignedEmployee,
+          hasKpiGoal: this.activityForm.value.hasKpiGoal,
+          KpiGoalId: this.activityForm.value.KpiGoalId
         }
-        // if(this.requestFrom == "PLAN"){
-        //   actvityP.PlanId = this.requestFromId;
-        // }
-        // else if(this.requestFrom == "TASK"){
-        //   actvityP.TaskId = this.requestFromId;
-        // }
+       
   
         console.log("act",actvityP)
   
@@ -322,75 +339,7 @@ export class AddActivitiesComponent implements OnInit {
     }
   }
 
-  // addActivityParent(){
-  //   if (this.activityForm.valid) {
-  //     let actvityP: SubActivityDetailDto = {
-  //       SubActivityDesctiption: this.activityForm.value.ActivityDescription,
-  //       StartDate: this.activityForm.value.StartDate,
-  //       EndDate: this.activityForm.value.EndDate,
-  //       PlannedBudget: this.activityForm.value.PlannedBudget,
-  //       Weight: this.activityForm.value.Weight,
-  //       ActivityType: this.activityForm.value.ActivityType,
-  //       OfficeWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.OfficeWork : this.activityForm.value.ActivityType == 1 ? 100 : 0,
-  //       FieldWork: this.activityForm.value.ActivityType == 0 ? this.activityForm.value.FieldWork : this.activityForm.value.ActivityType == 2 ? 100 : 0,
-  //       UnitOfMeasurement: this.activityForm.value.UnitOfMeasurement,
-  //       PreviousPerformance: this.activityForm.value.PreviousPerformance,
-  //       Goal: this.activityForm.value.Goal,
-  //       TeamId: this.activityForm.value.TeamId,
-  //       CommiteeId: this.activityForm.value.CommiteeId,
-  //       IsClassfiedToBranch:this.activityForm.value.IsClassfiedToBranch,
-  //       TaskId : this.task.Id,  
-  //       Employees: this.activityForm.value.AssignedEmployee
-  //     }
 
-  //     // if(this.requestFrom == "Plan"){
-  //     //   actvityP.PlanId = this.requestFromId;
-  //     // }
-  //     // else if(this.requestFrom == "Task"){
-  //     //   actvityP.TaskId = this.requestFromId;
-  //     // }
-
-  //     let activityList : SubActivityDetailDto[] = [];
-  //     activityList.push(actvityP);
-
-  //     let addActivityDto: ActivityDetailDto = {
-  //       ActivityDescription: this.activityForm.value.ActivityDescription,
-  //       HasActivity: false,
-  //       TaskId: this.task.Id!,
-  //       CreatedBy: this.user.UserID,
-  //       ActivityDetails: activityList
-  //     }
-  //     console.log("activity detail", addActivityDto)
-  //     this.pmService.addActivityParent(addActivityDto).subscribe({
-  //       next: (res) => {
-  //         this.toast = {
-  //           message: ' Activity Successfully Created',
-  //           title: 'Successfully Created.',
-  //           type: 'success',
-  //           ic: {
-  //             timeOut: 2500,
-  //             closeButton: true,
-  //           } as IndividualConfig,
-  //         };
-  //         window.location.reload()
-  //         this.commonService.showToast(this.toast);
-  //         this.closeModal()
-  //       }, error: (err) => {
-  //         this.toast = {
-  //           message: err.message,
-  //           title: 'Something went wrong.',
-  //           type: 'error',
-  //           ic: {
-  //             timeOut: 2500,
-  //             closeButton: true,
-  //           } as IndividualConfig,
-  //         };
-  //         this.commonService.showToast(this.toast);
-  //         console.error(err)
-  //       }
-  //     })
-  //   }
-  // }
 
 
 

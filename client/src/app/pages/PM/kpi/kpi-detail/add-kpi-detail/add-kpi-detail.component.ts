@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { KpiDetailPost, SimilarGoals } from '../../kpi';
+import { KPIGoalPostDto, KpiDetailPost, SimilarGoals } from '../../kpi';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AddKpiDetailComponent implements OnInit{
   @Input() KpiId!: string
+  @Input() HasSubsidiaryOrganization!: boolean
   user!: UserView
   items!: any
   toast!: toastPayload;
@@ -48,40 +49,44 @@ export class AddKpiDetailComponent implements OnInit{
   }
 
   submit(){
-    if(this.kpiDetails.length <= 0){
-      this.toast = {
-        message: 'Please add atleast one Item detail',
-        title: 'Error',
-        type: 'error',
-        ic: {
-          timeOut: 2500,
-          closeButton: true,
-        } as IndividualConfig,
-      };
-      this.commonService.showToast(this.toast);
-    }
-    else{
+    
+    if(this.HasSubsidiaryOrganization){
       if(this.kpiDetailsForm.valid){
-        const kpiDetailData : KpiDetailPost = {
+        const kpiDetailData : KPIGoalPostDto = {
           KPIId : this.KpiId,
           CreatedBy: this.user.UserID,
-          Goal: this.kpiDetailsForm.value.Goal,
-          Titles: this.kpiDetails
+          Goal: this.kpiDetailsForm.value.Goal
+          
           
         }
-        this.pmService.AddKPIDetail(kpiDetailData).subscribe({
+        this.pmService.AddKpiGoal(kpiDetailData).subscribe({
           next: (res) => {
-            this.toast = {
-              message: ' KPI Successfully Created',
-              title: 'Successfully Created.',
-              type: 'success',
-              ic: {
-                timeOut: 2500,
-                closeButton: true,
-              } as IndividualConfig,
-            };
-            this.commonService.showToast(this.toast);
-            this.closeModal()
+            if(res.Success){
+              this.toast = {
+                message: ' KPI Goal Successfully Created',
+                title: 'Successfully Created.',
+                type: 'success',
+                ic: {
+                  timeOut: 2500,
+                  closeButton: true,
+                } as IndividualConfig,
+              };
+              this.commonService.showToast(this.toast);
+              this.closeModal()
+            }
+            else{
+              this.toast = {
+                message: res.Message,
+                title: 'Something Went Wrong.',
+                type: 'error',
+                ic: {
+                  timeOut: 2500,
+                  closeButton: true,
+                } as IndividualConfig,
+              };
+              this.commonService.showToast(this.toast)
+            }
+            
   
           },
           error: (err) => {
@@ -102,8 +107,81 @@ export class AddKpiDetailComponent implements OnInit{
           }
         })
       }
-
     }
+    else{
+      if(this.kpiDetails.length <= 0){
+        this.toast = {
+          message: 'Please add atleast one Item detail',
+          title: 'Error',
+          type: 'error',
+          ic: {
+            timeOut: 2500,
+            closeButton: true,
+          } as IndividualConfig,
+        };
+        this.commonService.showToast(this.toast);
+      }
+      else{
+        if(this.kpiDetailsForm.valid){
+          const kpiDetailData : KpiDetailPost = {
+            KPIId : this.KpiId,
+            CreatedBy: this.user.UserID,
+            Goal: this.kpiDetailsForm.value.Goal,
+            Titles: this.kpiDetails
+            
+          }
+          this.pmService.AddKPIDetail(kpiDetailData).subscribe({
+            next: (res) => {
+              if(res.Success){
+                this.toast = {
+                  message: ' KPI Successfully Created',
+                  title: 'Successfully Created.',
+                  type: 'success',
+                  ic: {
+                    timeOut: 2500,
+                    closeButton: true,
+                  } as IndividualConfig,
+                };
+                this.commonService.showToast(this.toast);
+                this.closeModal()
+              }
+              else{
+                this.toast = {
+                  message: res.Message,
+                  title: 'Something Went Wrong.',
+                  type: 'error',
+                  ic: {
+                    timeOut: 2500,
+                    closeButton: true,
+                  } as IndividualConfig,
+                };
+                this.commonService.showToast(this.toast)
+              }
+              
+    
+            },
+            error: (err) => {
+    
+    
+              this.toast = {
+                message: err.message,
+                title: 'Something Went Wrong.',
+                type: 'error',
+                ic: {
+                  timeOut: 2500,
+                  closeButton: true,
+                } as IndividualConfig,
+              };
+              this.commonService.showToast(this.toast)
+    
+    
+            }
+          })
+        }
+  
+      }
+    }
+    
   }
 
   newRow() {

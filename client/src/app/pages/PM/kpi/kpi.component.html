@@ -9,44 +9,47 @@
       </ol>
     </nav>
 
-  </div>
-  <div class="card" #excelTable>
-    <div class="card-body p-2">
-      <div class="row">
-        <div class="col-9">
-        </div>
-      </div>
-      
+   </div>
+   <div #excelTable>
+
+
+
+
+
       <div class="text-end col-lg-12">
         <button class="btn btn-outline-primary text-end mb-3" (click)="addKpi()"><i class="bi bi-plus me-1"></i>  {{'KPI' | translate}}
         </button> 
       </div>
-      <div class="col-lg-6" *ngFor="let kpi of KPIList" style="cursor: pointer;">
 
-        <div class="card">
-           <div class="card-header">
+      <section class="section profile">
+         <div class="row">
 
-              <div>
-                 <div>
-                    {{kpi.Title}}
-                 </div>
-                 <div style="text-align: right!important;">
-                    <span *ngIf="kpi.Url !== null" class="badge bg-success">Has URL</span> <span *ngIf="kpi.Url === null"
-                       class="badge bg-danger">Has No URL</span>
-                 </div>
-              </div>
-           </div>
-           <div class="card-body" style="background-color: #f6f9ff !important;">
-              <!-- (click)="tasks(plan)" -->
-              <h5 class="card-title ">
-                 <div class="row">
-                    <div class="col-md-10">
-                      {{kpi.Title}}
+            <div class="col-lg-6" *ngFor="let kpi of KPIList" style="cursor: pointer;">
 
-                    </div>
-                    
-                 </div>
-              </h5>
+               <div class="card">
+                  <div class="card-header">
+
+                     <div>
+                        <div>
+                           {{kpi.Title}}
+                        </div>
+                        <div style="text-align: right!important;">
+                           <span *ngIf="kpi.HasSubsidiaryOrganization"
+                              class="badge bg-success">{{kpi.AccessCode}}</span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="card-body" style="background-color: #f6f9ff !important;">
+                     <!-- (click)="tasks(plan)" -->
+                     <h5 class="card-title ">
+                        <div class="row">
+                           <div class="col-md-10">
+                              {{kpi.Title}}
+
+                           </div>
+
+                        </div>
+                     </h5>
 
               <div class="text-center" style="color: #798eb3;">
                  <span class="card-title">  {{'Encoder Organization Name' | translate}} :</span>
@@ -62,31 +65,34 @@
                  <div class="col-lg-4">
                      {{'Start Year' | translate}} : {{kpi.StartYear}}
 
-                 </div>
-                 
-                 <div  style="text-align: right!important;">
-                    <button class="btn btn-primary text-end" (click)="routeToKPIDetail(kpi.Id)"> KPI Detail
-                    </button>
-                 </div>
-              </div>
+                        </div>
 
-              <!-- <div style="text-align: right; ">
-                 {{plan.PlanWeight}} %
-              </div> -->
+                        <div style="text-align: right!important;">
+                           <button class="btn btn-primary text-end" (click)="routeToKPIDetail(kpi.Id)"> KPI Detail
+                           </button>
+                        </div>
+                     </div>
 
-
-              <div class="progress mt-3">
-                 
-              </div>
-           </div>
-        </div>
-
-        <!-- mmm -->
+                     <!-- <div style="text-align: right; ">
+                        {{plan.PlanWeight}} %
+                     </div> -->
 
 
-        <!-- mmmmm -->
+                     <div class="progress mt-3">
 
-     </div>
-    </div>
-  </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- mmm -->
+
+
+               <!-- mmmmm -->
+
+            </div>
+         </div>
+      </section>
+
+
+   </div>
 </main>

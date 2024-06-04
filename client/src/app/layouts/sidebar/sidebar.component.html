@@ -37,9 +37,13 @@
             [ngClass]="getUrl()=='/comittee'?'nav-link ':'nav-link collapsed'" routerLink="/comittee"> <i
               class="bi bi-circle"></i><span> {{ 'Directoretes' | translate }}</span> </a>
         </li>
+        <li *ngIf="roleMatch(['Regulator'])"> <a
+            [ngClass]="getUrl()=='/kpis'?'nav-link ':'nav-link collapsed'" routerLink="/kpis"> <i
+              class="bi bi-circle"></i><span>KPI List</span> </a>
+        </li>
         <li *ngIf="roleMatch(['Super Admin','Director','PM Admin','Planner','Plan Reporting'])"> <a
-            [ngClass]="getUrl()=='/kpi'?'nav-link ':'nav-link collapsed'" routerLink="/kpi"> <i
-              class="bi bi-circle"></i><span> {{ 'KPI' | translate }}</span> </a>
+            [routerLink]="['/kpiDetail', kpiId]"> <i
+            class="bi bi-circle"></i><span>KPI</span> </a>
         </li>
 
       </ul>

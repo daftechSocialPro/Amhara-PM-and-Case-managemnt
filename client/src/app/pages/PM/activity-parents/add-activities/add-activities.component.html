@@ -117,6 +117,29 @@
 
                                 <div class="col-md-4">
                                     <div class="form-check" style="font-size: 30px;"> <input class="form-check-input"
+                                             formControlName="hasKpiGoal"
+                                            type="checkbox" id="gridCheck"> <label class="form-check-label"
+                                            style="font-size: 20px;font-weight: bold;" for="gridCheck">Is Attached to Kpi Goal </label></div>
+                                </div>
+
+
+                                <div *ngIf="activityForm.value.hasKpiGoal" class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="KpiGoalId"
+                                            formControlName="KpiGoalId">
+
+                                            <option *ngFor="let um of kpiGoalSelectList" value={{um.Id}}>{{um.Name}}
+                                            </option>
+
+                                        </select>
+                                        <label for="UnitofMeasurment">KPI Goal</label>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-check" style="font-size: 30px;"> <input class="form-check-input"
                                             (change)="onClassfiedBranch()" formControlName="IsClassfiedToBranch"
                                             type="checkbox" id="gridCheck"> <label class="form-check-label"
                                             style="font-size: 20px;font-weight: bold;" for="gridCheck">

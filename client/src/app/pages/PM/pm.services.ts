@@ -13,7 +13,7 @@ import { IPlanReportDetailDto } from './progress-report/plan-report-today/IplanR
 import { IPlannedReport } from './progress-report/planned-report/planned-report';
 import { FilterationCriteria } from './progress-report/progress-report/Iprogress-report';
 import { Observable } from 'rxjs';
-import { KpiDetailPost, KpiPostDto } from './kpi/kpi';
+import { KPIGoalPostDto, KpiDataPost, KpiDetailPost, KpiPostDto } from './kpi/kpi';
 
 
 @Injectable({
@@ -218,12 +218,24 @@ export class PMService {
     }
 
     AddKPIDetail(kpiDetaildata: KpiDetailPost){
-        return this.http.post<any>(this.BaseURI2 + "/KPI/AddKPI",kpiDetaildata)
+        return this.http.post<any>(this.BaseURI2 + "/KPI/AddKPIDetail",kpiDetaildata)
 
     }
+
+    AddKPIData(kpiData: KpiDataPost){
+        return this.http.post<any>(this.BaseURI2 + "/KPI/AddKPIData",kpiData)
+    }
+    
 
     LoginToKpi(accessCode: string){
         return this.http.get<any>(this.BaseURI2 + "/KPI/LoginToKpi?accessCode="+ accessCode)
     }
 
+    AddKpiGoal(kpiGoalPost: KPIGoalPostDto){
+        return this.http.post<any>(this.BaseURI2 + "/KPI/AddKpiGoal",kpiGoalPost)
+    }
+
+    GetKpiGoalSelectList(subOrgId: string){
+        return this.http.get<SelectList[]>(this.BaseURI2 + "/KPI/GetKpiGoalSelectList?subOrgId=" + subOrgId)
+    }
 }

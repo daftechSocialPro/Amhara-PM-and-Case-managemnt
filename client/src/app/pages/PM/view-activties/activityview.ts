@@ -31,6 +31,8 @@ export interface ActivityView {
     CommiteeId?: string
     EndDateEth?: string
     StartDateEth?: string
+    HasKpiGoal?: boolean
+    KpiGoalId?:string
 
 
 }

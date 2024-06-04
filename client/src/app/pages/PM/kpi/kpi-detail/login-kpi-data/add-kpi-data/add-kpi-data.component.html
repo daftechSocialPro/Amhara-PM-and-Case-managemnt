@@ -37,7 +37,15 @@
                   <tr *ngFor=" let itm of item.Details; let j = index">
                       <td style="border: 1px solid black; background-color: #e8ffde;">{{itm.Title}}</td>
                       <td style="border: 1px solid black; background-color: #e8ffde;"></td>
-                      <td style="border: 1px solid black; background-color: #e8ffde;" *ngFor="let item of kpiData.ActiveYears"></td>
+                      
+                      <td style="border: 1px solid black; background-color: #e8ffde;" *ngFor="let itemYear of kpiData.ActiveYears">
+                        <input
+                                    class="form-control"
+                                    [value]="getKpiYearData(itemYear,itm)"
+                                    [id]="itemYear" [min]="0" 
+                                    (change)="onKpiDataAdded(itm.Id,itemYear,$event.target,kpiData.CreatedBy)"
+                                    type="number" />
+                      </td>
                       <td [attr.rowspan]="item.Details.length +1" style="border: 1px solid black; background-color: #e8ffde;" *ngIf="j == 0">{{kpiData.EncoderOrganizationName}}</td>
                       <td [attr.rowspan]="item.Details.length +1" style="border: 1px solid black; background-color: #e8ffde;" *ngIf="j == 0">{{kpiData.EvaluatorOrganizationName}}</td>
                   </tr>
