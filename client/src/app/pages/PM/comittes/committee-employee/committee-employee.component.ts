@@ -7,6 +7,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { PMService } from '../../pm.services';
 import { CommiteeAddEmployeeView, CommitteeView } from '../committee';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-committee-employee',
@@ -27,7 +28,8 @@ export class CommitteeEmployeeComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private pmService: PMService,
     private commonService: CommonService,
-    private userService: UserService) {
+    private userService: UserService,
+  public translate: TranslateService) {
 
   }
 

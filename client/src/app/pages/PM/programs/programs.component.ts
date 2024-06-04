@@ -8,6 +8,7 @@ import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { ProgramDetailComponent } from './program-detail/program-detail.component';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class ProgramsComponent implements OnInit {
     private programService: ProgramService,
     private userService: UserService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+  public translate: TranslateService) { }
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     console.log('this.user: ', this.user);

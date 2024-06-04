@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { IndividualConfig } from 'ngx-toastr';
 import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { UserService } from 'src/app/pages/pages-login/user.service';
@@ -17,7 +18,8 @@ export class ChangePasswordComponent implements OnInit {
   constructor(private userService: UserService,
     private formBuilder: FormBuilder,
     private activeModal: NgbActiveModal,
-    private toastr:CommonService
+    private toastr:CommonService,
+    public translate: TranslateService
      ){}
     
     ngOnInit(): void {

@@ -7,6 +7,7 @@ import { OrganizationService } from '../common/organization/organization.service
 import { UserView } from '../pages-login/user';
 import { UserService } from '../pages-login/user.service';
 import { AuthGuard } from 'src/app/auth/auth.guard';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-users-profile',
@@ -27,7 +28,8 @@ export class UsersProfileComponent implements OnInit {
     private userService: UserService,
     private authGuard : AuthGuard,
     private orgServcie: OrganizationService,
-    private formBuilder: FormBuilder) { 
+    private formBuilder: FormBuilder,
+    public translate: TranslateService) { 
       this.EmployeeForm = this.formBuilder.group({
         avatar: [null],
         Title: ['', Validators.required],

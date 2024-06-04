@@ -8,6 +8,7 @@ import { IPlannedReport } from './planned-report';
 import * as XLSX from 'xlsx';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-planned-report',
@@ -31,7 +32,8 @@ export class PlannedReportComponent implements OnInit {
     private formBuilder: FormBuilder,
     private pmService: PMService,
     private orgService: OrganizationService,
-    private userService: UserService) {
+    private userService: UserService,
+    public translate: TranslateService) {
 
   }
 

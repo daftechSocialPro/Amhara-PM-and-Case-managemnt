@@ -6,6 +6,7 @@ import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { PMService } from '../../pm.services';
 import { ComiteeAdd, CommitteeView } from '../committee';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-update-cpmmittee',
@@ -25,6 +26,7 @@ export class UpdateCpmmitteeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private pmService : PMService,
     private commonService : CommonService,
+    public translate: TranslateService
     
   ) {
 

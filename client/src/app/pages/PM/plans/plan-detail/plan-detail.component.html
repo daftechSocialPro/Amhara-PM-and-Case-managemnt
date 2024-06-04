@@ -1,11 +1,11 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Projects</h1>
+    <h1> {{'Projects' | translate}}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item">Projects</li>
-        <li class="breadcrumb-item active">Detail</li>
+        <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+        <li class="breadcrumb-item"> {{'Projects' | translate}}</li>
+        <li class="breadcrumb-item active"> {{'Detail' | translate}}</li>
       </ol>
     </nav>
   </div>
@@ -21,28 +21,28 @@
         </div>
 
         <div class="col-3 text-end">
-          <label class="form-label">Filter By</label>
+          <label class="form-label"> {{'Filter By' | translate}}</label>
           <select class="form-control " [(ngModel)]="filterBy" (change)="onFilterByChange()">
 
-            <option value=0>Monthly</option>
-            <option value=1>Quarterly</option>
+            <option value=0> {{'Monthly' | translate}}</option>
+            <option value=1> {{'Quarterly' | translate}}</option>
           </select>
         </div>
 
       </div>
-      <h6 class="mt-2">Organization: <b>{{subOrg?.OrganizationNameInLocalLanguage}} </b> </h6>
+      <h6 class="mt-2"> {{'Organization' | translate}}: <b>{{subOrg?.OrganizationNameInLocalLanguage}} </b> </h6>
 
-      <h6 class="mt-2">Project: <b>{{Plans.PlanName}} </b> </h6>
+      <h6 class="mt-2"> {{'Project' | translate}}: <b>{{Plans.PlanName}} </b> </h6>
 
       <!-- <h6>Project Number: <b>{{Plans.projectNumber}}</b></h6> -->
-      <h6>Period of Performance:
+      <h6> {{'Period of Performance' | translate}}:
         <b>{{Plans.StartDate |date:"dd MMM YYYY"}} - {{Plans.EndDate |date:"dd MMM YYYY"}} </b>
       </h6>
       <div class="text-end col-lg-12">
-        <button class="btn btn-outline-primary text-end mb-3" (click)="addTask()"><i class="bi bi-plus me-1"></i> Task
+        <button class="btn btn-outline-primary text-end mb-3" (click)="addTask()"><i class="bi bi-plus me-1"></i> {{'Task' | translate}}
         </button> |
         <button class="btn btn-outline-success text-end mb-3" (click)="exportAsExcel(Plans.PlanName)"><i
-            class="bi bi-file-excel"></i> Export Excel </button>
+            class="bi bi-file-excel"></i>  {{'Export Excel' | translate}} </button>
       </div>
       <div class="table-responsive">
         <table class="table table-bordered mt-2 " id="myTable">
@@ -84,24 +84,24 @@
             </tr>
             <tr *ngIf="filterBy==0">
               <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">1ኛ ሩ.ዓ</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Jul</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Aug</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Sep</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">ሃምሌ</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">ነሃሴ</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">መስከረም</th>
 
               <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">2ኛ ሩ.ዓ</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Oct</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Nov</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Dec</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">ጥቅምት</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">ህዳር</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">ታህሳስ</th>
 
               <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">3ኛ ሩ.ዓ</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Jan</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Feb</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Mar</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">ጥር</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">የካቲት</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">መጋቢት</th>
 
               <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">4ኛ ሩ.ዓ</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Apr</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">May</th>
-              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">Jun</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">ሚያዝያ</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">ግንቦት</th>
+              <th scope="col" style="border: 1px solid black;background-color: #fdf584;">ሰኔ</th>
 
 
               <!-- <th scope="col" style="border: 1px solid black;background-color: #e8ffde;">Q1 B</th>
@@ -168,17 +168,17 @@
                     {{index1 + 1}}.{{index2 + 1}}
                     <button class="btn btn-outline-primary btn-sm"
                       *ngIf="(act.IsClassfiedToBranch && !act.AssignedToBranch)" (click)="AssignTargetToBranch(act)"> <i
-                        class="bi bi-plus me-1"></i> Assign
-                      to Branch </button>
+                        class="bi bi-plus me-1"></i>  {{'Assign to Branch' | translate}}
+                       </button>
 
                     <button class="btn btn-outline-primary btn-sm"
                       *ngIf="(act.MonthPerformance!.length===0&&!act.IsClassfiedToBranch)" (click)="AssignTarget(act)">
-                      <i class="bi bi-plus me-1"></i> Target
+                      <i class="bi bi-plus me-1"></i>  {{'Target' | translate}}
                     </button>
 
                     <button class="btn btn-outline-primary btn-sm"
                       *ngIf="(act.MonthPerformance!.length!=0 && act.AssignedToBranch)" (click)="AssignEmployee(act)">
-                      Assign employee </button>
+                       {{'Assign employee' | translate}} </button>
                   </td>
                   <td style="border: 1px solid black;" (click)="routeToActDetail(act.Id)" style="cursor: pointer;">
                     {{act.Name}}</td>
@@ -282,11 +282,11 @@
 
                       <button class="btn btn-outline-primary btn-sm"
                         *ngIf="(act2.MonthPerformance!.length===0&&!act2.IsClassfiedToBranch)"
-                        (click)="AssignTarget(act2)"> <i class="bi bi-plus me-1"></i> Target
+                        (click)="AssignTarget(act2)"> <i class="bi bi-plus me-1"></i>  {{'Target' | translate}}
                       </button>
 
                       <button class="btn btn-outline-primary btn-sm" *ngIf="(act2.MonthPerformance!.length!=0)"
-                        (click)="AssignEmployee(act2)"> Assign employee </button>
+                        (click)="AssignEmployee(act2)">  {{'Assign employee' | translate}} </button>
                     </td>
                     <td style="border: 1px solid black;" (click)="routeToActDetail(act2.Id)" style="cursor: pointer;">
                       {{act2.Name}}</td>

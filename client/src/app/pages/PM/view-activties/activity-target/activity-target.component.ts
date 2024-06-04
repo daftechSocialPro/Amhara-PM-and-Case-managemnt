@@ -7,6 +7,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { PMService } from '../../pm.services';
 import { ActivityView, TargetDivisionDto,ActivityTargetDivisionDto } from '../activityview';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-activity-target',
@@ -46,7 +47,8 @@ export class ActivityTargetComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private commonService: CommonService,
     private userService : UserService,
-    private pmService : PMService) { }
+    private pmService : PMService,
+    public translate: TranslateService) { }
 
   ngOnInit(): void {
     this.addTargetForm();

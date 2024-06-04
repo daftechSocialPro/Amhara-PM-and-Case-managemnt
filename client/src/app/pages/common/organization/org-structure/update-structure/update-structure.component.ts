@@ -10,6 +10,7 @@ import { OrganizationalStructure } from '../org-structure';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-update-structure',
@@ -35,6 +36,7 @@ export class UpdateStructureComponent {
     private userService: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    public translate: TranslateService
   ) { }
 
   ngOnInit(): void {

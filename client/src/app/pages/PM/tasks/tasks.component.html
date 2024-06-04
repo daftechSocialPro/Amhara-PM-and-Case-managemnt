@@ -1,16 +1,16 @@
 <main id="main" class="main">
    <div class="pagetitle">
-      <h1>Task</h1>
+      <h1> {{'Task' | translate}}</h1>
       <nav>
          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-            <li class="breadcrumb-item">Task</li>
-            <li class="breadcrumb-item active">List</li>
+            <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}} </a></li>
+            <li class="breadcrumb-item"> {{'Task' | translate}}</li>
+            <li class="breadcrumb-item active"> {{'List' | translate}}</li>
          </ol>
       </nav>
    </div>
    <div class="text-end col-lg-12">
-      <button class="btn btn-primary text-end mb-3" (click)="addTask()"> Add Tasks </button>
+      <button class="btn btn-primary text-end mb-3" (click)="addTask()"> {{' Add Task' | translate}} </button>
    </div>
    <section class="section profile">
 
@@ -41,14 +41,14 @@
                <div class="card-body" style="background-color: #f6f9ff !important; color: #798eb3;">
 
 
-                  <span class="card-title">Planned Budget :</span> {{task.PlannedBudget}} ETB<br />
+                  <span class="card-title"> {{'Planned Budget' | translate}} :</span> {{task.PlannedBudget}} ETB<br />
 
-                  <span class="card-title">Task Weight :</span> {{task.TaskWeight}} %<br /><br />
+                  <span class="card-title"> {{'Task Weight' | translate}} :</span> {{task.TaskWeight}} %<br /><br />
 
-                  <i class="bi bi-list-check"></i> {{task.NumberofActivities}} Actvities
+                  <i class="bi bi-list-check"></i> {{task.NumberofActivities}}  {{'Actvities' | translate}}
                   &nbsp;&nbsp;
-                  {{task.NumberOfFinalized}} &nbsp;<span class="badge bg-success"> Finalized</span>&nbsp;&nbsp;
-                  {{task.NumberOfTerminated}} &nbsp; <span class="badge bg-danger"> Terminated</span>
+                  {{task.NumberOfFinalized}} &nbsp;<span class="badge bg-success">  {{'Finalized' | translate}}</span>&nbsp;&nbsp;
+                  {{task.NumberOfTerminated}} &nbsp; <span class="badge bg-danger">  {{'Terminated' | translate}}</span>
 
                </div>
                <div class="card-footer">
@@ -56,8 +56,8 @@
 
                   <div class="row">
                      <div class="col-md-6">
-                        <i class="bi bi-calendar-check"></i> Start Date : {{task.StartDate | date:"MMMM d, YYYY"}} <br />
-                        <i class="bi bi-calendar-check"></i> End Date : {{task.EndDate | date:"MMMM d, YYYY" }}
+                        <i class="bi bi-calendar-check"></i>  {{'Start Date' | translate}} : {{task.StartDate | date:"MMMM d, YYYY"}} <br />
+                        <i class="bi bi-calendar-check"></i>  {{'End Date' | translate}} : {{task.EndDate | date:"MMMM d, YYYY" }}
 
                      </div>
                      <!-- <div class="col-md-6" style="text-align: right!important;">

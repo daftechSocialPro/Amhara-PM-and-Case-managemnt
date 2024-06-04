@@ -5,6 +5,7 @@ import { ActivityView, ViewProgressDto } from '../../../view-activties/activityv
 import { ActivatedRoute } from '@angular/router';
 import { PMService } from '../../../pm.services';
 import { CommonService } from 'src/app/common/common.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-activity-detail',
@@ -22,7 +23,8 @@ export class ActivityDetailComponent implements  OnInit{
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private pmService: PMService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public translate: TranslateService
   ){}
 
   ngOnInit(): void {

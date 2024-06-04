@@ -5,6 +5,7 @@ import { IndividualConfig } from 'ngx-toastr';
 import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { OrganizationService } from '../../organization/organization.service';
 import { UnitMeasurment } from '../unit-measurment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-update-measurment',
@@ -20,7 +21,11 @@ export class UpdateMeasurmentComponent {
   toast !: toastPayload;
   measurmentForm!: FormGroup
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal) { }
+  constructor(private formBuilder: FormBuilder,
+     private orgService: OrganizationService,
+      private commonService: CommonService,
+       private activeModal: NgbActiveModal,
+      public translate: TranslateService) { }
 
   ngOnInit(): void {
     console.log("measurment", this.measurement)

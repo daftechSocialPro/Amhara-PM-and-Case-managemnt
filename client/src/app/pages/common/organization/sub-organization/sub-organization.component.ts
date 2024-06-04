@@ -5,6 +5,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddSubOrgComponent } from './add-sub-org/add-sub-org.component';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class SubOrganizationComponent implements OnInit {
     private modalService: NgbModal,
     private messageService:MessageService,
     private confirmationService:ConfirmationService,
+    public translate: TranslateService
 
   ){}
   ngOnInit(): void {

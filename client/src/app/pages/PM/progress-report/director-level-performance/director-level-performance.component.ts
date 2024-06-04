@@ -5,6 +5,7 @@ import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
 import { SelectList } from 'src/app/pages/common/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-director-level-performance',
@@ -18,7 +19,10 @@ export class DirectorLevelPerformanceComponent implements OnInit {
   ];
   subOrgSelectList: SelectList[] = []
 
-  constructor(private pmService : PMService, private userService: UserService, private orgService: OrganizationService){
+  constructor(private pmService : PMService,
+     private userService: UserService, 
+     private orgService: OrganizationService,
+    public translate: TranslateService){
 
   }
   ngOnInit(): void {

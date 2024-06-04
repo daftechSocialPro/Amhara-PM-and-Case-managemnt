@@ -8,6 +8,7 @@ import { IPlannedReport } from '../planned-report/planned-report';
 import * as XLSX from 'xlsx';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { UserView } from 'src/app/pages/pages-login/user';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-progress-report-bystructure',
@@ -30,7 +31,8 @@ export class ProgressReportBystructureComponent implements OnInit {
     private formBuilder: FormBuilder,
     private pmService: PMService,
     private orgService: OrganizationService,
-    private userService: UserService) {
+    private userService: UserService,
+    public translate: TranslateService) {
 
   }
 

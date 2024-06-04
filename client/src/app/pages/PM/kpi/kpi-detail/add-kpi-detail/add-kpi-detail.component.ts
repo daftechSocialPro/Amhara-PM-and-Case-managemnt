@@ -7,6 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { PMService } from '../../../pm.services';
 import { IndividualConfig } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-kpi-detail',
@@ -32,7 +33,8 @@ export class AddKpiDetailComponent implements OnInit{
     private activeModal: NgbActiveModal,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public translate: TranslateService
   ) { }
 
 

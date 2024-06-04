@@ -9,6 +9,7 @@ import { Employee } from '../../organization/employee/employee';
 import { OrganizationService } from '../../organization/organization.service';
 import { UserManagment } from '../user-managment';
 import { UserView } from 'src/app/pages/pages-login/user';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-users',
@@ -26,7 +27,12 @@ export class AddUsersComponent {
   employeeList: SelectList[] = [];
   RoleList: SelectList[] = [];
   employee !: SelectList;
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal) { }
+  constructor(private userService: UserService,
+     private formBuilder: FormBuilder,
+      private orgService: OrganizationService, 
+      private commonService: CommonService, 
+      private activeModal: NgbActiveModal,
+    public translate: TranslateService) { }
 
   ngOnInit(): void {
 

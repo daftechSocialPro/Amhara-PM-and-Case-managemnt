@@ -7,7 +7,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Subsidiary Detail</h5>
+            <h5 class="card-title"> {{'Subsidiary Detail' | translate}}</h5>
 
 
 
@@ -43,21 +43,21 @@
                             <div class="form-floating"> <input type="text" class="form-control"
                                     id="floatingName" placeholder="Subsidiary English Name" 
                                     formControlName="OrganizationNameEnglish">
-                                <label for="floatingName">Subsidiary English Name</label>
+                                <label for="floatingName"> {{'Subsidiary English Name' | translate}}</label>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-floating"> <input type="text" class="form-control"
                                     id="floatingName" placeholder="Subsidiary Local Name" 
                                     formControlName="OrganizationNameInLocalLanguage">
-                                <label for="floatingName">Subsidiary Local Name</label>
+                                <label for="floatingName"> {{'Subsidiary Local Name' | translate}}</label>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-floating"> <input type="text" class="form-control"
                                     id="Address" placeholder="Address" 
                                     formControlName="Address">
-                                <label for="Address">Address</label>
+                                <label for="Address"> {{'Address' | translate}}</label>
                             </div>
                         </div>
 
@@ -66,31 +66,31 @@
                         <div class="col-md-5">
                             <div class="form-floating"> <input type="text" class="form-control" id="PhoneNumber"
                                     placeholder="Phone Number"  formControlName="PhoneNumber"> <label
-                                    for="PhoneNumber">Phone Number</label></div>
+                                    for="PhoneNumber"> {{'Phone Number' | translate}}</label></div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-floating"> <input type="text" class="form-control" id="SMSCode"
                                     placeholder="SMS Code"  formControlName="SmsCode"> <label
-                                    for="SmsCode">SMS Code</label></div>
+                                    for="SmsCode"> {{'SMS Code' | translate}}</label></div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-check"> <input class="form-check-input" formControlName="isRegulatoryBody"
                                     type="checkbox" id="gridCheck"> <label class="form-check-label"
-                                    for="gridCheck">Is Regulatory Body</label></div>
+                                    for="gridCheck"> {{'Is Regulatory Body' | translate}}</label></div>
                         </div>
                         <div class="col-12">
                             <div class="form-floating"><textarea  class="form-control"
                                     formControlName="Remark" placeholder="Remark" id="Remark"
-                                    style="height: 100px;"></textarea><label for="Remark">Remark</label></div>
+                                    style="height: 100px;"></textarea><label for="Remark"> {{'Remark' | translate}}</label></div>
                         </div>
 
                     </div>
 
                 </div>
                 <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-                       (click)="closeModal()">Close</button> <button [disabled]="!subOrgForm.valid" type="button" type="submit"
-                        class="btn btn-success">Save
-                        changes</button></div>
+                       (click)="closeModal()"> {{'Close' | translate}}</button> <button [disabled]="!subOrgForm.valid" type="button" type="submit"
+                        class="btn btn-success">Save {{'Save Changes' | translate}}
+                        </button></div>
             </form>
 
         </div>

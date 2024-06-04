@@ -1,11 +1,11 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>KPI List</h1>
+    <h1> {{'KPI List' | translate}}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item">KPI</li>
-        <li class="breadcrumb-item active">List</li>
+        <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+        <li class="breadcrumb-item"> {{'KPI' | translate}}</li>
+        <li class="breadcrumb-item active"> {{'List' | translate}}</li>
       </ol>
     </nav>
 
@@ -18,7 +18,7 @@
       </div>
       
       <div class="text-end col-lg-12">
-        <button class="btn btn-outline-primary text-end mb-3" (click)="addKpi()"><i class="bi bi-plus me-1"></i> KPI
+        <button class="btn btn-outline-primary text-end mb-3" (click)="addKpi()"><i class="bi bi-plus me-1"></i>  {{'KPI' | translate}}
         </button> 
       </div>
       <div class="col-lg-6" *ngFor="let kpi of KPIList" style="cursor: pointer;">
@@ -49,9 +49,9 @@
               </h5>
 
               <div class="text-center" style="color: #798eb3;">
-                 <span class="card-title"> Encoder Organization Name :</span>
+                 <span class="card-title">  {{'Encoder Organization Name' | translate}} :</span>
                  {{kpi.EncoderOrganizationName}} &nbsp;<br/>
-                 <span class="card-title"> Evaluator Organization Name : </span>
+                 <span class="card-title">  {{'Evaluator Organization Name' | translate}} : </span>
                  {{kpi.EvaluatorOrganizationName}} <br />
                  
               </div>
@@ -60,7 +60,7 @@
 
               <div class="row">
                  <div class="col-lg-4">
-                    Start Year : {{kpi.StartYear}}
+                     {{'Start Year' | translate}} : {{kpi.StartYear}}
 
                  </div>
                  

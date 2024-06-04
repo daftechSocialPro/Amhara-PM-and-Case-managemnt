@@ -14,6 +14,7 @@ import { SelectList } from '../../common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 declare const jsc: any;
 interface IStructureTree {
   key: string;
@@ -53,7 +54,8 @@ export class OrgStructureComponent implements OnInit {
     private commonService: CommonService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    public translate: TranslateService
   ) {
    
   }

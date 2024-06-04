@@ -8,6 +8,7 @@ import { UserView } from '../../pages-login/user';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ManageRolesComponent } from './manage-roles/manage-roles.component';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-management',
@@ -20,9 +21,12 @@ export class UserManagementComponent implements OnInit {
   employees: Employee[] = []
   filterdEmployees : Employee[]=[]
   searchBY!:string 
-  constructor(private modalService: NgbModal, private userService: UserService, private commonService : CommonService,
+  constructor(private modalService: NgbModal, 
+    private userService: UserService,
+     private commonService : CommonService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+  public translate: TranslateService) { }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()

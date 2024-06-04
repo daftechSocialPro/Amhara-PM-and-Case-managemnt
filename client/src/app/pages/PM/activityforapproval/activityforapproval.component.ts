@@ -3,6 +3,7 @@ import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
 import { PMService } from '../pm.services';
 import { ActivityView } from '../view-activties/activityview';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-activityforapproval',
@@ -17,7 +18,8 @@ export class ActivityforapprovalComponent {
   constructor(
 
     private pmService: PMService,
-    private userService: UserService
+    private userService: UserService,
+    public translate: TranslateService
 
   ) {
 

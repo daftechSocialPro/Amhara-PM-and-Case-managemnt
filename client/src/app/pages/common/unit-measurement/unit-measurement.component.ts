@@ -8,6 +8,7 @@ import { UnitMeasurment } from './unit-measurment';
 import { UpdateMeasurmentComponent } from './update-measurment/update-measurment.component';
 import { UserView } from '../../pages-login/user';
 import { UserService } from '../../pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-unit-measurement',
@@ -22,7 +23,11 @@ export class UnitMeasurementComponent {
 
 
 
-  constructor(private orgService: OrganizationService, private commonService: CommonService, private modalService: NgbModal, private userService: UserService) {
+  constructor(private orgService: OrganizationService, 
+    private commonService: CommonService, 
+    private modalService: NgbModal, 
+    private userService: UserService,
+  public translate: TranslateService) {
     this.user = this.userService.getCurrentUser()
     this.unitOfMeasurmentsList();
   }

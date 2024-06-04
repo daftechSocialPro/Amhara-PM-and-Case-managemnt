@@ -1,11 +1,11 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Director Level Performance</h1>
+    <h1> {{'Director Level Performance' | translate}}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item">Director Level Performance</li>
-        <li class="breadcrumb-item active">Report</li>
+        <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+        <li class="breadcrumb-item"> {{'Director Level Performance' | translate}}</li>
+        <li class="breadcrumb-item active"> {{'Report' | translate}}</li>
       </ol>
     </nav>
   </div>
@@ -22,10 +22,10 @@
               <div class="form-floating col-3 me-2">
                 <select class="form-control"  id="ReportBy"
                 placeholder="ReportBy" (change)="onSubChange($event)" >
-                <option value="">--Select Subsidiary Organization--</option>
+                <option value="">-- {{'Select Subsidiary Organization' | translate}}--</option>
                 <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
                 </select>
-                <label for="ReportBy">Subsidiary Organization</label>
+                <label for="ReportBy"> {{'Subsidiary Organization' | translate}}</label>
               </div>
             
             </div>

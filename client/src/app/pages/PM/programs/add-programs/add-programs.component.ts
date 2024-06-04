@@ -10,6 +10,7 @@ import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { BudgetYear } from '../../../common/common';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-add-programs',
   templateUrl: './add-programs.component.html',
@@ -29,7 +30,8 @@ export class AddProgramsComponent implements OnInit {
     private budgetYearService: BudgetYearService,
     private programService: ProgramService,
     private commonService: CommonService,
-    private userSevice: UserService) { }
+    private userSevice: UserService,
+  public translate: TranslateService) { }
 
   ngOnInit(): void {
 

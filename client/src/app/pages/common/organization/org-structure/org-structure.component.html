@@ -1,11 +1,11 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Organization Structures</h1>
+    <h1> {{'Organization Structures' | translate}}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item">Organization</li>
-        <li class="breadcrumb-item active">Structures</li>
+        <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+        <li class="breadcrumb-item"> {{'Organization' | translate}}</li>
+        <li class="breadcrumb-item active"> {{'Structures' | translate}}</li>
       </ol>
     </nav>
   </div>
@@ -28,7 +28,7 @@
 
                 </select>
 
-                <label for="branchs">Branchs</label>
+                <label for="branchs"> {{'Branchs' | translate}}</label>
               </div>
 
 
@@ -49,10 +49,10 @@
     <div class="row">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Oraganization Structures</h5>
+          <h5 class="card-title"> {{'Oraganization Structures' | translate}}</h5>
           <div class="text-end col-lg-12">
             <button class="btn btn-primary text-end mb-3" (click)="addStructure()">
-              Add Structure
+               {{'Add Structure' | translate}}
             </button>
           </div>
 
@@ -60,15 +60,15 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Organization Branch</th>
-                <th scope="col">Parent Structure</th>
-                <th scope="col">Structure Name</th>
-                <th scope="col">Office Number</th>
+                <th scope="col"> {{'Organization Branch' | translate}}</th>
+                <th scope="col"> {{'Parent Structure' | translate}}</th>
+                <th scope="col"> {{'Structure Name' | translate}}</th>
+                <th scope="col"> {{'Office Number' | translate}}</th>
 
-                <th scope="col">Is Branch</th>
-                <th scope="col">Order</th>
-                <th scope="col">Weight</th>
-                <th scope="col">Action</th>
+                <th scope="col"> {{'Is Branch' | translate}}</th>
+                <th scope="col"> {{'Order' | translate}}</th>
+                <th scope="col"> {{'Weight' | translate}}</th>
+                <th scope="col"> {{'Action' | translate}}</th>
               </tr>
             </thead>
             <tbody>
@@ -83,7 +83,7 @@
                 <td>{{ structureParameter.Weight }}</td>
                 <td>
                   <a (click)="updateStructure(structureParameter)" class="btn btn-outline-warning"><i
-                      class="bi bi-pen"></i> Update</a>
+                      class="bi bi-pen"></i>  {{'Update' | translate}}</a>
                 </td>
               </tr>
             </tbody>

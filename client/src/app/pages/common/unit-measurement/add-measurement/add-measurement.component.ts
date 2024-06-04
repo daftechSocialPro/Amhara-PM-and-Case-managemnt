@@ -6,6 +6,7 @@ import { toastPayload, CommonService } from 'src/app/common/common.service';
 import { OrganizationService } from '../../organization/organization.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-measurement',
@@ -21,7 +22,12 @@ export class AddMeasurementComponent {
   toast !: toastPayload;
   measurmentForm!: FormGroup
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder,
+     private orgService: OrganizationService, 
+     private commonService: CommonService, 
+     private activeModal: NgbActiveModal,
+      private userService: UserService,
+    public translate: TranslateService) { }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()

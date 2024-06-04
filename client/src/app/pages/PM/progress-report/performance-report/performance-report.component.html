@@ -1,10 +1,10 @@
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Performance Report</h1>
+        <h1> {{'Performance Report' | translate}}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item active">Performance Report </li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+                <li class="breadcrumb-item active"> {{'Performance Report' | translate}} </li>
             </ol>
         </nav>
     </div>
@@ -22,28 +22,28 @@
                             <div *ngIf="roleMatch(['Regulator'])" class="form-floating col-2 me-2">
                                 <select class="form-control"  id="ReportBy"
                                 placeholder="ReportBy" formControlName="SubOrg" (change)="onSubOrgChange($event)">
-                                <option value="">--Select Subsidiary Organization--</option>
+                                <option value="">-- {{'Select Subsidiary Organization' | translate}}--</option>
                                 <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
                                 </select>
-                                  <label for="ReportBy">Subsidiary Organization</label>
+                                  <label for="ReportBy"> {{'Subsidiary Organization' | translate}}</label>
                             </div>
 
                             <div class="form-floating col-2 me-2">
                                 <input type="number" class="form-control" id="budgetYear" formControlName="BudgetYear"
                                     placeholder="Budget Year (yyyy)">
-                                <label for="budgetYear">Budget Year (yyyy)</label>
+                                <label for="budgetYear"> {{'Budget Year' | translate}} (yyyy)</label>
                             </div>
                             <div class="form-floating col-2 me-2">
                                 <select class="form-control" #branch (change)="OnBranchChange(branch.value)"
                                     placeholder="branchs">
-                                    <option>--- Select Branch ---</option>
+                                    <option>---  {{'Select Branch' | translate}} ---</option>
 
                                     <option *ngFor="let item of branchs" value={{item.Id}}>{{item.Name}}</option>
 
 
                                 </select>
 
-                                <label for="branchs">Branchs</label>
+                                <label for="branchs"> {{'Branchs' | translate}}</label>
                             </div>
                             <div class="form-floating col-2 me-2">
                                 <select class="form-control" id="selectStructureId" formControlName="selectStructureId"
@@ -54,7 +54,7 @@
 
                                 </select>
 
-                                <label for="selectStructureId">Structures</label>
+                                <label for="selectStructureId"> {{'Structures' | translate}}</label>
                             </div>
 
                             <div class="form-floating col-2 me-2">
@@ -62,15 +62,15 @@
                                  #filterBy (change)="setFilterBY(filterBy.value)"  id="filterBY"
                                     placeholder="filterBY">
 
-                                    <option value=0>Budget Year</option>
-                                    <option value=1>Quarter Name</option>
-                                    <option value=2>Month</option>
-                                    <option value=3>Date Range</option>
+                                    <option value=0> {{'Budget Year' | translate}}</option>
+                                    <option value=1> {{'Quarter Name' | translate}}</option>
+                                    <option value=2> {{'Month' | translate}}</option>
+                                    <option value=3> {{'Date Range' | translate}}</option>
 
 
                                 </select>
 
-                                <label for="filterBY">Filter By</label>
+                                <label for="filterBY"> {{'Filter By' | translate}}</label>
                             </div>
 
 
@@ -84,24 +84,24 @@
                            <div *ngIf="filterBY === '1'" class="form-floating col-2 me-2">
                                 <input type="number" class="form-control" id="Quarter" formControlName="Quarter"
                                     placeholder="Quarter">
-                                <label for="Quarter">Quarter Name</label>
+                                <label for="Quarter"> {{'Quarter Name' | translate}}</label>
                             </div>
 
                             <div *ngIf="filterBY === '2'" class="form-floating col-2 me-2">
                                 <input type="number" class="form-control" id="Month" formControlName="Month"
                                     placeholder="Month">
-                                <label for="Month">Month</label>
+                                <label for="Month"> {{'Month' | translate}}</label>
                             </div>
                            
                             <div  [ngStyle]="{'display': filterBY === '3' ? 'block' : 'none'}"  class="form-floating me-2">
                                 <input type="text"  class="form-control startDate" formControlName="FromDate"
                                     id="startDate" placeholder="startDate">
-                                <label for="startDate">Start Date</label>
+                                <label for="startDate"> {{'Start Date' | translate}}</label>
                             </div>
                             <div  [ngStyle]="{'display': filterBY === '3' ? 'block' : 'none'}"  class="form-floating me-2">
                                 <input type="text" class="form-control endDate" formControlName="ToDate" id="endDate"
                                     placeholder="endDate">
-                                <label for="endDate">End Date</label>
+                                <label for="endDate"> {{'End Date' | translate}}</label>
                             </div>
 
                             
@@ -109,12 +109,12 @@
                                 <select class="form-control" formControlName="ReportBy" id="ReportBy"
                                     placeholder="ReportBy">
 
-                                    <option value="Quarter">Quarterly</option>
-                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarter"> {{'Quarterly' | translate}}</option>
+                                    <option value="Monthly"> {{'Monthly' | translate}}</option>
 
                                 </select>
 
-                                <label for="ReportBy">View Report By</label>
+                                <label for="ReportBy"> {{'View Report By' | translate}}</label>
                             </div>
                     
 
@@ -126,19 +126,19 @@
             </div>
         </div>
         <button *ngIf="performanceReport?.performancePlan" (click)="exportTableToExcel(tableElement, 'Performance Report')"  type="button" class="btn btn-secondary m-2">
-            <i class="bi bi-file-earmark-excel me-1"></i> Export Report to Excel</button> 
+            <i class="bi bi-file-earmark-excel me-1"></i>  {{'Export Report to Excel' | translate}}</button> 
         <div class="card">
             <table #tableElement class="table table-bordered table-responsive">
                 <thead class="thead-light">
                     <tr>
-                        <th>Program_Name</th>
-                        <th>Plan Name</th>
-                        <th>Task Description</th>
-                        <th>ActivityDescription</th>
-                        <th>Target</th>
-                        <th>Planed Time</th>
-                        <th>Actual Worked</th>
-                        <th>Date</th>
+                        <th> {{'Program_Name' | translate}}</th>
+                        <th> {{'Plan Name' | translate}}</th>
+                        <th> {{'Task Description' | translate}}</th>
+                        <th> {{'ActivityDescription' | translate}}</th>
+                        <th> {{'Target' | translate}}</th>
+                        <th> {{'Planed Time' | translate}}</th>
+                        <th> {{'Actual Worked' | translate}}</th>
+                        <th> {{'Date' | translate}}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -172,7 +172,7 @@
                         -->
                         <Button class="btn btn-dark " (click)="detail(ProgRow.ActivityId)">
                             <i class="bi bi-dash-square"></i>
-                            Detail
+                             {{'Detail' | translate}}
                         </Button>
 
                         

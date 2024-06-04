@@ -1,11 +1,11 @@
 
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Planned Report</h1>
+        <h1> {{'Planned Report' | translate }}</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-                <li class="breadcrumb-item active">Planned Report By Structure</li>
+                <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate }}</a></li>
+                <li class="breadcrumb-item active"> {{'Planned Report By Structure' | translate }}</li>
             </ol>
         </nav>
     </div>
@@ -24,27 +24,27 @@
                             <div *ngIf="roleMatch(['Regulator'])" class="form-floating col-2 me-2">
                                 <select class="form-control"  id="ReportBy"
                                 placeholder="ReportBy" formControlName="SubOrg" (change)="onSubOrgChange($event)">
-                                <option value="">--Select Subsidiary Organization--</option>
+                                <option value="">-- {{'Select Subsidiary Organization' | translate }}--</option>
                                 <option *ngFor="let bl of subOrgSelectList"  value={{bl.Id}}>{{bl.Name}}</option>
                                 </select>
-                                  <label for="ReportBy">Subsidiary Organization</label>
+                                  <label for="ReportBy"> {{'Subsidiary Organization' | translate }}</label>
                             </div>
                             <div class="form-floating col-2 me-2">
                                 <input type="number" class="form-control" id="budgetYear" formControlName="BudgetYear"
                                     placeholder="Budget Year (yyyy)">
-                                <label for="budgetYear">Budget Year (yyyy)</label>
+                                <label for="budgetYear"> {{'Budget Year' | translate }} (yyyy)</label>
                             </div>
                             <div class="form-floating col-2 me-2">
                                 <select class="form-control" #branch (change)="OnBranchChange(branch.value)"
                                     placeholder="branchs">
-                                    <option>--- Select Branch ---</option>
+                                    <option>---  {{'Select Branch' | translate }} ---</option>
 
                                     <option *ngFor="let item of branchs" value={{item.Id}}>{{item.Name}}</option>
 
 
                                 </select>
 
-                                <label for="branchs">Branchs</label>
+                                <label for="branchs"> {{'Branchs' | translate }}</label>
                             </div>
                             <div class="form-floating col-2 me-2">
                                 <select class="form-control" id="selectStructureId" formControlName="selectStructureId"
@@ -55,19 +55,19 @@
 
                                 </select>
 
-                                <label for="selectStructureId">Structures</label>
+                                <label for="selectStructureId"> {{'Structures' | translate }}</label>
                             </div>
 
                             <div class="form-floating col-2 me-2">
                                 <select class="form-control" formControlName="ReportBy" id="ReportBy"
                                     placeholder="ReportBy">
 
-                                    <option value="Quarter">Quarterly</option>
-                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarter"> {{'Quarterly' | translate }}</option>
+                                    <option value="Monthly"> {{'Monthly' | translate }}</option>
 
                                 </select>
 
-                                <label for="ReportBy">View Report By</label>
+                                <label for="ReportBy"> {{'View Report By' | translate }}</label>
                             </div>
 
 
@@ -83,25 +83,25 @@
         </div>
 
         <button *ngIf="plannedreport?.PlansLst" (click)="exportTableToExcel(tableElement, 'Planned Report')"  type="button" class="btn btn-secondary m-2">
-            <i class="bi bi-file-earmark-excel me-1"></i> Export Report to Excel</button> 
+            <i class="bi bi-file-earmark-excel me-1"></i>  {{'Export Report to Excel' | translate }}</button> 
         <div class="card">
             <table #tableElement class="table table-bordered table-responsive">
 
                 <thead class="thead-light">
                     <tr>
-                        <th rowspan="2">No</th>
-                        <th rowspan="2">Description</th>
-                        <th rowspan="2">Weight</th>
-                        <th rowspan="2">Unit Measurment</th>
-                        <th rowspan="2">Begining</th>
-                        <th rowspan="2">Goal</th>
+                        <th rowspan="2"> {{'No' | translate }}</th>
+                        <th rowspan="2"> {{'Description' | translate }}</th>
+                        <th rowspan="2"> {{'Weight' | translate }}</th>
+                        <th rowspan="2"> {{'Unit Measurment' | translate }}</th>
+                        <th rowspan="2"> {{'Begining' | translate}}</th>
+                        <th rowspan="2"> {{'Goal' | translate }}</th>
                         <th colspan="1" *ngFor="let items of plannedreport?.planDuration">{{items.MonthName}}</th>
 
-                        <th rowspan="2">Remark</th>
+                        <th rowspan="2"> {{'Remark' | translate }}</th>
                     </tr>
                     <tr>
 
-                        <th *ngFor="let i of range(cnt); index as idx">Planned</th>
+                        <th *ngFor="let i of range(cnt); index as idx"> {{'Planned' | translate }}</th>
 
                     </tr>
                 </thead>

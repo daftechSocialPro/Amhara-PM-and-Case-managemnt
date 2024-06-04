@@ -11,6 +11,7 @@ import { UserService } from 'src/app/pages/pages-login/user.service';
 import { SubActivityDetailDto, ActivityDetailDto } from '../../../activity-parents/add-activities/add-activities';
 import { PMService } from '../../../pm.services';
 import { ActivityView } from '../../../view-activties/activityview';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-assign-target-to-branch',
@@ -41,7 +42,8 @@ export class AssignTargetToBranchComponent implements OnInit{
     private caseService : CaseService,
 
     private pmService: PMService,
-    private activeModal: NgbActiveModal) { }
+    private activeModal: NgbActiveModal,
+  public translate: TranslateService) { }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()

@@ -10,6 +10,7 @@ import { ActivityTargetComponent } from './activity-target/activity-target.compo
 import { ActivityView, MonthPerformanceView } from './activityview';
 import { AddProgressComponent } from './add-progress/add-progress.component';
 import { ViewProgressComponent } from './view-progress/view-progress.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-activties',
@@ -39,7 +40,8 @@ export class ViewActivtiesComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private commonService: CommonService,
-    private userService: UserService) { }
+    private userService: UserService,
+    public translate: TranslateService) { }
 
   ngOnInit(): void {
     console.log('this.actView: ', this.actView);

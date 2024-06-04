@@ -7,6 +7,7 @@ import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { OrganizationService } from '../organization.service';
 import { UserService } from 'src/app/pages/pages-login/user.service';
 import { UserView } from 'src/app/pages/pages-login/user';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-org-profile',
@@ -23,8 +24,11 @@ export class OrgProfileComponent implements OnInit {
   public message: string = '';
   public progress: number = 0;
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService,
-    private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, 
+    private orgService: OrganizationService, 
+    private commonService: CommonService,
+    private userService: UserService,
+  public translate: TranslateService) {
 
 
     this.profileForm = this.formBuilder.group({

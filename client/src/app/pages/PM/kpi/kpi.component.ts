@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddKpiComponent } from './add-kpi/add-kpi.component';
 import { PMService } from '../pm.services';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-kpi',
@@ -16,7 +17,8 @@ export class KpiComponent implements OnInit {
   constructor(
     private modalService : NgbModal,
     private pmService: PMService,
-    private router: Router
+    private router: Router,
+    public translate: TranslateService
   ) {}
 
   ngOnInit() {

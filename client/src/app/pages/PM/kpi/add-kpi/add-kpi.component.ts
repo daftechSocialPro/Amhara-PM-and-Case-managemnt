@@ -9,6 +9,7 @@ import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { IndividualConfig } from 'ngx-toastr';
 import { SelectList } from 'src/app/pages/common/common';
 import { OrganizationService } from 'src/app/pages/common/organization/organization.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-kpi',
@@ -29,7 +30,8 @@ export class AddKpiComponent implements OnInit {
     private userService: UserService,
     private formBuilder: FormBuilder,
     private commonService: CommonService,
-    private orgService: OrganizationService 
+    private orgService: OrganizationService,
+    public translate: TranslateService 
   ){}
 
   ngOnInit(): void {

@@ -7,6 +7,7 @@ import { SelectList } from '../../../common';
 import { OrganizationService } from '../../organization.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-structure',
@@ -22,7 +23,12 @@ export class AddStructureComponent implements OnInit {
   parentStructureList: SelectList[] = []
   user!: UserView
 
-  constructor(private formBuilder: FormBuilder, private orgService: OrganizationService, private commonService: CommonService, private activeModal: NgbActiveModal, private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, 
+    private orgService: OrganizationService, 
+    private commonService: CommonService,
+     private activeModal: NgbActiveModal,
+      private userService: UserService,
+    public translate: TranslateService) {
 
     this.structureForm = this.formBuilder.group({
       OrganizationBranchId: ['', Validators.required],

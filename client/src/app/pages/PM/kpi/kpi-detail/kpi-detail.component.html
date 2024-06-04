@@ -1,11 +1,11 @@
 <main id="main" class="main">
     <div class="pagetitle">
-      <h1>KPI Details</h1>
+      <h1> {{'KPI Details' | translate}}</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-          <li class="breadcrumb-item">KPI</li>
-          <li class="breadcrumb-item active">Details</li>
+          <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+          <li class="breadcrumb-item"> {{'KPI' | translate}}</li>
+          <li class="breadcrumb-item active"> {{'Details' | translate}}</li>
         </ol>
       </nav>
   
@@ -27,7 +27,7 @@
             </button> 
           </div>
           <button class="btn btn-outline-success text-end mb-3" (click)="exportAsExcel()"><i class="bi bi-file-excel"></i>
-            Export Excel </button>
+             {{'Export Excel' | translate}}</button>
         </div>
         <div class="table-responsive">
           <table class="table table-bordered mt-2 " id="myTable">
