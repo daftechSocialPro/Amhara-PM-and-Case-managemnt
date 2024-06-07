@@ -57,6 +57,7 @@ export class AddActivitiesComponent implements OnInit {
 
   
   ngOnInit(): void {
+    console.log("this.activity",this.activity)
 
     this.user = this.userService.getCurrentUser()
     this.getKpiGoalSelectList(this.user.SubOrgId)
@@ -99,16 +100,15 @@ export class AddActivitiesComponent implements OnInit {
         OfficeWork: [this.activity.OfficeWork, Validators.required],
         FieldWork: [this.activity.FieldWork, Validators.required],
         UnitOfMeasurement: [this.activity.UnitOfMeasurmentId, Validators.required],
-        PreviousPerformance: [this.activity.Begining, [Validators.required,Validators.max(100),Validators.min(0)]],
-        Goal: [this.activity.Target,[Validators.required,Validators.max(100),Validators.min(0)]],
+        PreviousPerformance: [this.activity.Begining, Validators.required],
+        Goal: [this.activity.Target,Validators.required],
         WhomToAssign: [''],
         CommiteeId: [this.activity.CommiteeId],
         AssignedEmployee: [this.activity.Members?.map(member => member.EmployeeId!) || []],
         IsClassfiedToBranch:[this.activity.IsClassfiedToBranch,Validators.required],
         hasKpiGoal:[this.activity.HasKpiGoal,Validators.required],
-        KpiGoalId:[this.activity.KpiGoalId,Validators.required]
+        KpiGoalId:[this.activity.KpiGoalId]
 
-  
       })
     }
     else{
@@ -122,7 +122,7 @@ export class AddActivitiesComponent implements OnInit {
         OfficeWork: [0, Validators.required],
         FieldWork: [0, Validators.required],
         UnitOfMeasurement: ['', Validators.required],
-        PreviousPerformance: [0, [Validators.required,Validators.max(100),Validators.min(0)]],
+        PreviousPerformance: [0, Validators.required],
         Goal: [0,[Validators.required,Validators.max(100),Validators.min(0)]],
         WhomToAssign: [''],
         TeamId: [null],
@@ -130,7 +130,7 @@ export class AddActivitiesComponent implements OnInit {
         AssignedEmployee: [],
         IsClassfiedToBranch:[false,Validators.required],
         hasKpiGoal:[false,Validators.required],
-        KpiGoalId:['',Validators.required]
+        KpiGoalId:[null]
   
       })
     }
@@ -338,10 +338,6 @@ export class AddActivitiesComponent implements OnInit {
       
     }
   }
-
-
-
-
 
 
   closeModal() {

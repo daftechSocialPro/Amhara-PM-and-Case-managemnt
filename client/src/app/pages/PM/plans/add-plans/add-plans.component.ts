@@ -55,17 +55,18 @@ export class AddPlansComponent implements OnInit {
     this.listPorgrams();
     this.listBranchs();
     if(this.plan){
+      console.log("this.plan",this.plan)
       this.planForm = this.formBuilder.group({
 
         PlanName: [this.plan.PlanName, Validators.required],
-        BudgetYearId: ['', Validators.required],
-        BranchId: ['', Validators.required],
-        StructureId: ['', Validators.required],
-        ProgramId: ['', Validators.required,],
+        BudgetYearId: [this.plan.BudgetYearId, Validators.required],
+        BranchId: [this.plan.BranchId, Validators.required],
+        StructureId: [this.plan.StructureId, Validators.required],
+        ProgramId: [this.plan.ProgramId, Validators.required,],
         PlanWeight: [this.plan.PlanWeight, [Validators.required, Validators.max(this.program?.RemainingWeight!)]],
         HasTask: [this.plan.HasTask, Validators.required],
         PlandBudget: [this.plan.PlandBudget, [Validators.required, Validators.max(this.program?.RemainingBudget!)]],
-        ProjectType: [this.plan.ProjectType, Validators.required],
+        ProjectType: [this.plan.ProjectType === "Capital" ? 0:1, Validators.required],
         ProjectFunder: [this.plan.ProjectFunder],
         Remark: [this.plan.Remark]
   
@@ -230,52 +231,104 @@ export class AddPlansComponent implements OnInit {
 
     if (this.planForm.valid) {
 
-      let planValue: Plan = {
-        BudgetYearId: this.planForm.value.BudgetYearId,
-        HasTask: this.planForm.value.HasTask,
-        PlanName: this.planForm.value.PlanName,
-        PlanWeight: this.planForm.value.PlanWeight,
-        PlandBudget: this.planForm.value.PlandBudget,
-        ProgramId: this.planForm.value.ProgramId,
-        ProjectType: this.planForm.value.ProjectType,
-        Remark: this.planForm.value.Remark,
-        StructureId: this.planForm.value.StructureId,
-        ProjectManagerId: this.ProjectManagerId,
-        FinanceId: this.FinanceId,
-        ProjectFunder: this.planForm.value.ProjectFunder
-
-      }
-
-      this.planService.createPlan(planValue).subscribe({
-        next: (res) => {
-          this.toast = {
-            message: "Plan Successfully Creted",
-            title: 'Successfully Created.',
-            type: 'success',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-          this.closeModal()
-
-        }, error: (err) => {
-
-          this.toast = {
-            message: 'Something went wrong!!',
-            title: 'Network error.',
-            type: 'error',
-            ic: {
-              timeOut: 2500,
-              closeButton: true,
-            } as IndividualConfig,
-          };
-          this.commonService.showToast(this.toast);
-
-          console.log(err)
+      if(this.plan){
+        let planValue: Plan = {
+          Id: this.plan.Id,
+          BudgetYearId: this.planForm.value.BudgetYearId,
+          HasTask: this.planForm.value.HasTask,
+          PlanName: this.planForm.value.PlanName,
+          PlanWeight: this.planForm.value.PlanWeight,
+          PlandBudget: this.planForm.value.PlandBudget,
+          ProgramId: this.planForm.value.ProgramId,
+          ProjectType: this.planForm.value.ProjectType,
+          Remark: this.planForm.value.Remark,
+          StructureId: this.planForm.value.StructureId,
+          ProjectManagerId: this.ProjectManagerId,
+          FinanceId: this.FinanceId,
+          ProjectFunder: this.planForm.value.ProjectFunder
+  
         }
-      })
+  
+        this.planService.editPlan(planValue).subscribe({
+          next: (res) => {
+            this.toast = {
+              message: "Plan Successfully Updated",
+              title: 'Successfully Updated.',
+              type: 'success',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+            this.closeModal()
+  
+          }, error: (err) => {
+  
+            this.toast = {
+              message: 'Something went wrong!!',
+              title: 'Network error.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+  
+            console.log(err)
+          }
+        })
+      }
+      else{
+        let planValue: Plan = {
+          BudgetYearId: this.planForm.value.BudgetYearId,
+          HasTask: this.planForm.value.HasTask,
+          PlanName: this.planForm.value.PlanName,
+          PlanWeight: this.planForm.value.PlanWeight,
+          PlandBudget: this.planForm.value.PlandBudget,
+          ProgramId: this.planForm.value.ProgramId,
+          ProjectType: this.planForm.value.ProjectType,
+          Remark: this.planForm.value.Remark,
+          StructureId: this.planForm.value.StructureId,
+          ProjectManagerId: this.ProjectManagerId,
+          FinanceId: this.FinanceId,
+          ProjectFunder: this.planForm.value.ProjectFunder
+  
+        }
+  
+        this.planService.createPlan(planValue).subscribe({
+          next: (res) => {
+            this.toast = {
+              message: "Plan Successfully Created",
+              title: 'Successfully Created.',
+              type: 'success',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+            this.closeModal()
+  
+          }, error: (err) => {
+  
+            this.toast = {
+              message: 'Something went wrong!!',
+              title: 'Network error.',
+              type: 'error',
+              ic: {
+                timeOut: 2500,
+                closeButton: true,
+              } as IndividualConfig,
+            };
+            this.commonService.showToast(this.toast);
+  
+            console.log(err)
+          }
+        })
+      }
+      
     }
 
   }

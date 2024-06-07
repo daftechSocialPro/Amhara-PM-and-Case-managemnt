@@ -1,7 +1,7 @@
 
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title"> {{'Add KPI' | translate}} <Details></Details></h5>
+        <h5 class="modal-title"> {{'Add KPI Details' | translate}}</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
     
@@ -35,7 +35,7 @@
                                     <div class="row p-2 mb-2">
                                     
                                         
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-floating">
                                                 
                                                 <input type="text" class="form-control" id="quantity"
@@ -45,6 +45,16 @@
                                             
                                                                         
                                         </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                
+                                                <input type="number" class="form-control" id="quantity"
+                                                required [(ngModel)]="addKpiDetails.StartYearProgress" [ngModelOptions]="{standalone: true}" >
+                                                <label for="quantity"> {{'Start Year Progress' | translate}}</label>
+                                            </div>
+                                        </div>
+                                        
                                              
                                         <div class="col-md-3">
                                             <!-- <label></label><br/> -->
@@ -70,7 +80,9 @@
                                                 <td>
                                                     {{items.Title}}
                                                 </td>
-                                               
+                                                <td>
+                                                    {{items.StartYearProgress}}
+                                                </td>
                                                 <td style="text-align:center">
                                                     <button pButton type="button" icon="pi pi-times" class="ui-button-danger"
                                                         (click)="removeRow(items.Title)"></button>

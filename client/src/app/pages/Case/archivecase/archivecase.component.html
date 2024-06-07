@@ -42,7 +42,7 @@
                      <td>{{ac.LetterNumber}}</td>
                      <td>{{ac.LetterSubject}}</td>
                      <td>{{ac.ShelfNumber}} - {{ac.RowNumber}} - {{ac.FolderName}}  </td>
-                     <td><button class="btn btn-primary text-end mb-3" [disabled]="ac.Attachments.length < 1" (click)="viewFiles(ac.Id)">View</button></td>
+                     <td><button class="btn btn-primary text-end mb-3" [disabled]="!ac.Attachments !== null && ac.Attachments.length < 1" (click)="viewFiles(ac.Id)">View</button></td>
                   </tr>
                  
                </tbody>

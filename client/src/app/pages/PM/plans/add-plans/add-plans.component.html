@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title"> {{'Add Projects' | translate}}</h5>
+        <h5 class="modal-title"> {{plan?'Update':'Add'}} Projects</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -115,8 +115,11 @@
 
                                 <div class="col-md-4">
                                     <div class="form-floating">
-                                        <app-autocomplete *ngIf="employeeList.length>0" [data]="employeeList"
+                                        <app-autocomplete *ngIf="employeeList.length>0 && !plan" [data]="employeeList" 
                                             placeHolder="Project Manager" (selectedItem)="selectEmployeePM($event)">
+                                        </app-autocomplete>
+                                        <app-autocomplete *ngIf="employeeList.length>0 && plan" [data]="employeeList" [selectedId]="plan?.ProjectManagerId?.toLowerCase() ?? ''"
+                                             (selectedItem)="selectEmployeePM($event)">
                                         </app-autocomplete>
                                     </div>
                                 </div>
@@ -124,8 +127,11 @@
 
                                 <div class="col-md-4" *ngIf="ptype.value=='0'">
                                     <div class="form-floating">
-                                        <app-autocomplete *ngIf="employeeList.length>0" [data]="employeeList"
+                                        <app-autocomplete *ngIf="employeeList.length>0 && !plan" [data]="employeeList"
                                             placeHolder="Finacne" (selectedItem)="selectEmployeeF($event)">
+                                        </app-autocomplete>
+                                        <app-autocomplete *ngIf="employeeList.length>0 && plan" [data]="employeeList"
+                                            [selectedId]="plan?.FinanceId?.toLowerCase() ?? ''" (selectedItem)="selectEmployeeF($event)">
                                         </app-autocomplete>
                                     </div>
                                 </div>
@@ -159,7 +165,8 @@
                         <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                                 (click)="closeModal()"> {{'Close' | translate}}</button>
                             <button type="button" type="submit" [disabled]="!planForm.valid"
-                                class="btn btn-success"> {{'Create' | translate}}</button>
+                            [class]="plan?'btn btn-outline-warning':  'btn btn-outline-primary'">
+                            {{plan?'Update':'Create'}}</button>
                         </div>
                     </form>
                 </div>

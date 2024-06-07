@@ -69,6 +69,7 @@ export class UserService {
       role : payLoad.role.split(","),
       EmployeeId:payLoad.EmployeeId,
       SubOrgId : payLoad.SubsidiaryOrganizationId,
+      StrucId:payLoad.StructureId,
       Photo : payLoad.Photo
     }
     console.log(user)

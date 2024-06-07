@@ -1,6 +1,7 @@
 import { TaskView } from "../tasks/task"
 
 export interface Plan {
+    Id?:string
     BudgetYearId: string
     HasTask: Boolean
     PlanName: string

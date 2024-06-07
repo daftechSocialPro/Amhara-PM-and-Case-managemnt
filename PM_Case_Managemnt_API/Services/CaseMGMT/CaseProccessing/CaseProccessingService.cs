@@ -175,6 +175,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 CaseHistory selectedHistory = _dbContext.CaseHistories.Find(caseCompleteDto.CaseHistoryId);
                 Guid UserId = Guid.Parse((await _authenticationContext.ApplicationUsers.Where(appUsr => appUsr.EmployeesId.Equals(selectedHistory.ToEmployeeId)).FirstAsync()).Id);
 
+                CaseHistory selectedHistoryCC = _dbContext.CaseHistories.Where(x => x.CaseId == selectedHistory.CaseId && x.ReciverType == ReciverType.Cc).FirstOrDefault();
                 if (selectedHistory.ToEmployeeId != caseCompleteDto.EmployeeId)
                     throw new Exception("You are unauthorized to complete this case.");
 
@@ -183,6 +184,9 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 selectedHistory.CompletedDateTime = DateTime.Now;
                 selectedHistory.Remark = caseCompleteDto.Remark;
 
+                selectedHistoryCC.AffairHistoryStatus = AffairHistoryStatus.Completed;
+                selectedHistoryCC.CompletedDateTime = DateTime.Now;
+                selectedHistoryCC.Remark = caseCompleteDto.Remark;
 
                 Case currentCase = await _dbContext.Cases.Include(x => x.Applicant).Include(x => x.Employee).FirstOrDefaultAsync(x => x.Id == selectedHistory.CaseId);
                 CaseHistory currentHist = await _dbContext.CaseHistories.Include(x => x.Case).Include(x => x.ToStructure).FirstOrDefaultAsync(x => x.Id == selectedHistory.Id);
@@ -191,6 +195,11 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 _dbContext.Entry(selectedHistory).Property(x => x.AffairHistoryStatus).IsModified = true;
                 _dbContext.Entry(selectedHistory).Property(x => x.CompletedDateTime).IsModified = true;
                 _dbContext.Entry(selectedHistory).Property(x => x.Remark).IsModified = true;
+
+                _dbContext.CaseHistories.Attach(selectedHistoryCC);
+                _dbContext.Entry(selectedHistoryCC).Property(x => x.AffairHistoryStatus).IsModified = true;
+                _dbContext.Entry(selectedHistoryCC).Property(x => x.CompletedDateTime).IsModified = true;
+                _dbContext.Entry(selectedHistoryCC).Property(x => x.Remark).IsModified = true;
                 //_dbContext.Entry(selectedHistory).Property(x => x.IsSmsSent).IsModified = true;
                 //_dbContext.SaveChanges();
 
@@ -247,7 +256,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 string name = currentCase.Applicant != null ? currentCase.Applicant.ApplicantName : currentCase.Employee.FullName;
                 string message = name + "\nበጉዳይ ቁጥር፡" + currentCase.CaseNumber + "\nየተመዘገበ ጉዳዮ በ፡" + currentHist.ToStructure.StructureName + " ተጠናቋል\nየቢሮ ቁጥር: - ";
 
-                await _smshelper.SendSmsForCase(message, currentHist.CaseId, currentHist.Id, UserId.ToString(), MessageFrom.Complete);
+                //await _smshelper.SendSmsForCase(message, currentHist.CaseId, currentHist.Id, UserId.ToString(), MessageFrom.Complete);
                 return 1;
 
             }
@@ -297,7 +306,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 string name = currentCase.Applicant != null ? currentCase.Applicant.ApplicantName : currentCase.Employee.FullName;
                 var message = name + "\nበጉዳይ ቁጥር፡" + currentCase.CaseNumber + "\nየተመዘገበ ጉዳዮ በ፡" + selectedHistory.ToStructure.StructureName + " ወደኋላ ተመልሷል  \nየቢሮ ቁጥር: -";
 
-                await _smshelper.SendSmsForCase(message, newHistory.CaseId, newHistory.Id, UserId.ToString(), MessageFrom.Revert);
+                //await _smshelper.SendSmsForCase(message, newHistory.CaseId, newHistory.Id, UserId.ToString(), MessageFrom.Revert);
                 return 1;
             }
             catch (Exception ex)
@@ -368,7 +377,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
                 string message = name + "\nበጉዳይ ቁጥር፡" + currentCase.CaseNumber + "\nየተመዘገበ ጉዳዮ ለ " + toStructure + " ተላልፏል\nየቢሮ ቁጥር:";
 
-                await _smshelper.SendSmsForCase(message, newHistory.CaseId, newHistory.Id, UserId.ToString(), MessageFrom.Transfer);
+                //await _smshelper.SendSmsForCase(message, newHistory.CaseId, newHistory.Id, UserId.ToString(), MessageFrom.Transfer);
                 return 1;
             }
             catch (Exception ex)

@@ -128,7 +128,8 @@ namespace PM_Case_Managemnt_API.Services.Auth
                         new Claim("EmployeeId",user.EmployeesId.ToString()),
                         new Claim("Photo",empPhoto),
                         new Claim(_options.ClaimsIdentity.RoleClaimType,str),
-                        new Claim("SubsidiaryOrganizationId",user.SubsidiaryOrganizationId.ToString())
+                        new Claim("SubsidiaryOrganizationId",user.SubsidiaryOrganizationId.ToString()),
+                        new Claim("StructureId",emp.OrganizationalStructureId.ToString())
                         }),
                         Expires = DateTime.UtcNow.AddDays(1),
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)

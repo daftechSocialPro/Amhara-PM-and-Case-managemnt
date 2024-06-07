@@ -127,7 +127,8 @@ export class AddKpiDetailComponent implements OnInit{
             KPIId : this.KpiId,
             CreatedBy: this.user.UserID,
             Goal: this.kpiDetailsForm.value.Goal,
-            Titles: this.kpiDetails
+            Titles: this.kpiDetails,
+
             
           }
           this.pmService.AddKPIDetail(kpiDetailData).subscribe({

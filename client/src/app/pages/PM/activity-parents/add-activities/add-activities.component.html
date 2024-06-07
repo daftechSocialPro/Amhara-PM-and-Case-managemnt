@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">{{activity ?'Update':'Add'}}  {{'Activity' | translate}}</h5>
+        <h5 class="modal-title"> {{'Activity' | translate}}</h5>
         <button type="button" class="btn-close" id="ModalClose" (click)="closeModal()" aria-label="Close"></button>
     </div>
 
@@ -190,8 +190,8 @@
                         <div class="modal-footer"> <button type="button" class="btn btn-secondary"
                                 (click)="closeModal()"> {{'Close' | translate}}</button>
                             <button type="button" type="submit" [disabled]="!activityForm.valid"
-                            [class]="activity?'btn btn-outline-warning':  'btn btn-outline-primary'">
-                            {{activity?'Update':'Create'}}</button>
+                            class='btn btn-outline-primary'>
+                            Submit</button>
                         </div>
                     </form>
                 </div>

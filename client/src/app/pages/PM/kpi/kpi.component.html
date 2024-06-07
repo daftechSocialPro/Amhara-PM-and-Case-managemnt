@@ -34,7 +34,7 @@
                            {{kpi.Title}}
                         </div>
                         <div style="text-align: right!important;">
-                           <span *ngIf="kpi.HasSubsidiaryOrganization"
+                           <span *ngIf="!kpi.HasSubsidiaryOrganization"
                               class="badge bg-success">{{kpi.AccessCode}}</span>
                         </div>
                      </div>

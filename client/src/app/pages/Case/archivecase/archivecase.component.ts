@@ -17,14 +17,13 @@ export class ArchivecaseComponent implements OnInit {
   user!:UserView
   ArchivedCases!: ICaseView[]
 
-  constructor(private caseService : CaseService,
-     private userService:UserService,
-     public  translate: TranslateService) { }
   constructor(
-    private caseService : CaseService, 
+    private caseService : CaseService,
     private userService:UserService,
     private modalService:NgbModal,
+    public  translate: TranslateService
   ) { }
+  
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
     this.getArchivedCases()

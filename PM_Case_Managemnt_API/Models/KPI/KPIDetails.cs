@@ -9,6 +9,7 @@ namespace PM_Case_Managemnt_API.Models.KPI
         public string? Title { get; set; }
         public string MainGoal { get; set; }
         public float StartYearProgress { get; set; }
+        public Guid? GoalId { get; set; }
         public List<KPIData>? KPIDatas { get; set; }
 
 

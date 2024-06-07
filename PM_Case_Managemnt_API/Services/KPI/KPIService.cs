@@ -144,7 +144,8 @@ namespace PM_Case_Managemnt_API.Services.KPI
 
                 var kpiDetails = new List<KPIDetails>();
 
-                
+                var goalId = Guid.NewGuid();
+
                 foreach (var k in kpiDetailsPost.Titles)
                 {
                     kpiDetails.Add(new KPIDetails
@@ -155,7 +156,8 @@ namespace PM_Case_Managemnt_API.Services.KPI
                         KPIId = kpiDetailsPost.KPIId,
                         MainGoal = kpiDetailsPost.Goal,
                         Title = k.Title,
-                        StartYearProgress = k.StartYearProgress
+                        StartYearProgress = k.StartYearProgress,
+                        GoalId = goalId
                     });
                 }
                 
@@ -278,16 +280,16 @@ namespace PM_Case_Managemnt_API.Services.KPI
                                                       activity => activity.KpiGoalId,
                                                       kpiDetail => kpiDetail.Id,
                                                       (activity, kpiDetail) => new { activity, kpiDetail.MainGoal })
-                                                .GroupBy(x => x.MainGoal)
+                                                .GroupBy(x => x.activity.KpiGoalId)
                                                 .Select(g => new GroupedKPIDetailsGetDto
                                                 {
-                                                    MainGoal = g.Key,
+                                                    MainGoal = g.First().activity.KpiGoal.MainGoal,
                                                     Details = g.Select(x => new KPIDetailsGetDto
                                                     {
                                                         Id = x.activity.Id,
                                                         Title = x.activity.ActivityDescription,
                                                         StartYearProgress = x.activity.Begining,
-                                                        MainGoal = g.Key,
+                                                        MainGoal = x.activity.KpiGoal.MainGoal,
                                                         KPIDatas = new List<KPIDataGetDto>  
                                                                 {
                                                                     new KPIDataGetDto
@@ -318,10 +320,10 @@ namespace PM_Case_Managemnt_API.Services.KPI
                 
                 kpis.KpiDetails = _dbContext.KPIDetails
                                 .Where (d => d.KPIId == kpis.Id)
-                                .GroupBy(d => d.MainGoal)
+                                .GroupBy(d => d.GoalId)
                                 .Select(group => new GroupedKPIDetailsGetDto
                                 {
-                                    MainGoal = group.Key,
+                                    MainGoal = group.First().MainGoal,
                                     Details = group.Select(d => new KPIDetailsGetDto
                                     {
                                         Id = d.Id,

@@ -70,7 +70,11 @@
                      </div>
                      <div class="col-lg-4" style="text-align: right!important;">
                         <button class="btn btn-primary text-end" (click)="routeToPlanDetail(plan.Id)"> Plan Detail
-                        </button>
+                        </button> 
+                        <button *ngIf="roleMatch(['Super Admin','PM Admin','Planner']) || this.user.StrucId.toLowerCase() === this.plan.StructureId?.toLowerCase()"  type="button" (click)="editPlan(plan)"
+                           class="btn btn-sm btn-outline-warning mt-1"><i class="bi bi-pencil"></i>  {{'Update' | translate}}</button> |
+                        <button *ngIf="roleMatch(['Super Admin','PM Admin','Planner']) || this.user.StrucId.toLowerCase() === this.plan.StructureId?.toLowerCase()"  type="button" (click)="deletePlan(plan.Id)"
+                           class="btn btn-sm btn-outline-danger mt-1"><i class="bi bi-trash"></i>  {{'Delete' | translate}}</button>
                      </div>
                   </div>
 

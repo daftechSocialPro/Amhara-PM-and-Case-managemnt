@@ -134,5 +134,10 @@ export class PlansComponent implements OnInit {
     this.router.navigate(['/planDetail', planId]);
   }
 
+  roleMatch (value : string[]){
+
+    return this.userService.roleMatch(value)
+  }
+  
 
 }
