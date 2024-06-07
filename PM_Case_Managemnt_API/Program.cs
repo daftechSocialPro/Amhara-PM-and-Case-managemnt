@@ -189,7 +189,7 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseAuthentication();
-
+app.UseAuthorization();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
