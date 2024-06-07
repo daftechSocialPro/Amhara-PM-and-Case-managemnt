@@ -6,21 +6,21 @@ namespace PM_Case_Managemnt_API.Services.PM.ProgressReport
     public interface IProgressReportService
     {
 
-        public Task<List<DiagramDto>> GetDirectorLevelPerformance(Guid subOrgId, Guid? BranchId);
-        public Task<PlanReportByProgramDto> PlanReportByProgram(Guid subOrgID, string BudgetYear, string ReportBy);
+        public Task<ResponseMessage<List<DiagramDto>>> GetDirectorLevelPerformance(Guid subOrgId, Guid? BranchId);
+        public Task<ResponseMessage<PlanReportByProgramDto>> PlanReportByProgram(Guid subOrgID, string BudgetYear, string ReportBy);
 
-        public Task<PlanReportDetailDto> StructureReportByProgram(string BudgetYear, string ProgramId, string ReportBy);
+        public Task<ResponseMessage<PlanReportDetailDto>> StructureReportByProgram(string BudgetYear, string ProgramId, string ReportBy);
 
-        public Task<PlannedReport> PlanReports(string BudgetYea, Guid selectStructureId, string ReportBy);
-        public Task<ProgresseReport> ProgresssReport(FilterationCriteria filterationCriteria);
+        public Task<ResponseMessage<PlannedReport>> PlanReports(string BudgetYea, Guid selectStructureId, string ReportBy);
+        public Task<ResponseMessage<ProgresseReport>> ProgresssReport(FilterationCriteria filterationCriteria);
 
-        public Task<ProgresseReportByStructure> GetProgressByStructure(int BudgetYea, Guid selectStructureId, string ReportBy);
+        public Task<ResponseMessage<ProgresseReportByStructure>> GetProgressByStructure(int BudgetYea, Guid selectStructureId, string ReportBy);
 
-        public Task<PerfomanceReport> PerformanceReports(FilterationCriteria filterationCriteria);
+        public Task<ResponseMessage<PerfomanceReport>> PerformanceReports(FilterationCriteria filterationCriteria);
 
-        public Task<List<ActivityProgressViewModel>> GetActivityProgress(Guid? activityId);
+        public Task<ResponseMessage<List<ActivityProgressViewModel>>> GetActivityProgress(Guid? activityId);
 
-        public Task<List<EstimatedCostDto>> GetEstimatedCost(Guid structureId, int budegtYear);
+        public Task<ResponseMessage<List<EstimatedCostDto>>> GetEstimatedCost(Guid structureId, int budegtYear);
 
 
     }
