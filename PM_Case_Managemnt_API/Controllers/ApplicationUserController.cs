@@ -77,7 +77,6 @@ namespace PM_Case_Managemnt_API.Controllers
         }
 
         [HttpGet("users")]
-
         public async Task<IActionResult> getUsers(Guid subOrgId)
         {
 

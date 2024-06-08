@@ -15,7 +15,5 @@ namespace PM_Case_Managemnt_API.Models.Auth
         public Guid EmployeeId { get; set; }
         public Guid SubsidiaryOrganizationId { get; set; }
 
-
-
     }
 }
