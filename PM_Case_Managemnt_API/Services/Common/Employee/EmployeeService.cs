@@ -212,8 +212,8 @@ namespace PM_Case_Managemnt_API.Services.Common
                 int workLoad = 0;
                 foreach (var affair in affairs)
                 {
-                    var maxChild = _dBContext.CaseHistories.Where(x=>x.CaseId == affair.Id && x.ReciverType== ReciverType.Orginal).OrderByDescending(z => z.childOrder).FirstOrDefault().childOrder;
-                    workLoad += _dBContext.CaseHistories.Count(y => y.ToEmployeeId == emp.Id && (y.childOrder == maxChild) && y.CaseId == affair.Id && y.ReciverType == ReciverType.Orginal);
+                    var maxChild = _dBContext.CaseHistories.Where(x=>x.CaseId == affair.Id && x.ReciverType== ReciverType.Orginal).OrderByDescending(z => z.ChildOrder).FirstOrDefault().ChildOrder;
+                    workLoad += _dBContext.CaseHistories.Count(y => y.ToEmployeeId == emp.Id && (y.ChildOrder == maxChild) && y.CaseId == affair.Id && y.ReciverType == ReciverType.Orginal);
                 }
                 emp.Name += " ( " + workLoad.ToString() + " Total Tasks )";
 

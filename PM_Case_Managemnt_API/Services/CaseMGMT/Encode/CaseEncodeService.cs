@@ -529,7 +529,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
                         ToEmployee = x.ToEmployee.FullName,
                         ToStructure = x.ToStructure.StructureName,
                         AffairHistoryStatus = x.AffairHistoryStatus.ToString(),
-                        ChildOrder = x.childOrder
+                        ChildOrder = x.ChildOrder
                     }).OrderByDescending(x => x.ChildOrder)
                         .ToListAsync();
 

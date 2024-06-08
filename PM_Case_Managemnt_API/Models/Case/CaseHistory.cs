@@ -49,7 +49,7 @@ namespace PM_Case_Managemnt_API.Models.CaseModel
      
         public virtual ICollection<CaseHistoryAttachment> Attachments { get; set; }
 
-        public int childOrder { get; set; }
+        public int ChildOrder { get; set; }
     }
 
    

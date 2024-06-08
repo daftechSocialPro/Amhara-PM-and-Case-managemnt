@@ -21,11 +21,16 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
             _authenticationContext = authenticationContext;
         }
 
-        public async Task<List<CaseEncodeGetDto>> GetNotCompletedCases(Guid subOrgId)
+       public async Task<List<CaseEncodeGetDto>> GetNotCompletedCases(Guid subOrgId)
+    {
+        try
         {
-            try
-            {
-                List<CaseEncodeGetDto> cases = await _dbContext.Cases.Where(ca => ca.AffairStatus != AffairStatus.Completed && ca.SubsidiaryOrganizationId == subOrgId).Include(p => p.Employee).Include(p => p.CaseType).Include(p => p.Applicant).Select(st => new CaseEncodeGetDto
+            var cases = await _dbContext.Cases
+                .Where(ca => ca.AffairStatus != AffairStatus.Completed && ca.SubsidiaryOrganizationId == subOrgId)
+                .Include(p => p.Employee)
+                .Include(p => p.CaseType)
+                .Include(p => p.Applicant)
+                .Select(st => new CaseEncodeGetDto
                 {
                     Id = st.Id,
                     CaseNumber = st.CaseNumber,
@@ -37,131 +42,155 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                     ApplicantPhoneNo = st.Applicant.PhoneNumber,
                     EmployeePhoneNo = st.Employee.PhoneNumber,
                     CreatedAt = st.CreatedAt.ToString(),
-                    ToEmployeeId = _dbContext.CaseHistories.Where(x => x.CaseId == st.Id).FirstOrDefault().ToEmployeeId != null ?
-                    _dbContext.CaseHistories.Include(x => x.ToEmployee).Where(x => x.CaseId == st.Id).OrderByDescending(x => x.childOrder).FirstOrDefault().ToEmployee.FullName : "Not Assinged"
+                    ToEmployeeId = _dbContext.CaseHistories
+                        .Where(x => x.CaseId == st.Id)
+                        .OrderByDescending(x => x.ChildOrder)
+                        .Select(x => x.ToEmployee.FullName)
+                        .FirstOrDefault() ?? "Not Assigned"
+                })
+                .ToListAsync();
 
-                }).ToListAsync();
-
-                return cases;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
+            return cases;
         }
-
-
-        public async Task IssueCase(CaseIssueDto caseAssignDto)
+        catch (Exception ex)
         {
-            try
+            throw new Exception("Error retrieving not completed cases", ex);
+        }
+    }
+
+
+       public async Task IssueCase(CaseIssueDto caseAssignDto)
+    {
+        try
+        {
+            // Fetch the user ID of the employee who is assigning the case
+            var user = await _authenticationContext.ApplicationUsers
+                .FirstOrDefaultAsync(x => x.EmployeesId == caseAssignDto.AssignedByEmployeeId);
+
+            if (user == null)
             {
-                string userId = _authenticationContext.ApplicationUsers.Where(x => x.EmployeesId == caseAssignDto.AssignedByEmployeeId).FirstOrDefault().Id;
-                //Case caseToAssign = await _dbContext.Cases.SingleOrDefaultAsync(el => el.Id.Equals(caseAssignDto.CaseId));
-                // CaseHistory caseHistory = await _dbContext.CaseHistories.SingleOrDefaultAsync(el => el.CaseId.Equals(caseAssignDto.CaseId));
+                throw new Exception("Assigned by employee not found.");
+            }
 
-                var toEmployee = caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null ?
-             _dbContext.Employees.FirstOrDefault(
-                 e =>
-                     e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId &&
-                     e.Position == Position.Director).Id : caseAssignDto.AssignedToEmployeeId;
+            string userId = user.Id;
 
-                var toEmployeeCC =
-                _dbContext.Employees.FirstOrDefault(
-                    e =>
-                        e.OrganizationalStructureId == caseAssignDto.ForwardedToStructureId &&
-                        e.Position == Position.Director).Id;
-                //Case currCase = await _dbContext.Cases.SingleOrDefaultAsync(el => el.Id.Equals(caseAssignDto.CaseId));
-                //currCase.AffairStatus = AffairStatus.Assigned;
+            // Determine the employee to assign the case to
+            var toEmployeeId = caseAssignDto.AssignedToEmployeeId == Guid.Empty
+                ? await _dbContext.Employees
+                    .Where(e => e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId && e.Position == Position.Director)
+                    .Select(e => e.Id)
+                    .FirstOrDefaultAsync()
+                : caseAssignDto.AssignedToEmployeeId;
 
-                //_dbContext.Entry(currCase).Property(curr => curr.AffairStatus).IsModified = true;
-                //await _dbContext.SaveChangesAsync();
-                var issueCase = new CaseIssue
+            if (toEmployeeId == Guid.Empty)
+            {
+                throw new Exception("Assigned to employee not found.");
+            }
+
+            // Determine the CC employee
+            var toEmployeeCCId = await _dbContext.Employees
+                .Where(e => e.OrganizationalStructureId == caseAssignDto.ForwardedToStructureId && e.Position == Position.Director)
+                .Select(e => e.Id)
+                .FirstOrDefaultAsync();
+
+            if (toEmployeeCCId == Guid.Empty)
+            {
+                throw new Exception("Forwarded to employee not found.");
+            }
+
+            // Create the new case issue
+            var issueCase = new CaseIssue
+            {
+                Id = Guid.NewGuid(),
+                Remark = caseAssignDto.Remark,
+                CreatedAt = DateTime.Now,
+                CreatedBy = Guid.Parse(userId),
+                RowStatus = RowStatus.Active,
+                CaseId = caseAssignDto.CaseId,
+                AssignedByEmployeeId = caseAssignDto.AssignedByEmployeeId,
+                AssignedToStructureId = caseAssignDto.AssignedToStructureId,
+                AssignedToEmployeeId = toEmployeeId,
+                ForwardedToEmployeeId = toEmployeeCCId
+            };
+
+            await _dbContext.CaseIssues.AddAsync(issueCase);
+            await _dbContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error issuing case", ex);
+        }
+    }
+
+
+    public async Task<List<CaseEncodeGetDto>> GetAll(Guid? employeeId)
+    {
+        try
+        {
+            var casesQuery = _dbContext.CaseIssues
+                .Include(x => x.AssignedByEmployee.OrganizationalStructure)
+                .Include(x => x.AssignedToEmployee.OrganizationalStructure)
+                .Include(x => x.Case.Applicant)
+                .Include(x => x.Case.Employee)
+                .Where(ca => ca.IssueStatus == IssueStatus.Assigned && 
+                            (ca.AssignedByEmployeeId == employeeId || 
+                            ca.AssignedToEmployeeId == employeeId || 
+                            ca.ForwardedToEmployeeId == employeeId))
+                .Select(st => new CaseEncodeGetDto
                 {
-                    Id = Guid.NewGuid(),
-                    Remark = caseAssignDto.Remark,
-                    CreatedAt = DateTime.Now,
-                    CreatedBy = Guid.Parse(userId),
-                    RowStatus = RowStatus.Active,
-                    CaseId = caseAssignDto.CaseId,
-                    AssignedByEmployeeId = caseAssignDto.AssignedByEmployeeId,
-                    AssignedToStructureId = caseAssignDto.AssignedToStructureId,
-                    AssignedToEmployeeId = toEmployee,
-                    ForwardedToEmployeeId = toEmployeeCC
+                    Id = st.Id,
+                    CaseNumber = st.Case.CaseNumber,
+                    LetterNumber = st.Case.LetterNumber,
+                    LetterSubject = st.Case.LetterSubject,
+                    CaseTypeName = st.Case.CaseType.CaseTypeTitle,
+                    ApplicantName = st.Case.Applicant.ApplicantName,
+                    EmployeeName = st.Case.Employee.FullName,
+                    ApplicantPhoneNo = st.Case.Applicant.PhoneNumber,
+                    EmployeePhoneNo = st.Case.Employee.PhoneNumber,
+                    Remark = st.Remark,
+                    CreatedAt = st.CreatedAt.ToString("O"),
+                    IssueStatus = st.IssueStatus.ToString(),
+                    AssignedTo = $"{st.AssignedToEmployee.FullName} ({st.AssignedToEmployee.OrganizationalStructure.StructureName})",
+                    AssignedBy = $"{st.AssignedByEmployee.FullName} ({st.AssignedByEmployee.OrganizationalStructure.StructureName})",
+                    IssueAction = st.AssignedToEmployeeId == employeeId
+                });
 
-
-
-                };
-                _dbContext.CaseIssues.Add(issueCase);
-                _dbContext.SaveChanges();
-
-
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            var cases = await casesQuery.ToListAsync();
+            return cases;
         }
-
-
-        public async Task<List<CaseEncodeGetDto>> GetAll(Guid? employeeId)
+        catch (Exception ex)
         {
-            try
-            {
-                List<CaseEncodeGetDto> cases = await _dbContext.CaseIssues.
-                    Include(x => x.AssignedByEmployee.OrganizationalStructure).
-                    Include(x => x.AssignedToEmployee.OrganizationalStructure).
-                    Include(x => x.Case.Applicant).
-                    Include(x => x.Case.Employee).
-                    Where(ca => ca.IssueStatus.Equals(IssueStatus.Assigned) &&
-                    (ca.AssignedByEmployeeId == employeeId || ca.AssignedToEmployeeId == employeeId || ca.ForwardedToEmployeeId == employeeId)).Select(st => new CaseEncodeGetDto
-                    {
-                        Id = st.Id,
-                        CaseNumber = st.Case.CaseNumber,
-                        LetterNumber = st.Case.LetterNumber,
-                        LetterSubject = st.Case.LetterSubject,
-                        CaseTypeName = st.Case.CaseType.CaseTypeTitle,
-                        ApplicantName = st.Case.Applicant.ApplicantName,
-                        EmployeeName = st.Case.Employee.FullName,
-                        ApplicantPhoneNo = st.Case.Applicant.PhoneNumber,
-                        EmployeePhoneNo = st.Case.Employee.PhoneNumber,
-                        Remark = st.Remark,
-                        CreatedAt = st.CreatedAt.ToString(),
-                        IssueStatus = st.IssueStatus.ToString(),
-                        AssignedTo = st.AssignedToEmployee.FullName + " (" + st.AssignedToEmployee.OrganizationalStructure.StructureName + ")",
-                        AssignedBy = st.AssignedByEmployee.FullName + " (" + st.AssignedByEmployee.OrganizationalStructure.StructureName + ")",
-                        IssueAction = st.AssignedToEmployeeId == employeeId ? true : false,
-
-                    }).ToListAsync();
-
-                return cases;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            throw new Exception("Error retrieving cases", ex);
         }
+    }
 
 
-        public async Task TakeAction(CaseIssueActionDto  caseActionDto)
+
+    public async Task TakeAction(CaseIssueActionDto caseActionDto)
+    {
+        try
         {
-
-            try
+            var issueCase = await _dbContext.CaseIssues.FindAsync(caseActionDto.IssueCaseId);
+            if (issueCase == null)
             {
-                var issueCase = _dbContext.CaseIssues.Find(caseActionDto.issueCaseId);
-                issueCase.IssueStatus = Enum.Parse<IssueStatus>(caseActionDto.action);
-                _dbContext.Entry(issueCase).Property(curr => curr.IssueStatus).IsModified = true;
-                _dbContext.SaveChanges();
+                throw new Exception("Case issue not found.");
             }
 
-
-
-            catch (Exception ex)
+            if (!Enum.TryParse<IssueStatus>(caseActionDto.Action, out var newStatus))
             {
-                throw new Exception(ex.Message);
+                throw new Exception("Invalid action provided.");
             }
+
+            issueCase.IssueStatus = newStatus;
+            _dbContext.Entry(issueCase).Property(curr => curr.IssueStatus).IsModified = true;
+            await _dbContext.SaveChangesAsync();
         }
+        catch (Exception ex)
+        {
+            throw new Exception("Error taking action on case issue", ex);
+        }
+    }
+
 
     }
 }

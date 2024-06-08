@@ -7,6 +7,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseAttachments
         public Task AddMany(List<CaseAttachment> caseAttachments);
         public Task<List<CaseAttachment>> GetAll(Guid subOrgId, string CaseId = null);
 
-        public bool RemoveAttachment(Guid attachmentId);
+        public Task<bool> RemoveAttachment(Guid attachmentId);
     }
 }

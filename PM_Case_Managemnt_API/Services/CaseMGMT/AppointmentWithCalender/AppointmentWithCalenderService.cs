@@ -72,9 +72,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
                 ev.name = "Appointment " ;
 
 
-
-
-
                 return ev;
             }
             catch (Exception ex)
@@ -85,30 +82,28 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
 
         public async Task<List<AppointmentGetDto>> GetAll(Guid employeeId)
         {
+            //TODO: Better error handling and logging
             try
             {
 
                 List<AppointmentGetDto> Events = new List<AppointmentGetDto>();
-              
-                var appointements = _dbContext.AppointementWithCalender.Where(x => x.EmployeeId == employeeId).Include(a => a.Case).ToList();
-                appointements.ForEach(a =>
+
+                var appointments = await _dbContext.AppointementWithCalender
+                    .Where(x => x.EmployeeId == employeeId)
+                    .Include(a => a.Case)
+                    .ToListAsync();
+
+                var events = appointments.Select(a => new AppointmentGetDto
                 {
-                    var ev = new AppointmentGetDto();
-                    ev.id =a.Id.ToString();
-                    ev.description = "Appointment with " + a?.Case?.Applicant?.ApplicantName + " at " + a.Time + "\n Affair Number " + a.Case.CaseNumber;
-                    ev.date = a.AppointementDate.ToString();
-                    ev.everyYear = false;
-                    ev.type = "event";
-                    ev.name = string.IsNullOrEmpty(a.Remark) ? "Appointment " : a.Remark;
-                    Events.Add(ev);
-                });
-             
+                    id = a.Id.ToString(),
+                    description = $"Appointment with {a.Case?.Applicant?.ApplicantName ?? "Unknown"} at {a.Time}\n Affair Number {a.Case?.CaseNumber}",
+                    date = a.AppointementDate.ToString(),
+                    everyYear = false,
+                    type = "event",
+                    name = string.IsNullOrEmpty(a.Remark) ? "Appointment" : a.Remark
+                }).ToList();
+
                 return Events;
-
-
-
-
-
                
             } catch(Exception ex) {
                 throw new Exception(ex.Message);

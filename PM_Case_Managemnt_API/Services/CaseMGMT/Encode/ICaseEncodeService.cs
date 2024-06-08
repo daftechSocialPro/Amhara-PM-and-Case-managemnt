@@ -10,7 +10,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
         public Task<List<CaseEncodeGetDto>> GetAll(Guid userId);
         public Task<CaseEncodeGetDto> GetSingleCase(Guid caseId);
         public Task<string> GetCaseNumber(Guid subOrgId);
-        public Task<List<CaseEncodeGetDto>> GetAllTransfred(Guid employeeId);
+        public Task<List<CaseEncodeGetDto>> GetAllTransferred(Guid employeeId);
         public Task<List<CaseEncodeGetDto>> MyCaseList(Guid employeeId);
 
         public Task<List<CaseEncodeGetDto>> CompletedCases(Guid subOrgId);

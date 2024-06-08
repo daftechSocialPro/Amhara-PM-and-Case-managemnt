@@ -488,7 +488,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
 
             var caseTypeDuration = 0.0;
-            var casetype = caseTypes.Where(x => x.OrderNumber == history.childOrder + 1).FirstOrDefault();
+            var casetype = caseTypes.Where(x => x.OrderNumber == history.ChildOrder + 1).FirstOrDefault();
 
             if (casetype != null)
             {

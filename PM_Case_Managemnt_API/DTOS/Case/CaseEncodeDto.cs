@@ -135,8 +135,8 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
     public class CaseIssueActionDto
     { 
         
-        public Guid issueCaseId { get; set; }
-        public string action { get; set; }
+        public Guid IssueCaseId { get; set; }
+        public required string Action { get; set; }
          
 
     }

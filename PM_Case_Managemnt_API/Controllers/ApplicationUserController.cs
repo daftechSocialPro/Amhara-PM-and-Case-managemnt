@@ -12,13 +12,11 @@ namespace PM_Case_Managemnt_API.Controllers
         IAuthenticationService _authenticationService;
 
 
-
         public ApplicationUserController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
         }
        
-
 
         [HttpPost]
         [Route("Register")]

@@ -266,7 +266,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                 var affairTypes = _db.CaseTypes.Where(x => x.ParentCaseTypeId == af.CaseTypeId).ToList();
                 foreach (var childaffair in affairTypes)
                 {
-                    int childcount = his.childOrder;
+                    int childcount = his.ChildOrder;
 
                     if (childaffair.OrderNumber == childcount)
                     {
@@ -543,7 +543,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                     Remark = "",
                     CaseId = selectedHistory.CaseId,
                     ReciverType = ReciverType.Orginal,
-                    childOrder = selectedHistory.childOrder += 1,
+                    ChildOrder = selectedHistory.ChildOrder += 1,
                 };
 
 
@@ -605,7 +605,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
             foreach (var childaffair in affairtypes)
             {
-                int childcount = affairHistory.childOrder + 1;
+                int childcount = affairHistory.ChildOrder + 1;
 
                 if (childaffair.OrderNumber == childcount)
                 {
@@ -720,7 +720,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                     CaseId = currentLastHistory.CaseId,
                     ReciverType = ReciverType.Orginal,
                     CaseTypeId = currentLastHistory.CaseTypeId,
-                    childOrder = currentLastHistory.childOrder + 1
+                    ChildOrder = currentLastHistory.ChildOrder + 1
                     //must be change
                 };
 
@@ -797,7 +797,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                 Guid affairId = Guid.Parse(message.affairId);
 
                 var affair = _db.Cases.Find(affairId);
-                var currcaseHist = _db.CaseHistories.Where(x => x.CaseId == affairId).OrderByDescending(x => x.childOrder).FirstOrDefault();
+                var currcaseHist = _db.CaseHistories.Where(x => x.CaseId == affairId).OrderByDescending(x => x.ChildOrder).FirstOrDefault();
                 if (affair != null)
                 {
 

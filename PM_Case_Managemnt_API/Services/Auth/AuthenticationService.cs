@@ -369,6 +369,7 @@ namespace PM_Case_Managemnt_API.Services.Auth
                     Success = false
                 };
             }
+            
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             var result = await _userManager.ResetPasswordAsync(user, resetToken, model.NewPassword);
             // var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);

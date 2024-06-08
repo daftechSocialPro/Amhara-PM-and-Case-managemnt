@@ -3,6 +3,8 @@ using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.Models.CaseModel;
 
 namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseAttachments
+
+// TODO; consider LINQ
 {
     public class CaseAttachementService: ICaseAttachementService
     {
@@ -17,47 +19,55 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseAttachments
         {
             try
             {
-                await _dBContext.AddRangeAsync(caseAttachments);
+                _dBContext.CaseAttachments.AddRange(caseAttachments);
                 await _dBContext.SaveChangesAsync();
-            } catch (Exception ex)
-            {
-                throw new Exception("Error adding attachemnts");
-            }
-        }
-
-        public async Task<List<CaseAttachment>> GetAll(Guid subOrgId, string CaseId = null)
-        {
-            try
-            {
-                List<CaseAttachment> attachemnts = new List<CaseAttachment>();
-
-                if (CaseId == null)
-                    attachemnts = await _dBContext.CaseAttachments.Where(x => x.Case.SubsidiaryOrganizationId == subOrgId).ToListAsync();
-                else
-                    attachemnts = await _dBContext.CaseAttachments.Where(el => el.CaseId.Equals(Guid.Parse(CaseId))).ToListAsync();
-
-                return attachemnts;
-            } catch(Exception ex) {
-                throw new Exception("Error Getting Attachments");
-            }
-        }
-
-        public bool RemoveAttachment(Guid attachmentId)
-        {
-
-            try
-            {
-                var case1 = _dBContext.CaseAttachments.Find(attachmentId);
-
-                _dBContext.CaseAttachments.Remove(case1!);
-                _dBContext.SaveChanges();
-
-                return true;
             }
             catch (Exception ex)
             {
-                throw new Exception();
+                throw new Exception("Error adding attachments", ex);
             }
         }
+
+        public async Task<List<CaseAttachment>> GetAll(Guid subOrgId, string? CaseId = null)
+        {
+            try
+            {
+                IQueryable<CaseAttachment> query = _dBContext.CaseAttachments;
+
+                if (CaseId != null)
+                    query = query.Where(el => el.CaseId == Guid.Parse(CaseId));
+                else
+                    query = query.Where(x => x.Case.SubsidiaryOrganizationId == subOrgId);
+
+                return await query.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting attachments", ex);
+            }
+        }
+
+        public async Task<bool> RemoveAttachment(Guid attachmentId)
+        {
+            try
+            {
+                var attachment = await _dBContext.CaseAttachments.FindAsync(attachmentId);
+                
+                if (attachment == null)
+                    return false;
+
+                _dBContext.CaseAttachments.Remove(attachment);
+                await _dBContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Error removing attachment", ex);
+    
+            }
+        }
+
     }
 }

@@ -1,11 +1,12 @@
-﻿using PM_Case_Managemnt_API.DTOS.CaseDto;
+﻿using PM_Case_Managemnt_API.DTOS.Case;
+using PM_Case_Managemnt_API.DTOS.CaseDto;
 
 namespace PM_Case_Managemnt_API.Services.CaseMGMT
 {
     public interface ICaseProccessingService
     {
 
-        public Task<int> ConfirmTranasaction(ConfirmTranscationDto confirmTranscationDto);
+        public Task<int> ConfirmTransaction(ConfirmTranscationDto confirmTranscationDto);
         public Task<int> AssignTask(CaseAssignDto caseAssignDto);
         public Task<int> CompleteTask(CaseCompleteDto caseCompleteDto);
         public Task<int> RevertTask(CaseRevertDto revertAffair);
@@ -19,6 +20,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         public Task<int> ArchiveCase(ArchivedCaseDto archivedCaseDto);
         public Task<CaseState> GetCaseState(Guid CaseTypeId, Guid caseHistoryId);
 
-        public Task<bool> Ispermitted(Guid employeeId, Guid caseId);
+        public Task<bool> IsPermitted(Guid employeeId, Guid caseId);
     }
 }
