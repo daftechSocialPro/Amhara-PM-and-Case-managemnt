@@ -134,7 +134,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
 
                             //}
                         }
-                        var assigndCase = await GetAllTransfred(emp.Id);
+                        var assigndCase = await GetAllTransferred(emp.Id);
 
 
                         await _encoderHub.Clients.Group(emp.Id.ToString()).getNotification(assigndCase, emp.Id.ToString());
@@ -332,7 +332,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.Encode
 
         }
 
-        public async Task<List<CaseEncodeGetDto>> GetAllTransfred(Guid employeeId)
+        public async Task<List<CaseEncodeGetDto>> GetAllTransferred(Guid employeeId)
 
 
         {

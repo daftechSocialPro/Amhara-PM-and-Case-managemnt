@@ -34,7 +34,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
             try
             {
-                return Ok(await _caseProcessingService.ConfirmTranasaction(confirmTranscationDto));
+                return Ok(await _caseProcessingService.ConfirmTransaction(confirmTranscationDto));
             }
             catch (Exception ex)
             {
@@ -331,7 +331,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
             try
             {
                 
-                return Ok(await _caseProcessingService.Ispermitted(employeeId, caseId));
+                return Ok(await _caseProcessingService.IsPermitted(employeeId, caseId));
 
             }
             catch (Exception ex)
