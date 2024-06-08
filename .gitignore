@@ -11,7 +11,7 @@
 *.sln.docstates
 
 # Ignore sensitive data in appsettings.json file
-*.PM_Case_Managemnt_API/appsettings.json
+PM_Case_Managemnt_API/appsettings.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
