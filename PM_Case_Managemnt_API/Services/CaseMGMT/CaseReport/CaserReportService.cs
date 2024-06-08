@@ -15,85 +15,90 @@ using String = System.String;
 namespace PM_Case_Managemnt_API.Services.CaseMGMT
 {
     public class CaserReportService : ICaseReportService
-    {
-
-        private readonly DBContext _dbContext;
-        private Random rnd = new Random();
-        public CaserReportService(DBContext dbContext)
         {
-            _dbContext = dbContext;
-        }
+
+            private readonly DBContext _dbContext;
+            private Random rnd = new Random();
+            public CaserReportService(DBContext dbContext)
+            {
+                _dbContext = dbContext;
+            }
         public async Task<List<CaseReportDto>> GetCaseReport(Guid subOrgId, string? startAt, string? endAt)
+    {
+        DateTime? startDate = null;
+        DateTime? endDate = null;
+
+        if (!string.IsNullOrEmpty(startAt))
         {
-
-            var allAffairs = _dbContext.Cases.Where(x => x.SubsidiaryOrganizationId == subOrgId).Include(a => a.CaseType)
-               .Include(a => a.CaseHistories).ToList();
-
-            if (!string.IsNullOrEmpty(startAt))
-            {
-                string[] startDate = startAt.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-                DateTime MDateTime = Convert.ToDateTime(XAPI.EthiopicDateTime.GetGregorianDate(Int32.Parse(startDate[1]), Int32.Parse(startDate[0]), Int32.Parse(startDate[2])));
-                allAffairs = allAffairs.Where(x => x.CreatedAt >= MDateTime).ToList();
-            }
-
-            if (!string.IsNullOrEmpty(endAt))
-            {
-
-                string[] endDate = endAt.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-                DateTime MDateTime = Convert.ToDateTime(XAPI.EthiopicDateTime.GetGregorianDate(Int32.Parse(endDate[1]), Int32.Parse(endDate[0]), Int32.Parse(endDate[2])));
-                allAffairs = allAffairs.Where(x => x.CreatedAt <= MDateTime).ToList();
-            }
-
-
-            var report = new List<CaseReportDto>();
-            foreach (var affair in allAffairs.ToList())
-            {
-                var eachReport = new CaseReportDto();
-                eachReport.Id = affair.Id;
-                eachReport.CaseType = affair.CaseType.CaseTypeTitle;
-                eachReport.CaseNumber = affair.CaseNumber;
-                eachReport.Subject = affair.LetterSubject;
-                eachReport.IsArchived = affair.IsArchived.ToString();
-                var firstOrDefault = affair.CaseHistories.OrderByDescending(x => x.CreatedAt)
-                    .FirstOrDefault();
-                if (firstOrDefault != null)
-                    eachReport.OnStructure = _dbContext.OrganizationalStructures.Find(firstOrDefault
-                            .ToStructureId).StructureName;
-                var affairHistory = affair.CaseHistories.OrderByDescending(x => x.CreatedAt)
-                    .FirstOrDefault();
-                if (affairHistory != null)
-                    eachReport.OnEmployee = _dbContext.Employees.Find(affairHistory
-                            .ToEmployeeId).FullName;
-                eachReport.CaseStatus = affair.AffairStatus.ToString();
-                report.Add(eachReport);
-                eachReport.CreatedDateTime = affair.CreatedAt;
-                eachReport.CaseCounter = affair.CaseType.Counter;
-                var change = DateTime.Now.Subtract(eachReport.CreatedDateTime).TotalHours;
-                if (affair.AffairStatus == AffairStatus.Completed)
-                {
-                    var completedAt =
-                        affair.CaseHistories
-                            .FirstOrDefault(x => x.AffairHistoryStatus == AffairHistoryStatus.Completed).CompletedDateTime;
-                    if (completedAt != null)
-                    {
-                        change = completedAt.Value.Subtract(eachReport.CreatedDateTime).TotalHours;
-                    }
-                }
-                var d = change;
-                d = Math.Round((Double)d, 2);
-                eachReport.ElapsTime = d;
-
-            }
-            //if (affairStatus != null)
-            //{
-            //    report = affairStatus == AffairStatus.Completed ? report.OrderBy(x => x.ElapsTime).ToList() : report.OrderByDescending(x => x.ElapsTime).ToList();
-            //}
-            var AllReport = report.OrderByDescending(x => x.CreatedDateTime).ToList();
-            return AllReport;
-
-
-
+            string[] startDateParts = startAt.Split('/');
+            startDate = XAPI.EthiopicDateTime.GetGregorianDate(int.Parse(startDateParts[1]), int.Parse(startDateParts[0]), int.Parse(startDateParts[2]));
         }
+
+        if (!string.IsNullOrEmpty(endAt))
+        {
+            string[] endDateParts = endAt.Split('/');
+            endDate = XAPI.EthiopicDateTime.GetGregorianDate(int.Parse(endDateParts[1]), int.Parse(endDateParts[0]), int.Parse(endDateParts[2]));
+        }
+
+        var casesQuery = _dbContext.Cases
+            .Where(x => x.SubsidiaryOrganizationId == subOrgId)
+            .Include(x => x.CaseType)
+            .Include(x => x.CaseHistories)
+            .ThenInclude(x => x.ToStructure)
+            .Include(x => x.CaseHistories)
+            .ThenInclude(x => x.ToEmployee);
+
+        if (startDate.HasValue)
+        {
+            casesQuery = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Case, Employee>)casesQuery.Where(x => x.CreatedAt >= startDate.Value);
+        }
+
+        if (endDate.HasValue)
+        {
+            casesQuery = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Case, Employee>)casesQuery.Where(x => x.CreatedAt <= endDate.Value);
+        }
+
+        var allAffairs = await casesQuery.ToListAsync();
+
+        var report = allAffairs.Select(affair => new CaseReportDto
+        {
+            Id = affair.Id,
+            CaseType = affair.CaseType.CaseTypeTitle,
+            CaseNumber = affair.CaseNumber,
+            Subject = affair.LetterSubject,
+            IsArchived = affair.IsArchived.ToString(),
+            OnStructure = affair.CaseHistories
+                .OrderByDescending(x => x.CreatedAt)
+                .FirstOrDefault()?
+                .ToStructure?
+                .StructureName ?? "Unknown",
+            OnEmployee = affair.CaseHistories
+                .OrderByDescending(x => x.CreatedAt)
+                .FirstOrDefault()?
+                .ToEmployee?
+                .FullName ?? "Unknown",
+            CaseStatus = affair.AffairStatus.ToString(),
+            CreatedDateTime = affair.CreatedAt,
+            CaseCounter = affair.CaseType.Counter,
+            ElapsTime = GetElapsedTime(affair)
+        }).OrderByDescending(x => x.CreatedDateTime).ToList();
+
+        return report;
+    }
+
+    private static double GetElapsedTime(Case affair)
+    {
+        var createdAt = affair.CreatedAt;
+        var completedHistory = affair.CaseHistories.FirstOrDefault(x => x.AffairHistoryStatus == AffairHistoryStatus.Completed);
+        var completedAt = completedHistory?.CompletedDateTime;
+
+        var elapsedTime = completedAt.HasValue
+            ? completedAt.Value.Subtract(createdAt).TotalHours
+            : DateTime.Now.Subtract(createdAt).TotalHours;
+
+        return Math.Round(elapsedTime, 2);
+    }
+
 
         public async Task<CaseReportChartDto> GetCasePieChart(Guid subOrgId, string? startAt, string? endAt)
         {
@@ -153,71 +158,68 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 datas.hoverBackgroundColor.Add(randomColor);
 
 
-                Chart.datasets.Add(datas);
-
-
-
+                Chart.datasets.Add(datas); 
+                
             }
 
 
             return Chart;
         }
 
-        public async Task<CaseReportChartDto> GetCasePieCharByCaseStatus(Guid subOrgId, string? startAt, string? endAt)
+    public async Task<CaseReportChartDto> GetCasePieCharByCaseStatus(Guid subOrgId, string? startAt, string? endAt)
+    
+    {
+        DateTime? startDate = null;
+        DateTime? endDate = null;
+
+        if (!string.IsNullOrEmpty(startAt))
         {
-
-
-            var allAffairs = _dbContext.Cases.Where(x => x.CaseNumber != null && x.SubsidiaryOrganizationId == subOrgId);
-
-
-
-
-
-            var caseCount = allAffairs.Count();
-
-
-            if (!string.IsNullOrEmpty(startAt))
-            {
-                string[] startDate = startAt.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-                DateTime MDateTime = Convert.ToDateTime(XAPI.EthiopicDateTime.GetGregorianDate(Int32.Parse(startDate[1]), Int32.Parse(startDate[0]), Int32.Parse(startDate[2])));
-                allAffairs = allAffairs.Where(x => x.CreatedAt >= MDateTime);
-                caseCount = allAffairs.Count();
-
-
-            }
-
-            if (!string.IsNullOrEmpty(endAt))
-            {
-
-                string[] endDate = endAt.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-                DateTime MDateTime = Convert.ToDateTime(XAPI.EthiopicDateTime.GetGregorianDate(Int32.Parse(endDate[1]), Int32.Parse(endDate[0]), Int32.Parse(endDate[2])));
-                allAffairs = allAffairs.Where(x => x.CreatedAt <= MDateTime);
-                caseCount = allAffairs.Count();
-
-            }
-
-            int assigned = allAffairs.Count(x => x.AffairStatus == AffairStatus.Assigned);
-            int completed = allAffairs.Count(x => x.AffairStatus == AffairStatus.Completed);
-            int encoded = allAffairs.Count(x => x.AffairStatus == AffairStatus.Encoded);
-            int pend = allAffairs.Count(x => x.AffairStatus == AffairStatus.Pend);
-
-
-
-            var Chart = new CaseReportChartDto();
-
-            Chart.labels = new List<string>() { "Assigned", "completed", "Encoded", "Pend" };
-            Chart.datasets = new List<DataSets>();
-
-            var datas = new DataSets();
-
-            datas.data = new List<int>() { assigned, completed, encoded, pend };
-            datas.hoverBackgroundColor = new List<string>() { "#5591f5", "#2cb436", "#dfd02f", "#fe5e2b" };
-            datas.backgroundColor = new List<string>() { "#5591f5", "#2cb436", "#dfd02f", "#fe5e2b" };
-
-            Chart.datasets.Add(datas);
-
-            return Chart;
+            string[] startDateParts = startAt.Split('/');
+            startDate = XAPI.EthiopicDateTime.GetGregorianDate(int.Parse(startDateParts[1]), int.Parse(startDateParts[0]), int.Parse(startDateParts[2]));
         }
+
+        if (!string.IsNullOrEmpty(endAt))
+        {
+            string[] endDateParts = endAt.Split('/');
+            endDate = XAPI.EthiopicDateTime.GetGregorianDate(int.Parse(endDateParts[1]), int.Parse(endDateParts[0]), int.Parse(endDateParts[2]));
+        }
+
+        var allAffairsQuery = _dbContext.Cases.Where(x => x.CaseNumber != null && x.SubsidiaryOrganizationId == subOrgId);
+
+        if (startDate.HasValue)
+        {
+            allAffairsQuery = allAffairsQuery.Where(x => x.CreatedAt >= startDate.Value);
+        }
+
+        if (endDate.HasValue)
+        {
+            allAffairsQuery = allAffairsQuery.Where(x => x.CreatedAt <= endDate.Value);
+        }
+
+        var allAffairs = await allAffairsQuery.ToListAsync();
+
+        var caseCount = allAffairs.Count();
+
+        int assigned = allAffairs.Count(x => x.AffairStatus == AffairStatus.Assigned);
+        int completed = allAffairs.Count(x => x.AffairStatus == AffairStatus.Completed);
+        int encoded = allAffairs.Count(x => x.AffairStatus == AffairStatus.Encoded);
+        int pend = allAffairs.Count(x => x.AffairStatus == AffairStatus.Pend);
+
+        var chart = new CaseReportChartDto
+        {
+            labels = new List<string> { "Assigned", "Completed", "Encoded", "Pend" },
+            datasets = new List<DataSets>
+            {
+                new() {
+                    data = new List<int> { assigned, completed, encoded, pend },
+                    hoverBackgroundColor = new List<string> { "#5591f5", "#2cb436", "#dfd02f", "#fe5e2b" },
+                    backgroundColor = new List<string> { "#5591f5", "#2cb436", "#dfd02f", "#fe5e2b" }
+                }
+            }
+        };
+
+        return chart;
+    }
 
 
         public async Task<List<EmployeePerformance>> GetCaseEmployeePerformace(Guid subOrgId, string key, string OrganizationName)
