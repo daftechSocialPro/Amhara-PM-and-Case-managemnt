@@ -79,9 +79,6 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
         }
 
 
-
-
-
         public async Task<List<CaseTypeGetDto>> GetAll(Guid subOrgId)
         {
             try

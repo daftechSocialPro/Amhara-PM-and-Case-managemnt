@@ -57,8 +57,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
             throw new Exception("Error retrieving not completed cases", ex);
         }
     }
-
-
        public async Task IssueCase(CaseIssueDto caseAssignDto)
     {
         try
@@ -121,8 +119,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
             throw new Exception("Error issuing case", ex);
         }
     }
-
-
     public async Task<List<CaseEncodeGetDto>> GetAll(Guid? employeeId)
     {
         try
@@ -163,9 +159,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
             throw new Exception("Error retrieving cases", ex);
         }
     }
-
-
-
     public async Task TakeAction(CaseIssueActionDto caseActionDto)
     {
         try
