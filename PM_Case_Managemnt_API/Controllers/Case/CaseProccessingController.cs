@@ -97,8 +97,8 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
                         if (history.Case.ApplicantId != null)
                         {
-                            var applicant = _applicantService.GetApplicantById(history.Case.ApplicantId);
-                            applicantName = applicant.Result.ApplicantName; // replace with actual applicant name
+                            var applicant = await _applicantService.GetApplicantById(history.Case.ApplicantId);
+                            applicantName = applicant.Data.ApplicantName; // replace with actual applicant name
 
                         }
                         else
@@ -205,8 +205,8 @@ namespace PM_Case_Managemnt_API.Controllers.Case
 
                         if (history.Case.ApplicantId != null)
                         {
-                            var applicant = _applicantService.GetApplicantById(history.Case.ApplicantId);
-                            applicantName = applicant.Result.ApplicantName; // replace with actual applicant name
+                            var applicant = await _applicantService.GetApplicantById(history.Case.ApplicantId);
+                            applicantName = applicant.Data.ApplicantName; // replace with actual applicant name
                             
                         }
                         else

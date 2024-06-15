@@ -63,14 +63,17 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
         public async Task<List<ProgramBudgetYear>> GetProgramBudgetYears(Guid subOrgId)
         {
-            return await _budgetyearService.GetProgramBudgetYears(subOrgId);
+            var result =  await _budgetyearService.GetProgramBudgetYears(subOrgId);
+            return result.Data;
         }
 
         [HttpGet("programbylist")]
 
         public async Task<List<SelectListDto>> GetProgramBudgetYearList(Guid subOrgId)
         {
-            return await _budgetyearService.getProgramBudgetSelectList(subOrgId);
+            var result =  await _budgetyearService.getProgramBudgetSelectList(subOrgId);
+            return result.Data;
+            
         }
 
         [HttpPost("budgetyear")]
@@ -113,20 +116,23 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
         public async Task<List<BudgetYearDto>> GetBudgetYears(Guid programBudgetYearId)
         {
-            return await _budgetyearService.GetBudgetYears(programBudgetYearId);
+            var result = await _budgetyearService.GetBudgetYears(programBudgetYearId);
+            return result.Data;
         }
 
         [HttpGet("budgetbylist")]
 
         public async Task<List<SelectListDto>> GetBudgetYearList(Guid subOrgId)
         {
-            return await _budgetyearService.getProgramBudgetSelectList(subOrgId);
+            var result = await _budgetyearService.getProgramBudgetSelectList(subOrgId);
+            return result.Data;
         }
         [HttpGet("budgetyearbyprogramid")]
 
         public async Task<List<SelectListDto>> GetBudgetYearByProgramId(Guid programId)
         {
-            return await _budgetyearService.GetBudgetYearsFromProgramId(programId);
+            var result = await _budgetyearService.GetBudgetYearsFromProgramId(programId);
+            return result.Data;
         }
 
     }

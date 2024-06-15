@@ -50,7 +50,9 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
 
 
-            return await _unitOfMeasurmentService.GetUnitOfMeasurment(subOrgId);
+            var result = await _unitOfMeasurmentService.GetUnitOfMeasurment(subOrgId);
+            return result.Data;
+            
         }
 
         [HttpGet("unitmeasurmentlist")]
@@ -60,7 +62,8 @@ namespace PM_Case_Managemnt_API.Controllers.Common
 
 
 
-            return await _unitOfMeasurmentService.getUnitOfMeasurmentSelectList(subOrgId);
+            var result = await _unitOfMeasurmentService.getUnitOfMeasurmentSelectList(subOrgId);
+            return result.Data;
         }
 
         [HttpPut]
