@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Case;
+using PM_Case_Managemnt_API.DTOS.CaseDto;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
@@ -450,13 +451,49 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         }
 
 
-        public async Task<List<CaseType>> GetChildCaseTypes(Guid caseId)
+        public async Task<ResponseMessage<List<CaseTypeGetDto>>> GetChildCaseTypes(Guid caseId)
         {
             var casse = await _dbContext.Cases.Where(x => x.Id == caseId).Select(x => x.CaseTypeId).FirstOrDefaultAsync();
             var caseTypes = await _dbContext.CaseTypes.Where(x => x.ParentCaseTypeId == casse).OrderBy(x => x.OrderNumber).ToListAsync();
+            List<CaseTypeGetDto> result = new();
+            var response = new ResponseMessage<List<CaseTypeGetDto>>();
+            foreach (CaseType caseType in caseTypes)
+            {
+                result.Add(new CaseTypeGetDto
+                {
+                    Id = caseType.Id,
+                    CaseTypeTitle = caseType.CaseTypeTitle,
+                    Code = caseType.Code,
+                    CreatedAt = caseType.CreatedAt.ToString(),
+                    CreatedBy = caseType.CreatedBy,
+                    MeasurementUnit = caseType.MeasurementUnit.ToString(),
+                    Remark = caseType.Remark,
+                    RowStatus = caseType.RowStatus.ToString(),
+                    Counter = caseType.Counter,
 
+                    TotalPayment = caseType.TotlaPayment,
+                    Children = _dbContext.CaseTypes.Where(x=>x.ParentCaseTypeId == caseType.Id).Select(y=> new CaseTypeGetDto
+                    {
+                        Id = y.Id,
+                        CaseTypeTitle = y.CaseTypeTitle,
+                        Code = y.Code,
+                        CreatedAt = y.CreatedAt.ToString(),
+                        CreatedBy = y.CreatedBy,
+                        Counter =y.Counter,
+                        MeasurementUnit = y.MeasurementUnit.ToString(),
+                        Remark = y.Remark,
+                        RowStatus = y.RowStatus.ToString(),
+                        TotalPayment = y.TotlaPayment,
 
-            return caseTypes;
+                    }).ToList()
+                });
+            }
+
+            response.Message = "Operation Successful.";
+            response.Data = result;
+            response.Success = true;
+            
+            return response;
 
 
 

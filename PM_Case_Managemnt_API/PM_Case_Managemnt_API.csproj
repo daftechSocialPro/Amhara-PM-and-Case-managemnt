@@ -23,6 +23,7 @@
     <None Remove="Models\Common\Message\**" />
     <None Remove="Models\PM\**" />
     <None Remove="XAPI\**" />
+    <Compile Remove="DTOS\Case\EmployeePerformanceDto.cs" />
   </ItemGroup>
 
   <ItemGroup>

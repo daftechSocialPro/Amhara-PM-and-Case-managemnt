@@ -138,11 +138,13 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
             }
         }
 
-
-        public async Task<ResponseMessage<Applicant>> GetApplicantById(Guid? applicantId)
+        //dto fixed not sure so needs checking again
+        public async Task<ResponseMessage<ApplicantGetDto>> GetApplicantById(Guid? applicantId)
         {
-
-            var response = new ResponseMessage<Applicant>();
+            
+            //var response = new ResponseMessage<Applicant>();
+            var response = new ResponseMessage<ApplicantGetDto>();
+            
             var applicant = await _dbContext.Applicants.FindAsync(applicantId);
             if (applicant == null){
                 response.Success = false;
@@ -151,9 +153,23 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
                 response.Data = null;
                 return response;
             }
+
+            var applicantDto = new ApplicantGetDto()
+            {
+                Id = applicant.Id,
+                ApplicantName = applicant.ApplicantName,
+                ApplicantType = applicant.ApplicantType.ToString(),
+                CreatedAt = applicant.CreatedAt,
+                CreatedBy = applicant.CreatedBy,
+                CustomerIdentityNumber = applicant.CustomerIdentityNumber,
+                Email = applicant.Email,
+                PhoneNumber = applicant.PhoneNumber,
+                RowStatus = applicant.RowStatus
+                
+            };
             response.Success = true;
             response.Message = "Applicant found successfully";
-            response.Data = applicant;
+            response.Data = applicantDto;
             return response;
         }
         public async Task<ResponseMessage<List<SelectListDto>>> GetSelectList(Guid subOrgId)

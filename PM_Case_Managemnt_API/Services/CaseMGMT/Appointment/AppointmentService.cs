@@ -64,6 +64,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentService
             try
             {
                 List<Appointement> appointments = await _dbContext.Appointements.Include(appointment => appointment.Employee).Include(appointment => appointment.Case).ToListAsync();
+                //List<AppointmentGetDto> result = new();
                 if (appointments == null){
                     response.Message = "No available appointment";
                     response.Success = false;
@@ -71,6 +72,16 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentService
                     response.Data = null;
                     return response;
                 }
+                /*
+                foreach (Appointement appointement in appointments)
+                {
+                    result.Add(new AppointmentGetDto()
+                    {
+                        id = appointement.Id.ToString(),
+                        
+                    });
+                }
+                */
                 response.Message = "Appointments fetched Succesfully";
                 response.Success = true;
                 response.Data = appointments;

@@ -12,6 +12,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
         public Task<ResponseMessage<List<SelectListDto>>> GetSelectList(Guid subOrgId);
         public Task<ResponseMessage<Guid>> Update(ApplicantPostDto applicantPost);
 
-        public Task<ResponseMessage<Applicant>> GetApplicantById(Guid? applicantId);
+        public Task<ResponseMessage<ApplicantGetDto>> GetApplicantById(Guid? applicantId);
     }
 }
