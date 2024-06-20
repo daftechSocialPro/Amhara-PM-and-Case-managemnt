@@ -4,6 +4,7 @@ using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.Models.Common;
 using System.ComponentModel;
 using System.Net;
+using PM_Case_Managemnt_API.DTOS.Common.Organization;
 
 namespace PM_Case_Managemnt_API.Services.Common
 {
@@ -58,15 +59,22 @@ namespace PM_Case_Managemnt_API.Services.Common
             }
 
         }
-        public async Task<ResponseMessage<OrganizationProfile>> GetOrganizationProfile(Guid orgProId)
+        public async Task<ResponseMessage<OrganizationProfileDto>> GetOrganizationProfile(Guid orgProId)
         {
-            var response = new ResponseMessage<OrganizationProfile>();
+            var response = new ResponseMessage<OrganizationProfileDto>();
             
             var subOrg = await _dBContext.SubsidiaryOrganizations.Where(x => x.Id == orgProId).FirstOrDefaultAsync();
             OrganizationProfile result =  await _dBContext.OrganizationProfile.Where(x => x.Id == subOrg.OrganizationProfileId).FirstOrDefaultAsync();
-
+            OrganizationProfileDto new_result = new()
+            {
+                OrganizationNameEnglish = result.OrganizationNameEnglish,
+                OrganizationNameInLocalLanguage = result.OrganizationNameInLocalLanguage,
+                Address = result.Address,
+                Logo = result.Logo,
+                PhoneNumber = result.PhoneNumber,
+            };
             response.Message = "Operation Successful";
-            response.Data = result;
+            response.Data = new_result;
             response.Success = true;
 
             return response;

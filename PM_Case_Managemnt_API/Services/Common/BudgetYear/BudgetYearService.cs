@@ -93,14 +93,27 @@ namespace PM_Case_Managemnt_API.Services.Common
             };
         }
 
-        public async Task<ResponseMessage<List<ProgramBudgetYear>>> GetProgramBudgetYears(Guid subOrgId)
+        public async Task<ResponseMessage<List<ProgramBudgetYearDto>>> GetProgramBudgetYears(Guid subOrgId)
         {
-            var response = new ResponseMessage<List<ProgramBudgetYear>>();
+            var response = new ResponseMessage<List<ProgramBudgetYearDto>>();
 
             List<ProgramBudgetYear> result = await _dBContext.ProgramBudgetYears.Where(x => x.SubsidiaryOrganizationId == subOrgId).Include(x => x.BudgetYears).ToListAsync();
-            
+            List<ProgramBudgetYearDto> new_result = new();
+            foreach (ProgramBudgetYear programBudgetYear in result)
+            {
+                new_result.Add(new ProgramBudgetYearDto()
+                {
+                    Id = programBudgetYear.Id,
+                    Name = programBudgetYear.Name,
+                    FromYear = programBudgetYear.FromYear,
+                    ToYear = programBudgetYear.ToYear,
+                    SubsidiaryOrganizationId = programBudgetYear.SubsidiaryOrganizationId,
+                    Remark = programBudgetYear.Remark,
+                    CreatedBy = programBudgetYear.CreatedBy
+                });
+            }
             response.Message = "Operation Successfull";
-            response.Data = result;
+            response.Data = new_result;
             response.Success = true;
 
             return response;

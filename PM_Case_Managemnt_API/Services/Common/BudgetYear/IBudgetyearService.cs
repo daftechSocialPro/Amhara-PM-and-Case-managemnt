@@ -12,7 +12,7 @@ namespace PM_Case_Managemnt_API.Services.Common
         Task<ResponseMessage> EditProgramBudgetYear(ProgramBudgetYearDto programBudgetYear);
 
         Task<ResponseMessage> DeleteProgramBudgetYear(Guid programBudgetYeatId);
-        Task<ResponseMessage<List<ProgramBudgetYear>>> GetProgramBudgetYears(Guid subOrgId);
+        Task<ResponseMessage<List<ProgramBudgetYearDto>>> GetProgramBudgetYears(Guid subOrgId);
         Task<ResponseMessage<List<SelectListDto>>> getProgramBudgetSelectList(Guid subOrgId);
 
 

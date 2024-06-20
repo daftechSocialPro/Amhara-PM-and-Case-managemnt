@@ -42,7 +42,6 @@ using PM_Case_Managemnt_API.Services.PM.Program;
 using PM_Case_Managemnt_API.Services.PM.ProgressReport;
 using System.Text;
 using System.Threading.RateLimiting;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
