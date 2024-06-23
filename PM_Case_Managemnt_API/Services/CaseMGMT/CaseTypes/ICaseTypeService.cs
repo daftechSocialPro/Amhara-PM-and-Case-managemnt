@@ -19,3 +19,4 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
         public Task<List<CaseTypeGetDto>> GetCaseTypeChildren(Guid caseTypeId);
     }
 }
+
