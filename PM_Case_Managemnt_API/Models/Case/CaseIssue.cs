@@ -17,6 +17,11 @@ namespace PM_Case_Managemnt_API.Models.Case
         public Guid? ForwardedToEmployeeId { get; set; }
         public virtual Employee ForwardedToEmployee { get; set; }
         public IssueStatus IssueStatus { get; set; }
+
+        public static implicit operator CaseIssue(CaseIssue v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public enum IssueStatus

@@ -1,13 +1,11 @@
-﻿using PM_Case_Managemnt_API.DTOS.Case;
-using PM_Case_Managemnt_API.Data;
-using PM_Case_Managemnt_API.DTOS.Common;
+﻿using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.CaseDto;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.Models.Case;
 
-namespace PM_Case_Managemnt_API.Services.CaseMGMT
+namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseIssueService
 {
     public class CaseIssueService : ICaseIssueService
     {

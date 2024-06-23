@@ -4,7 +4,7 @@ using PM_Case_Managemnt_API.DTOS.CaseDto;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
 
-namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentService
+namespace PM_Case_Managemnt_API.Services.CaseMGMT.Appointment
 {
     public class AppointmentService: IAppointmentService
     {
@@ -14,7 +14,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentService
         {
             _dbContext = dbContext;
         }
-
 
         public async Task Add(AppointmentPostDto appointmentPostDto)
         {
@@ -48,6 +47,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentService
                 List<Appointement> appointments = await _dbContext.Appointements.Include(appointment => appointment.Employee).Include(appointment => appointment.Case).ToListAsync();
                 return appointments;
             } catch (Exception ex)
+            
             {
                 throw new Exception(ex.Message);
             }

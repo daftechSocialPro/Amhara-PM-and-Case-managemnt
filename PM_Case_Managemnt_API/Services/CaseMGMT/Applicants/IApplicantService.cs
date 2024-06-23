@@ -8,10 +8,8 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.Applicants
     {
         public Task<Guid> Add(ApplicantPostDto applicant);
         public Task<List<ApplicantGetDto>> GetAll(Guid subOrgId);
-
         public Task<List<SelectListDto>> GetSelectList(Guid subOrgId);
-        Task<Guid> Update(ApplicantPostDto applicantPost);
-
+        public Task<Guid> Update(ApplicantPostDto applicantPost);
         public Task<Applicant> GetApplicantById(Guid? applicantId);
     }
 }

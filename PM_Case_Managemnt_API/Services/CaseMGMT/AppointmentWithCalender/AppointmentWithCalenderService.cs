@@ -7,7 +7,7 @@ using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.CaseModel;
 using PM_Case_Managemnt_API.Models.Common;
 
-namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
+namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalender
 {
     public class AppointmentWithCalenderService: IAppointmentWithCalenderService
     {
@@ -33,22 +33,24 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
                 //}
                 var hist = _dbContext.CaseHistories.Find(appointmentWithCalender.CaseId);
 
-
-
                 AppointementWithCalender appointment = new()
                 {
                     Id = Guid.NewGuid(),
                     CreatedAt = DateTime.UtcNow,
                     CreatedBy = appointmentWithCalender.CreatedBy,
                     AppointementDate = appointmentWithCalender.AppointementDate,
-                    CaseId = hist.CaseId,
                     EmployeeId = appointmentWithCalender.EmployeeId,
                     RowStatus = RowStatus.Active,
                     Remark = appointmentWithCalender.Remark,
                     Time = appointmentWithCalender.Time,
+                    
+                    //TODO: Check if this is not null
+                    CaseId = hist.CaseId,
                 };
 
-                Case cases = _dbContext.Cases.Include(x => x.Applicant).Where(x => x.Id == hist.CaseId).FirstOrDefault();
+                Case cases = _dbContext.Cases.Include(x => x.Applicant).FirstOrDefault(x => x.Id == hist.CaseId);
+
+                //TODO: Check if the time and date used matches the format
 
                 string message = cases.Applicant.ApplicantName + " ለጉዳይ ቁጥር፡ " + cases.CaseNumber + "\n በ " + appointmentWithCalender.AppointementDate + " ቀን በ " + appointmentWithCalender.Time +
                  " ሰዐት በቢሮ ቁጥር፡ - ይገኙ";
@@ -63,13 +65,15 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
                 await _dbContext.SaveChangesAsync();
 
 
-                AppointmentGetDto ev = new AppointmentGetDto();
-                ev.id = appointment.Id.ToString();
-                ev.description = "Appointment with " + cases.Applicant.ApplicantName + " at " + appointment.Time + "\n Affair Number " + cases.CaseNumber;
-                ev.date = appointment.AppointementDate.ToString();
-                ev.everyYear = false;
-                ev.type = "event";
-                ev.name = "Appointment " ;
+                AppointmentGetDto ev = new()
+                {
+                    id = appointment.Id.ToString(),
+                    description = "Appointment with " + cases.Applicant.ApplicantName + " at " + appointment.Time + "\n Affair Number " + cases.CaseNumber,
+                    date = appointment.AppointementDate.ToString(),
+                    everyYear = false,
+                    type = "event",
+                    name = "Appointment "
+                };
 
 
                 return ev;
@@ -86,7 +90,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.AppointmentWithCalenderService
             try
             {
 
-                List<AppointmentGetDto> Events = new List<AppointmentGetDto>();
+                List<AppointmentGetDto> Events = new();
 
                 var appointments = await _dbContext.AppointementWithCalender
                     .Where(x => x.EmployeeId == employeeId)

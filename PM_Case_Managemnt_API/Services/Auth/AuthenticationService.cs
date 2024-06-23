@@ -19,12 +19,12 @@ namespace PM_Case_Managemnt_API.Services.Auth
     public class AuthenticationService : IAuthenticationService
     {
 
-        private UserManager<ApplicationUser> _userManager;
-        private SignInManager<ApplicationUser> _singInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _singInManager;
         private readonly ApplicationSettings _appSettings;
-        private AuthenticationContext _authenticationContext;
+        private readonly AuthenticationContext _authenticationContext;
         private readonly DBContext _dbcontext;
-        private IHubContext<EncoderHub, IEncoderHubInterface> _encoderHub;
+        private readonly IHubContext<EncoderHub, IEncoderHubInterface> _encoderHub;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public AuthenticationService(

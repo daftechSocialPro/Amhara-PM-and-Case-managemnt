@@ -52,9 +52,6 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
             }
         }
 
-
-
-
         public async Task UpdateCaseType(CaseTypePostDto caseTypeDto)
         {
             try
@@ -67,7 +64,6 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
                 caseType.Remark = caseTypeDto.Remark;
                 caseType.Counter = caseTypeDto.Counter;
                 caseType.MeasurementUnit = Enum.Parse<TimeMeasurement>(caseTypeDto.MeasurementUnit);
-
 
                 await _dbContext.SaveChangesAsync();
 
@@ -224,6 +220,7 @@ namespace PM_Case_Managemnt_API.Services.CaseService.CaseTypes
 ;
         }
 
+        //TODO : Better DTO
 
         public async Task<List<CaseTypeGetDto>> GetCaseTypeChildren(Guid caseTypeId)
         {

@@ -93,8 +93,8 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseMessagesService
                 string? ipAddress = _configuration["ApplicationSettings:SMS_IP"];
                 string? orgCode = _configuration["ApplicationSettings:ORG_CODE"];
 
-                using HttpClient httpClient = new HttpClient();
-                List<CaseMessages> updatedMessages = new List<CaseMessages>();
+                using HttpClient httpClient = new();
+                List<CaseMessages> updatedMessages = new();
 
                 foreach (var message in messages)
                 {

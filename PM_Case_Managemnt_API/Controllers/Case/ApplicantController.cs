@@ -66,7 +66,7 @@ namespace PM_Case_Managemnt_API.Controllers.Case
                 var result = await _applicantService.Update(applicantPostDto);
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, "Internal Server Error");
             }

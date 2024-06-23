@@ -4,11 +4,10 @@ using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.Models.CaseModel;
 
 
-namespace PM_Case_Managemnt_API.Services.CaseMGMT
+namespace PM_Case_Managemnt_API.Services.CaseMGMT.CaseIssueService
 {
     public interface ICaseIssueService
     {
-
         public Task<List<CaseEncodeGetDto>> GetNotCompletedCases(Guid subOrgId);
 
         public Task IssueCase(CaseIssueDto caseAssignDto);

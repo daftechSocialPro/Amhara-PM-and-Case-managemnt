@@ -19,7 +19,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         {
 
             private readonly DBContext _dbContext;
-            private Random rnd = new Random();
+            private readonly Random rnd = new();
             public CaserReportService(DBContext dbContext)
             {
                 _dbContext = dbContext;
@@ -116,9 +116,10 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
 
 
-        public CaseReportChartDto GetCasePieChart(Guid subOrgId, string? startAt, string? endAt)
+        public async Task<CaseReportChartDto> GetCasePieChart(Guid subOrgId, string? startAt, string? endAt)
         {
-            var report = _dbContext.CaseTypes.Where(x => x.SubsidiaryOrganizationId == subOrgId).ToList();
+            var report = await _dbContext.CaseTypes.Where(x => x.SubsidiaryOrganizationId == subOrgId).ToListAsync();
+
             var report2 = (from q in report
                            join b in _dbContext.Cases on q.Id equals b.CaseTypeId
                            where b.SubsidiaryOrganizationId == subOrgId  // Apply the constraint here
@@ -324,25 +325,25 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
         public async Task<List<SMSReportDto>> GetSMSReport(Guid subOrgId, string? startAt, string? endAt)
         {
-            var AffairMessages = _dbContext.CaseMessages.Where(x => x.Case.SubsidiaryOrganizationId == subOrgId).Include(x => x.Case.CaseType).Include(x => x.Case.Employee).Include(x => x.Case.Applicant).Select(y => new
+            var AffairMessages = await _dbContext.CaseMessages
+                .Where(x => x.Case.SubsidiaryOrganizationId == subOrgId)
+                .Include(x => x.Case.CaseType).Include(x => x.Case.Employee)
+                .Include(x => x.Case.Applicant)
+                .Select(y => new
+                        SMSReportDto{
+                            CaseNumber = y.Case.CaseNumber,
+                            ApplicantName = y.Case.Applicant.ApplicantName + y.Case.Employee.FullName,
+                            LetterNumber = y.Case.LetterNumber,
+                            Subject = y.Case.LetterSubject,
+                            CaseTypeTitle = y.Case.CaseType.CaseTypeTitle,
+                            PhoneNumber = y.Case.Applicant.PhoneNumber + y.Case.Employee.PhoneNumber,
+                            PhoneNumber2 = y.Case.PhoneNumber2,
+                            Message = y.MessageBody,
+                            MessageGroup = y.MessageFrom.ToString(),
+                            IsSMSSent = y.Messagestatus,
+                            CreatedAt = y.CreatedAt
+                        }).ToListAsync();
 
-
-            SMSReportDto
-            {
-                CaseNumber = y.Case.CaseNumber,
-                ApplicantName = y.Case.Applicant.ApplicantName + y.Case.Employee.FullName,
-                LetterNumber = y.Case.LetterNumber,
-                Subject = y.Case.LetterSubject,
-                CaseTypeTitle = y.Case.CaseType.CaseTypeTitle,
-                PhoneNumber = y.Case.Applicant.PhoneNumber + y.Case.Employee.PhoneNumber,
-                PhoneNumber2 = y.Case.PhoneNumber2,
-                Message = y.MessageBody,
-                MessageGroup = y.MessageFrom.ToString(),
-                IsSMSSent = y.Messagestatus,
-                CreatedAt = y.CreatedAt
-            }
-
-            ).ToList();
             if (!string.IsNullOrEmpty(startAt))
             {
                 var startDate = ParseEthiopicDate(startAt);
@@ -450,10 +451,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                                 }).FirstOrDefaultAsync();
 
             return result;
-
-
         }
-
 
         public async Task<List<CaseType>> GetChildCaseTypes(Guid caseId)
         {
@@ -463,10 +461,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
             return caseTypes;
 
-
-
         }
-
 
         static private string GetEmployeeStatus(CaseHistory history, List<CaseType> caseTypes)
         {
@@ -479,8 +474,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                                                     history.AffairHistoryStatus == AffairHistoryStatus.Revert ? history.RevertedAt : DateTime.Now
                                        );
 
-
-
             var caseHistoryDuration = caseHistoryDuratio != "" && caseHistoryDuratio != null ? double.Parse(caseHistoryDuratio.Split(" ")[0]) : 0;
 
 
@@ -490,15 +483,11 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
 
             }
 
-
-
             var caseTypeDuration = 0.0;
             var casetype = caseTypes.Where(x => x.OrderNumber == history.ChildOrder + 1).FirstOrDefault();
 
             if (casetype != null)
             {
-
-
                 if (casetype.MeasurementUnit == TimeMeasurement.Minutes)
                 {
                     caseTypeDuration = casetype.Counter / 60;
@@ -514,8 +503,6 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 }
 
             }
-
-
 
             if (caseTypeDuration == 0)
             {
@@ -594,16 +581,9 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
             else
             {
                 return "";
-            }
-
-
-           
+            } 
 
         }
-
-
-
-
 
     }
 }
