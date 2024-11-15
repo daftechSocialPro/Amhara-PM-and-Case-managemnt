@@ -1,0 +1,113 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1> {{'KPI Details' | translate}}</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+        <li class="breadcrumb-item"> {{'KPI' | translate}}</li>
+        <li class="breadcrumb-item active"> {{'Details' | translate}}</li>
+      </ol>
+    </nav>
+
+  </div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-12">
+        <div class="card p-2">
+
+          <div *ngIf="roleMatch(['Regulator'])" class="d-flex">
+
+            <div class="form-floating col-3 me-2">
+              <select class="form-control" id="ReportBy" placeholder="ReportBy" (change)="onSubChange($event)">
+                <option value="">--{{ 'Select Subsidary Organization' | translate }}--</option>
+                <option *ngFor="let bl of subOrgSelectList" value={{bl.Id}}>{{bl.Name}}</option>
+              </select>
+              <label for="ReportBy">{{ 'Subsidary Organization' | translate }}</label>
+            </div>
+            <div class="form-floating me-2">
+              <input type="text" class="form-control startDate" formControlName="startDate" [(ngModel)]="date"
+                id="startDate" placeholder="startDate">
+              <label for="startDate"> {{ 'Start Date' | translate }}</label>
+            </div>
+            <button pButton (click)="getKpiTable()" icon="pi pi-search"
+              class="p-button-text bg-success text-white"></button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="card" #excelTable>
+      <div class="card-body p-2" *ngIf="kpiManagmentData">
+
+        <div class="text-end col-lg-12">
+
+          <button class="btn btn-outline-success text-end mb-3" (click)="exportAsExcel('KPI')"><i
+              class="bi bi-file-excel"></i> {{'Export Excel' | translate}} </button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered mt-2">
+            <thead>
+              <tr>
+                <th scope="col" style="border: 1px solid black;">ተ.ቁ</th>
+                <th scope="col" style="border: 1px solid black;">ስትራቴጂክ ግቦች፣ ዋና ዋና ተግባራት እና ዝርዝር ቁልፍ የአፈፃፀም አመልካቾች</th>
+                <th scope="col" style="border: 1px solid black;">ክብደት</th>
+                <th scope="col" style="border: 1px solid black;">መለኪያ</th>
+                <th scope="col" style="border: 1px solid black;">እቅድ</th>
+                <th scope="col" style="border: 1px solid black;">ክንውን</th>
+                <th scope="col" style="border: 1px solid black;">አፈፃፀም</th>
+                <th scope="col" style="border: 1px solid black;">ያገኘዉ ነጥብ
+                </th>
+              </tr>
+
+            </thead>
+            <ng-template ngFor let-plan [ngForOf]="kpiManagmentData" let-index="index">
+              <tbody class="labels">
+
+
+                <tr>
+                  <td style="border: 1px solid black; background-color: #D5FFFF">{{index + 1}}</td>
+                  <td colspan="6" style="border: 1px solid black; background-color: #D5FFFF">
+                    {{plan.PlanTitle}} (ክብደት {{plan.PlanWeight}})
+                  </td>
+                  <td style="border: 1px solid black; background-color: #D5FFFF">{{plan.PlanResult}}</td>
+                </tr>
+              </tbody>
+              <ng-template ngFor let-task [ngForOf]="plan.KPITask" let-index1="index">
+                <tbody class="labels">
+
+                  <tr>
+                    <td style="border: 1px solid black; background-color: #e8ffde ">{{index + 1}}.{{index1 + 1}}</td>
+                    <td colspan="6" style="border: 1px solid black;  background-color: #e8ffde">
+                      {{task.TaskTitle}} (ክብደት {{task?.TaskWeight}})
+                    </td>
+                    <td style="border: 1px solid black; background-color: #D5FFFF">{{task.TaskResult}}</td>
+                  </tr>
+                </tbody>
+
+                <ng-template ngFor let-act [ngForOf]="task.KPIActivity" let-index2="index">
+                  <tbody>
+                    <tr>
+                      <td style="border: 1px solid black;">{{index + 1}}.{{index1 + 1}}.{{index2 + 1}}</td>
+                      <td style="border: 1px solid black;">{{act.ActivityTitle}}</td>
+                      <td style="border: 1px solid black;">{{act.ActivityWeight}}</td>
+                      <td style="border: 1px solid black;">{{act.Measurment}}</td>
+                      <td style="border: 1px solid black;">{{act.Goal}}</td>
+                      <td style="border: 1px solid black;">{{act.Actual}}</td>
+                      <td style="border: 1px solid black;">{{act.Percentage}}%</td>
+                      <td style="border: 1px solid black;">{{act.ActivityResult }}</td>
+
+
+                    </tr>
+                  </tbody>
+                </ng-template>
+              </ng-template>
+            </ng-template>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

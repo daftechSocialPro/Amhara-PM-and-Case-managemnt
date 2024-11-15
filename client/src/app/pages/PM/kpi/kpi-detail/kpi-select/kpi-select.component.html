@@ -1,0 +1,39 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1> {{'KPI Details' | translate}}</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/"> {{'Home' | translate}}</a></li>
+          <li class="breadcrumb-item"> {{'KPI' | translate}}</li>
+          <li class="breadcrumb-item active"> {{'Details' | translate}}</li>
+        </ol>
+      </nav>
+  
+    </div>
+
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">KPI Select</h5>
+                <ul class="nav nav-tabs nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation"> <button class="nav-link active" id="kpidata-tab" data-bs-toggle="tab"
+                            data-bs-target="#kpidata" type="button" role="tab" aria-controls="kpidata"
+                            aria-selected="false">KPI Data</button></li>
+                    <li class="nav-item" role="presentation"> <button class="nav-link" id="kpimanagment-tab" data-bs-toggle="tab"
+                            data-bs-target="#kpimanagment" type="button" role="tab" aria-controls="kpimanagment" aria-selected="false">KPI Managment</button></li>
+                   
+                </ul>
+                <div class="tab-content pt-2" id="myTabContent">
+                    <div class="tab-pane fade show active p-2" id="kpidata" role="tabpanel" aria-labelledby="kpidata-tab">
+                        <app-kpi-detail ></app-kpi-detail>
+
+                    </div>
+                    <div class="tab-pane fade  p-2" id="kpimanagment" role="tabpanel" aria-labelledby="kpimanagment-tab">
+                        <app-kpi-managment/>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
