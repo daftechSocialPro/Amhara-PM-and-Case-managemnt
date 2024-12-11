@@ -206,6 +206,8 @@ import { KpiManagmentComponent } from './pages/PM/KPI/kpi-detail/kpi-managment/k
 import { KpiSelectComponent } from './pages/PM/kpi/kpi-detail/kpi-select/kpi-select.component';
 import { FileComponentComponent } from './components/file-component/file-component.component';
 import { FileUploadComponent } from './components/file-component/file-upload/file-upload.component';
+import { DialogModule } from 'primeng/dialog';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -415,6 +417,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfirmDialogModule,
     ToastModule,
     PickListModule,
+    DialogModule,
     NgSelectModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
