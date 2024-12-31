@@ -53,6 +53,7 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
                         Remark = Request.Form["remark"],
                         Position = Request.Form["Position"],
                         StructureId = Request.Form["StructureId"],
+
                     };
 
                     var response = _employeeService.CreateEmployee(employee);

@@ -33,8 +33,12 @@ namespace PM_Case_Managemnt_API.Models.Common
 
     public enum Position
     {
+      
         Director,
-        Secertary,
-        Expert
+        Secertary,        
+        Expert,
+       // Manager,
+       // DeptyManager
+        GroupLeader
     }
 }

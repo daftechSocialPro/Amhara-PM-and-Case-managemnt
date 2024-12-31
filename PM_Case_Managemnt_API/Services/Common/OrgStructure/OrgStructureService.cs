@@ -15,7 +15,7 @@ namespace PM_Case_Managemnt_API.Services.Common
             _dBContext = context;
         }
 
-        public async Task<int> CreateOrganizationalStructure(OrgStructureDto orgStructure)
+        public async Task<ResponseMessage> CreateOrganizationalStructure(OrgStructureDto orgStructure)
         {
 
 
@@ -44,15 +44,62 @@ namespace PM_Case_Managemnt_API.Services.Common
                 Weight = orgStructure.Weight,
                 Remark = orgStructure.Remark,
                 CreatedAt = DateTime.Now,
-
+                OrganizationType= orgStructure.OrganizationType,
 
             };
+            var parent = await _dBContext.OrganizationalStructures.Where(x => x.Id == orgStructure.ParentStructureId).FirstOrDefaultAsync();
+            if (parent == null)
+            {
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "Parent Organization  not found!!!"
+                };
+            }
+            else if (orgStructure.OrganizationType== OrganizationType.Directorate)
+            {
+                if(parent.OrganizationType!=OrganizationType.Sector)
+                {
+                    return new ResponseMessage
+                    {
+                        Success = true,
+                        Message = "Parent Organization Should be Sector!!! "
+                    };
+                }
+              
+            }
+           else if (orgStructure.OrganizationType == OrganizationType.Sector)
+            {
+                if (parent.OrganizationType != OrganizationType.Biro)
+                {
+                    return new ResponseMessage
+                    {
+                        Success = true,
+                        Message = "Parent Organization Should be Biro!!! "
+                    };
+                }
 
+            }
+            else if (orgStructure.OrganizationType == OrganizationType.Group || orgStructure.OrganizationType == OrganizationType.Zone || orgStructure.OrganizationType == OrganizationType.Zone || orgStructure.OrganizationType == OrganizationType.Zone)
+            {
+                if (parent.OrganizationType != OrganizationType.Directorate)
+                {
+                    return new ResponseMessage
+                    {
+                        Success = true,
+                        Message = "Parent Organization Should be Directorate!!! "
+                    };
+                }
 
+            }
             await _dBContext.AddAsync(orgStructure2);
             await _dBContext.SaveChangesAsync();
-
-            return 1;
+            return new ResponseMessage
+            {
+                Success = true,
+                Message = "Organization Structure Saved Successfully!!"
+            };
+            
 
         }
         public async Task<List<OrgStructureDto>> GetOrganizationStructures(Guid SubOrgId, Guid? BranchId)
@@ -73,7 +120,8 @@ namespace PM_Case_Managemnt_API.Services.Common
                                                           IsBranch = x.IsBranch,
                                                           OfficeNumber = x.OfficeNumber,
                                                           ParentWeight = x.ParentStructure.Weight,
-                                                          Remark = x.Remark
+                                                          Remark = x.Remark,
+                                                         // OrganizationType=x.OrganizationType,
 
                                                       }).ToListAsync();
             foreach (var structure in structures)
@@ -115,7 +163,7 @@ namespace PM_Case_Managemnt_API.Services.Common
 
 
 
-        public async Task<int> UpdateOrganizationalStructure(OrgStructureDto orgStructure)
+        public async Task<ResponseMessage> UpdateOrganizationalStructure(OrgStructureDto orgStructure)
         {
 
             var orgStructure2 = await _dBContext.OrganizationalStructures.FindAsync(orgStructure.Id);
@@ -130,14 +178,66 @@ namespace PM_Case_Managemnt_API.Services.Common
             orgStructure2.Remark = orgStructure.Remark;
             orgStructure2.RowStatus = orgStructure.RowStatus == 0 ? RowStatus.Active : RowStatus.InActive;
             //orgStructure2.SubsidiaryOrganizationId= orgStructure.SubsidiaryOrganizationId;
+            orgStructure2.OrganizationType = orgStructure.OrganizationType;
+            var parent = await _dBContext.OrganizationalStructures.Where(x => x.Id == orgStructure.ParentStructureId).FirstOrDefaultAsync();
+            if (parent == null)
+            {
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "Parent Organization  not found!!!"
+                };
+            }
+           else if (orgStructure.OrganizationType == OrganizationType.Directorate)
+            {
+                if (parent.OrganizationType != OrganizationType.Sector)
+                {
+                    return new ResponseMessage
+                    {
+                        Success = true,
+                        Message = "Parent Organization  Should be Sector!!! "
+                    };
+                }
+
+            }
+            else if (orgStructure.OrganizationType == OrganizationType.Sector)
+            {
+                if (parent.OrganizationType != OrganizationType.Biro)
+                {
+                    return new ResponseMessage
+                    {
+                        Success = true,
+                        Message = "Parent Organization  Should be Biro!!! "
+                    };
+                }
+
+            }
+            else if (orgStructure.OrganizationType == OrganizationType.Group || orgStructure.OrganizationType == OrganizationType.Zone || orgStructure.OrganizationType == OrganizationType.Zone || orgStructure.OrganizationType == OrganizationType.Zone)
+            {
+                if (parent.OrganizationType != OrganizationType.Directorate)
+                {
+                    return new ResponseMessage
+                    {
+                        Success = true,
+                        Message = "Parent Should be Directorate!!! "
+                    };
+                }
+
+            }
+           
+            await _dBContext.AddAsync(orgStructure2);
+            await _dBContext.SaveChangesAsync();
 
             _dBContext.Entry(orgStructure2).State = EntityState.Modified;
             await _dBContext.SaveChangesAsync();
-            return 1;
-
+            return new ResponseMessage
+            {
+                Success = true,
+                Message = "Organization Structure updated Successfully!!"
+            };
         }
 
-        public async Task<ResponseMessage> DeleteOrganizationalStructure(Guid organizationStructurId)
+            public async Task<ResponseMessage> DeleteOrganizationalStructure(Guid organizationStructurId)
         {
             try
             {

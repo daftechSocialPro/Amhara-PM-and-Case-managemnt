@@ -38,9 +38,20 @@ namespace PM_Case_Managemnt_API.Models.Common
         public bool IsBranch { get; set; }
 
         public string OfficeNumber { get; set; }
+        public OrganizationType OrganizationType { get; set; }
 
 
-        
 
+    }
+    public enum OrganizationType
+    {
+        Biro,
+        Sector,
+        Directorate,
+        Group,
+        Zone,
+        Woreda,
+        Kebele
+       
     }
 }

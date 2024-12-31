@@ -1,4 +1,6 @@
 ﻿
+using PM_Case_Managemnt_API.Models.Common;
+
 namespace PM_Case_Managemnt_API.DTOS.Common
 {
     public class OrgStructureDto
@@ -26,6 +28,7 @@ namespace PM_Case_Managemnt_API.DTOS.Common
         public int RowStatus { get; set; }
 
         public Guid SubsidiaryOrganizationId { get; set; }
+        public OrganizationType OrganizationType { get; set; }
     }
 
 
