@@ -88,7 +88,7 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                     {
                         toEmployeeId = caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null ?
                     _dbContext.Employees.FirstOrDefault(
-                e =>
+                     e =>
                     e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId &&
                     e.Position == Position.Director).Id : caseAssignDto.AssignedToEmployeeId;
                     }
@@ -100,12 +100,12 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                     e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId &&
                     e.Position == Position.Secertary).Id : caseAssignDto.AssignedToEmployeeId;
                     }
-                }
-                else if(caseAssignDto.OrganizationType == OrganizationType.Biro)
-                {
+                    }
+                    else if(caseAssignDto.OrganizationType == OrganizationType.Biro)
+                    {
                     toEmployeeId = caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null ?
                    _dbContext.Employees.FirstOrDefault(
-               e =>
+                    e =>
                    e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId &&
                    e.Position == Position.Secertary).Id : caseAssignDto.AssignedToEmployeeId;
                 }
@@ -386,13 +386,41 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
                 _dbContext.Entry(currentLastHistory).Property(c => c.AffairHistoryStatus).IsModified = true;
                 _dbContext.Entry(currentLastHistory).Property(c => c.TransferedDateTime).IsModified = true;
 
-                Guid toEmployee = caseTransferDto.ToEmployeeId == Guid.Empty || caseTransferDto.ToEmployeeId == null ?
-                   _dbContext.Employees.FirstOrDefault(
-                       e =>
-                           e.OrganizationalStructureId == caseTransferDto.ToStructureId &&
-                           e.Position == Position.Director).Id : caseTransferDto.ToEmployeeId;
+                //Guid toEmployee = caseTransferDto.ToEmployeeId == Guid.Empty || caseTransferDto.ToEmployeeId == null ?
+                //   _dbContext.Employees.FirstOrDefault(
+                //       e =>
+                //           e.OrganizationalStructureId == caseTransferDto.ToStructureId &&
+                //           e.Position == Position.Director).Id : caseTransferDto.ToEmployeeId;
+                Guid toEmployee = Guid.Empty;
+                if (caseTransferDto.OrganizationType != null)
+                {
+                    if (caseTransferDto.OrganizationType == OrganizationType.Group)
+                    {
+                        toEmployee = caseTransferDto.ToEmployeeId == Guid.Empty || caseTransferDto.ToEmployeeId == null ?
+                        _dbContext.Employees.FirstOrDefault(e => e.OrganizationalStructureId == caseTransferDto.ToStructureId && e.Position == Position.GroupLeader).Id : caseTransferDto.ToEmployeeId;
+                    }
+                    else if (caseTransferDto.OrganizationType == OrganizationType.Directorate)
+                    {
+                        toEmployee = caseTransferDto.ToEmployeeId == Guid.Empty || caseTransferDto.ToEmployeeId == null ?
+                              _dbContext.Employees.FirstOrDefault(e => e.OrganizationalStructureId == caseTransferDto.ToStructureId && e.Position == Position.Director).Id : caseTransferDto.ToEmployeeId;
 
-                var childCasesTypes = await _dbContext.CaseTypes.Where(x => x.ParentCaseTypeId == currentLastHistory.CaseTypeId).OrderBy(x => x.OrderNumber).Select(x => x.Id).ToListAsync();
+                    }
+                    else if (caseTransferDto.OrganizationType == OrganizationType.Sector)
+                    {
+                        toEmployee = caseTransferDto.ToEmployeeId == Guid.Empty || caseTransferDto.ToEmployeeId == null ?
+                              _dbContext.Employees.FirstOrDefault(e => e.OrganizationalStructureId == caseTransferDto.ToStructureId && e.Position == Position.Secertary).Id : caseTransferDto.ToEmployeeId;
+
+
+                    }
+                    else if (caseTransferDto.OrganizationType == OrganizationType.Sector)
+                    {
+                        toEmployee = caseTransferDto.ToEmployeeId == Guid.Empty || caseTransferDto.ToEmployeeId == null ?
+                              _dbContext.Employees.FirstOrDefault(e => e.OrganizationalStructureId == caseTransferDto.ToStructureId && e.Position == Position.Secertary).Id : caseTransferDto.ToEmployeeId;
+
+
+                    }
+                }
+                    var childCasesTypes = await _dbContext.CaseTypes.Where(x => x.ParentCaseTypeId == currentLastHistory.CaseTypeId).OrderBy(x => x.OrderNumber).Select(x => x.Id).ToListAsync();
 
                 CaseHistory newHistory = new CaseHistory
                 {

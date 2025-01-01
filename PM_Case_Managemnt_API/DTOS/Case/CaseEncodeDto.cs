@@ -13,6 +13,7 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
         public Guid CaseTypeId { get; set; }
         public Guid ToStructureId { get; set; }
         public string Remark { get; set; }
+        public OrganizationType OrganizationType { get; set; }
     }
 
     public class CaseRevertDto : CaseCompleteDto
