@@ -66,15 +66,50 @@ namespace PM_Case_Managemnt_API.Services.CaseMGMT
         {
             try
             {
+
                 string userId = _authenticationContext.ApplicationUsers.Where(x => x.EmployeesId == caseAssignDto.AssignedByEmployeeId).FirstOrDefault().Id;
                 Case caseToAssign = await _dbContext.Cases.SingleOrDefaultAsync(el => el.Id.Equals(caseAssignDto.CaseId));
-                // CaseHistory caseHistory = await _dbContext.CaseHistories.SingleOrDefaultAsync(el => el.CaseId.Equals(caseAssignDto.CaseId));
+                //   // CaseHistory caseHistory = await _dbContext.CaseHistories.SingleOrDefaultAsync(el => el.CaseId.Equals(caseAssignDto.CaseId));
 
-                Guid? toEmployeeId = caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null ?
-             _dbContext.Employees.FirstOrDefault(
-                 e =>
-                     e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId &&
-                     e.Position == Position.Director).Id : caseAssignDto.AssignedToEmployeeId;
+                //   Guid? toEmployeeId = caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null ?
+                //_dbContext.Employees.FirstOrDefault(
+                //    e =>
+                //        e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId &&
+                //        e.Position == Position.Director).Id : caseAssignDto.AssignedToEmployeeId;
+                Guid? toEmployeeId = Guid.Empty;
+                if (caseAssignDto.OrganizationType != null)
+                {
+                    if (caseAssignDto.OrganizationType == OrganizationType.Group)
+                    {
+                        toEmployeeId = caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null ?
+                        _dbContext.Employees.FirstOrDefault(e => e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId && e.Position == Position.GroupLeader).Id : caseAssignDto.AssignedToEmployeeId;
+                    }
+                    else if (caseAssignDto.OrganizationType == OrganizationType.Directorate)
+                    {
+                        toEmployeeId = caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null ?
+                    _dbContext.Employees.FirstOrDefault(
+                e =>
+                    e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId &&
+                    e.Position == Position.Director).Id : caseAssignDto.AssignedToEmployeeId;
+                    }
+                    else if (caseAssignDto.OrganizationType == OrganizationType.Sector)
+                    {
+                        toEmployeeId = caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null ?
+                    _dbContext.Employees.FirstOrDefault(
+                e =>
+                    e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId &&
+                    e.Position == Position.Secertary).Id : caseAssignDto.AssignedToEmployeeId;
+                    }
+                }
+                else if(caseAssignDto.OrganizationType == OrganizationType.Biro)
+                {
+                    toEmployeeId = caseAssignDto.AssignedToEmployeeId == Guid.Empty || caseAssignDto.AssignedToEmployeeId == null ?
+                   _dbContext.Employees.FirstOrDefault(
+               e =>
+                   e.OrganizationalStructureId == caseAssignDto.AssignedToStructureId &&
+                   e.Position == Position.Secertary).Id : caseAssignDto.AssignedToEmployeeId;
+                }
+               
 
                 Guid fromEmployeestructure = _dbContext.Employees.Include(x => x.OrganizationalStructure).Where(x => x.Id == caseAssignDto.AssignedByEmployeeId).First().OrganizationalStructure.Id;
 

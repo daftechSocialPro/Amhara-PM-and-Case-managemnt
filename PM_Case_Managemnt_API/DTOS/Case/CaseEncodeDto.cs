@@ -1,5 +1,6 @@
 ﻿using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.Models.CaseModel;
+using PM_Case_Managemnt_API.Models.Common;
 
 namespace PM_Case_Managemnt_API.DTOS.CaseDto
 {
@@ -35,6 +36,7 @@ namespace PM_Case_Managemnt_API.DTOS.CaseDto
         public Guid AssignedToStructureId { get; set; }
         public Guid[]? ForwardedToStructureId { get; set; }
         public string? Remark { get; set; }
+        public OrganizationType OrganizationType { get; set; }
 
 
 

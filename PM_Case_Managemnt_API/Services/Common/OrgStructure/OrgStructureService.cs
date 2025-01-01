@@ -237,7 +237,7 @@ namespace PM_Case_Managemnt_API.Services.Common
             };
         }
 
-            public async Task<ResponseMessage> DeleteOrganizationalStructure(Guid organizationStructurId)
+         public async Task<ResponseMessage> DeleteOrganizationalStructure(Guid organizationStructurId)
         {
             try
             {
