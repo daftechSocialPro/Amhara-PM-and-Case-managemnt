@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PM_Case_Managemnt_API.Data;
 
@@ -11,9 +12,11 @@ using PM_Case_Managemnt_API.Data;
 namespace PMCaseManagemntAPI.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20250131233004_db")]
+    partial class db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1004,9 +1007,6 @@ namespace PMCaseManagemntAPI.Migrations
 
                     b.Property<Guid>("SubsidiaryOrganizationId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("Type")
-                        .HasColumnType("int");
 
                     b.Property<float>("Weight")
                         .HasColumnType("real");

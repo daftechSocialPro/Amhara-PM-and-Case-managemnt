@@ -11,6 +11,7 @@ import { OrganizationBranch } from './org-branch/org-branch';
 import { OrganizationProfile } from './org-profile/org-profile';
 import { OrganizationalStructure } from './org-structure/org-structure';
 import { SmsTemplateGetDto, SmsTemplatePostDto } from '../sms-template/sms-template';
+import { ZoneDto } from './zone/zone.model';
 
 
 @Injectable({
@@ -201,6 +202,19 @@ export class OrganizationService {
   }
   deleteSmsTemplate(id:string){
     return this.http.delete<any>(this.BaseURI + "/SmsTemplate/DeleteSmsTemplate?id="+id )
+  }
+  // zone service
+  createZone(data:ZoneDto){
+    return this.http.post<any>(this.BaseURI + "/Address/zone", data )
+  }
+  getZone(id:string){
+    return this.http.get<ZoneDto>(this.BaseURI + "/Address/zone/"+id)
+  }
+  getZones(){
+    return this.http.get<ZoneDto[]>(this.BaseURI + "/Address/zones")
+  }
+  updateZone(data:ZoneDto){
+    return this.http.put<any>(this.BaseURI + "/Address/zone", data )
   }
 }
 

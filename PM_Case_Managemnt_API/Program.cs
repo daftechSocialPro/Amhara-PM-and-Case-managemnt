@@ -22,6 +22,7 @@ using PM_Case_Managemnt_API.Services.CaseService.CaseTypes;
 using PM_Case_Managemnt_API.Services.CaseService.Encode;
 using PM_Case_Managemnt_API.Services.CaseService.FileSettings;
 using PM_Case_Managemnt_API.Services.Common;
+using PM_Case_Managemnt_API.Services.Common.Address;
 using PM_Case_Managemnt_API.Services.Common.Analytics;
 using PM_Case_Managemnt_API.Services.Common.Dashoboard;
 using PM_Case_Managemnt_API.Services.Common.FolderService;
@@ -59,9 +60,9 @@ builder.Services.AddControllers().AddJsonOptions(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("ApplicationSettings"));
 
-builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContext")));
 builder.Services.AddDbContext<AuthenticationContext>(options =>
-           options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+           options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContext")));
 
 
 builder.Services.AddDefaultIdentity<ApplicationUser>()
@@ -126,6 +127,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<ISmsTemplateService, SmsTemplateService>();
 builder.Services.AddScoped<IKPIService, KPIService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 
 //Jwt Authentication
 

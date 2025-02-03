@@ -38,9 +38,14 @@ namespace PM_Case_Managemnt_API.Models.Common
         public bool IsBranch { get; set; }
 
         public string OfficeNumber { get; set; }
-
-
-        
-
+        public Type? Type {  get; set; }
+       
+    }
+    public enum Type
+    {
+        Sector,
+        HeadOfOffice,
+        Directorate,
+        Group,
     }
 }

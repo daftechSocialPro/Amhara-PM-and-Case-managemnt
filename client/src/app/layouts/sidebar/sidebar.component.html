@@ -12,9 +12,11 @@
     </li>
 
 
-    <li class="nav-item" *ngIf="roleMatch(['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder'])">
+    <li class="nav-item"
+      *ngIf="roleMatch(['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder'])">
       <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#"> <i
-          class="bi bi-menu-button-wide"></i><span> {{ 'Project Managment' | translate }}</span><i class="bi bi-chevron-down ms-auto"></i>
+          class="bi bi-menu-button-wide"></i><span> {{ 'Project Managment' | translate }}</span><i
+          class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
         <li *ngIf="roleMatch(['Super Admin','Director','PM Admin','Planner','Plan Reporting'])"> <a
@@ -27,35 +29,34 @@
         <li *ngIf="roleMatch(['Super Admin','Director','PM Admin','Planner','Plan Reporting'])"> <a
             [ngClass]="getUrl()=='/plan'?'nav-link ':'nav-link collapsed'" routerLink="/plan">
             <i class="bi bi-circle"></i><span> {{ 'Projects' | translate }}</span> </a></li>
-        <li *ngIf="roleMatch(['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder'])"> <a
-            [ngClass]="getUrl()=='/assignedactivities'?'nav-link ':'nav-link collapsed'"
+        <li
+          *ngIf="roleMatch(['Super Admin','Director','Employee Manager','Encoder','PM Admin','Planner','Plan Reporting','Case Admin','Member','Secretery','Encoder'])">
+          <a [ngClass]="getUrl()=='/assignedactivities'?'nav-link ':'nav-link collapsed'"
             routerLink="/assignedactivities"> <i class="bi bi-circle"></i><span>
-               {{ 'Assigned Activities' | translate }}
+              {{ 'Assigned Activities' | translate }}
               <span class="badge bg-success">{{this.Activties}}</span></span> </a>
         </li>
         <li *ngIf="roleMatch(['Super Admin','Director','PM Admin','Planner','Plan Reporting'])"> <a
             [ngClass]="getUrl()=='/comittee'?'nav-link ':'nav-link collapsed'" routerLink="/comittee"> <i
               class="bi bi-circle"></i><span> {{ 'Directoretes' | translate }}</span> </a>
         </li>
-        <li *ngIf="roleMatch(['Regulator'])"> <a
-            [ngClass]="getUrl()=='/kpis'?'nav-link ':'nav-link collapsed'" routerLink="/kpis"> <i
-              class="bi bi-circle"></i><span>KPI List</span> </a>
+        <li *ngIf="roleMatch(['Regulator'])"> <a [ngClass]="getUrl()=='/kpis'?'nav-link ':'nav-link collapsed'"
+            routerLink="/kpis"> <i class="bi bi-circle"></i><span>KPI List</span> </a>
         </li>
         <li *ngIf="roleMatch(['Super Admin','Director','PM Admin','Planner','Plan Reporting'])"> <a
-            [routerLink]="['/kpiDetail', kpiId]"> <i
-            class="bi bi-circle"></i><span>KPI</span> </a>
+            [routerLink]="['/kpiDetail', kpiId]"> <i class="bi bi-circle"></i><span>KPI</span> </a>
         </li>
         <li *ngIf="roleMatch(['Super Admin','Director','PM Admin','Planner','Plan Reporting'])"> <a
-          routerLink="/kpiManagment"> <i
-          class="bi bi-circle"></i><span>KPI For Managment</span> </a>
-      </li>
+            routerLink="/kpiManagment"> <i class="bi bi-circle"></i><span>KPI For Managment</span> </a>
+        </li>
 
       </ul>
     </li>
     <li *ngIf="roleMatch(['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager'])"
       class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#"> <i
-          class="bi bi-journal-text"></i><span> {{ 'Case Managment' | translate }}</span><i class="bi bi-chevron-down ms-auto"></i> </a>
+          class="bi bi-journal-text"></i><span> {{ 'Case Managment' | translate }}</span><i
+          class="bi bi-chevron-down ms-auto"></i> </a>
       <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
         <li
           *ngIf="roleMatch(['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager'])">
@@ -104,7 +105,7 @@
         <li *ngIf="roleMatch(['Super Admin','Case Admin','Director','Secretery','Member'])"> <a
             [ngClass]="getUrl()=='/completedCases'?'nav-link ':'nav-link collapsed'" routerLink="/completedCases"> <i
               class="bi bi-circle"></i><span> {{ 'Completed Cases' | translate }}
-              </span>
+            </span>
           </a></li>
         <li *ngIf="roleMatch(['Super Admin','Case Admin','Director','Secretery','Member'])"> <a
             [ngClass]="getUrl()=='/archivecase'?'nav-link ':'nav-link collapsed'" routerLink="/archivecase"> <i
@@ -115,7 +116,7 @@
         <li *ngIf="roleMatch(['Super Admin','Director','Case Admin'])"> <a
             [ngClass]="getUrl()=='/listmessages'?'nav-link ':'nav-link collapsed'" routerLink="/listmessages"> <i
               class="bi bi-circle"></i><span> {{ 'List of Unsent Messages' | translate }}
-              </span> </a></li>
+            </span> </a></li>
 
         <li class="nav-heading" *ngIf="roleMatch(['Super Admin','Case Admin'])"> {{ 'Config' | translate }}</li>
         <li *ngIf="roleMatch(['Super Admin','Case Admin'])"> <a
@@ -136,18 +137,19 @@
     <li class="nav-item">
       <a *ngIf="roleMatch(['Super Admin','PM Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager','Monitor'])"
         class="nav-link collapsed" data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#"> <i
-          class="bi bi-file-earmark-bar-graph"></i><span> {{ 'Reports' | translate }}</span><i class="bi bi-chevron-down ms-auto"></i>
+          class="bi bi-file-earmark-bar-graph"></i><span> {{ 'Reports' | translate }}</span><i
+          class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="reports-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])" class="nav-heading">
-           {{ 'Pm Reports' | translate }}</li>
+          {{ 'Pm Reports' | translate }}</li>
 
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])"> <a
             [ngClass]="getUrl()=='/directorlevelperformance'?'nav-link ':'nav-link collapsed'"
             routerLink="/directorlevelperformance"> <i class="bi bi-circle"></i><span>
-            
-               {{ 'Director Level Performance' | translate }}</span> </a></li>
+
+              {{ 'Director Level Performance' | translate }}</span> </a></li>
 
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])"> <a
             [ngClass]="getUrl()=='/taskreport'?'nav-link ':'nav-link collapsed'" routerLink="/taskreport"> <i
@@ -157,13 +159,14 @@
 
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])"> <a
             [ngClass]="getUrl()=='/programbudgetreport'?'nav-link ':'nav-link collapsed'"
-            routerLink="/programbudgetreport"> <i class="bi bi-circle"></i><span> {{ 'Program Budget Report' | translate }}
-              </span>
+            routerLink="/programbudgetreport"> <i class="bi bi-circle"></i><span> {{ 'Program Budget Report' | translate
+              }}
+            </span>
           </a></li>
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])"> <a
             [ngClass]="getUrl()=='/planreportdetail'?'nav-link ':'nav-link collapsed'" routerLink="/planreportdetail">
             <i class="bi bi-circle"></i><span> {{ 'Plan Report Detail' | translate }}
-              </span> </a>
+            </span> </a>
         </li>
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])"> <a
             [ngClass]="getUrl()=='/plannedreport'?'nav-link ':'nav-link collapsed'" routerLink="/plannedreport"> <i
@@ -176,15 +179,15 @@
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])"> <a
             [ngClass]="getUrl()=='/progressreport'?'nav-link ':'nav-link collapsed'" routerLink="/progressreport"> <i
               class="bi bi-circle"></i><span> {{ 'Progress Report' | translate }}
-              </span> </a></li>
+            </span> </a></li>
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])"> <a
             [ngClass]="getUrl()=='/progressreportbystructure'?'nav-link ':'nav-link collapsed'"
             routerLink="/progressreportbystructure"> <i class="bi bi-circle"></i><span>
-                         {{ 'Progress Report By Structure' | translate }}</span></a></li>
+              {{ 'Progress Report By Structure' | translate }}</span></a></li>
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])"> <a
             [ngClass]="getUrl()=='/performancereport'?'nav-link ':'nav-link collapsed'" routerLink="/performancereport">
             <i class="bi bi-circle"></i><span>
-               {{ 'Performance Report' | translate }}</span> </a>
+              {{ 'Performance Report' | translate }}</span> </a>
         </li>
         <li *ngIf="roleMatch(['Super Admin','PM Admin','Director','Monitor'])"> <a
             [ngClass]="getUrl()=='/estimatedcoast'?'nav-link ':'nav-link collapsed'" routerLink="/estimatedcoast"> <i
@@ -203,39 +206,41 @@
         <li *ngIf="roleMatch(['Super Admin','Director','Case Admin','Monitor'])"> <a
             [ngClass]="getUrl()=='/casedetailreport'?'nav-link ':'nav-link collapsed'" routerLink="/casedetailreport">
             <i class="bi bi-circle"></i><span> {{ 'Case Detail Report' | translate }}
-              </span> </a> </li>
-        <li
-          *ngIf="roleMatch(['Super Admin','Director','Case Admin','Member','Employee Manager','Encoder','Monitor'])">
+            </span> </a> </li>
+        <li *ngIf="roleMatch(['Super Admin','Director','Case Admin','Member','Employee Manager','Encoder','Monitor'])">
           <a [ngClass]="getUrl()=='/empperformance'?'nav-link ':'nav-link collapsed'" routerLink="/empperformance"> <i
               class="bi bi-circle"></i><span> {{ 'Performance Report' | translate }}
-              </span> </a>
+            </span> </a>
 
 
         </li>
 
         <li *ngIf="roleMatch(['Super Admin','Director','Case Admin','Secretery','Monitor'])"> <a
             [ngClass]="getUrl()=='/smsreport'?'nav-link ':'nav-link collapsed'" routerLink="/smsreport"> <i
-              class="bi bi-circle"></i><span>  {{ 'SMS Report' | translate }}
+              class="bi bi-circle"></i><span> {{ 'SMS Report' | translate }}
             </span> </a></li>
 
       </ul>
     </li>
 
-    <li class="nav-heading" *ngIf="roleMatch(['Super Admin','Case Admin','PM Admin','Monitor','Director','Secretery'])"> {{ 'Common' | translate }}</li>
+    <li class="nav-heading" *ngIf="roleMatch(['Super Admin','Case Admin','PM Admin','Monitor','Director','Secretery'])">
+      {{ 'Common' | translate }}</li>
 
     <li class="nav-item">
       <a *ngIf="roleMatch(['Super Admin','Employee Manager','Monitor'])" class="nav-link collapsed"
-        data-bs-target="#Organization" data-bs-toggle="collapse" href="#"> <i
-          class="bi bi-building"></i><span> {{ 'Organization' | translate }}</span><i class="bi bi-chevron-down ms-auto"></i> </a>
+        data-bs-target="#Organization" data-bs-toggle="collapse" href="#"> <i class="bi bi-building"></i><span> {{
+          'Organization' | translate }}</span><i class="bi bi-chevron-down ms-auto"></i> </a>
       <ul id="Organization" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
         <li *ngIf="roleMatch(['Super Admin','Employee Manager','Monitor'])"> <a
             [ngClass]="getUrl()=='/orgprofile'?'nav-link ':'nav-link collapsed'" routerLink="/orgprofile"> <i
               class="bi bi-circle"></i><span> {{ 'Profile' | translate }}</span> </a></li>
         <li *ngIf="roleMatch(['Monitor'])"> <a [ngClass]="getUrl()=='/suborganization'?'nav-link ':'nav-link collapsed'"
-            routerLink="/suborganization"> <i class="bi bi-circle"></i><span> {{ 'Subsidiary Oraganizations' | translate }}
+            routerLink="/suborganization"> <i class="bi bi-circle"></i><span> {{ 'Subsidiary Oraganizations' | translate
+              }}
             </span> </a>
         </li>
+
         <li *ngIf="roleMatch(['Super Admin','Employee Manager'])"> <a
             [ngClass]="getUrl()=='/orgbranch'?'nav-link ':'nav-link collapsed'" routerLink="/orgbranch"> <i
               class="bi bi-circle"></i><span> {{ 'Branches' | translate }}</span> </a></li>
@@ -246,6 +251,15 @@
         <li *ngIf="roleMatch(['Super Admin','Employee Manager'])"> <a
             [ngClass]="getUrl()=='/employee'?'nav-link ':'nav-link collapsed'" routerLink="/employee"> <i
               class="bi bi-circle"></i><span> {{ 'Employees' | translate }}</span> </a></li>
+        <li *ngIf="roleMatch(['Super Admin','Employee Manager'])"> <a
+            [ngClass]="getUrl()=='/zone'?'nav-link ':'nav-link collapsed'" routerLink="/zone"> <i
+              class="bi bi-circle"></i><span> {{ 'Zone' | translate }}</span> </a></li>
+        <li *ngIf="roleMatch(['Super Admin','Employee Manager'])"> <a
+            [ngClass]="getUrl()=='/woreda'?'nav-link ':'nav-link collapsed'" routerLink="/woreda"> <i
+              class="bi bi-circle"></i><span> {{ 'Woreda' | translate }}</span> </a></li>
+        <li *ngIf="roleMatch(['Super Admin','Employee Manager'])"> <a
+            [ngClass]="getUrl()=='/kebele'?'nav-link ':'nav-link collapsed'" routerLink="/kebele"> <i
+              class="bi bi-circle"></i><span> {{ 'Kebele' | translate }}</span> </a></li>
 
       </ul>
     </li>

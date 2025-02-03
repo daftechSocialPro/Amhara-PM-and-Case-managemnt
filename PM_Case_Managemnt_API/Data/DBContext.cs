@@ -95,7 +95,19 @@ namespace PM_Case_Managemnt_API.Data
         public DbSet<KPIList> KPIs { get; set; }
         public DbSet<KPIDetails> KPIDetails { get; set; }
         public DbSet<KPIData> KPIDatas { get; set; }
+        public DbSet<Zone> Zone { get; set; }
+        public DbSet<Woreda> Woreda { get; set; }
+        public DbSet<Kebele> Kebele { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
+                 .SelectMany(t => t.GetForeignKeys())
+                 .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
 
-    }
+            foreach (var fk in cascadeFKs)
+                fk.DeleteBehavior = DeleteBehavior.NoAction;
+
+        }
+        }
 }

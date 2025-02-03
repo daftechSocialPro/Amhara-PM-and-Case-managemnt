@@ -95,6 +95,9 @@ import { LoginKpiDataComponent } from './pages/PM/kpi/kpi-detail/login-kpi-data/
 import { KpiAuthGuard } from './pages/PM/kpi/kpi-detail/login-kpi-data/kpi-auth-guard';
 import { KpiSelectComponent } from './pages/PM/kpi/kpi-detail/kpi-select/kpi-select.component';
 import { KpiManagmentComponent } from './pages/PM/KPI/kpi-detail/kpi-managment/kpi-managment.component';
+import { ZoneComponent } from './pages/common/organization/zone/zone.component';
+import { WoredaComponent } from './pages/common/organization/woreda/woreda.component';
+import { KebeleComponent } from './pages/common/organization/kebele/kebele.component';
 
 
 
@@ -220,7 +223,10 @@ const routes: Routes = [
   { path: 'pages-error404', component: PagesError404Component },
   { path: 'pages-faemploye', component: PagesFaqComponent },
   { path: 'pages-login', component: PagesLoginComponent },
-  { path: 'pages-register', component: PagesRegisterComponent }
+  { path: 'pages-register', component: PagesRegisterComponent },
+  { path: 'zone', component: ZoneComponent },
+  { path: 'woreda', component: WoredaComponent },
+  { path: 'kebele', component: KebeleComponent }
 
 ];
 

@@ -207,6 +207,9 @@ import { KpiSelectComponent } from './pages/PM/kpi/kpi-detail/kpi-select/kpi-sel
 import { FileComponentComponent } from './components/file-component/file-component.component';
 import { FileUploadComponent } from './components/file-component/file-upload/file-upload.component';
 import { DialogModule } from 'primeng/dialog';
+import { ZoneComponent } from './pages/common/organization/zone/zone.component';
+import { WoredaComponent } from './pages/common/organization/woreda/woreda.component';
+import { KebeleComponent } from './pages/common/organization/kebele/kebele.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -378,9 +381,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     KpiManagmentComponent,
     KpiSelectComponent,
     FileComponentComponent,
-    FileUploadComponent
-   
-   
+    FileUploadComponent,
+    ZoneComponent,
+    WoredaComponent,
+    KebeleComponent, 
   ],
   imports: [
     BrowserModule,
