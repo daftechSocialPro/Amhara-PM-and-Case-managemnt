@@ -4,6 +4,7 @@
     {
         public Guid? Id { get; set; }
         public Guid WoredaId { get; set; }
+        public string WoredaName { get; set; }
         public string Name { get; set; } = null!;
         public string? Remark { get; set; }
         public int RowStatus { get; set; }
@@ -11,6 +12,7 @@
     public class KebelePostDto
     {
         public Guid WoredaId { get; set; }
+       
         public string Name { get; set; } = null!;
         public string? Remark { get; set; }
         public int RowStatus { get; set; }

@@ -104,6 +104,17 @@ namespace PM_Case_Managemnt_API.Data
             var cascadeFKs = modelBuilder.Model.GetEntityTypes()
                  .SelectMany(t => t.GetForeignKeys())
                  .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
+            modelBuilder.Entity<Zone>()
+        .HasIndex(z => z.Name)
+        .IsUnique();
+
+            modelBuilder.Entity<Woreda>()
+                .HasIndex(w => w.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Kebele>()
+                .HasIndex(k => k.Name)
+                .IsUnique();
 
             foreach (var fk in cascadeFKs)
                 fk.DeleteBehavior = DeleteBehavior.NoAction;

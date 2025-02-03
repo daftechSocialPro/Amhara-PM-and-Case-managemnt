@@ -4,6 +4,7 @@ using PM_Case_Managemnt_API.Data;
 using Microsoft.EntityFrameworkCore;
 using PM_Case_Managemnt_API.Models.Common;
 using PM_Case_Managemnt_API.DTOS.Common;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace PM_Case_Managemnt_API.Services.Common.Address
 {
@@ -84,8 +85,10 @@ namespace PM_Case_Managemnt_API.Services.Common.Address
                 Id = Guid.NewGuid(),
                 ZoneId = woredaDto.ZoneId,
                 Name = woredaDto.Name,
-                CreatedAt = DateTime.UtcNow
-            };
+                CreatedAt = DateTime.UtcNow,
+                RowStatus = woredaDto.RowStatus == 0 ? RowStatus.Active : RowStatus.InActive
+
+        };
             _context.Woreda.Add(woreda);
             return await _context.SaveChangesAsync();
         }
@@ -97,7 +100,10 @@ namespace PM_Case_Managemnt_API.Services.Common.Address
 
             woreda.Name = woredaDto.Name;
             woreda.ZoneId = woredaDto.ZoneId;
-          
+            woreda.Remark = woredaDto.Remark;
+            woreda.RowStatus = woredaDto.RowStatus == 0 ? RowStatus.Active : RowStatus.InActive;
+
+
 
             return await _context.SaveChangesAsync();
         }
@@ -111,28 +117,50 @@ namespace PM_Case_Managemnt_API.Services.Common.Address
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<List<WoredaDto>> GetWoredas()
+        
+        public async Task<List<WoredaDto>> GetWoredas(Guid? zoneId = null)
         {
-            return await _context.Woreda.Select(w => new WoredaDto
+            var query = _context.Woreda.AsQueryable(); // Join with Zone to get Zone Name
+
+            if (zoneId.HasValue)
             {
-                Id = w.Id,
-                Name = w.Name,
-                ZoneId = w.ZoneId
+                query = query.Where(k => k.ZoneId == zoneId.Value);
+               
+            }
+            // Now include Woreda for the results
+            query = query.Include(k => k.Zone);
+
+            return await query.Select(k => new WoredaDto
+            {
+                Id = k.Id,
+                Name = k.Name,
+                ZoneId = k.ZoneId,
+                ZoneName = k.Zone.Name,  // Add WoredaName
+                Remark = k.Remark,
+                RowStatus = k.RowStatus == RowStatus.Active ? 0 : 1       
             }).ToListAsync();
         }
 
         public async Task<WoredaDto> GetWoredaById(Guid woredaId)
         {
-            var woreda = await _context.Woreda.FindAsync(woredaId);
+            var woreda = await _context.Woreda
+                .Include(w => w.Zone)  // Join with Zone to get Zone Name
+                .FirstOrDefaultAsync(w => w.Id == woredaId);
+
             if (woreda == null) return null;
 
             return new WoredaDto
             {
                 Id = woreda.Id,
                 Name = woreda.Name,
-                ZoneId = woreda.ZoneId
+                ZoneId = woreda.ZoneId,
+                ZoneName = woreda.Zone.Name,  // Add ZoneName
+                Remark = woreda.Remark,
+                RowStatus = woreda.RowStatus == RowStatus.Active ? 0 : 1
             };
         }
+
+
 
         // Kebele Methods
         public async Task<int> CreateKebele(KebelePostDto kebeleDto)
@@ -142,8 +170,9 @@ namespace PM_Case_Managemnt_API.Services.Common.Address
                 Id = Guid.NewGuid(),
                 WoredaId = kebeleDto.WoredaId,
                 Name = kebeleDto.Name,
-                CreatedAt = DateTime.UtcNow
-            };
+                CreatedAt = DateTime.UtcNow,
+                RowStatus = kebeleDto.RowStatus == 0 ? RowStatus.Active : RowStatus.InActive
+        };
             _context.Kebele.Add(kebele);
             return await _context.SaveChangesAsync();
         }
@@ -155,7 +184,9 @@ namespace PM_Case_Managemnt_API.Services.Common.Address
 
             kebele.Name = kebeleDto.Name;
             kebele.WoredaId = kebeleDto.WoredaId;
-            
+            kebele.Remark = kebeleDto.Remark;
+            kebele.RowStatus = kebeleDto.RowStatus == 0 ? RowStatus.Active : RowStatus.InActive;
+
 
             return await _context.SaveChangesAsync();
         }
@@ -169,26 +200,50 @@ namespace PM_Case_Managemnt_API.Services.Common.Address
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<List<KebeleDto>> GetKebeles()
+
+        // Kebele Methods - GetKebeles with Woreda filtering
+        public async Task<List<KebeleDto>> GetKebeles(Guid? woredaId = null)
         {
-            return await _context.Kebele.Select(k => new KebeleDto
+            // Start with the query including Woreda
+            var query = _context.Kebele.AsQueryable();
+
+            // Apply filter if woredaId is provided
+            if (woredaId.HasValue)
+            {
+                query = query.Where(k => k.WoredaId == woredaId.Value);
+            }
+
+            // Now include Woreda for the results
+            query = query.Include(k => k.Woreda);
+
+            // Project the result into KebeleDto
+            return await query.Select(k => new KebeleDto
             {
                 Id = k.Id,
                 Name = k.Name,
-                WoredaId = k.WoredaId
+                WoredaId = k.WoredaId,
+                WoredaName = k.Woreda.Name,  // Add WoredaName
+                Remark = k.Remark,
+                RowStatus = k.RowStatus == RowStatus.Active ? 0 : 1
             }).ToListAsync();
         }
 
         public async Task<KebeleDto> GetKebeleById(Guid kebeleId)
         {
-            var kebele = await _context.Kebele.FindAsync(kebeleId);
+            var kebele = await _context.Kebele
+                .Include(k => k.Woreda)  // Join with Woreda to get Woreda Name
+                .FirstOrDefaultAsync(k => k.Id == kebeleId);
+
             if (kebele == null) return null;
 
             return new KebeleDto
             {
                 Id = kebele.Id,
                 Name = kebele.Name,
-                WoredaId = kebele.WoredaId
+                WoredaId = kebele.WoredaId,
+                WoredaName = kebele.Woreda.Name,  // Add WoredaName
+                Remark = kebele.Remark,
+                RowStatus = kebele.RowStatus == RowStatus.Active ? 0 : 1
             };
         }
     }

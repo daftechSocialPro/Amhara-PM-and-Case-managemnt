@@ -4,6 +4,7 @@
     {
         public Guid? Id { get; set; }
         public Guid ZoneId { get; set; }
+        public string ZoneName { get; set; }
         public string Name { get; set; } = null!;
         public string? Remark { get; set; }
         public int RowStatus { get; set; }

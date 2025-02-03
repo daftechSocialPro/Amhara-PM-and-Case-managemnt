@@ -4,9 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { CommonService, toastPayload } from 'src/app/common/common.service';
 import { UserView } from 'src/app/pages/pages-login/user';
 import { UserService } from 'src/app/pages/pages-login/user.service';
-import { AddEmployeesComponent } from '../employee/add-employees/add-employees.component';
-import { Employee } from '../employee/employee';
-import { UpdateEmployeeComponent } from '../employee/update-employee/update-employee.component';
 import { OrganizationService } from '../organization.service';
 import { ZoneDto } from './zone.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -24,6 +21,8 @@ export class ZoneComponent {
   dataForm !: FormGroup;
   toast !: toastPayload;
   isEditing!: boolean;
+  selectedStatus: string = '';  // Default to "active" status (adjust if needed)
+
   constructor(private orgService: OrganizationService,
     private commonServcie: CommonService,
     private modalService: NgbModal,
@@ -41,27 +40,27 @@ export class ZoneComponent {
       Name: ['', Validators.required],
       Remark: [''],
       RowStatus: ['']
-    })
+    });
+    this.Filter(this.selectedStatus); // Automatically filter zones on component load
   }
+
   listZones() {
     this.orgService.getZones().subscribe({
       next: (res) => {
         this.zones = res
         this.filterdZones = res
+        this.Filter(this.selectedStatus); // Reapply filter after fetching zones
       }, error: (err) => {
         console.error(err)
       }
     })
   }
 
-  submit(
-  ) {
-
+  submit() {
     if (this.dataForm.valid) {
       if (!this.isEditing) {
         this.orgService.createZone(this.dataForm.value).subscribe({
           next: (res) => {
-
             this.toast = {
               message: 'zone added successfully',
               title: 'Successfully Created.',
@@ -87,14 +86,10 @@ export class ZoneComponent {
             };
             this.commonService.showToast(this.toast);
           }
-        }
-        );
-      }
-      else {
+        });
+      } else {
         this.orgService.updateZone(this.dataForm.value).subscribe({
-
           next: (res) => {
-
             this.toast = {
               message: 'zone updated successfully',
               title: 'Successfully Updated.',
@@ -107,7 +102,6 @@ export class ZoneComponent {
             this.commonService.showToast(this.toast);
             this.listZones();
             this.closeModal();
-           
           }, error: (err) => {
             this.toast = {
               message: err,
@@ -120,42 +114,32 @@ export class ZoneComponent {
             };
             this.commonService.showToast(this.toast);
           }
-        }
-      )
+        });
       }
-      
     }
-  }
-
-  getPath(photo: string) {
-    return this.commonServcie.createImgPath(photo)
-  }
-
-  updateData(emp: any) {
-
-    let modalRef = this.modalService.open(UpdateEmployeeComponent, { size: "xl", backdrop: 'static' })
-    modalRef.componentInstance.emp = emp;
   }
 
   openAddModal(content: any) {
     this.isEditing = false;
-    this.modalService.open(content, { size: 'md', backdrop: 'static' })
-  }
-  openEditModal(content: any,data:ZoneDto) {
-    this.dataForm.patchValue(data)
-    this.isEditing = true;
-    this.modalService.open(content, { size: 'md', backdrop: 'static' })
+    this.modalService.open(content, { size: 'md', backdrop: 'static' });
   }
 
-  Filter(value: string) {
-    const searchTerm = value.toLowerCase()
-    this.filterdZones = this.zones.filter((item) => {
-      return (
-        item.Name.toLowerCase().includes(searchTerm)
-      )
-    }
-    )
+  openEditModal(content: any, data: ZoneDto) {
+    this.dataForm.patchValue(data);
+    this.isEditing = true;
+    this.modalService.open(content, { size: 'md', backdrop: 'static' });
   }
+
+  // Filter method
+  Filter(value: string) {
+    const searchTerm = value.toLowerCase();
+    this.filterdZones = this.zones.filter((item) => {
+      const matchesSearch = item.Name.toLowerCase().includes(searchTerm);
+      const matchesStatus = this.selectedStatus === '' || item.RowStatus.toString() === this.selectedStatus;
+      return matchesSearch && matchesStatus;
+    });
+  }
+
   closeModal() {
     this.modalService.dismissAll();
     this.dataForm.reset();

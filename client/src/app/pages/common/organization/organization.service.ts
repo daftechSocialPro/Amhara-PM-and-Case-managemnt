@@ -12,6 +12,9 @@ import { OrganizationProfile } from './org-profile/org-profile';
 import { OrganizationalStructure } from './org-structure/org-structure';
 import { SmsTemplateGetDto, SmsTemplatePostDto } from '../sms-template/sms-template';
 import { ZoneDto } from './zone/zone.model';
+import { WoredaDto } from './woreda/woreda.dto';
+import { Observable } from 'rxjs';
+import { KebeleDto } from './kebele/kebele.model';
 
 
 @Injectable({
@@ -215,6 +218,45 @@ export class OrganizationService {
   }
   updateZone(data:ZoneDto){
     return this.http.put<any>(this.BaseURI + "/Address/zone", data )
+  }
+  // woreda service
+  createWoreda(data:WoredaDto){
+    return this.http.post<any>(this.BaseURI + "/Address/woreda", data )
+  }
+  getWoreda(id:string){
+    return this.http.get<WoredaDto>(this.BaseURI + "/Address/woreda/"+id)
+  }
+  getWoredas(data:string | undefined=undefined){
+    if(data && data.length > 1)
+      return this.http.get<WoredaDto[]>(this.BaseURI + `/Address/woredas?zoneId=${data}`)
+      else 
+    return this.http.get<WoredaDto[]>(this.BaseURI + "/Address/woredas")
+  }
+  updateWoreda(data:WoredaDto){
+    return this.http.put<any>(this.BaseURI + "/Address/woreda", data )
+  }
+  // kebele
+  // Create a new Kebele
+  createKebele(data: KebeleDto): Observable<any> {
+    return this.http.post<any>(`${this.BaseURI}/Address/kebele`, data);
+  }
+
+  // Get a Kebele by ID
+  getKebele(id: string): Observable<KebeleDto> {
+    return this.http.get<KebeleDto>(`${this.BaseURI}/Address/kebele/${id}`);
+  }
+
+  // Get a list of Kebeles
+  getKebeles(data:string | undefined=undefined): Observable<KebeleDto[]> {
+    if(data && data.length > 1)
+      return this.http.get<KebeleDto[]>(`${this.BaseURI}/Address/kebeles?woredaId=${data}`);
+    else 
+    return this.http.get<KebeleDto[]>(`${this.BaseURI}/Address/kebeles`);
+  }
+
+  // Update an existing Kebele
+  updateKebele(data: KebeleDto): Observable<any> {
+    return this.http.put<any>(`${this.BaseURI}/Address/kebele`, data);
   }
 }
 

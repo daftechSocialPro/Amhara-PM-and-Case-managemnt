@@ -84,9 +84,9 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
         }
 
         [HttpGet("woredas")]
-        public async Task<IActionResult> GetWoredas()
+        public async Task<IActionResult> GetWoredas(Guid? zoneId = null)
         {
-            var woredas = await _addressService.GetWoredas();
+            var woredas = await _addressService.GetWoredas(zoneId);
             return Ok(woredas);
         }
 
@@ -125,9 +125,10 @@ namespace PM_Case_Managemnt_API.Controllers.Common.Organization
         }
 
         [HttpGet("kebeles")]
-        public async Task<IActionResult> GetKebeles()
+        public async Task<IActionResult> GetKebeles(Guid? woredaId = null)
         {
-            var kebeles = await _addressService.GetKebeles();
+
+            var kebeles = await _addressService.GetKebeles(woredaId);
             return Ok(kebeles);
         }
 

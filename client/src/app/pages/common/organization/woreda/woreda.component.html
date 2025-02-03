@@ -1,1 +1,136 @@
-<p>woreda works!</p>
+<main id="main" class="main">
+    <!-- Page Title -->
+    <div class="pagetitle">
+        <h1>{{ 'Woreda' | translate }}</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">{{ 'Organization' | translate }}</a></li>
+                <li class="breadcrumb-item">{{ 'Woreda' | translate }}</li>
+                <li class="breadcrumb-item active">{{ 'List' | translate }}</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Search & Add Button -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="col-lg-4">
+            <input type="text" class="form-control" #filterBy placeholder="{{ 'Search Woreda' | translate }}"
+                (input)="Filter(filterBy.value)" />
+        </div>
+        <div class="col-lg-2">
+            <select class="form-select" (change)="listWoredas()" [(ngModel)]="selectedKebele">
+                <option value="" disabled>{{ 'Select Woreda' | translate }}</option>
+                <option *ngFor="let zone of zones" [value]="zone.Id">
+                    {{ zone.Name }}
+                </option>
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <select class="form-select" (change)="Filter(filterBy.value)" [(ngModel)]="selectedStatus">
+                <option value="">{{ 'All Status' | translate }}</option>
+                <option value="0">{{ 'Active' | translate }}</option>
+                <option value="1">{{ 'Inactive' | translate }}</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" (click)="openAddModal(add)">
+            <i class="pi pi-plus"></i> {{ 'Add Woreda' | translate }}
+        </button>
+    </div>
+
+    <!-- Table Section -->
+    <section class="section profile">
+        <div class="card p-3">
+            <p-table [value]="filterdWoredas" dataKey="Id" [paginator]="true" [rows]="10" responsiveLayout="scroll"
+                [tableStyle]="{'min-width': '60rem'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 5rem">#</th>
+                        <th pSortableColumn="Name">
+                            {{ 'Name' | translate }}
+                            <p-sortIcon field="Name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="ZoneName">
+                            {{ 'Zone' | translate }}
+                            <p-sortIcon field="ZoneName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="RowStatus">
+                            {{ 'Status' | translate }}
+                            <p-sortIcon field="RowStatus"></p-sortIcon>
+                        </th>
+                        <th>{{ 'Action' | translate }}</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ data.Name }}</td>
+                        <td>{{ data.ZoneName }}</td>
+                        <td>
+                            <span class="custom-badge"
+                                [ngClass]="data.RowStatus == 0 ? 'badge-active' : 'badge-inactive'">
+                                {{ data.RowStatus == 0 ? 'Active' : 'Inactive' | translate }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-warning" (click)="openEditModal(add, data)">
+                                <i class="pi pi-pencil"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </section>
+</main>
+
+<!-- Modal Template -->
+<ng-template #add>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">{{ isEditing ? 'Update Woreda' : 'Add Woreda' | translate }}</h5>
+            <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+
+        <div class="modal-body">
+            <form class="needs-validation" [formGroup]="dataForm" (submit)="submit()">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="Order" placeholder="Name"
+                                    formControlName="Name">
+                                <label for="Name"> {{ 'Name' | translate }}</label>
+                            </div>
+                        </div>
+                        <!-- Zone Dropdown Field -->
+                        <div class="col-md-12 form-floating mb-3">
+                            <select class="form-select" id="ZoneId" formControlName="ZoneId" aria-label="Zone">
+                                <option value="" disabled>{{ 'Select Zone' | translate }}</option>
+                                <option *ngFor="let zone of zones" [value]="zone.Id">
+                                    {{ zone.Name }}
+                                </option>
+                            </select>
+                            <label for="ZoneId">{{ 'Zone' | translate }}</label>
+                        </div>
+                        <div class="col-md-12 form-floating mb-3">
+                            <select class="form-select" id="RowStatus" formControlName="RowStatus" aria-label="State">
+                                <option value=0> {{ 'Active' | translate }}</option>
+                                <option value=1> {{ 'InActive' | translate }}</option>
+                            </select>
+                            <label for="RowStatus"> {{ 'Status' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">
+                        {{ 'Close' | translate }}
+                    </button>
+                    <button [disabled]="!dataForm.valid" type="submit" class="btn btn-success">
+                        {{ 'Save Changes' | translate }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
