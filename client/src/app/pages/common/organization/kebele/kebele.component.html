@@ -17,16 +17,15 @@
             <input type="text" class="form-control" #filterBy placeholder="{{ 'Search Kebele' | translate }}"
                 (input)="filterKebeles(filterBy.value)" />
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <select class="form-select" (change)="getKebeles()" [(ngModel)]="selectedWoreda">
                 <option value="" disabled>{{ 'Select Woreda' | translate }}</option>
                 <option *ngFor="let woreda of woredas" [value]="woreda.Id">
                     {{ woreda.Name }}
                 </option>
             </select>
-
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <select class="form-select" (change)="filterKebeles(filterBy.value)" [(ngModel)]="selectedStatus">
                 <option value="">{{ 'All Status' | translate }}</option>
                 <option value="0">{{ 'Active' | translate }}</option>

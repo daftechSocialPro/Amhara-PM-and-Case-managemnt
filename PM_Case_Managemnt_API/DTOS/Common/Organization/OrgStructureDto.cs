@@ -26,6 +26,9 @@ namespace PM_Case_Managemnt_API.DTOS.Common
         public int RowStatus { get; set; }
 
         public Guid SubsidiaryOrganizationId { get; set; }
+        public int? Type { get; set; }
+        public string? TypeName { get; set; }
+        public bool? isManageZone { get; set; }
     }
 
 

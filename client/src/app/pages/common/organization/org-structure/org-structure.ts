@@ -12,5 +12,8 @@ export interface OrganizationalStructure {
   ParentWeight?: Number;
   Remark: string;
   RowStatus: Number;
-  SubsidiaryOrganizationId:string
+  SubsidiaryOrganizationId:string;
+  Type? :string;
+  TypeName?:string;
+  isManageZone? : boolean;
 }

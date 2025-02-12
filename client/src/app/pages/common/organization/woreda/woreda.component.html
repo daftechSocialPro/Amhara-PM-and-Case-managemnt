@@ -17,7 +17,7 @@
             <input type="text" class="form-control" #filterBy placeholder="{{ 'Search Woreda' | translate }}"
                 (input)="Filter(filterBy.value)" />
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <select class="form-select" (change)="listWoredas()" [(ngModel)]="selectedKebele">
                 <option value="" disabled>{{ 'Select Woreda' | translate }}</option>
                 <option *ngFor="let zone of zones" [value]="zone.Id">
@@ -25,7 +25,7 @@
                 </option>
             </select>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <select class="form-select" (change)="Filter(filterBy.value)" [(ngModel)]="selectedStatus">
                 <option value="">{{ 'All Status' | translate }}</option>
                 <option value="0">{{ 'Active' | translate }}</option>

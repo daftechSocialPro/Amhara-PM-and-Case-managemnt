@@ -41,9 +41,9 @@ export class UpdateStructureComponent {
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser()
-    console.log('this.structure: ', this.structure);
+    console.log('this.structure check: ', this.structure);
     this.getBranchList()
-    this.structureForm = this.formBuilder.group({
+    this.structureForm= this.formBuilder.group({
       OrganizationBranchId: ["", Validators.required],
       IsBranch: [this.structure?.IsBranch, Validators.required],
       OfficeNumber: [""],
@@ -52,8 +52,12 @@ export class UpdateStructureComponent {
       Order: [this.structure?.Order, Validators.required],
       Weight: [this.structure?.Weight, [Validators.required, Validators.min(1)]],
       RowStatus: [this.structure.RowStatus, Validators.required],
-      Remark: [this.structure.Remark]
+      Remark: [this.structure.Remark],
+      Type: [this.structure.Type],
+      TypeName: [this.structure.TypeName],
+      isManageZone: [this.structure.isManageZone],
     })
+    
   }
 
   getBranchList() {
@@ -132,7 +136,10 @@ export class UpdateStructureComponent {
         OfficeNumber: this.structureForm.value.OfficeNumber,
         BranchName: '',
         ParentStructureName: '',
-        SubsidiaryOrganizationId: this.user.SubOrgId
+        SubsidiaryOrganizationId: this.user.SubOrgId,
+        Type :this.structureForm.value.Type,
+        TypeName:this.structureForm.value.TypeName,
+        isManageZone :this.structureForm.value.isManageZone
       }
 
 

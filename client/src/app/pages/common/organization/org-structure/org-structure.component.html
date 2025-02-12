@@ -68,7 +68,8 @@
                 <th scope="col"> {{'Is Branch' | translate}}</th>
                 <th scope="col"> {{'Order' | translate}}</th>
                 <th scope="col"> {{'Weight' | translate}}</th>
-                <th scope="col"> {{'Action' | translate}}</th>
+                <th scope="col"> {{'Type' | translate}}</th>
+                <th scope="col"> {{'isManageZone' | translate}}</th>
               </tr>
             </thead>
             <tbody>
@@ -81,6 +82,8 @@
                 <td>{{ structureParameter.IsBranch?"Is Branch":"Is not Branch" }}</td>
                 <td>{{ structureParameter.Order }}</td>
                 <td>{{ structureParameter.Weight }}</td>
+                <td>{{ structureParameter.TypeName }}</td>
+                <td>{{ structureParameter.isManageZone }}</td>
                 <td>
                   <a (click)="updateStructure(structureParameter)" class="btn btn-outline-warning"><i
                       class="bi bi-pen"></i>  {{'Update' | translate}}</a>

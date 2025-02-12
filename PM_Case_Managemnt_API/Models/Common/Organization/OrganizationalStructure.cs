@@ -39,7 +39,7 @@ namespace PM_Case_Managemnt_API.Models.Common
 
         public string OfficeNumber { get; set; }
         public Type? Type {  get; set; }
-       
+        public bool? isManageZone { get; set; } = false;
     }
     public enum Type
     {
@@ -47,5 +47,6 @@ namespace PM_Case_Managemnt_API.Models.Common
         HeadOfOffice,
         Directorate,
         Group,
+        Others
     }
 }

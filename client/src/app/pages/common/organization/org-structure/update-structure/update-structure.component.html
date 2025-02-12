@@ -79,6 +79,21 @@
                                     placeholder="Weight" formControlName="Weight"> <label for="Weight"> {{'Weight' | translate}}</label>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <select class="form-select"  id="Type" formControlName="Type">
+                                <option value="">{{ 'Select Type' | translate }}</option>
+                                <option value="0">{{ 'Sector' | translate }}</option>
+                                <option value="1">{{ 'HeadOfOffice' | translate }}</option>
+                                <option value="2">{{ 'Directorate' | translate }}</option>
+                                <option value="3">{{ 'Group' | translate }}</option>
+                                <option value="4">{{ 'Other' | translate }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check"> <input class="form-check-input" formControlName="isManageZone"
+                                    type="checkbox" id="isManageZone"> <label class="form-check-label" for="gridCheck"> {{'Is Managing Zone' | translate}}
+                                    </label></div>
+                        </div>
                         <div class="col-12">
                             <div class="form-floating"><textarea class="form-control" formControlName="Remark"
                                     placeholder="Address" id="Remark" style="height: 100px;"></textarea><label

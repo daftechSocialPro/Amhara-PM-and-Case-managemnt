@@ -4,6 +4,7 @@ using PM_Case_Managemnt_API.Data;
 using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.Common;
+using Type = PM_Case_Managemnt_API.Models.Common.Type;
 
 namespace PM_Case_Managemnt_API.Services.Common
 {
@@ -44,8 +45,8 @@ namespace PM_Case_Managemnt_API.Services.Common
                 Weight = orgStructure.Weight,
                 Remark = orgStructure.Remark,
                 CreatedAt = DateTime.Now,
-
-
+                isManageZone = orgStructure.isManageZone ?? false, // Default to false if null
+                Type = orgStructure.Type.HasValue ? (Type)orgStructure.Type.Value : (Type?)null // Convert int? to enum Type?
             };
 
 
@@ -55,58 +56,79 @@ namespace PM_Case_Managemnt_API.Services.Common
             return 1;
 
         }
+      
         public async Task<List<OrgStructureDto>> GetOrganizationStructures(Guid SubOrgId, Guid? BranchId)
         {
+            var structures = await (from x in _dBContext.OrganizationalStructures
+                                    .Include(x => x.ParentStructure)
+                                    .Where(x => x.SubsidiaryOrganizationId == SubOrgId &&
+                                                (BranchId == null || x.OrganizationBranchId == BranchId))
+                                    select new
+                                    {
+                                        x.Id,
+                                        x.OrganizationBranchId,
+                                        x.SubsidiaryOrganizationId,
+                                        ParentStructureName = x.ParentStructure != null ? x.ParentStructure.StructureName : null,
+                                        ParentStructureId = x.ParentStructure != null ? x.ParentStructure.Id : (Guid?)null,
+                                        x.StructureName,
+                                        x.Order,
+                                        x.Weight,
+                                        x.IsBranch,
+                                        x.OfficeNumber,
+                                        ParentWeight = x.ParentStructure != null ? x.ParentStructure.Weight : (float?)null,
+                                        x.Remark,
+                                        x.Type,                                    
+                                        x.isManageZone
+                                    }).ToListAsync();
 
-            List<OrgStructureDto> structures = await (from x in _dBContext.OrganizationalStructures.Include(x => x.ParentStructure).Where(x => x.SubsidiaryOrganizationId == SubOrgId && x.OrganizationBranchId == BranchId)
-
-                                                      select new OrgStructureDto
-                                                      {
-                                                          Id = x.Id,
-                                                          OrganizationBranchId = x.OrganizationBranchId,
-                                                          SubsidiaryOrganizationId = x.SubsidiaryOrganizationId,
-                                                          ParentStructureName = x.ParentStructure.StructureName,
-                                                          ParentStructureId = x.ParentStructure.Id,
-                                                          StructureName = x.StructureName,
-                                                          Order = x.Order,
-                                                          Weight = x.Weight,
-                                                          IsBranch = x.IsBranch,
-                                                          OfficeNumber = x.OfficeNumber,
-                                                          ParentWeight = x.ParentStructure.Weight,
-                                                          Remark = x.Remark
-
-                                                      }).ToListAsync();
-            foreach (var structure in structures)
+            var result = structures.Select(x => new OrgStructureDto
             {
+                Id = x.Id,
+                OrganizationBranchId = x.OrganizationBranchId,
+                SubsidiaryOrganizationId = x.SubsidiaryOrganizationId,
+                ParentStructureName = x.ParentStructureName,
+                ParentStructureId = x.ParentStructureId,
+                StructureName = x.StructureName,
+                Order = x.Order,
+                Weight = x.Weight,
+                IsBranch = x.IsBranch,
+                OfficeNumber = x.OfficeNumber,
+                ParentWeight = x.ParentWeight,
+                Remark = x.Remark,
+                Type = x.Type.HasValue ? (int)x.Type.Value : (int?)null,
+                TypeName = x.Type != null ? x.Type.ToString() : null, // Convert Type enum to string
+                isManageZone = x.isManageZone
+            }).ToList();
 
-                structure.BranchName = await _dBContext.OrganizationalStructures.Where(x => x.Id == structure.OrganizationBranchId).Select(x => x.StructureName).FirstOrDefaultAsync();
+            foreach (var structure in result)
+            {
+                structure.BranchName = await _dBContext.OrganizationalStructures
+                    .Where(x => x.Id == structure.OrganizationBranchId)
+                    .Select(x => x.StructureName)
+                    .FirstOrDefaultAsync();
             }
 
-
-
-            return structures;
+            return result;
         }
 
         public async Task<List<SelectListDto>> getParentStrucctureSelectList(Guid branchId)
         {
-
-            List<SelectListDto> list = await (from x in _dBContext.OrganizationalStructures.Where(y => y.OrganizationBranchId == branchId && (!y.IsBranch || y.Id == branchId))
+            List<SelectListDto> list = await (from x in _dBContext.OrganizationalStructures
+                                              .Where(y => y.OrganizationBranchId == branchId && (!y.IsBranch || y.Id == branchId))
                                               select new SelectListDto
                                               {
                                                   Id = x.Id,
                                                   Name = x.StructureName + (x.IsBranch ? "( Branch )" : "")
-
                                               }).ToListAsync();
-
 
             if (!list.Any())
             {
-                list = await (from x in _dBContext.OrganizationalStructures.Where(y => y.Id == branchId)
+                list = await (from x in _dBContext.OrganizationalStructures
+                              .Where(y => y.Id == branchId)
                               select new SelectListDto
                               {
                                   Id = x.Id,
                                   Name = x.StructureName
-
                               }).ToListAsync();
             }
 
@@ -114,11 +136,14 @@ namespace PM_Case_Managemnt_API.Services.Common
         }
 
 
-
         public async Task<int> UpdateOrganizationalStructure(OrgStructureDto orgStructure)
         {
-
             var orgStructure2 = await _dBContext.OrganizationalStructures.FindAsync(orgStructure.Id);
+
+            if (orgStructure2 == null)
+            {
+                return 0; // Handle case where the entity is not found
+            }
 
             orgStructure2.OrganizationBranchId = orgStructure.OrganizationBranchId;
             orgStructure2.ParentStructureId = orgStructure.ParentStructureId;
@@ -129,12 +154,15 @@ namespace PM_Case_Managemnt_API.Services.Common
             orgStructure2.OfficeNumber = orgStructure.OfficeNumber;
             orgStructure2.Remark = orgStructure.Remark;
             orgStructure2.RowStatus = orgStructure.RowStatus == 0 ? RowStatus.Active : RowStatus.InActive;
-            //orgStructure2.SubsidiaryOrganizationId= orgStructure.SubsidiaryOrganizationId;
+
+            // Ensure nullable fields default to false if null
+            orgStructure2.isManageZone = orgStructure.isManageZone ?? false;
+            orgStructure2.Type = orgStructure.Type.HasValue ? (Type)orgStructure.Type.Value : (Type?)null; // Convert int? to enum Type?;
 
             _dBContext.Entry(orgStructure2).State = EntityState.Modified;
             await _dBContext.SaveChangesAsync();
-            return 1;
 
+            return 1;
         }
 
         public async Task<ResponseMessage> DeleteOrganizationalStructure(Guid organizationStructurId)
