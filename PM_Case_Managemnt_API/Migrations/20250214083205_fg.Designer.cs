@@ -12,8 +12,8 @@ using PM_Case_Managemnt_API.Data;
 namespace PMCaseManagemntAPI.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20250131233004_db")]
-    partial class db
+    [Migration("20250214083205_fg")]
+    partial class fg
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -786,7 +786,7 @@ namespace PMCaseManagemntAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
@@ -798,6 +798,9 @@ namespace PMCaseManagemntAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("WoredaId");
 
@@ -879,7 +882,7 @@ namespace PMCaseManagemntAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
@@ -891,6 +894,9 @@ namespace PMCaseManagemntAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("ZoneId");
 
@@ -911,7 +917,7 @@ namespace PMCaseManagemntAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
@@ -920,6 +926,9 @@ namespace PMCaseManagemntAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Zone");
                 });
@@ -1008,8 +1017,14 @@ namespace PMCaseManagemntAPI.Migrations
                     b.Property<Guid>("SubsidiaryOrganizationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("Type")
+                        .HasColumnType("int");
+
                     b.Property<float>("Weight")
                         .HasColumnType("real");
+
+                    b.Property<bool?>("isManageZone")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

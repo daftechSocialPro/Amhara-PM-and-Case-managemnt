@@ -12,8 +12,8 @@ using PM_Case_Managemnt_API.Data;
 namespace PMCaseManagemntAPI.Migrations
 {
     [DbContext(typeof(AuthenticationContext))]
-    [Migration("20250131233043_hyuu")]
-    partial class hyuu
+    [Migration("20250214082956_hj")]
+    partial class hj
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -246,10 +246,19 @@ namespace PMCaseManagemntAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<Guid?>("KebeleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("RowStatus")
                         .HasColumnType("int");
 
                     b.Property<Guid>("SubsidiaryOrganizationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("WoredaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ZoneId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");

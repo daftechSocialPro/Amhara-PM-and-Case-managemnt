@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PMCaseManagemntAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class hyuu : Migration
+    public partial class hj : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,6 +35,9 @@ namespace PMCaseManagemntAPI.Migrations
                     EmployeesId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SubsidiaryOrganizationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RowStatus = table.Column<int>(type: "int", nullable: true),
+                    ZoneId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    WoredaId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    KebeleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

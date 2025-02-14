@@ -15,5 +15,6 @@ namespace PM_Case_Managemnt_API.Data
 
         }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PM_Case_Managemnt_API.Models.Common;
+using PM_Case_Managemnt_API.Models.Common.Organization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace PM_Case_Managemnt_API.Models.Auth
         public string[] Roles { get; set; } = null!;
         public Guid EmployeeId { get; set; }
         public Guid SubsidiaryOrganizationId { get; set; }
-
-
-
+        public Guid ZoneId { get; set; }
+        public Guid WoredaId { get; set; }
+        public Guid KebeleId { get; set; }
     }
 }

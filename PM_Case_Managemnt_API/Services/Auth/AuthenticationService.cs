@@ -58,8 +58,11 @@ namespace PM_Case_Managemnt_API.Services.Auth
                 FullName = model.FullName,
                 EmployeesId = model.EmployeeId,
                 RowStatus = RowStatus.Active,
-                SubsidiaryOrganizationId = model.SubsidiaryOrganizationId
-            };
+                SubsidiaryOrganizationId = model.SubsidiaryOrganizationId,
+                ZoneId=model.ZoneId,
+                WoredaId=model.WoredaId,
+                KebeleId=model.KebeleId 
+    };
 
             try
             {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PMCaseManagemntAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class db : Migration
+    public partial class fg : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,7 +71,7 @@ namespace PMCaseManagemntAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RowStatus = table.Column<int>(type: "int", nullable: false),
@@ -141,7 +141,7 @@ namespace PMCaseManagemntAPI.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ZoneId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RowStatus = table.Column<int>(type: "int", nullable: false),
@@ -247,6 +247,8 @@ namespace PMCaseManagemntAPI.Migrations
                     Weight = table.Column<float>(type: "real", nullable: false),
                     IsBranch = table.Column<bool>(type: "bit", nullable: false),
                     OfficeNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: true),
+                    isManageZone = table.Column<bool>(type: "bit", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RowStatus = table.Column<int>(type: "int", nullable: false),
@@ -344,7 +346,7 @@ namespace PMCaseManagemntAPI.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     WoredaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RowStatus = table.Column<int>(type: "int", nullable: false),
@@ -1817,6 +1819,12 @@ namespace PMCaseManagemntAPI.Migrations
                 column: "StandrizedFormId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Kebele_Name",
+                table: "Kebele",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Kebele_WoredaId",
                 table: "Kebele",
                 column: "WoredaId");
@@ -1989,9 +1997,21 @@ namespace PMCaseManagemntAPI.Migrations
                 column: "SubsidiaryOrganizationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Woreda_Name",
+                table: "Woreda",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Woreda_ZoneId",
                 table: "Woreda",
                 column: "ZoneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Zone_Name",
+                table: "Zone",
+                column: "Name",
+                unique: true);
         }
 
         /// <inheritdoc />
