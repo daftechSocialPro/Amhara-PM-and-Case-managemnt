@@ -13,6 +13,13 @@ namespace PM_Case_Managemnt_API.DTOS.Common
         public string? EmployeeId { get; set; }
 
         public string ? CommiteeStatus { get; set; }
+        public Guid? ZoneId { get; set; }  // Nullable
+        public Guid? WoredaId { get; set; } // Nullable
+        public Guid? KebeleId { get; set; } // Nullable
+        public string? ZoneName { get; set; }  // Nullable
+        public string? WoredaName { get; set; } // Nullable
+        public string? KebeleName { get; set; } // Nullable
+        public int? ZoneLevel { get; set; }
     }
 
 
@@ -22,7 +29,15 @@ namespace PM_Case_Managemnt_API.DTOS.Common
         public string Name { get; set; }
     }
 
-    public class UserModel
+    public class ZoneInfo {
+        public Guid? ZoneId { get; set; }  // Nullable
+        public string? Zone { get; set; }  // Nullable
+        public Guid? WoredaId { get; set; } // Nullable
+        public string? Woreda { get; set; }
+        public Guid? KebeleId { get; set; } // Nullable
+        public string? Kebele { get; set; }
+    } 
+        public class UserModel
     {
 
         public string EmployeeFullName { get; set; }

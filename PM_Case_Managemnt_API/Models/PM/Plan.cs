@@ -47,6 +47,14 @@ namespace PM_Case_Managemnt_API.Models.PM
 
 
         public ICollection<Activity> Activities { get; set; }
+        public Guid? ZoneId { get; set; }  // Nullable
+        public Guid? WoredaId { get; set; } // Nullable
+        public Guid? KebeleId { get; set; } // Nullable
+        public ZoneLevel? ZoneLevel { get; set; }
+        [DefaultValue(true)]
+        public bool? Approved { get; set; }
+        [DefaultValue(false)]
+        public bool? isZoneManage { get; set; }
 
     }
 
@@ -54,5 +62,12 @@ namespace PM_Case_Managemnt_API.Models.PM
     {
         Capital,
         Regular
+    }
+    public enum ZoneLevel
+    {
+        Zone,
+        Woreda,
+        Kebele,
+        Other
     }
 }

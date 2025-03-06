@@ -12,56 +12,90 @@
                     <div class="row g-3">
 
 
-                        <div class="col-md-6"> <label for="inputName5" class="form-label"> {{'Employee' | translate}}</label>
+                        <div class="col-md-6"> <label for="inputName5" class="form-label"> {{'Employee' |
+                                translate}}</label>
 
                             <app-autocomplete *ngIf="employeeList.length>0" [data]="employeeList"
                                 (selectedItem)="selectEmployee($event)"></app-autocomplete>
 
                         </div>
 
-                        <div class="col-md-6"> <label for="inputName5" class="form-label"> {{'User Name' | translate}}</label>
+                        <div class="col-md-6"> <label for="inputName5" class="form-label"> {{'User Name' |
+                                translate}}</label>
 
                             <input type="text" class="form-control" id="UserName" placeholder="User Name"
                                 formControlName="UserName">
                         </div>
 
-                        <div class="col-md-6"> <label for="inputName5" class="form-label"> {{'Password' | translate}}</label>
+                        <div class="col-md-6"> <label for="inputName5" class="form-label"> {{'Password' |
+                                translate}}</label>
 
                             <input type="password" class="form-control" id="Password" placeholder="Password"
                                 formControlName="Password">
                         </div>
 
-                        <div class="col-md-6"> <label for="inputName5" class="form-label"> {{'Confirm Password' | translate}}</label>
+                        <div class="col-md-6"> <label for="inputName5" class="form-label"> {{'Confirm Password' |
+                                translate}}</label>
 
                             <input type="password" class="form-control" id="Password" placeholder="Confirm Password"
                                 formControlName="ConfirmPassword">
                         </div>
 
+                        <div class="col-12 row">
+                            <div class="col-md-6">
+                               
+                                    <label for="inputName5" class="form-label"> {{'Roles' | translate}}</label>
+                                    <select class="form-select" multiple id="Roles" style="height:230px;"
+                                        formControlName="Roles" aria-label="multiple select example">
+                                        <option *ngFor="let role of RoleList" [value]="role.Name">{{role.Name}}</option>
 
 
-                        <div class="col-md-6">
-                            <label for="inputName5" class="form-label"> {{'Roles' | translate}}</label>
-                            <select class="form-select" multiple id="Roles" style="height:230px;"
-                                formControlName="Roles" aria-label="multiple select example">
-                                <option *ngFor="let role of RoleList" [value]="role.Name">{{role.Name}}</option>
+                                    </select>
 
 
-                            </select>
+                                
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12"
+                                    *ngIf="userForm.value.Roles.includes('Zone') || userForm.value.Roles.includes('Woreda') || userForm.value.Roles.includes('Kebele')">
+                                    <label class="form-label"> {{'Zone' | translate}}</label>
+                                    <select class="form-select" formControlName="ZoneId"
+                                        (change)="onZoneChange($event)">
+                                        <option *ngFor="let zone of zones" [value]="zone.Id">{{ zone.Name }}</option>
+                                    </select>
+                                </div>
 
+                                <div class="col-md-12"
+                                    *ngIf="userForm.value.Roles.includes('Woreda') || userForm.value.Roles.includes('Kebele')">
+                                    <label class="form-label"> {{'Woreda' | translate}}</label>
+                                    <select class="form-select" formControlName="WoredaId"
+                                        (change)="onWoredaChange($event)">
+                                        <option *ngFor="let woreda of woredas" [value]="woreda.Id">{{ woreda.Name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12" *ngIf="userForm.value.Roles.includes('Kebele')">
+                                    <label class="form-label"> {{'Kebele' | translate}}</label>
+                                    <select class="form-select" formControlName="KebeleId">
+                                        <option *ngFor="let kebele of kebeles" [value]="kebele.Id">{{ kebele.Name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
 
                         </div>
-
-
-
 
 
                     </div>
 
                 </div>
-                <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-                        (click)="closeModal()"> {{'Close' | translate}}</button>
-                    <button type="button" type="submit" [disabled]="!userForm.valid" class="btn btn-success">{{'Create New User' | translate}}
-                        </button>
+                <div class="modal-footer"> <button type="button" class="btn btn-secondary" (click)="closeModal()">
+                        {{'Close' | translate}}</button>
+                    <button type="button" type="submit" [disabled]="!userForm.valid" class="btn btn-success">{{'Create
+                        New User' | translate}}
+                    </button>
                 </div>
             </form>
 

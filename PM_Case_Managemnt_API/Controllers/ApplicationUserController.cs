@@ -214,5 +214,13 @@ namespace PM_Case_Managemnt_API.Controllers
                 return StatusCode(500, $"Internal Server Error - {ex}");
             }
         }
+        [HttpGet("GetAssignedZone")]
+
+        public async Task<IActionResult> GetAssignedZone(string userId)
+        {
+
+
+            return Ok(await _authenticationService.GetAssignedZone(userId));
+        }
     }
 }

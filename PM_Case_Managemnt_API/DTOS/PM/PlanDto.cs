@@ -1,4 +1,5 @@
 ﻿using PM_Case_Managemnt_API.DTOS.Common;
+using PM_Case_Managemnt_API.Models.PM;
 
 namespace PM_Case_Managemnt_API.DTOS.PM
 {
@@ -17,6 +18,11 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public Guid ProjectManagerId { get; set; }
         public Guid? FinanceId { get; set; }
         public string? ProjectFunder { get; set; }
+        public Guid? ZoneId { get; set; }  // Nullable
+        public Guid? WoredaId { get; set; } // Nullable
+        public Guid? KebeleId { get; set; } // Nullable
+        public int? ZoneLevel { get; set; }
+        public bool? isZoneManage { get; set; }
         ///
         //public Guid SubsidiaryOrganizationId { get; set; } 
 
@@ -49,6 +55,14 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public Guid? FinanceId { get; set; }
         public string? ProjectFunder { get; set; }
         public Guid? BranchId { get; set; }
+        public Guid? ZoneId { get; set; }  // Nullable
+        public Guid? WoredaId { get; set; } // Nullable
+        public Guid? KebeleId { get; set; } // Nullable
+        public string ZoneName { get; set; }  // Nullable
+        public string WoredaName { get; set; } // Nullable
+        public string KebeleName { get; set; } // Nullable
+        public int? ZoneLevel { get; set; }
+        public bool? isZoneManage { get; set; }
     }
 
     public class PlanSingleViewDto
@@ -64,7 +78,14 @@ namespace PM_Case_Managemnt_API.DTOS.PM
 
         public string EndDate { get; set; }
         public Guid? StructureId { get; set; }
-
+        public Guid? ZoneId { get; set; }  // Nullable
+        public Guid? WoredaId { get; set; } // Nullable
+        public Guid? KebeleId { get; set; } // Nullable
+        public string ZoneName { get; set; }  // Nullable
+        public string? WoredaName { get; set; } // Nullable
+        public string? KebeleName { get; set; } // Nullable
+        public int? ZoneLevel { get; set; }
+        public bool? isZoneManage { get; set; }
         public List<TaskVIewDto> Tasks { get; set; }
 
     }

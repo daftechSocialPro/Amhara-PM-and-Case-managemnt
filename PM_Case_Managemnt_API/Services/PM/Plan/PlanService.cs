@@ -16,6 +16,43 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
             _dBContext = context;
         }
 
+        //public async Task<int> CreatePlan(PlanDto plan)
+        //{
+        //    var budgetYear = await _dBContext.BudgetYears.FindAsync(plan.BudgetYearId);
+
+        //    var Plans = new PM_Case_Managemnt_API.Models.PM.Plan
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        BudgetYearId = plan.BudgetYearId,
+        //        HasTask = plan.HasTask,
+        //        PlanName = plan.PlanName,
+        //        PlanWeight = plan.PlanWeight,
+        //        PlandBudget = plan.PlandBudget,
+        //        ProgramId = plan.ProgramId,
+        //        ProjectType = plan.ProjectType == 0 ? ProjectType.Capital : ProjectType.Regular,
+        //        Remark = plan.Remark,
+        //        StructureId = plan.StructureId,
+        //        ProjectManagerId = plan.ProjectManagerId,
+        //        ProjectFunder = plan.ProjectFunder,
+        //        PeriodStartAt = budgetYear.FromDate,
+        //        PeriodEndAt = budgetYear.ToDate,
+        //        CreatedAt = DateTime.Now,
+
+        //    };
+
+
+
+
+
+        //    if (plan.FinanceId != Guid.Empty)
+        //    {
+        //        Plans.FinanceId = plan.FinanceId;
+        //    }
+        //    await _dBContext.AddAsync(Plans);
+        //    await _dBContext.SaveChangesAsync();
+        //    return 1;
+
+        //}
         public async Task<int> CreatePlan(PlanDto plan)
         {
             var budgetYear = await _dBContext.BudgetYears.FindAsync(plan.BudgetYearId);
@@ -37,7 +74,7 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                 PeriodStartAt = budgetYear.FromDate,
                 PeriodEndAt = budgetYear.ToDate,
                 CreatedAt = DateTime.Now,
-
+                isZoneManage = false,
             };
 
 
@@ -53,16 +90,100 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
             return 1;
 
         }
+        public async Task<int> CreatePlanZoneLevel(PlanDto plan)
+        {
+            var budgetYear = await _dBContext.BudgetYears.FindAsync(plan.BudgetYearId);
 
+            var Plans = new PM_Case_Managemnt_API.Models.PM.Plan
+            {
+                Id = Guid.NewGuid(),
+                BudgetYearId = plan.BudgetYearId,
+                HasTask = plan.HasTask,
+                PlanName = plan.PlanName,
+                PlanWeight = plan.PlanWeight,
+                PlandBudget = plan.PlandBudget,
+                ProgramId = plan.ProgramId,
+                ProjectType = plan.ProjectType == 0 ? ProjectType.Capital : ProjectType.Regular,
+                Remark = plan.Remark,
+                StructureId = plan.StructureId,
+                ProjectManagerId = plan.ProjectManagerId,
+                ProjectFunder = plan.ProjectFunder,
+                PeriodStartAt = budgetYear?.FromDate,
+                PeriodEndAt = budgetYear?.ToDate,
+                CreatedAt = DateTime.Now,
+                Approved = false, // Ensuring new plans default to Approved = false
+
+                // Adding zone-related properties
+                ZoneId = plan.ZoneId,
+                WoredaId = plan.WoredaId,
+                KebeleId = plan.KebeleId,
+                ZoneLevel = plan.ZoneLevel.HasValue ? (ZoneLevel)plan.ZoneLevel.Value : null,
+                isZoneManage = plan.isZoneManage.HasValue ? plan.isZoneManage : false
+            };
+
+            if (plan.FinanceId != Guid.Empty)
+            {
+                Plans.FinanceId = plan.FinanceId;
+            }
+
+            await _dBContext.AddAsync(Plans);
+            await _dBContext.SaveChangesAsync();
+            return 1;
+        }
+
+        /*  public async Task<List<PlanViewDto>> GetPlans(Guid? programId, Guid SubOrgId)
+          {
+
+              var plans = programId != null ? _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(x => x.ProgramId == programId) :
+                  _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(z => z.Structure.SubsidiaryOrganizationId == SubOrgId);
+
+
+              return await (from p in plans
+
+                            select new PlanViewDto
+                            {
+                                Id = p.Id,
+                                PlanName = p.PlanName,
+                                PlanWeight = p.PlanWeight,
+                                PlandBudget = p.PlandBudget,
+                                StructureName = p.Structure.StructureName,
+                                RemainingBudget = p.PlandBudget - _dBContext.Tasks.Where(x => x.PlanId == p.Id).Sum(x => x.PlanedBudget),
+                                ProjectManager = p.ProjectManager.FullName,
+                                FinanceManager = p.Finance.FullName,
+                                Director = _dBContext.Employees.Where(x => x.Position == Models.Common.Position.Director && x.OrganizationalStructureId == p.StructureId).FirstOrDefault().FullName,
+                                ProjectType = p.ProjectType.ToString(),
+                                NumberOfTask = _dBContext.Tasks.Count(x => x.PlanId == p.Id),
+                                NumberOfActivities = _dBContext.Activities.Include(x => x.ActivityParent.Task.Plan).Where(x => x.PlanId == p.Id || x.Task.PlanId == p.Id || x.ActivityParent.Task.PlanId == p.Id).Count(),
+                                NumberOfTaskCompleted = _dBContext.Activities.Include(x => x.ActivityParent.Task.Plan).Where(x => x.Status == Status.Finalized && (x.PlanId == p.Id || x.Task.PlanId == p.Id || x.ActivityParent.Task.PlanId == p.Id)).Count(),
+                                HasTask = p.HasTask,
+                                BudgetYearId = p.BudgetYearId,
+                                ProgramId = p.ProgramId,
+                                Remark = p.Remark,
+                                StructureId = p.StructureId,
+                                ProjectManagerId = p.ProjectManagerId,
+                                FinanceId = p.FinanceId,
+                                ProjectFunder = p.ProjectFunder,
+                                BranchId = p.Structure.OrganizationBranchId
+                            }).ToListAsync();
+
+
+
+
+          }
+        */
         public async Task<List<PlanViewDto>> GetPlans(Guid? programId, Guid SubOrgId)
         {
 
             var plans = programId != null ? _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(x => x.ProgramId == programId) :
                 _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(z => z.Structure.SubsidiaryOrganizationId == SubOrgId);
 
-
             return await (from p in plans
-
+                          join zone in _dBContext.Zone on p.ZoneId equals zone.Id into zoneGroup
+                          from z in zoneGroup.DefaultIfEmpty()  // LEFT JOIN for Zone
+                          join woreda in _dBContext.Woreda on p.WoredaId equals woreda.Id into woredaGroup
+                          from w in woredaGroup.DefaultIfEmpty()  // LEFT JOIN for Woreda
+                          join kebele in _dBContext.Kebele on p.KebeleId equals kebele.Id into kebeleGroup
+                          from k in kebeleGroup.DefaultIfEmpty()  // LEFT JOIN for Kebele
                           select new PlanViewDto
                           {
                               Id = p.Id,
@@ -73,11 +194,15 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                               RemainingBudget = p.PlandBudget - _dBContext.Tasks.Where(x => x.PlanId == p.Id).Sum(x => x.PlanedBudget),
                               ProjectManager = p.ProjectManager.FullName,
                               FinanceManager = p.Finance.FullName,
-                              Director = _dBContext.Employees.Where(x => x.Position == Models.Common.Position.Director && x.OrganizationalStructureId == p.StructureId).FirstOrDefault().FullName,
+                              Director = _dBContext.Employees.Where(x => x.Position == Models.Common.Position.Director &&
+                                x.OrganizationalStructureId == p.StructureId).FirstOrDefault().FullName,
                               ProjectType = p.ProjectType.ToString(),
                               NumberOfTask = _dBContext.Tasks.Count(x => x.PlanId == p.Id),
-                              NumberOfActivities = _dBContext.Activities.Include(x => x.ActivityParent.Task.Plan).Where(x => x.PlanId == p.Id || x.Task.PlanId == p.Id || x.ActivityParent.Task.PlanId == p.Id).Count(),
-                              NumberOfTaskCompleted = _dBContext.Activities.Include(x => x.ActivityParent.Task.Plan).Where(x => x.Status == Status.Finalized && (x.PlanId == p.Id || x.Task.PlanId == p.Id || x.ActivityParent.Task.PlanId == p.Id)).Count(),
+                              NumberOfActivities = _dBContext.Activities.Include(x => x.ActivityParent.Task.Plan)
+                                .Where(x => x.PlanId == p.Id || x.Task.PlanId == p.Id || x.ActivityParent.Task.PlanId == p.Id).Count(),
+                              NumberOfTaskCompleted = _dBContext.Activities.Include(x => x.ActivityParent.Task.Plan)
+                                .Where(x => x.Status == Status.Finalized &&
+                                (x.PlanId == p.Id || x.Task.PlanId == p.Id || x.ActivityParent.Task.PlanId == p.Id)).Count(),
                               HasTask = p.HasTask,
                               BudgetYearId = p.BudgetYearId,
                               ProgramId = p.ProgramId,
@@ -86,19 +211,102 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                               ProjectManagerId = p.ProjectManagerId,
                               FinanceId = p.FinanceId,
                               ProjectFunder = p.ProjectFunder,
-                              BranchId = p.Structure.OrganizationBranchId
+                              BranchId = p.Structure.OrganizationBranchId,
+                              ZoneId = p.ZoneId,
+                              WoredaId = p.WoredaId,
+                              KebeleId = p.KebeleId,
+                              ZoneLevel = p.ZoneLevel.HasValue ? (int)p.ZoneLevel : null,
+                              ZoneName = z != null ? z.Name : null,
+                              WoredaName = w != null ? w.Name :null,
+                              KebeleName = k != null ? k.Name : null
                           }).ToListAsync();
-
-
-
-
         }
 
 
+        /* public async Task<PlanSingleViewDto> GetSinglePlan(Guid planId)
+         {
+
+             var plan = await (from p in _dBContext.Plans.Where(x => x.Id == planId)
+                               select new PlanSingleViewDto
+                               {
+                                   Id = p.Id,
+                                   PlanName = p.PlanName,
+                                   PlanWeight = p.PlanWeight,
+                                   PlannedBudget = p.PlandBudget,
+                                   RemainingBudget = p.PlandBudget,
+                                   //RemainingWeight = float.Parse((100.0 - taskweightSum).ToString()),
+                                   EndDate = p.PeriodEndAt.ToString(),
+                                   StartDate = p.PeriodStartAt.ToString(),
+                                   StructureId = p.StructureId
+                                   //Tasks = tasks
+
+                               }).FirstOrDefaultAsync();
+
+             var tasks = (from t in _dBContext.Tasks.Include(z => z.Plan).Where(x => x.PlanId == planId)
+                          select new TaskVIewDto
+                          {
+                              Id = t.Id,
+                              TaskName = t.TaskDescription,
+                              TaskWeight = t.Weight,
+
+                              FinishedActivitiesNo = 0,
+                              TerminatedActivitiesNo = 0,
+                              StartDate = t.ShouldStartPeriod ?? DateTime.Now,
+                              EndDate = t.ShouldEnd ?? DateTime.Now,
+
+                              HasActivity = t.HasActivityParent,
+                              PlannedBudget = t.PlanedBudget,
+                              //NumberOfMembers = _dBContext.TaskMembers.Count(x=>x.TaskId == t.Id),
+
+                              RemianingWeight = (float)(plan.PlanWeight - _dBContext.Activities.Where(x => x.Task.PlanId == planId || x.ActivityParent.Task.PlanId == planId).Sum(x => x.Weight)),
+                              NumberofActivities = _dBContext.Activities.Include(x => x.ActivityParent).Count(x => x.TaskId == t.Id || x.ActivityParent.TaskId == t.Id),
+                              NumberOfFinalized = _dBContext.Activities.Include(x => x.ActivityParent).Count(x => x.Status == Status.Finalized && (x.TaskId == t.Id || x.ActivityParent.TaskId == t.Id)),
+                              NumberOfTerminated = _dBContext.Activities.Include(x => x.ActivityParent).Count(x => x.Status == Status.Terminated && (x.TaskId == t.Id || x.ActivityParent.TaskId == t.Id)),
+                              //TaskMembers = (from tm in _dBContext.TaskMembers.Include(x => x.Employee).Where(x => x.TaskId == t.Id)
+                              //               select new SelectListDto
+                              //               {
+                              //                   Id = tm.Id,
+                              //                   Name = tm.Employee.FullName,
+                              //                   Photo = tm.Employee.Photo,
+                              //                   EmployeeId = tm.EmployeeId.ToString()
+                              //               }).ToList(),
+                              TaskMembers = (from tm in _dBContext.Employees.Where(x => x.OrganizationalStructureId == t.Plan.StructureId)
+                                             select new SelectListDto
+                                             {
+                                                 Id = tm.Id,
+                                                 Name = tm.FullName,
+                                                 Photo = tm.Photo,
+                                                 EmployeeId = tm.Id.ToString()
+                                             }).ToList(),
+                              RemainingBudget = t.PlanedBudget - _dBContext.Activities.Where(x => x.ActivityParent.TaskId == t.Id)
+                        .Sum(x => x.PlanedBudget),
+
+
+
+                          }).ToList();
+
+             float taskBudgetsum = tasks.Sum(x => x.PlannedBudget);
+             float taskweightSum = tasks.Sum(x => x.TaskWeight ?? 0);
+
+             plan.RemainingBudget = plan.RemainingBudget - taskBudgetsum;
+             plan.RemainingWeight = float.Parse((plan.PlanWeight - taskweightSum).ToString());
+             plan.Tasks = tasks;
+
+
+
+             return plan;
+         }
+        */
+
         public async Task<PlanSingleViewDto> GetSinglePlan(Guid planId)
         {
-
             var plan = await (from p in _dBContext.Plans.Where(x => x.Id == planId)
+                              join zone in _dBContext.Zone on p.ZoneId equals zone.Id into zoneGroup
+                              from z in zoneGroup.DefaultIfEmpty()  // LEFT JOIN for Zone
+                              join woreda in _dBContext.Woreda on p.WoredaId equals woreda.Id into woredaGroup
+                              from w in woredaGroup.DefaultIfEmpty()  // LEFT JOIN for Woreda
+                              join kebele in _dBContext.Kebele on p.KebeleId equals kebele.Id into kebeleGroup
+                              from k in kebeleGroup.DefaultIfEmpty()  // LEFT JOIN for Kebele
                               select new PlanSingleViewDto
                               {
                                   Id = p.Id,
@@ -106,43 +314,51 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                                   PlanWeight = p.PlanWeight,
                                   PlannedBudget = p.PlandBudget,
                                   RemainingBudget = p.PlandBudget,
-                                  //RemainingWeight = float.Parse((100.0 - taskweightSum).ToString()),
                                   EndDate = p.PeriodEndAt.ToString(),
                                   StartDate = p.PeriodStartAt.ToString(),
-                                  StructureId = p.StructureId
-                                  //Tasks = tasks
-
+                                  StructureId = p.StructureId,
+                                  ZoneId = p.ZoneId,
+                                  WoredaId = p.WoredaId,
+                                  KebeleId = p.KebeleId,
+                                  ZoneLevel = p.ZoneLevel.HasValue ? (int)p.ZoneLevel : null,
+                                  ZoneName = z != null ? z.Name : "No Zone Assigned",
+                                  WoredaName = w != null ? w.Name : "No Woreda Assigned",
+                                  KebeleName = k != null ? k.Name : "No Kebele Assigned"
                               }).FirstOrDefaultAsync();
 
-            var tasks = (from t in _dBContext.Tasks.Include(z => z.Plan).Where(x => x.PlanId == planId)
+            if (plan == null)
+                return null;
+
+            var tasks = (from t in _dBContext.Tasks.Where(x => x.PlanId == planId)
                          select new TaskVIewDto
                          {
                              Id = t.Id,
                              TaskName = t.TaskDescription,
                              TaskWeight = t.Weight,
-
                              FinishedActivitiesNo = 0,
                              TerminatedActivitiesNo = 0,
                              StartDate = t.ShouldStartPeriod ?? DateTime.Now,
                              EndDate = t.ShouldEnd ?? DateTime.Now,
-
                              HasActivity = t.HasActivityParent,
                              PlannedBudget = t.PlanedBudget,
-                             //NumberOfMembers = _dBContext.TaskMembers.Count(x=>x.TaskId == t.Id),
-
-                             RemianingWeight = (float)(plan.PlanWeight - _dBContext.Activities.Where(x => x.Task.PlanId == planId || x.ActivityParent.Task.PlanId == planId).Sum(x => x.Weight)),
-                             NumberofActivities = _dBContext.Activities.Include(x => x.ActivityParent).Count(x => x.TaskId == t.Id || x.ActivityParent.TaskId == t.Id),
-                             NumberOfFinalized = _dBContext.Activities.Include(x => x.ActivityParent).Count(x => x.Status == Status.Finalized && (x.TaskId == t.Id || x.ActivityParent.TaskId == t.Id)),
-                             NumberOfTerminated = _dBContext.Activities.Include(x => x.ActivityParent).Count(x => x.Status == Status.Terminated && (x.TaskId == t.Id || x.ActivityParent.TaskId == t.Id)),
-                             //TaskMembers = (from tm in _dBContext.TaskMembers.Include(x => x.Employee).Where(x => x.TaskId == t.Id)
-                             //               select new SelectListDto
-                             //               {
-                             //                   Id = tm.Id,
-                             //                   Name = tm.Employee.FullName,
-                             //                   Photo = tm.Employee.Photo,
-                             //                   EmployeeId = tm.EmployeeId.ToString()
-                             //               }).ToList(),
-                             TaskMembers = (from tm in _dBContext.Employees.Where(x => x.OrganizationalStructureId == t.Plan.StructureId)
+                             RemianingWeight = (float)(plan.PlanWeight - _dBContext.Activities
+                                 .Where(x => x.Task != null && (x.Task.PlanId == planId ||
+                                        (x.ActivityParent != null && x.ActivityParent.Task != null &&
+                                         x.ActivityParent.Task.PlanId == planId)))
+                                 .Sum(x => x.Weight)),
+                             NumberofActivities = _dBContext.Activities
+                                 .Count(x => x.TaskId == t.Id ||
+                                       (x.ActivityParent != null && x.ActivityParent.TaskId == t.Id)),
+                             NumberOfFinalized = _dBContext.Activities
+                                 .Count(x => x.Status == Status.Finalized &&
+                                       (x.TaskId == t.Id ||
+                                        (x.ActivityParent != null && x.ActivityParent.TaskId == t.Id))),
+                             NumberOfTerminated = _dBContext.Activities
+                                 .Count(x => x.Status == Status.Terminated &&
+                                       (x.TaskId == t.Id ||
+                                        (x.ActivityParent != null && x.ActivityParent.TaskId == t.Id))),
+                             TaskMembers = (from tm in _dBContext.Employees
+                                            where t.Plan != null && tm.OrganizationalStructureId == t.Plan.StructureId
                                             select new SelectListDto
                                             {
                                                 Id = tm.Id,
@@ -150,39 +366,56 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                                                 Photo = tm.Photo,
                                                 EmployeeId = tm.Id.ToString()
                                             }).ToList(),
-                             RemainingBudget = t.PlanedBudget - _dBContext.Activities.Where(x => x.ActivityParent.TaskId == t.Id)
-                       .Sum(x => x.PlanedBudget),
-
-
-
+                             RemainingBudget = t.PlanedBudget - _dBContext.Activities
+                                 .Where(x => x.ActivityParent != null && x.ActivityParent.TaskId == t.Id)
+                                 .Sum(x => x.PlanedBudget)
                          }).ToList();
 
-            float taskBudgetsum = tasks.Sum(x => x.PlannedBudget);
-            float taskweightSum = tasks.Sum(x => x.TaskWeight ?? 0);
+            float taskBudgetSum = tasks.Sum(x => x.PlannedBudget);
+            float taskWeightSum = tasks.Sum(x => x.TaskWeight ?? 0);
 
-            plan.RemainingBudget = plan.RemainingBudget - taskBudgetsum;
-            plan.RemainingWeight = float.Parse((plan.PlanWeight - taskweightSum).ToString());
+            plan.RemainingBudget = plan.RemainingBudget - taskBudgetSum;
+            plan.RemainingWeight = float.Parse((plan.PlanWeight - taskWeightSum).ToString());
             plan.Tasks = tasks;
-
-
 
             return plan;
         }
 
+        /*   public async Task<List<SelectListDto>> GetPlansSelectList(Guid ProgramId)
+           {
 
+
+               return await _dBContext.Plans.Where(x => x.ProgramId == ProgramId).Select(x => new SelectListDto
+               {
+                   Name = x.PlanName,
+                   Id = x.Id
+               }).ToListAsync();
+
+
+           }
+        */
         public async Task<List<SelectListDto>> GetPlansSelectList(Guid ProgramId)
         {
-
-
-            return await _dBContext.Plans.Where(x => x.ProgramId == ProgramId).Select(x => new SelectListDto
-            {
-                Name = x.PlanName,
-                Id = x.Id
-            }).ToListAsync();
-
-
+            return await (from p in _dBContext.Plans.Where(x => x.ProgramId == ProgramId)
+                          join zone in _dBContext.Zone on p.ZoneId equals zone.Id into zoneGroup
+                          from z in zoneGroup.DefaultIfEmpty()  // LEFT JOIN for Zone
+                          join woreda in _dBContext.Woreda on p.WoredaId equals woreda.Id into woredaGroup
+                          from w in woredaGroup.DefaultIfEmpty()  // LEFT JOIN for Woreda
+                          join kebele in _dBContext.Kebele on p.KebeleId equals kebele.Id into kebeleGroup
+                          from k in kebeleGroup.DefaultIfEmpty()  // LEFT JOIN for Kebele
+                          select new SelectListDto
+                          {
+                              Name = p.PlanName,
+                              Id = p.Id,
+                              ZoneId = p.ZoneId,
+                              WoredaId = p.WoredaId,
+                              KebeleId = p.KebeleId,
+                              ZoneLevel = p.ZoneLevel.HasValue ? (int)p.ZoneLevel : null,
+                              ZoneName = z != null ? z.Name : "No Zone Assigned",
+                              WoredaName = w != null ? w.Name : "No Woreda Assigned",
+                              KebeleName = k != null ? k.Name : "No Kebele Assigned"
+                          }).ToListAsync();
         }
-
         public async Task<ResponseMessage> UpdatePlan(PlanDto plan)
         {
             try

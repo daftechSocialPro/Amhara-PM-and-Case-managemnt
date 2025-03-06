@@ -33,5 +33,11 @@ namespace PM_Case_Managemnt_API.DTOS.Common
 
         public string? Status { get; set; }
         public Guid? EmployeeId { get; set; }
+        public Guid? ZoneId { get; set; }  // Nullable
+        public string? Zone { get; set; }  // Nullable
+        public Guid? WoredaId { get; set; } // Nullable
+        public string? Woreda { get; set; }
+        public Guid? KebeleId { get; set; } // Nullable
+        public string? Kebele { get; set; }
     }
 }

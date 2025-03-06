@@ -34,6 +34,21 @@ namespace PM_Case_Managemnt_API.Controllers.PM
             }
         }
 
+        [HttpPost("CreateZoneLevel")]
+        public IActionResult CreateZoneLevel([FromBody] PlanDto plan)
+        {
+            try
+            {
+                var response = _planService.CreatePlanZoneLevel(plan);
+                return Ok(new { response });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error : {ex}");
+            }
+        }
+
         [HttpGet]
 
         public async Task<List<PlanViewDto>> Getplan(Guid? programId, Guid SubOrgId)

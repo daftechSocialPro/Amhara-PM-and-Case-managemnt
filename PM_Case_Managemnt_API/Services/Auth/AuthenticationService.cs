@@ -141,9 +141,12 @@ namespace PM_Case_Managemnt_API.Services.Auth
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                     var token = tokenHandler.WriteToken(securityToken);
-
+                    var zone = await _dbcontext.Zone.FirstOrDefaultAsync(x => x.Id == user.ZoneId);
+                    var woreda = await _dbcontext.Woreda.FirstOrDefaultAsync(x => x.Id == user.WoredaId);
+                    var kebele = await _dbcontext.Kebele.FirstOrDefaultAsync(x => x.Id == user.KebeleId);
                     // await _encoderHub.Groups.AddToGroupAsync(Context.ConnectionId, user.EmployeesId);
-                    return new ObjectResult(new { token });
+                    var data = new { user, zone, woreda, kebele };
+                    return new ObjectResult(new { token,data });
                 }
                 else
                     throw new Exception("Username or password is incorrect.");
@@ -174,28 +177,51 @@ namespace PM_Case_Managemnt_API.Services.Auth
 
         public async Task<List<EmployeeDto>> getUsers(Guid subOrgId)
         {
+            var Users = await _authenticationContext.ApplicationUsers
+                .Where(g => g.SubsidiaryOrganizationId == subOrgId)
+                .ToListAsync();
 
+            var employeeDtos = new List<EmployeeDto>();
 
-            var Users = await _authenticationContext.ApplicationUsers.Where(g => g.SubsidiaryOrganizationId == subOrgId).ToListAsync();
+            foreach (var u in Users)
+            {
+                var e = await _dbcontext.Employees
+                    .Include(x => x.OrganizationalStructure)
+                    .FirstOrDefaultAsync(emp => emp.Id == u.EmployeesId);
 
+                if (e == null)
+                    continue;
 
-            return (from u in Users
-                    join e in _dbcontext.Employees.Include(x => x.OrganizationalStructure) on u.EmployeesId equals e.Id
-                    select new EmployeeDto
-                    {
-                        Id = Guid.Parse(u.Id),
-                        UserName = u.UserName,
-                        FullName = e.FullName,
-                        Photo = e.Photo,
-                        Title = e.Title,
-                        Gender = e.Gender.ToString(),
-                        PhoneNumber = e.PhoneNumber,
-                        StructureName = e.OrganizationalStructure.StructureName,
-                        Position = e.Position.ToString(),
-                        Remark = e.Remark,
-                        Status = u.RowStatus.ToString(),
-                        EmployeeId = e.Id
-                    }).ToList();
+                var zone = await _dbcontext.Zone.FirstOrDefaultAsync(x => x.Id == u.ZoneId);
+                var woreda = await _dbcontext.Woreda.FirstOrDefaultAsync(x => x.Id == u.WoredaId);
+                var kebele = await _dbcontext.Kebele.FirstOrDefaultAsync(x => x.Id == u.KebeleId);
+
+                employeeDtos.Add(new EmployeeDto
+                {
+                    Id = Guid.Parse(u.Id),
+                    UserName = u.UserName,
+                    FullName = e.FullName,
+                    Photo = e.Photo,
+                    Title = e.Title,
+                    Gender = e.Gender.ToString(),
+                    PhoneNumber = e.PhoneNumber,
+                    StructureName = e.OrganizationalStructure?.StructureName,
+                    Position = e.Position.ToString(),
+                    Remark = e.Remark,
+                    Status = u.RowStatus.ToString(),
+                    EmployeeId = e.Id,
+
+                    // Add Zone, Woreda, Kebele details
+                    ZoneId = u.ZoneId,
+                    Zone = zone?.Name,
+                    WoredaId = u.WoredaId,
+                    Woreda = woreda?.Name,
+                    KebeleId = u.KebeleId,
+                    Kebele = kebele?.Name
+                });
+            }
+
+            return employeeDtos;
         }
 
 
@@ -487,6 +513,30 @@ namespace PM_Case_Managemnt_API.Services.Auth
 
 
         }
+        public async Task<ZoneInfo> GetAssignedZone(string userId)
+        {
+            var currentuser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id.Equals(userId));
+           
+            if (currentuser != null)
+            {
+                var zone = await _dbcontext.Zone.FirstOrDefaultAsync(x => x.Id.Equals(currentuser.ZoneId)) ?? null;
+                var woreda = await _dbcontext.Woreda.FirstOrDefaultAsync(x => x.Id.Equals(currentuser.WoredaId)) ?? null;
+                var kebele = await _dbcontext.Kebele.FirstOrDefaultAsync(x => x.Id.Equals(currentuser.KebeleId)) ?? null;
+                var zoneInfo = new ZoneInfo();
+                zoneInfo.ZoneId = currentuser.ZoneId;
+                zoneInfo.WoredaId = currentuser.WoredaId;
+                zoneInfo.KebeleId = currentuser.KebeleId;
+                zoneInfo.Zone = zone?.Name;
+                zoneInfo.Woreda = woreda?.Name;
+                zoneInfo.Kebele = woreda?.Name;
+
+                return zoneInfo;
+
+            }
+
+            throw new FileNotFoundException();
+        }
+
 
     }
 }

@@ -16,6 +16,7 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
         public Task<PlanSingleViewDto> GetSinglePlan(Guid planId);
         Task<ResponseMessage> UpdatePlan(PlanDto plan);
         Task<ResponseMessage> DeletePlan(Guid planId);
+        public Task<int> CreatePlanZoneLevel(PlanDto plan);
         //public Task<int> UpdatePrograms(Programs Programs);
         //public Task<List<ProgramDto>> GetPrograms();
         //public Task<List<SelectListDto>> GetProgramsSelectList();

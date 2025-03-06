@@ -210,6 +210,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ZoneComponent } from './pages/common/organization/zone/zone.component';
 import { WoredaComponent } from './pages/common/organization/woreda/woreda.component';
 import { KebeleComponent } from './pages/common/organization/kebele/kebele.component';
+import { PmZoneDashboardComponent } from './pages/PM/pm-zone-dashboard/pm-zone-dashboard.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -384,7 +385,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FileUploadComponent,
     ZoneComponent,
     WoredaComponent,
-    KebeleComponent, 
+    KebeleComponent,
+    PmZoneDashboardComponent,
   ],
   imports: [
     BrowserModule,

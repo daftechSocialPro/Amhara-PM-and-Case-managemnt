@@ -1902,6 +1902,9 @@ namespace PMCaseManagemntAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool?>("Approved")
+                        .HasColumnType("bit");
+
                     b.Property<Guid?>("BudgetYearId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1916,6 +1919,9 @@ namespace PMCaseManagemntAPI.Migrations
 
                     b.Property<bool>("HasTask")
                         .HasColumnType("bit");
+
+                    b.Property<Guid?>("KebeleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("PeriodEndAt")
                         .HasColumnType("datetime2");
@@ -1953,6 +1959,18 @@ namespace PMCaseManagemntAPI.Migrations
 
                     b.Property<Guid>("StructureId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("WoredaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ZoneId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("ZoneLevel")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("isZoneManage")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

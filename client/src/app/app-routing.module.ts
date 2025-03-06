@@ -98,6 +98,7 @@ import { KpiManagmentComponent } from './pages/PM/KPI/kpi-detail/kpi-managment/k
 import { ZoneComponent } from './pages/common/organization/zone/zone.component';
 import { WoredaComponent } from './pages/common/organization/woreda/woreda.component';
 import { KebeleComponent } from './pages/common/organization/kebele/kebele.component';
+import { PmZoneDashboardComponent } from './pages/PM/pm-zone-dashboard/pm-zone-dashboard.component';
 
 
 
@@ -226,7 +227,10 @@ const routes: Routes = [
   { path: 'pages-register', component: PagesRegisterComponent },
   { path: 'zone', component: ZoneComponent },
   { path: 'woreda', component: WoredaComponent },
-  { path: 'kebele', component: KebeleComponent }
+  { path: 'kebele', component: KebeleComponent },
+
+  //zone level management
+  { path: 'pmdashboard-zone', canActivate: [AuthGuard], component: PmZoneDashboardComponent,data:{permittedRoles :['Zone Manager']} },
 
 ];
 

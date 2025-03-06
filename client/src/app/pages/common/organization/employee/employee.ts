@@ -18,9 +18,12 @@ export interface Employee {
     UserName?: string
     Status?: string
     EmployeeId?: string
-
-
-
+    Zone?:string;
+    Kebele?:string;
+    Woreda?:string;
+    ZoneId?:string;
+    WoredaId?:string;
+    KebeleId?:string;
 }
 export interface ChangePasswordModel{
  UserId : string

@@ -6,4 +6,7 @@ export interface UserManagment {
     EmployeeId : string ; 
     SubsidiaryOrganizationId : string ;
     Roles : string []; 
+    ZoneId? : string ;
+    WoredaId? : string ;
+    KebeleId? : string ;
 }
