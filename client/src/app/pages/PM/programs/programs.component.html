@@ -9,7 +9,7 @@
          </ol>
       </nav>
    </div>
-   <div class="text-end col-lg-12">
+   <div *ngIf="getUrl()=='/program'" class="text-end col-lg-12">
       <button class="btn btn-primary text-end mb-3" (click)="addProgram()">  {{'Add Programs' | translate}} </button>
    </div>
    <section class="section profile">
@@ -63,9 +63,9 @@
                         <button class="btn btn-sm btn-primary text-end " (click)="programDetail(program.Id)">
                             {{'Detail View' | translate}}
                         </button> |
-                        <button type="button" (click)="editProgram(program)"
+                        <button  *ngIf="getUrl()=='/program'" type="button" (click)="editProgram(program)"
                            class="btn btn-sm btn-outline-warning mt-1"><i class="bi bi-pencil"></i>  {{'Update' | translate}}</button> |
-                        <button type="button" (click)="deleteProgram(program.Id)"
+                        <button  *ngIf="getUrl()=='/program'" type="button" (click)="deleteProgram(program.Id)"
                            class="btn btn-sm btn-outline-danger mt-1"><i class="bi bi-trash"></i>  {{'Delete' | translate}}</button>
                      </div>
                   </div>

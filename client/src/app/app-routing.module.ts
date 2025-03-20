@@ -119,8 +119,8 @@ const routes: Routes = [
   { path: 'archive', canActivate: [AuthGuard], component: ArchiveManagementComponent,data :{permittedRoles:['Super Admin','Case Admin','PM Admin','Secretery','Director'] }},
   { path: 'smstemplate', canActivate: [AuthGuard], component: SmsTemplateComponent,data:{permittedRoles : ['Super Admin','Case Admin']} },
   { path: 'usermanagement', canActivate: [AuthGuard], component: UserManagementComponent,data:{permittedRoles : ['Super Admin','Employee Manager']} },
-  { path: 'program', canActivate:[AuthGuard],component:ProgramsComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
-  { path: 'plan', canActivate:[AuthGuard],component:PlansComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
+  { path: 'program', canActivate:[AuthGuard],component:ProgramsComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting','Zone Manager','Zone','Woreda','Kebele']}},
+  { path: 'plan', canActivate:[AuthGuard],component:PlansComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting','Zone Manager','Zone','Woreda','Kebele']}},
   //
   { path: 'activityDetail/:actId', canActivate:[AuthGuard],component:ActivityDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
   { path: 'planDetail/:planId', canActivate:[AuthGuard],component:PlanDetailComponent,data:{permittedRoles: ['Super Admin','Director','PM Admin','Planner','Plan Reporting']}},
@@ -225,13 +225,15 @@ const routes: Routes = [
   { path: 'pages-faemploye', component: PagesFaqComponent },
   { path: 'pages-login', component: PagesLoginComponent },
   { path: 'pages-register', component: PagesRegisterComponent },
+  // new zone and kebele ,woreda url
   { path: 'zone', component: ZoneComponent },
   { path: 'woreda', component: WoredaComponent },
   { path: 'kebele', component: KebeleComponent },
 
   //zone level management
   { path: 'pmdashboard-zone', canActivate: [AuthGuard], component: PmZoneDashboardComponent,data:{permittedRoles :['Zone Manager']} },
-
+  { path: 'zone-manager-program', canActivate:[AuthGuard],component:ProgramsComponent,data:{permittedRoles: ['Zone Manager']}},
+  { path: 'zone-manager-usermanagement', canActivate: [AuthGuard], component: UserManagementComponent,data:{permittedRoles : ['Zone Manager']} },
 ];
 
 @NgModule({

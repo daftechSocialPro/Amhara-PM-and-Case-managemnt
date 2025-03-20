@@ -126,6 +126,8 @@ export class ProgramsComponent implements OnInit {
 
 
   }
-
+  getUrl(){
+      return this.router.url
+    }
 
 }
