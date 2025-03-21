@@ -1,5 +1,4 @@
-﻿
-using PM_Case_Managemnt_API.DTOS.Common;
+﻿using PM_Case_Managemnt_API.DTOS.Common;
 using PM_Case_Managemnt_API.DTOS.PM;
 using PM_Case_Managemnt_API.Helpers;
 using PM_Case_Managemnt_API.Models.PM;
@@ -9,7 +8,7 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
     {
         public Task<int> CreatePlan(PlanDto plan);
 
-        public Task<List<PlanViewDto>> GetPlans(Guid? programId, Guid SubOrgId);
+        public Task<List<PlanViewDto>> GetPlans(Guid? programId, Guid SubOrgId, Guid? zoneId = null, Guid? woredaId = null, Guid? kebeleId = null);
 
         public Task<List<SelectListDto>> GetPlansSelectList(Guid ProgramId);
 
@@ -20,5 +19,6 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
         //public Task<int> UpdatePrograms(Programs Programs);
         //public Task<List<ProgramDto>> GetPrograms();
         //public Task<List<SelectListDto>> GetProgramsSelectList();
+        Task<ResponseMessage> ApprovePlan(Guid planId);
     }
 }

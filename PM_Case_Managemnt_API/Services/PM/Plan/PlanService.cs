@@ -74,7 +74,11 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                 PeriodStartAt = budgetYear.FromDate,
                 PeriodEndAt = budgetYear.ToDate,
                 CreatedAt = DateTime.Now,
-                isZoneManage = false,
+                ZoneId = plan.ZoneId,
+                WoredaId = plan.WoredaId,
+                KebeleId = plan.KebeleId,
+                ZoneLevel = plan.ZoneLevel.HasValue ? (ZoneLevel)plan.ZoneLevel.Value : null,
+                isZoneManage = plan.isZoneManage,
             };
 
 
@@ -111,15 +115,42 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
                 PeriodStartAt = budgetYear?.FromDate,
                 PeriodEndAt = budgetYear?.ToDate,
                 CreatedAt = DateTime.Now,
-                Approved = false, // Ensuring new plans default to Approved = false
+                Approved = false, // Plans need approval by default
 
-                // Adding zone-related properties
+                // Zone-specific properties
                 ZoneId = plan.ZoneId,
                 WoredaId = plan.WoredaId,
                 KebeleId = plan.KebeleId,
                 ZoneLevel = plan.ZoneLevel.HasValue ? (ZoneLevel)plan.ZoneLevel.Value : null,
-                isZoneManage = plan.isZoneManage.HasValue ? plan.isZoneManage : false
+                isZoneManage = true,
             };
+
+            // Add validation for parent approval
+            if (plan.ZoneLevel == (int)ZoneLevel.Woreda)
+            {
+                // Check if zone has approved
+                var zoneApproval = await _dBContext.Plans
+                    .Where(p => p.ZoneId == plan.ZoneId && p.ZoneLevel == ZoneLevel.Zone)
+                    .FirstOrDefaultAsync();
+                
+                if (zoneApproval == null || zoneApproval.Approved != true)
+                {
+                    throw new Exception("Zone level plan must be approved first");
+                }
+            }
+
+            if (plan.ZoneLevel == (int)ZoneLevel.Kebele)
+            {
+                // Check if woreda has approved
+                var woredaApproval = await _dBContext.Plans
+                    .Where(p => p.WoredaId == plan.WoredaId && p.ZoneLevel == ZoneLevel.Woreda)
+                    .FirstOrDefaultAsync();
+                
+                if (woredaApproval == null || woredaApproval.Approved != true)
+                {
+                    throw new Exception("Woreda level plan must be approved first");
+                }
+            }
 
             if (plan.FinanceId != Guid.Empty)
             {
@@ -171,11 +202,27 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
 
           }
         */
-        public async Task<List<PlanViewDto>> GetPlans(Guid? programId, Guid SubOrgId)
+        public async Task<List<PlanViewDto>> GetPlans(Guid? programId, Guid SubOrgId, Guid? zoneId = null, Guid? woredaId = null, Guid? kebeleId = null)
         {
+            var plans = programId != null ? 
+                _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance)
+                    .Where(x => x.ProgramId == programId) :
+                _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance)
+                    .Where(z => z.Structure.SubsidiaryOrganizationId == SubOrgId);
 
-            var plans = programId != null ? _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(x => x.ProgramId == programId) :
-                _dBContext.Plans.Include(x => x.Structure).Include(x => x.ProjectManager).Include(x => x.Finance).Where(z => z.Structure.SubsidiaryOrganizationId == SubOrgId);
+            // Apply additional filters
+            if (zoneId.HasValue)
+            {
+                plans = plans.Where(p => p.ZoneId == zoneId);
+            }
+            if (woredaId.HasValue)
+            {
+                plans = plans.Where(p => p.WoredaId == woredaId);
+            }
+            if (kebeleId.HasValue)
+            {
+                plans = plans.Where(p => p.KebeleId == kebeleId);
+            }
 
             return await (from p in plans
                           join zone in _dBContext.Zone on p.ZoneId equals zone.Id into zoneGroup
@@ -660,6 +707,80 @@ namespace PM_Case_Managemnt_API.Services.PM.Plan
 
         }
 
+        public async Task<ResponseMessage> ApprovePlan(Guid planId)
+        {
+            try
+            {
+                var plan = await _dBContext.Plans.FindAsync(planId);
+                
+                if (plan == null)
+                {
+                    return new ResponseMessage
+                    {
+                        Success = false,
+                        Message = "Plan not found"
+                    };
+                }
+
+                // Check if the plan is a zone-managed plan
+                if (!plan.isZoneManage.GetValueOrDefault())
+                {
+                    return new ResponseMessage
+                    {
+                        Success = false,
+                        Message = "This plan is not a zone-managed plan"
+                    };
+                }
+
+                // Validate approval hierarchy
+                if (plan.ZoneLevel == ZoneLevel.Woreda)
+                {
+                    var zonePlan = await _dBContext.Plans
+                        .FirstOrDefaultAsync(p => p.ZoneId == plan.ZoneId && p.ZoneLevel == ZoneLevel.Zone);
+                    
+                    if (zonePlan == null || !zonePlan.Approved.GetValueOrDefault())
+                    {
+                        return new ResponseMessage
+                        {
+                            Success = false,
+                            Message = "Parent Zone plan must be approved first"
+                        };
+                    }
+                }
+                else if (plan.ZoneLevel == ZoneLevel.Kebele)
+                {
+                    var woredaPlan = await _dBContext.Plans
+                        .FirstOrDefaultAsync(p => p.WoredaId == plan.WoredaId && p.ZoneLevel == ZoneLevel.Woreda);
+                    
+                    if (woredaPlan == null || !woredaPlan.Approved.GetValueOrDefault())
+                    {
+                        return new ResponseMessage
+                        {
+                            Success = false,
+                            Message = "Parent Woreda plan must be approved first"
+                        };
+                    }
+                }
+
+                // Update the approval status
+                plan.Approved = true;
+                await _dBContext.SaveChangesAsync();
+
+                return new ResponseMessage
+                {
+                    Success = true,
+                    Message = "Plan approved successfully"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseMessage
+                {
+                    Success = false,
+                    Message = $"Error approving plan: {ex.Message}"
+                };
+            }
+        }
 
     }
 }

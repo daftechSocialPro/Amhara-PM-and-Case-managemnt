@@ -19,10 +19,23 @@ export class PlanService {
         return this.http.post(this.BaseURI, plan)
     }
 
-    getPlans(subOrgId: string, programId?: string) {
-        if (programId)
-            return this.http.get<PlanView[]>(this.BaseURI + "?programId=" + programId + "&SubOrgId=" + subOrgId)
-        return this.http.get<PlanView[]>(this.BaseURI + "?SubOrgId=" + subOrgId)
+    getPlans(programId?: string, subOrgId?: string, zoneId?: string, woredaId?: string, kebeleId?: string) {
+        let url = this.BaseURI + "?SubOrgId=" + subOrgId;
+        
+        if (programId) {
+            url += "&programId=" + programId;
+        }
+        if (zoneId) {
+            url += "&zoneId=" + zoneId;
+        }
+        if (woredaId) {
+            url += "&woredaId=" + woredaId;
+        }
+        if (kebeleId) {
+            url += "&kebeleId=" + kebeleId;
+        }
+
+        return this.http.get<PlanView[]>(url);
     }
 
     getSinglePlans(planId: String) {

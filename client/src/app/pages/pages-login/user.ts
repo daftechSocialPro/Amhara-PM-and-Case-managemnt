@@ -4,13 +4,20 @@ export interface User {
     password: string ;
 }
 export interface UserView {
-    FullName : string ; 
-    role: string [];
-    UserID : string ;
-    EmployeeId:string;
-    Photo:string;
-    SubOrgId:string;
-    StrucId:string
+    UserID: string;
+    FullName: string;
+    role: string[];
+    EmployeeId: string;
+    SubOrgId: string;
+    StrucId: string;
+    Photo: string;
+    ZoneId?: string;
+    ZoneName?: string;
+    WoredaId?: string;
+    WoredaName?: string;
+    KebeleId?: string;
+    KebeleName?: string;
+    userLevel: string;
 }
 
 export interface Token {

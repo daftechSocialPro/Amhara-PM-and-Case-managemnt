@@ -18,14 +18,30 @@ namespace PM_Case_Managemnt_API.DTOS.PM
         public Guid ProjectManagerId { get; set; }
         public Guid? FinanceId { get; set; }
         public string? ProjectFunder { get; set; }
-        public Guid? ZoneId { get; set; }  // Nullable
-        public Guid? WoredaId { get; set; } // Nullable
-        public Guid? KebeleId { get; set; } // Nullable
+        public Guid? ZoneId { get; set; }
+        public Guid? WoredaId { get; set; }
+        public Guid? KebeleId { get; set; }
         public int? ZoneLevel { get; set; }
         public bool? isZoneManage { get; set; }
         ///
         //public Guid SubsidiaryOrganizationId { get; set; } 
 
+        public bool ValidateHierarchy()
+        {
+            if (!ZoneLevel.HasValue) return true; // Handle null case
+
+            switch ((ZoneLevel)ZoneLevel.Value)
+            {
+                case Models.PM.ZoneLevel.Zone:
+                    return ZoneId.HasValue && !WoredaId.HasValue && !KebeleId.HasValue;
+                case Models.PM.ZoneLevel.Woreda:
+                    return ZoneId.HasValue && WoredaId.HasValue && !KebeleId.HasValue;
+                case Models.PM.ZoneLevel.Kebele:
+                    return ZoneId.HasValue && WoredaId.HasValue && KebeleId.HasValue;
+                default:
+                    return true; // For Other type
+            }
+        }
     }
 
     public class PlanViewDto

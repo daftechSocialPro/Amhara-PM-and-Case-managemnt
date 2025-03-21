@@ -39,9 +39,16 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         {
             try
             {
+                if (!plan.ValidateHierarchy())
+                {
+                    return BadRequest(new { 
+                        Success = false, 
+                        Message = "Invalid zone hierarchy configuration" 
+                    });
+                }
+
                 var response = _planService.CreatePlanZoneLevel(plan);
                 return Ok(new { response });
-
             }
             catch (Exception ex)
             {
@@ -50,10 +57,9 @@ namespace PM_Case_Managemnt_API.Controllers.PM
         }
 
         [HttpGet]
-
-        public async Task<List<PlanViewDto>> Getplan(Guid? programId, Guid SubOrgId)
+        public async Task<List<PlanViewDto>> Getplan(Guid? programId, Guid SubOrgId, Guid? zoneId = null, Guid? woredaId = null, Guid? kebeleId = null)
         {
-            var response = await _planService.GetPlans(programId, SubOrgId);
+            var response = await _planService.GetPlans(programId, SubOrgId, zoneId, woredaId, kebeleId);
             return response;
         }
 
@@ -93,6 +99,19 @@ namespace PM_Case_Managemnt_API.Controllers.PM
             return Ok(await _planService.DeletePlan(planId));
         }
 
+        [HttpPost("ApprovePlan/{planId}")]
+        public async Task<IActionResult> ApprovePlan(Guid planId)
+        {
+            try
+            {
+                var response = await _planService.ApprovePlan(planId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error : {ex}");
+            }
+        }
 
     }
 }

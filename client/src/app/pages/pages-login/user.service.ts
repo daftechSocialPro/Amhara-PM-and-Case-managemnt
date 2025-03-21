@@ -64,20 +64,42 @@ export class UserService {
     return this.http.get<SelectList[]>(this.BaseURI+'/ApplicationUser/getroles')
   }
 
-  getCurrentUser(){
-    //var payLoad = JSON.parse(window.atob(sessionStorage.getItem('token')!.split('.')[1]));
-    var payLoad = jwtDecode<any>(sessionStorage.getItem('token')!)
-    let user : UserView={
-      UserID : payLoad.UserID,
-      FullName: payLoad.FullName,
-      role : payLoad.role.split(","),
-      EmployeeId:payLoad.EmployeeId,
-      SubOrgId : payLoad.SubsidiaryOrganizationId,
-      StrucId:payLoad.StructureId,
-      Photo : payLoad.Photo
+  getUserLevel(user: UserView): string {
+    if (user.KebeleId) {
+      return 'Kebele';
+    } else if (user.WoredaId) {
+      return 'Woreda';
+    } else if (user.ZoneId) {
+      return 'Zone';
     }
-    console.log(user)
-    return user ; 
+    return 'Regular'; // Default if no administrative area is assigned
+  }
+
+  getCurrentUser() {
+    const payLoad = jwtDecode<any>(sessionStorage.getItem('token')!);
+    const loginResponse = JSON.parse(sessionStorage.getItem('loginResponse') || '{}');
+    console.log('loginResponse',loginResponse.Value);
+    let user: UserView = {
+      UserID: payLoad.UserID,
+      FullName: payLoad.FullName,
+      role: payLoad.role.split(","),
+      EmployeeId: payLoad.EmployeeId,
+      SubOrgId: payLoad.SubsidiaryOrganizationId,
+      StrucId: payLoad.StructureId,
+      Photo: payLoad.Photo,
+      ZoneId: loginResponse?.Value?.data?.zone?.Id,
+      ZoneName: loginResponse?.Value?.data?.zone?.Name,
+      WoredaId: loginResponse?.Value?.data?.woreda?.Id,
+      WoredaName: loginResponse?.Value?.data?.woreda?.Name,
+      KebeleId: loginResponse?.Value?.data?.kebele?.Id,
+      KebeleName: loginResponse?.Value?.data?.kebele?.Name,
+      userLevel: '' // This will be set below
+    }
+    
+    // Set the user level
+    user.userLevel = this.getUserLevel(user);
+    console.log('user',user);
+    return user;
   }
 
   createUser (body:UserManagment){

@@ -35,6 +35,8 @@ export class PagesLoginComponent implements OnInit {
           //debugger
 
           sessionStorage.setItem('token', res.Value.token);
+          // Store the full response for accessing zone/woreda/kebele data
+          sessionStorage.setItem('loginResponse', JSON.stringify(res));
           this.user = this.userService.getCurrentUser()
           console.log(this.user)
           this.router.navigateByUrl('/orgdetail');

@@ -40,8 +40,15 @@ export class PlansComponent implements OnInit {
   }
 
   listPlans() {
-
-    this.planService.getPlans(this.user.SubOrgId, this.programId).subscribe({
+    this.user = this.userService.getCurrentUser();
+    
+    this.planService.getPlans(
+      this.programId,
+      this.user.SubOrgId,
+      this.user.ZoneId,
+      this.user.WoredaId,
+      this.user.KebeleId
+    ).subscribe({
       next: (res) => {
         console.log("projects", res)
         this.Plans = res
@@ -50,7 +57,6 @@ export class PlansComponent implements OnInit {
         console.error(err)
       }
     })
-
   }
 
 

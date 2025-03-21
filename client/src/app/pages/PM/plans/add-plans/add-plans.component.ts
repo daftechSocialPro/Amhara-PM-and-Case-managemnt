@@ -70,8 +70,12 @@ export class AddPlansComponent implements OnInit {
         FinanceId: [this.plan.FinanceId],
         ProjectManagerId:[this.plan.ProjectManagerId, Validators.required],
         ProjectFunder: [this.plan.ProjectFunder],
-        Remark: [this.plan.Remark]
-  
+        Remark: [this.plan.Remark],
+        ZoneId: [null],
+        WoredaId: [null],
+        KebeleId: [null],
+        ZoneLevel: [0],
+        isZoneManage: [false]
       })
     }
     else{
@@ -88,12 +92,17 @@ export class AddPlansComponent implements OnInit {
         FinanceId: [null],
         ProjectManagerId:[null, Validators.required],
         ProjectFunder: [''],
-        Remark: ['']
+        Remark: [''],
+        ZoneId: [null],
+        WoredaId: [null],
+        KebeleId: [null],
+        ZoneLevel: [0],
+        isZoneManage: [false]
   
       })
     }
-    
-
+    // Set ZoneLevel based on userLevel
+  
   }
 
   listStructuresbyBranchId(branchId: string) {
@@ -274,6 +283,28 @@ export class AddPlansComponent implements OnInit {
         })
       }
       else{
+        let zoneLevel!: number | null;
+  switch (this.user.userLevel) {
+    case 'Zone':
+      zoneLevel = 0;
+      break;
+    case 'Woreda':
+      zoneLevel = 1;
+      break;
+    case 'Kebele':
+      zoneLevel = 2;
+      break;
+    default:
+      zoneLevel = null;
+  }
+    this.planForm.patchValue({
+      ZoneId: this.user.ZoneId || null,
+      WoredaId: this.user.WoredaId || null,
+      KebeleId: this.user.KebeleId || null,
+      ZoneLevel: zoneLevel,
+      isZoneManage: this.user.userLevel ? true : false
+    });
+
         let planValue: Plan = {
           BudgetYearId: this.planForm.value.BudgetYearId,
           HasTask: this.planForm.value.HasTask,
@@ -286,7 +317,12 @@ export class AddPlansComponent implements OnInit {
           StructureId: this.planForm.value.StructureId,
           ProjectManagerId: this.planForm.value.ProjectManagerId,
           FinanceId: this.planForm.value.FinanceId,
-          ProjectFunder: this.planForm.value.ProjectFunder
+          ProjectFunder: this.planForm.value.ProjectFunder,
+          ZoneId: this.planForm.value.ZoneId,
+          WoredaId: this.planForm.value.WoredaId,
+          KebeleId: this.planForm.value.KebeleId,
+          ZoneLevel: this.planForm.value.ZoneLevel,
+          isZoneManage: this.planForm.value.isZoneManage
   
         }
   

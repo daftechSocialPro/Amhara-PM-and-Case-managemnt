@@ -52,6 +52,48 @@
 
       </ul>
     </li>
+    <!-- zone level -->
+    <li class="nav-item"
+    *ngIf="roleMatch(['Zone'])">
+    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#"> <i
+        class="bi bi-menu-button-wide"></i><span> {{user.userLevel}} {{'Project Managment' | translate }}</span><i
+        class="bi bi-chevron-down ms-auto"></i>
+    </a>
+    <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+     
+          <li *ngIf="roleMatch(['Zone'])"> <a
+          [ngClass]="getUrl()=='/plan'?'nav-link ':'nav-link collapsed'" routerLink="/plan">
+          <i class="bi bi-circle"></i><span>{{user.ZoneName+" "}}{{ 'Projects' | translate }}</span> </a></li>
+    </ul>
+  </li>
+  <!-- woreda level -->
+  <li class="nav-item"
+  *ngIf="roleMatch(['Woreda'])">
+  <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#"> <i
+      class="bi bi-menu-button-wide"></i><span> {{user.userLevel}} {{'Project Managment' | translate }}</span><i
+      class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+   
+        <li *ngIf="roleMatch(['Zone','Woreda','Kebele','Zone Manager'])"> <a
+        [ngClass]="getUrl()=='/plan'?'nav-link ':'nav-link collapsed'" routerLink="/plan">
+        <i class="bi bi-circle"></i><span> {{user.WoredaName +" "}} {{ 'Projects' | translate }}</span> </a></li>
+  </ul>
+</li>
+<!-- kebele level -->
+<li class="nav-item"
+*ngIf="roleMatch(['Kebele'])">
+<a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#"> <i
+    class="bi bi-menu-button-wide"></i><span> {{user.userLevel}} {{'Project Managment' | translate }}</span><i
+    class="bi bi-chevron-down ms-auto"></i>
+</a>
+<ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+ 
+      <li *ngIf="roleMatch(['Kebele'])"> <a
+      [ngClass]="getUrl()=='/plan'?'nav-link ':'nav-link collapsed'" routerLink="/plan">
+      <i class="bi bi-circle"></i><span> {{user.KebeleName +" "}} {{ 'Projects' | translate }}</span> </a></li>
+</ul>
+</li>
     <li *ngIf="roleMatch(['Super Admin','Case Admin','Encoder','Director','Member','Secretery','Employee Manager'])"
       class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#"> <i
@@ -290,25 +332,6 @@
         <i class="bi bi-envelope"></i>
         <span> {{ 'SMS Template' | translate }}</span> </a></li>
 
-    <!-- zone manager pm start-->
-    <div *ngIf="roleMatch(['Zone Manager'])">
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#"> <i
-            class="bi bi-menu-button-wide"></i><span> {{ 'Zone Project Managment' | translate }}</span><i
-            class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
-          <li> <a [ngClass]="getUrl()=='/zone-manager-program'?'nav-link ':'nav-link collapsed'" routerLink="/zone-manager-program"> <i
-                class="bi bi-circle"></i>
-              <span> {{ 'Projects' | translate }}</span> </a></li>
-
-        </ul>
-      </li>
-      <li class="nav-item"> <a [ngClass]="getUrl()=='/zone-manager-usermanagement'?'nav-link ':'nav-link collapsed'"
-          routerLink="/zone-manager-usermanagement"><i class="bi bi-people"></i>
-          <span> {{ 'Zone User Management' | translate }}</span> </a></li>
-    </div>
-    <!-- end zone manager -->
 
   </ul>
 </aside>

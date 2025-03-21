@@ -13,8 +13,12 @@ export interface Plan {
     StructureId: string;
     ProjectManagerId: string;
     FinanceId: string;
-    ProjectFunder:string
-
+    ProjectFunder: string;
+    ZoneId?: string;
+    WoredaId?: string;
+    KebeleId?: string;
+    ZoneLevel?: number;
+    isZoneManage?: boolean;
 }
 
 
@@ -43,6 +47,14 @@ export interface PlanView {
     FinanceId?: string;
     ProjectFunder?:string
     BranchId?:string
+    ZoneId?: string;
+    WoredaId?: string;
+    KebeleId?: string;
+    ZoneName?: string;
+    WoredaName?: string;
+    KebeleName?: string;
+    ZoneLevel?: number;
+    isZoneManage?: boolean;
 
 
 
