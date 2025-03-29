@@ -145,5 +145,13 @@ export class PlansComponent implements OnInit {
     return this.userService.roleMatch(value)
   }
   
-
+  getZoneLevelName(level: number): string {
+    switch(level) {
+      case 0: return 'Zone';
+      case 1: return 'Woreda';
+      case 2: return 'Kebele';
+      case 3: return 'Other';
+      default: return 'Unknown';
+    }
+  }
 }

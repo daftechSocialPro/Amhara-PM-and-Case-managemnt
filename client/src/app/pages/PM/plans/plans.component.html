@@ -45,6 +45,7 @@
                   </h5>
 
                   <div class="text-center" style="color: #798eb3;">
+                    
                      <span class="card-title">  {{'Planned Budegt' | translate}} :</span>
                      {{plan.PlandBudget}} ETB &nbsp;
                      <span class="card-title">  {{'Remaining Budegt' | translate}} : </span>
@@ -55,6 +56,26 @@
                      {{plan.ProjectManager}} -  {{'Project Manager' | translate}} <br />
                      {{plan.Director}} -  {{'Director' | translate}} <br />
                      {{plan.FinanceManager }} -  {{'Finance' | translate}}
+                     <div *ngIf="plan.ZoneName || plan.WoredaName || plan.KebeleName" class="mb-3">
+                        <div class="location-info">
+                           <span *ngIf="plan.ZoneLevel !== undefined && plan.ZoneLevel !== null && getZoneLevelName(plan.ZoneLevel) !== 'Other' && getZoneLevelName(plan.ZoneLevel) !== 'Unknown'" 
+                              class="badge bg-info me-2">
+                              <i class="bi bi-geo-alt-fill me-1"></i>
+                              {{getZoneLevelName(plan.ZoneLevel)}}
+                           </span>
+                           <div class="location-hierarchy">
+                              <span *ngIf="plan.ZoneName" class="location-item">
+                                 <i class="bi bi-building me-1"></i>Zone: {{plan.ZoneName}}
+                              </span>
+                              <span *ngIf="plan.WoredaName" class="location-item">
+                                 <i class="bi bi-geo me-1"></i>Woreda: {{plan.WoredaName}}
+                              </span>
+                              <span *ngIf="plan.KebeleName" class="location-item">
+                                 <i class="bi bi-geo-alt me-1"></i>Kebele: {{plan.KebeleName}}
+                              </span>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
                <div class="card-footer">

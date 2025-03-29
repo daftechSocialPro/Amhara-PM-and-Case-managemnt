@@ -1,0 +1,50 @@
+.location-info {
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(246, 249, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.location-hierarchy {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.location-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    min-width: fit-content;
+}
+
+.location-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.location-item i {
+    color: #4e73df;
+}
+
+.badge.bg-info {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    align-items: center;
+}
+
+.badge.bg-info i {
+    font-size: 0.9rem;
+}
